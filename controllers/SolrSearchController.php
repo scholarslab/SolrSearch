@@ -1,5 +1,8 @@
 <?php
-class Solrmeka_SolrmekaController extends Omeka_Controller_Action
+
+require_once 'Omeka/Controller/Action.php';
+
+class SolrSearch_SearchController extends Omeka_Controller_Action
 {
     public function resultsAction()
     {
