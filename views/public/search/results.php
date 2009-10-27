@@ -3,7 +3,7 @@
 // make sure browsers see this page as utf-8 encoded HTML
 header('Content-Type: text/html; charset=utf-8');
 
-$limit = 10;
+$limit = SOLR_ROWS;
 $query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
 $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : false;
 if ($page == null){
@@ -26,7 +26,7 @@ if ($query)
 
   // create a new solr service instance - host, port, and webapp
   // path (all defaults in this example)
-  $solr = new Apache_Solr_Service('localhost', 8080, '/solr/faulkner/');
+  $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
  
 
   // if magic quotes is enabled then stripslashes will be needed
