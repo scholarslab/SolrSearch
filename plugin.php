@@ -60,19 +60,20 @@ function solr_search_define_routes($router)
                                                        'module'     => 'solr-search'));
 	$router->addRoute('solr_search_results_route', $searchResultsRoute);
 }
-function solr_search($buttonText = "Search", $formProperties=array('id'=>'simple-search'), $uri = 'results') 
-	{ 
-	    $formProperties['action'] = $uri;
-	    $formProperties['method'] = 'get';
-	    $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
-	    $html .= '<fieldset>' . "\n\n";
-	    $html .= __v()->formText('q', html_escape($_REQUEST['q']), array('name'=>'textinput','class'=>'textinput'));
-	    $html .= '</fieldset>' . "\n\n";
-	    $html .= '</form>';
-	    return $html;
-	}
 
-function solr_paginate($results, $q, $start, $limit, $page)
+function solr_search($buttonText = "Search", $formProperties=array('id'=>'simple-search'), $uri = 'results') 
+{ 
+    $formProperties['action'] = $uri;
+    $formProperties['method'] = 'get';
+    $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
+    $html .= '<fieldset>' . "\n\n";
+    $html .= __v()->formText('q', html_escape($_REQUEST['q']), array('name'=>'textinput','class'=>'textinput'));
+    $html .= '</fieldset>' . "\n\n";
+    $html .= '</form>';
+    return $html;
+}
+
+/*function solr_paginate($results, $q, $start, $limit, $page)
 	{
 		$total = (int) $results->response->numFound;
 		$start_doc = $start + 1;
@@ -124,4 +125,4 @@ function solr_paginate($results, $q, $start, $limit, $page)
 		$html .= '</ul>' . "\n" . '</div>' . "\n" . '</div>' . "\n";
 	
 		return $html;
-	}
+	}*/
