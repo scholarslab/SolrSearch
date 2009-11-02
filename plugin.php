@@ -61,7 +61,7 @@ function solr_search_define_routes($router)
 	$router->addRoute('solr_search_results_route', $searchResultsRoute);
 }
 
-function solr_search($buttonText = "Search", $formProperties=array('id'=>'simple-search'), $uri = 'results') 
+function solr_search($buttonText = "Search", $formProperties=array('id'=>'simple-search'), $uri = '/omeka/solr-search/search/results/page/1') 
 { 
     $formProperties['action'] = $uri;
     $formProperties['method'] = 'get';
@@ -72,57 +72,3 @@ function solr_search($buttonText = "Search", $formProperties=array('id'=>'simple
     $html .= '</form>';
     return $html;
 }
-
-/*function solr_paginate($results, $q, $start, $limit, $page)
-	{
-		$total = (int) $results->response->numFound;
-		$start_doc = $start + 1;
-		$total_pages = ceil($total / 10);
-		$end = $page * $limit;
-		$next = $page + 1;
-		if ($page > 1)
-		{
-			$previous = $page - 1;
-		}
-		else{
-			$previous = 0;
-		}
-		$current = $start / $limit + 1;
-
-		$html .= '<div class="pagination" style="display:table;width:100%;">' . "\n" . '<div style="float:left">Results ' . $start_doc . ' - ' . $end . ' of ' . $total . '</div>' . "\n" . 
-		'<div style="float:right"><ul class="pagination_list">' . "\n";
-
-		//Display First/Previous links
-		if ($page > 1)
-			{ 
-			$html .= '<li class="pagination_first"><a href="' . '?q=' . $q . '">First</a></li>'  . "\n" . '<li class="pagination_previous"><a href="' . '?q=' . $q . '&page=' . $previous . '">Previous</a></li>' . "\n";
-		}
-
-		//Display previous two pages if they meet numeric requirements
-		if ($page - 2 > 0){
-			$html .= '<li class="pagination_range"><a href="' . '?q=' . $q . '&page=' . ($page - 2) . '">' . ($page - 2) . '</a></li>' . "\n";
-		}
-		if ($page - 1 > 0){
-			$html .= '<li class="pagination_range"><a href="' . '?q=' . $q . '&page=' . ($page - 1) . '">' . ($page - 1) . '</a></li>' . "\n";
-		}
-
-		//Display current page number
-		$html .= '<li class="pagination_current">' . $page . '</li>';
-
-		//Display next two pages if they meet numeric requirements	
-		if ($page + 1 <= $total_pages){
-			$html .= '<li class="pagination_range"><a href="' . '?q=' . $q . '&page=' . ($page + 1) . '">' . ($page + 1) . '</a></li>' . "\n";
-		}
-		if ($page + 2 <= $total_pages){
-			$html .= '<li class="pagination_range"><a href="' . '?q=' . $q . '&page=' . ($page + 2) . '">' . ($page + 2) . '</a></li>' . "\n";
-		}
-
-		//Display Next/Last links
-		if ($page < $total_pages)
-			{ 
-			$html .= '<li class="pagination_next"><a href="' . '?q=' . $q . '&page=' . $next . '">Next</a></li>'  . "\n" . '<li class="pagination_last"><a href="' . '?q=' . $q . '&page=' . $total_pages . '">Last</a></li>';
-		}	
-		$html .= '</ul>' . "\n" . '</div>' . "\n" . '</div>' . "\n";
-	
-		return $html;
-	}*/
