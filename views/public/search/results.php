@@ -24,7 +24,17 @@
 					    foreach ($doc as $field => $value)
 					    {
 					?>
-						<li><b><?php echo htmlspecialchars($field, ENT_NOQUOTES, 'utf-8'); ?>: </b><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></li>
+						<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
+							<li>
+								<b><?php echo htmlspecialchars($field, ENT_NOQUOTES, 'utf-8'); ?>: </b>
+								<?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?>
+							</li>
+						<?php }} else { ?>
+							<li>
+								<b><?php echo htmlspecialchars($field, ENT_NOQUOTES, 'utf-8'); ?>: </b>
+								<?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?>
+							</li>
+						<?php } ?>
 					<?php
 					    }
 					?>
