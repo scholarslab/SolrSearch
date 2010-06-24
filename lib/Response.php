@@ -29,7 +29,7 @@
  *
  * @copyright Copyright 2007-2009 Conduit Internet Technologies, Inc. (http://conduit-it.com)
  * @license New BSD (http://solr-php-client.googlecode.com/svn/trunk/COPYING)
- * @version $Id: Response.php 16 2009-08-04 18:23:50Z donovan.jimenez $
+ * @version $Id: Response.php 19 2009-08-12 14:08:42Z donovan.jimenez $
  *
  * @package Apache
  * @subpackage Solr
@@ -48,12 +48,12 @@ class Apache_Solr_Response
 	/**
 	 * SVN Revision meta data for this class
 	 */
-	const SVN_REVISION = '$Revision: 16 $';
+	const SVN_REVISION = '$Revision: 19 $';
 
 	/**
 	 * SVN ID meta data for this class
 	 */
-	const SVN_ID = '$Id: Response.php 16 2009-08-04 18:23:50Z donovan.jimenez $';
+	const SVN_ID = '$Id: Response.php 19 2009-08-12 14:08:42Z donovan.jimenez $';
 
 	/**
 	 * Holds the raw response used in construction
@@ -123,7 +123,7 @@ class Apache_Solr_Response
 			//Thanks to Daniel Andersson for pointing out this oversight
 			while (isset($httpHeaders[0]) && substr($httpHeaders[0], 0, 4) == 'HTTP')
 			{
-				$parts = split(' ', substr($httpHeaders[0], 9), 2);
+				$parts = explode(' ', substr($httpHeaders[0], 9), 2);
 
 				$status = $parts[0];
 				$statusMessage = trim($parts[1]);
@@ -138,14 +138,14 @@ class Apache_Solr_Response
 				if (strncasecmp($header, 'Content-Type:', 13) == 0)
 				{
 					//split content type value into two parts if possible
-					$parts = split(';', substr($header, 13), 2);
+					$parts = explode(';', substr($header, 13), 2);
 
 					$type = trim($parts[0]);
 
 					if ($parts[1])
 					{
 						//split the encoding section again to get the value
-						$parts = split('=', $parts[1], 2);
+						$parts = explode('=', $parts[1], 2);
 
 						if ($parts[1])
 						{

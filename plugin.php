@@ -34,6 +34,7 @@ function solr_search_install()
 	
 	$elements = $db->getTable('Element')->findAll();
 	
+	//add all element names to facet table for selection
 	foreach ($elements as $element){
 		$data = array(	'element_id' => $element['id'],
 						'name' => $element['name'],
@@ -42,8 +43,8 @@ function solr_search_install()
 		$db->insert('solr_search_facets', $data);
 	}
 	
-	
-	//var_dump($elementsToFacets);
+	//add public items to Solr index
+	ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
 }
 
 function solr_search_uninstall()
@@ -54,6 +55,9 @@ function solr_search_uninstall()
 	$db = get_db();
 	$sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
 	$db->query($sql);
+	
+	//delete all Solr documents
+	ProcessDispatcher::startProcess('SolrSearch_DeleteAll', null, $args);
 }
 
 /*function solr_search_config_form()

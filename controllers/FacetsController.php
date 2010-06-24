@@ -39,6 +39,10 @@ class SolrSearch_FacetsController extends Omeka_Controller_Action
     	}    	
 	}
 	
+	public function testAction(){
+
+	}
+
 	private function facetForm()
 		{
 		    require "Zend/Form/Element.php";
