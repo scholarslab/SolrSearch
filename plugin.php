@@ -11,6 +11,8 @@ require_once 'lib/Service.php';
 
 add_plugin_hook('install', 'solr_search_install');
 add_plugin_hook('uninstall', 'solr_search_uninstall');
+add_plugin_hook('before_delete_item', 'solr_search_before_delete_item');
+add_plugin_hook('after_save_item', 'solr_search_after_save_item');
 add_plugin_hook('define_routes', 'solr_search_define_routes');
 add_plugin_hook('define_acl', 'solr_search_define_acl');
 add_plugin_hook('admin_theme_header', 'solr_search_admin_header');
@@ -49,21 +51,65 @@ function solr_search_install()
 
 function solr_search_uninstall()
 {
-	delete_option('solr_search_plugin_version');
-
 	// Drop the table.
 	$db = get_db();
 	$sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
 	$db->query($sql);
 	
-	//delete all Solr documents
-	ProcessDispatcher::startProcess('SolrSearch_DeleteAll', null, $args);
+	//delete Solr documents from index
+	$solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+	try {		
+		$solr->deleteByQuery('*:*');
+		$solr->commit();
+		$solr->optimize(); 
+	} catch ( Exception $err ) {
+		echo $err->getMessage();
+	}
 }
 
 /*function solr_search_config_form()
 {
     include 'config_form.php';
 }*/
+
+// delete an item from the index
+function solr_search_before_delete_item($item)
+{
+	$solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+	try {		
+		$solr->deleteByQuery('id:' . $item['id']);
+		$solr->commit();
+		$solr->optimize(); 
+	} catch ( Exception $err ) {
+		echo $err->getMessage();
+	}
+}
+
+// reindex an item
+function solr_search_after_save_item($item)
+{
+	$solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);	
+	$db = get_db();
+	$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
+
+	$docs = array();
+	
+	$doc = new Apache_Solr_Document();
+	$doc->id = $item['id'];
+	foreach ($elementTexts as $elementText){
+		$fieldName = $elementText['element_id'] . '_s';
+		$doc->setMultiValue($fieldName, $elementText['text']);
+	}
+	$docs[] = $doc;
+	try {
+    	$solr->addDocuments($docs);
+		$solr->commit();
+		$solr->optimize();
+	}
+	catch ( Exception $err ) {
+		echo $err->getMessage();
+	}
+}
 
 /**
  * Define the routes.
