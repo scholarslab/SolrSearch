@@ -9,7 +9,6 @@
 		if ($results)
 		{
 		?>
-			<?php //echo solr_paginate($results, $query, $start, $limit, $page); ?>
 			<div class="pagination"><?php echo pagination_links(); ?></div>
 			<?php
 			  // iterate result documents
@@ -17,6 +16,7 @@
 			  {
 			?>	
 				<div class="item">
+					<h3><?php echo solr_search_result_link($doc); ?></h3>
 					<ul>
 		
 					<?php
@@ -24,16 +24,19 @@
 					    foreach ($doc as $field => $value)
 					    {
 					?>
-						<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
-							<li>
-								<b><?php echo htmlspecialchars($field, ENT_NOQUOTES, 'utf-8'); ?>: </b>
-								<?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?>
-							</li>
-						<?php }} else { ?>
-							<li>
-								<b><?php echo htmlspecialchars($field, ENT_NOQUOTES, 'utf-8'); ?>: </b>
-								<?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?>
-							</li>
+				
+						<?php if ($field != 'id' && $field != 'title'){ ?>						
+							<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
+								<li>
+									<b><?php echo solr_search_element_lookup($field) ?>: </b>
+									<?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?>
+								</li>
+							<?php }} else { ?>
+								<li>
+									<b><?php echo solr_search_element_lookup($field) ?>: </b>
+									<?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?>
+								</li>
+							<?php } ?>
 						<?php } ?>
 					<?php
 					    }

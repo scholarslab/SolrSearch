@@ -16,6 +16,7 @@ add_plugin_hook('after_save_item', 'solr_search_after_save_item');
 add_plugin_hook('define_routes', 'solr_search_define_routes');
 add_plugin_hook('define_acl', 'solr_search_define_acl');
 add_plugin_hook('admin_theme_header', 'solr_search_admin_header');
+//add_plugin_hook('public_theme_header', 'solr_search_public_header');
 add_filter('admin_navigation_main', 'solr_search_admin_navigation');
 //add_plugin_hook('config_form', 'solr_search_config_form');
 //add_plugin_hook('config', 'solr_search_config');
@@ -97,8 +98,13 @@ function solr_search_after_save_item($item)
 	$doc = new Apache_Solr_Document();
 	$doc->id = $item['id'];
 	foreach ($elementTexts as $elementText){
+		$titleCount = 0;
 		$fieldName = $elementText['element_id'] . '_s';
 		$doc->setMultiValue($fieldName, $elementText['text']);
+		//store Dublin Core titles as separate fields
+		if ($elementText['element_id'] == 50){
+			$doc->setMultiValue('title', $elementText['text']);
+		}	
 	}
 	$docs[] = $doc;
 	try {
@@ -146,14 +152,39 @@ function solr_search_admin_header($request)
     }
 }
 
-function solr_search($buttonText = "Search", $formProperties=array('id'=>'simple-search'), $uri = '/omeka/solr-search/search/results/page/1') 
+/*********
+ * Custom Theme Helpers
+ *********/
+
+function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'simple-search')) 
 { 
+	$uri = WEB_ROOT . '/solr-search/results/page/1';
     $formProperties['action'] = $uri;
     $formProperties['method'] = 'get';
     $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
     $html .= '<fieldset>' . "\n\n";
     $html .= __v()->formText('q', html_escape($_REQUEST['q']), array('name'=>'textinput','class'=>'textinput'));
+    $html .= __v()->formSubmit('submit_search', $buttonText);
     $html .= '</fieldset>' . "\n\n";
     $html .= '</form>';
     return $html;
+}
+
+function solr_search_element_lookup($field){
+		$fieldarray = explode('_', $field);
+		$fieldId = $fieldarray[0];
+		$db = get_db();
+		$element = $db->getTable('Element')->find($fieldId);
+		return $element['name'];
+}
+
+function solr_search_result_link($doc){
+	if ($doc->title[0] == ''){
+		$title = '[Untitled]';
+	} else{
+		$title = $doc->title[0];
+	}
+	
+	$uri = html_escape(WEB_ROOT) . '/items/show/';
+	return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
 }

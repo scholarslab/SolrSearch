@@ -19,6 +19,10 @@ class SolrSearch_IndexAll extends ProcessAbstract
 			foreach ($elementTexts as $elementText){
 				$fieldName = $elementText['element_id'] . '_s';
 				$doc->setMultiValue($fieldName, $elementText['text']);
+				//store Dublin Core titles as separate fields
+				if ($elementText['element_id'] == 50){
+					$doc->setMultiValue('title', $elementText['text']);
+				}			
 			}
 			$docs[] = $doc;
 		}
