@@ -17,32 +17,34 @@
 			?>	
 				<div class="item">
 					<h3><?php echo solr_search_result_link($doc); ?></h3>
-					<ul>
+					
+					<dl class="solr_result_doc">
 		
 					<?php
 					    // iterate document fields / values
 					    foreach ($doc as $field => $value)
 					    {
+					    $fieldSplit = explode('_', $field);
+					  
 					?>
 				
-						<?php if ($field != 'id' && $field != 'title'){ ?>						
+						<?php if ($field != 'id' && $field != 'title' && in_array($fieldSplit[0], $displayFields)){ ?>					
 							<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
-								<li>
-									<b><?php echo solr_search_element_lookup($field) ?>: </b>
-									<?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?>
-								</li>
+								<div>
+									<dt><?php echo solr_search_element_lookup($field) ?></dt>
+									<dd><?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?></dd>
+								</div>
 							<?php }} else { ?>
-								<li>
-									<b><?php echo solr_search_element_lookup($field) ?>: </b>
-									<?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?>
-								</li>
+								<div>
+									<dt><?php echo solr_search_element_lookup($field) ?></dt>
+									<dd><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></dd>
+								</div>
 							<?php } ?>
 						<?php } ?>
 					<?php
 					    }
 					?>
-					</ul>
-					<dl>
+					</dl>
 				</div>
 			<?php
 			}

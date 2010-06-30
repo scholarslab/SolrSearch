@@ -1,0 +1,7 @@
+.solr_result_doc dt{
+	float:left;
+	width:125px;
+	font-weight:bold;
+	text-align:right;
+	margin-right:25px;
+}

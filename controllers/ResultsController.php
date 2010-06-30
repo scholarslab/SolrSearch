@@ -37,6 +37,19 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 		//Zend_Registry::set('total_results', $numFound);
 	    	
 		$this->view->assign(array('results'=>$results, 'pagination'=>$pagination, 'page'=>$page));
+		$displayFields = $this->getDisplayableFields();
+		$this->view->displayFields = $displayFields;
+	}	
+	
+	private function getDisplayableFields(){
+		$db = get_db();
+		$displayFields = $db->getTable('SolrSearch_Facet')->findBySql('is_displayed = ?', array('1'));
+		
+		$fields = array();
+		foreach ($displayFields as $displayField){
+			$fields[] = $displayField['element_id'];
+		}
+		return $fields;
 	}	
 }
 
