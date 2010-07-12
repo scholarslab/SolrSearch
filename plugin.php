@@ -269,3 +269,30 @@ function solr_search_result_link($doc){
 	$uri = html_escape(WEB_ROOT) . '/items/show/';
 	return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
 }
+
+function solr_search_facet_link($facet,$label,$count){
+	$uri = html_escape(WEB_ROOT) . '/solr-search/results/page/1/';
+	if(strstr($_REQUEST['q'], $facet . ':"' . $label . '"'))
+	{
+		$queryParams = explode(' AND ', $_REQUEST['q']);
+		$removeFacetLink = "<a href='" . $uri . '?q=';
+		foreach ($queryParams as $key => $queryParam){
+			if($queryParam != $facet . ':"' . $label . '"'){
+				if ($key > 0){
+					$removeFacetLink .= ' AND ';
+				}
+				$removeFacetLink .= $queryParam;
+			}
+		}
+		$removeFacetLink .= "'>[X]</a>";
+	
+		$html .= '<div class="fn"><b>' . $label . '</b></div>';
+		$html .= '<div class="fc">' . $removeFacetLink . '</div>';
+		return $html;
+	} else{
+		$html .= "<div class='fn'><a href='" . $uri . '?q=' . html_escape($_REQUEST['q']) . ' AND ' . $facet . ':&#x022;' . $label ."&#x022;'>" . $label . '</a></div>';
+		$html .= '<div class="fc">' . $count . '</div>';
+		return $html;
+	}
+
+}

@@ -2,57 +2,64 @@
 
 <?php head(array('title' => 'Browse', 'bodyclass' => 'page')); ?>
 <div id="primary">
-	<h1>Browse</h1>
-	<div class="item-list">
-		<?php
-		// display results
-		if ($results)
-		{
-		?>
-			<div class="pagination"><?php echo pagination_links(); ?></div>
+	<div class="<?php if (!empty($facets)){ echo 'solr_results'; } ?>">
+		<h1>Browse</h1>
+		<div class="item-list">
 			<?php
-			  // iterate result documents
-			  foreach ($results->response->docs as $doc)
-			  {
-			?>	
-				<div class="item">
-					<h3><?php echo solr_search_result_link($doc); ?></h3>
-					
-					<dl class="solr_result_doc">
-		
-					<?php
-					    // iterate document fields / values
-					    foreach ($doc as $field => $value)
-					    {
-					    $fieldSplit = explode('_', $field);
-					  
-					?>
-				
-						<?php if ($field != 'id' && $field != 'title' && in_array($fieldSplit[0], $displayFields)){ ?>					
-							<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
-								<div>
-									<dt><?php echo solr_search_element_lookup($field) ?></dt>
-									<dd><?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?></dd>
-								</div>
-							<?php }} else { ?>
-								<div>
-									<dt><?php echo solr_search_element_lookup($field) ?></dt>
-									<dd><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></dd>
-								</div>
+			// display results
+			if ($results)
+			{
+			?>
+				<div class="pagination"><?php echo pagination_links(); ?></div>
+				<?php
+				  // iterate result documents
+				  foreach ($results->response->docs as $doc)
+				  {
+				?>	
+					<div class="item">
+						<h3><?php echo solr_search_result_link($doc); ?></h3>
+						
+						<dl class="solr_result_doc">
+			
+						<?php
+						    // iterate document fields / values
+						    foreach ($doc as $field => $value) { ?>					
+							<?php if ($field != 'id' && $field != 'title'){ ?>					
+								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
+									<div>
+										<dt><?php echo solr_search_element_lookup($field) ?></dt>
+										<dd><?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?></dd>
+									</div>
+								<?php }} else { ?>
+									<div>
+										<dt><?php echo solr_search_element_lookup($field) ?></dt>
+										<dd><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></dd>
+									</div>
+								<?php } ?>
 							<?php } ?>
 						<?php } ?>
-					<?php
-					    }
-					?>
-					</dl>
-				</div>
-			<?php
-			}
-			?>
-		<?php
-		}
-		?>
+						</dl>
+					</div>
+				<?php } ?>
+			<?php } ?>
+		</div>
 	</div>
+	<?php //display facets ?>
+	<?php if (!empty($facets)){ ?>
+		<div class="solr_facets">
+			<h2>Facets</h2>
+			<?php foreach ($results->facet_counts->facet_fields as $facet => $values){ ?>
+				<h3><?php echo solr_search_element_lookup($facet); ?></h3>
+				<ul>
+					<?php foreach($values as $label => $count){ ?>
+						<?php if ($count > 0) { ?>
+							<li><?php echo solr_search_facet_link($facet,$label,$count); ?></li>
+						<?php } ?>
+					<?php } ?>
+				</ul>
+			<?php } ?>
+		</div>
+	<?php } ?>
 </div>
 
 <?php echo foot(); ?>

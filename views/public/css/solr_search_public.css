@@ -5,3 +5,23 @@
 	text-align:right;
 	margin-right:25px;
 }
+.solr_facets{
+	float:right;
+	width:30%;
+}
+.solr_results{
+	float:left;
+	width:60%;
+}
+.item{
+	width:100%;
+}
+.fn{
+	width:80%;
+	float:left;
+}
+.fc{
+	float:left;
+	text-align:right;
+	width:15%;
+}
