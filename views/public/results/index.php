@@ -10,6 +10,7 @@
 			if ($results)
 			{
 			?>
+			<h4 class="solr_search_numFound">Total Results: <?php echo $results->response->numFound; ?></h4>
 				<div class="pagination"><?php echo pagination_links(); ?></div>
 				<?php
 				  // iterate result documents

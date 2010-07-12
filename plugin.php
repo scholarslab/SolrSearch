@@ -230,7 +230,7 @@ function solr_search_display_fields(){
 
 function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'simple-search')) 
 { 
-	$uri = WEB_ROOT . '/solr-search/results/page/1';
+	$uri = WEB_ROOT . '/solr-search/results/';
     $formProperties['action'] = $uri;
     $formProperties['method'] = 'get';
     $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
@@ -271,7 +271,7 @@ function solr_search_result_link($doc){
 }
 
 function solr_search_facet_link($facet,$label,$count){
-	$uri = html_escape(WEB_ROOT) . '/solr-search/results/page/1/';
+	$uri = html_escape(WEB_ROOT) . '/solr-search/results/';
 	if(strstr($_REQUEST['q'], $facet . ':"' . $label . '"'))
 	{
 		$queryParams = explode(' AND ', $_REQUEST['q']);
