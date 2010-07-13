@@ -50,12 +50,10 @@
 		<div class="solr_facets">
 			<h2>Facets</h2>
 			<?php foreach ($results->facet_counts->facet_fields as $facet => $values){ ?>
-				<h3><?php echo solr_search_element_lookup($facet); ?></h3>
+					<h3><?php echo solr_search_element_lookup($facet); ?></h3>			
 				<ul>
 					<?php foreach($values as $label => $count){ ?>
-						<?php if ($count > 0) { ?>
-							<li><?php echo solr_search_facet_link($facet,$label,$count); ?></li>
-						<?php } ?>
+						<li><?php echo solr_search_facet_link($facet,$label,$count); ?></li>
 					<?php } ?>
 				</ul>
 			<?php } ?>

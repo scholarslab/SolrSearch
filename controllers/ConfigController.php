@@ -1,5 +1,5 @@
 <?php
-class SolrSearch_FacetsController extends Omeka_Controller_Action
+class SolrSearch_ConfigController extends Omeka_Controller_Action
 {
 	public function indexAction()
 	{
@@ -11,16 +11,30 @@ class SolrSearch_FacetsController extends Omeka_Controller_Action
 	{
 		$form = $this->facetForm();
 		
-    	if ($_POST) {
+		if ($_POST) {
     		if ($form->isValid($this->_request->getPost())) {    
     			//get posted values		
 				$uploadedData = $form->getValues();
 				
 				//cycle through each checkbox
-				foreach ($uploadedData as $k => $v){
+				foreach ($uploadedData as $k => $values){
 					if ($k != 'submit'){
 						$split = explode('_', $k);
-						$data = array('id'=>$split[0], 'is_facet'=>$v);
+						
+						//test whether or not is_facet and is_sortable have values
+						$options = array();
+						if (isset($values) && in_array('is_facet',$values)){
+							$options['is_facet'] = 1;
+						} else{
+							$options['is_facet'] = 0;
+						}
+						if (isset($values) && in_array('is_sortable',$values)){
+							$options['is_sortable'] = 1;
+						} else{
+							$options['is_sortable'] = 0;
+						}
+						
+						$data = array('id'=>$split[1], 'is_facet'=>$options['is_facet'], 'is_sortable'=>$options['is_sortable']);
 						try{
 							//update the database with new values
 							$db = get_db();
@@ -36,11 +50,7 @@ class SolrSearch_FacetsController extends Omeka_Controller_Action
 	    			$this->flashError('Failed to gather posted data.');
 	    			$this->view->form = $form;
 	    	}
-    	}    	
-	}
-	
-	public function testAction(){
-
+    	}	
 	}
 
 	private function facetForm()
@@ -55,24 +65,28 @@ class SolrSearch_FacetsController extends Omeka_Controller_Action
 	    	$form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'table')),'Form',));	    	
 	    	
 	    	$db = get_db();
-	    	$facets = $db->getTable('SolrSearch_Facet')->findAll();
+	    	$fields = $db->getTable('SolrSearch_Facet')->findAll();
 	    	
-	    	foreach ($facets as $facet){	    		
-	    		$elementSet = $db->getTable('ElementSet')->find($facet['element_set_id']);
-	    		$elementSetName = $elementSet['name'];
-	    		$facetName = new Zend_Form_Element_Checkbox($facet['id'] . '_facetCheckbox');
-	    		$facetName->setLabel($elementSetName . ': ' . $facet['name']);
-	    		if ($facet['is_facet'] == 1){
-	    			$facetName->setCheckedValue(true)
-	    				->setValue(true);
+			foreach ($fields as $field){	    		
+	    		$elementSetName = $db->getTable('ElementSet')->find($field['element_set_id'])->name;
+	    		$mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
+	    		$mC->setLabel($elementSetName . ': ' . $field['name']);
+	    		$mC->setMultiOptions(array(	'is_facet'=>'Is Facet', 
+                                			'is_sortable'=>'Is Sortable'));
+	    		//see if it is checked
+	    		$values = array();
+				if ($field['is_facet'] == 1){
+	    			$values[] = 'is_facet';
 	    		}
-	    		
-	    		//set each element as a table row
-	    		$facetName->setDecorators(array('ViewHelper',
+				if ($field['is_sortable'] == 1){
+	    			$values[] = 'is_sortable';
+	    		}
+	    		$mC->setValue($values);	    		
+	    		$mC->setDecorators(array('ViewHelper',
 				array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element')),
 				array('Label', array('tag' => 'td')), array(array('row' => 'HtmlTag'), array('tag' => 'tr')),));	
-	    		$form->addElement($facetName);
-	    	}    	
+	    		$form->addElement($mC);	    		
+	    	}
 	    	
 			//Submit button
 	    	$form->addElement('submit','submit');

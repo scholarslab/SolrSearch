@@ -4,6 +4,7 @@ define('SOLR_SERVER', get_plugin_ini('SolrSearch', 'solr_server'));
 define('SOLR_PORT', get_plugin_ini('SolrSearch', 'solr_port'));
 define('SOLR_CORE', get_plugin_ini('SolrSearch', 'solr_core'));
 define('SOLR_ROWS', get_plugin_ini('SolrSearch', 'solr_rows'));
+define('SOLR_FACET_LIMIT', get_plugin_ini('SolrSearch', 'solr_facet_limit'));
 
 require_once 'lib/Document.php';
 require_once 'lib/Response.php';
@@ -32,7 +33,8 @@ function solr_search_install()
 			`name` tinytext collate utf8_unicode_ci NOT NULL,	      
 			`element_set_id` int(10) unsigned,
 			`is_facet` tinyint unsigned,
-			`is_displayed` tinyint unsigned,
+			`is_displayed` tinyint unsigned,			
+			`is_sortable` tinyint unsigned,
 	       PRIMARY KEY  (`id`)
 	       ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 	
@@ -44,7 +46,8 @@ function solr_search_install()
 						'name' => $element['name'],
 						'element_set_id' => $element['element_set_id'],
 						'is_facet' => 0,
-						'is_displayed' => 0);
+						'is_displayed' => 0,
+						'is_sortable'=>0);
 		$db->insert('solr_search_facets', $data);
 	}
 	
@@ -130,15 +133,15 @@ function solr_search_define_routes($router)
 
 function solr_search_admin_navigation($tabs)
 {
-    if (get_acl()->checkUserPermission('SolrSearch_Facet', 'index')) {
-        $tabs['Solr Facets'] = uri('solr-search/facets/');        
+    if (get_acl()->checkUserPermission('SolrSearch_Config', 'index')) {
+        $tabs['Solr Config'] = uri('solr-search/config/');        
     }
     return $tabs;
 }
 	
 function solr_search_define_acl($acl)
 {
-    $acl->loadResourceList(array('SolrSearch_Facet' => array('index', 'status')));
+    $acl->loadResourceList(array('SolrSearch_Config' => array('index', 'status')));
 }
 
 function solr_search_admin_header($request)
@@ -235,7 +238,7 @@ function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'s
     $formProperties['method'] = 'get';
     $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
     $html .= '<fieldset>' . "\n\n";
-    $html .= __v()->formText('q', html_escape($_REQUEST['q']), array('name'=>'textinput','class'=>'textinput'));
+    $html .= __v()->formText('q', '', array('name'=>'textinput','class'=>'textinput'));
     $html .= __v()->formSubmit('submit_search', $buttonText);
     $html .= '</fieldset>' . "\n\n";
     $html .= '</form>';

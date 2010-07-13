@@ -38,7 +38,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 		
 		//if there are facets selected, pass them to Solr
 		if (!empty($solrFacets)){
-			$additionalParams = array('fl'=>$displayFields, 'facet'=>'true', 'facet.field'=>$solrFacets);
+			$additionalParams = array('fl'=>$displayFields, 'facet'=>'true', 'facet.mincount'=>1, 'facet.limit'=>SOLR_FACET_LIMIT, 'facet.field'=>$solrFacets);
 			$results = $solr->search($query, $start, $rows, $additionalParams);
 		}
 		//do no pass facets
