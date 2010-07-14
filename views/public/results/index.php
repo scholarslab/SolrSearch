@@ -10,8 +10,13 @@
 			if ($results)
 			{
 			?>
-			<h4 class="solr_search_numFound">Total Results: <?php echo $results->response->numFound; ?></h4>
+				<div class="solr_remove_facets"><h2>Current Query</h2><ul><?php echo solr_search_remove_facets(); ?></ul></div>
+				<div class="solr_sort">
+					<h4>Total Results: <?php echo $results->response->numFound; ?></h4>
+					<div class="solr_sort_form"><?php echo solr_search_sort_form(); ?></div>
+				</div>
 				<div class="pagination"><?php echo pagination_links(); ?></div>
+				
 				<?php
 				  // iterate result documents
 				  foreach ($results->response->docs as $doc)
@@ -25,15 +30,23 @@
 						<?php
 						    // iterate document fields / values
 						    foreach ($doc as $field => $value) { ?>					
-							<?php if ($field != 'id' && $field != 'title'){ ?>					
+							<?php if ($field != 'id' && $field != 'title'){ ?>	
 								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
 									<div>
-										<dt><?php echo solr_search_element_lookup($field) ?></dt>
+										<dt>
+											<?php if (strstr($field, '_')) { ?>
+												<?php echo solr_search_element_lookup($field) ?>
+											<?php } else { echo ucwords($field); }?>										
+										</dt>
 										<dd><?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?></dd>
 									</div>
 								<?php }} else { ?>
 									<div>
-										<dt><?php echo solr_search_element_lookup($field) ?></dt>
+										<dt>	
+											<?php if (strstr($field, '_')) { ?>
+												<?php echo solr_search_element_lookup($field) ?>
+											<?php } else { echo ucwords($field); }?>
+										</dt>
 										<dd><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></dd>
 									</div>
 								<?php } ?>
@@ -50,7 +63,11 @@
 		<div class="solr_facets">
 			<h2>Facets</h2>
 			<?php foreach ($results->facet_counts->facet_fields as $facet => $values){ ?>
-					<h3><?php echo solr_search_element_lookup($facet); ?></h3>			
+					<h3><?php if (strstr($facet, '_')) { ?>
+							<?php echo solr_search_element_lookup($facet); ?>		
+						<?php } else { echo ucwords($facet); }?>
+					</h3>	
+					
 				<ul>
 					<?php foreach($values as $label => $count){ ?>
 						<li><?php echo solr_search_facet_link($facet,$label,$count); ?></li>

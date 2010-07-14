@@ -28,22 +28,29 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 		$db = get_db();
 		$facetList = $db->getTable('SolrSearch_Facet')->findBySql('is_facet = ?', array('1'));
 		foreach ($facetList as $facet){
-			$elements = $db->getTable('Element')->findBySql('element_set_id = ?', array($facet['element_set_id']));
-			foreach ($elements as $element){
-				if ($element['name'] == $facet['name']){
-					$solrFacets[] = $element['id'] . '_s';
+			if ($facet['element_set_id'] != NULL){
+				$elements = $db->getTable('Element')->findBySql('element_set_id = ?', array($facet['element_set_id']));
+				foreach ($elements as $element){
+					if ($element['name'] == $facet['name']){
+						$solrFacets[] = $element['id'] . '_s';
+					}
 				}
-			}
+			} else{
+				$solrFacets[] = $facet['name'];
+			}			
 		}
+		
+		//get sort parameter
+		$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : '';
 		
 		//if there are facets selected, pass them to Solr
 		if (!empty($solrFacets)){
-			$additionalParams = array('fl'=>$displayFields, 'facet'=>'true', 'facet.mincount'=>1, 'facet.limit'=>SOLR_FACET_LIMIT, 'facet.field'=>$solrFacets);
+			$additionalParams = array('fl'=>$displayFields, 'facet'=>'true', 'facet.mincount'=>1, 'facet.limit'=>SOLR_FACET_LIMIT, 'facet.field'=>$solrFacets, 'sort'=>$sort);
 			$results = $solr->search($query, $start, $rows, $additionalParams);
 		}
 		//do no pass facets
 		else{
-			$additionalParams = array('fl'=>$displayFields);
+			$additionalParams = array('fl'=>$displayFields, 'sort'=>$sort);
 			$results = $solr->search($query, $start, $rows, $additionalParams);
 		}
 		
@@ -71,8 +78,14 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 		$displayFields = $db->getTable('SolrSearch_Facet')->findBySql('is_displayed = ?', array('1'));
 		
 		$fields .= 'title,id';	
-		foreach ($displayFields as $k=>$displayField){			
-			$fields .= ',' . $displayField['element_id'] . '_s';
+		foreach ($displayFields as $k=>$displayField){
+			//pass field accordingly, depending on whether it is an element or collection/tag
+			if ($displayField['element_id'] != NULL){
+				$fields .= ',' . $displayField['element_id'] . '_s';
+			} else{
+				$fields .= ',' . $displayField['name'];
+			}	
+			
 		}
 		return $fields;
 	}	

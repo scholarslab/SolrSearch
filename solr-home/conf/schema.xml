@@ -205,9 +205,12 @@
        fields or fields that need an index-time boost need norms.
    -->
 		<!-- unique id -->
-		<field name="id" type="string" indexed="true" stored="true" omitNorms="true"/>
-		<dynamicField name="*_s" type="string" indexed="true" stored="true" multiValued="true"/> 
+		<field name="id" type="string" indexed="true" stored="true" omitNorms="true"/>		
 		<field name="title" type="string" indexed="true" stored="true" multiValued="true"/> 
+		<field name="tags" type="string" indexed="true" stored="true" multiValued="true"/> 
+		<field name="collection" type="string" indexed="true" stored="true"/> 
+		
+		<dynamicField name="*_s" type="string" indexed="true" stored="true" multiValued="true"/> 
 
 		<!-- fulltext -->
 		<field name="fulltext" type="text" indexed="true" stored="false" multiValued="true"/>		

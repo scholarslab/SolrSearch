@@ -24,6 +24,19 @@ class SolrSearch_IndexAll extends ProcessAbstract
 					$doc->setMultiValue('title', $elementText['text']);
 				}			
 			}
+			
+			//add tags			
+			foreach($item->Tags as $key => $tag){
+				$doc->setMultiValue('tags', $tag);
+			}
+			
+			//add collection
+			if ($item['collection_id'] > 0){
+				$collectionName = $db->getTable('Collection')->find($item['collection_id'])->name;
+				$doc->collection = $collectionName;
+			}
+			
+			//add docs to array to be posted to Solr
 			$docs[] = $doc;
 		}
 		try {

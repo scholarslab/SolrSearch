@@ -23,6 +23,11 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 						
 						//test whether or not is_facet and is_sortable have values
 						$options = array();
+						if (isset($values) && in_array('is_displayed',$values)){
+							$options['is_displayed'] = 1;
+						} else{
+							$options['is_displayed'] = 0;
+						}
 						if (isset($values) && in_array('is_facet',$values)){
 							$options['is_facet'] = 1;
 						} else{
@@ -34,7 +39,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 							$options['is_sortable'] = 0;
 						}
 						
-						$data = array('id'=>$split[1], 'is_facet'=>$options['is_facet'], 'is_sortable'=>$options['is_sortable']);
+						$data = array('id'=>$split[1], 'is_displayed'=>$options['is_displayed'], 'is_facet'=>$options['is_facet'], 'is_sortable'=>$options['is_sortable']);
 						try{
 							//update the database with new values
 							$db = get_db();
@@ -53,8 +58,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     	}	
 	}
 
-	private function facetForm()
-		{
+	private function facetForm() {
 		    require "Zend/Form/Element.php";
 	    	$form = new Zend_Form();
 			$form->setAction('update');    	
@@ -68,13 +72,25 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 	    	$fields = $db->getTable('SolrSearch_Facet')->findAll();
 	    	
 			foreach ($fields as $field){	    		
-	    		$elementSetName = $db->getTable('ElementSet')->find($field['element_set_id'])->name;
-	    		$mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
-	    		$mC->setLabel($elementSetName . ': ' . $field['name']);
-	    		$mC->setMultiOptions(array(	'is_facet'=>'Is Facet', 
-                                			'is_sortable'=>'Is Sortable'));
+				if ($field['element_set_id'] != NULL){
+	    	   		$elementSetName = $db->getTable('ElementSet')->find($field['element_set_id'])->name;
+		    		$mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
+		    		$mC->setLabel($elementSetName . ': ' . $field['name']);
+		    		$mC->setMultiOptions(array(	'is_displayed'=>'Is Displayed',
+		    									'is_facet'=>'Is Facet', 
+	                                			'is_sortable'=>'Is Sortable'));
+    			} else {
+	    			$mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
+		    		$mC->setLabel(ucwords($field['name']));
+		    		$mC->setMultiOptions(array(	'is_displayed'=>'Is Displayed',
+		    									'is_facet'=>'Is Facet', 
+	                                			'is_sortable'=>'Is Sortable'));
+    			}
 	    		//see if it is checked
 	    		$values = array();
+				if ($field['is_displayed'] == 1){
+	    			$values[] = 'is_displayed';
+	    		}
 				if ($field['is_facet'] == 1){
 	    			$values[] = 'is_facet';
 	    		}

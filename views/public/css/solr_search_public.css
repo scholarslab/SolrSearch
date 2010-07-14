@@ -25,3 +25,12 @@
 	text-align:right;
 	width:15%;
 }
+.solr_sort>h4{
+	display:inline;	
+}
+.solr_sort_form{
+	float:right;
+}
+#sort-label label{
+	display:inline;
+}
