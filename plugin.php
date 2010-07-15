@@ -68,7 +68,7 @@ function solr_search_install()
 	//set solr options
 	set_option('solr_search_server', 'localhost');
 	set_option('solr_search_port', '8080');
-	set_option('solr_search_core', '/solr/omeka/');
+	set_option('solr_search_core', '/solr/');
 	set_option('solr_search_rows', '10');
 	set_option('solr_search_facet_limit', '25');
 	
