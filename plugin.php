@@ -118,50 +118,60 @@ function solr_search_before_delete_item($item)
 function solr_search_after_save_item($item)
 {
 	$solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);	
-	$db = get_db();
-	$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
-
-	$docs = array();
+	if ($item['public'] == '1'){		
+		$db = get_db();
+		$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
 	
-	$doc = new Apache_Solr_Document();
-	$doc->id = $item['id'];
-	foreach ($elementTexts as $elementText){
-		$titleCount = 0;
-		$fieldName = $elementText['element_id'] . '_s';
-		$doc->setMultiValue($fieldName, $elementText['text']);
-		//store Dublin Core titles as separate fields
-		if ($elementText['element_id'] == 50){
-			$doc->setMultiValue('title', $elementText['text']);
+		$docs = array();
+		
+		$doc = new Apache_Solr_Document();
+		$doc->id = $item['id'];
+		foreach ($elementTexts as $elementText){
+			$titleCount = 0;
+			$fieldName = $elementText['element_id'] . '_s';
+			$doc->setMultiValue($fieldName, $elementText['text']);
+			//store Dublin Core titles as separate fields
+			if ($elementText['element_id'] == 50){
+				$doc->setMultiValue('title', $elementText['text']);
+			}
 		}
-	}
-	
-	//add tags			
-	foreach($item->Tags as $key => $tag){
-		$doc->setMultiValue('tag', $tag);
-	}
-	
-	//add collection
-	if ($item['collection_id'] > 0){
-		$collectionName = $db->getTable('Collection')->find($item['collection_id'])->name;
-		$doc->collection = $collectionName;
-	}
-	
-	//add images
-	$files = $db->getTable('File')->findBySql('item_id = ?', array($item['id']));
-	foreach ($files as $file){
-		if($file['has_derivative_image'] == 1){
-			$doc->setMultiValue('image', $file['id']);
+		
+		//add tags			
+		foreach($item->Tags as $key => $tag){
+			$doc->setMultiValue('tag', $tag);
 		}
-	}
-	
-	$docs[] = $doc;
-	try {
-    	$solr->addDocuments($docs);
-		$solr->commit();
-		$solr->optimize();
-	}
-	catch ( Exception $err ) {
-		echo $err->getMessage();
+		
+		//add collection
+		if ($item['collection_id'] > 0){
+			$collectionName = $db->getTable('Collection')->find($item['collection_id'])->name;
+			$doc->collection = $collectionName;
+		}
+		
+		//add images
+		$files = $db->getTable('File')->findBySql('item_id = ?', array($item['id']));
+		foreach ($files as $file){
+			if($file['has_derivative_image'] == 1){
+				$doc->setMultiValue('image', $file['id']);
+			}
+		}
+		
+		$docs[] = $doc;
+		try {
+	    	$solr->addDocuments($docs);
+			$solr->commit();
+			$solr->optimize();
+		}
+		catch ( Exception $err ) {
+			echo $err->getMessage();
+		}
+	} else {
+		try {		
+			$solr->deleteByQuery('id:' . $item['id']);
+			$solr->commit();
+			$solr->optimize(); 
+		} catch ( Exception $err ) {
+			echo $err->getMessage();
+		}
 	}
 }
 
@@ -235,6 +245,7 @@ function solr_search_config(){
 				set_option($k, $v);
 			}		
 		}
+		ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
     }
 }
 
