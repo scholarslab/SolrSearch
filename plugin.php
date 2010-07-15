@@ -1,10 +1,10 @@
 <?php
 define('SOLR_SEARCH_PLUGIN_VERSION', get_plugin_ini('SolrSearch', 'version'));
-define('SOLR_SERVER', get_plugin_ini('SolrSearch', 'solr_server'));
-define('SOLR_PORT', get_plugin_ini('SolrSearch', 'solr_port'));
-define('SOLR_CORE', get_plugin_ini('SolrSearch', 'solr_core'));
-define('SOLR_ROWS', get_plugin_ini('SolrSearch', 'solr_rows'));
-define('SOLR_FACET_LIMIT', get_plugin_ini('SolrSearch', 'solr_facet_limit'));
+define('SOLR_SERVER', get_option('solr_search_server'));
+define('SOLR_PORT', get_option('solr_search_port'));
+define('SOLR_CORE', get_option('solr_search_core'));
+define('SOLR_ROWS', get_option('solr_search_rows'));
+define('SOLR_FACET_LIMIT', get_option('solr_search_facet_limit'));
 
 require_once 'lib/Document.php';
 require_once 'lib/Response.php';
@@ -19,8 +19,8 @@ add_plugin_hook('define_acl', 'solr_search_define_acl');
 add_plugin_hook('admin_theme_header', 'solr_search_admin_header');
 add_plugin_hook('public_theme_header', 'solr_search_public_header');
 add_filter('admin_navigation_main', 'solr_search_admin_navigation');
-//add_plugin_hook('config_form', 'solr_search_config_form');
-//add_plugin_hook('config', 'solr_search_config');
+add_plugin_hook('config_form', 'solr_search_config_form');
+add_plugin_hook('config', 'solr_search_config');
 
 function solr_search_install()
 {
@@ -50,14 +50,28 @@ function solr_search_install()
 						'is_sortable'=>0);
 		$db->insert('solr_search_facets', $data);
 	}
-	$db->insert('solr_search_facets', array('name'=>'tags',
+	//tag
+	$db->insert('solr_search_facets', array('name'=>'tag',
 											'is_facet'=>0,
 											'is_displayed'=>0,
 											'is_sortable'=>0));
+	
+	//collection
 	$db->insert('solr_search_facets', array('name'=>'collection',
 											'is_facet'=>0,
 											'is_displayed'=>0,
 											'is_sortable'=>0));
+	
+	//images
+	$db->insert('solr_search_facets', array('name'=>'image', 'is_displayed'=>0));
+	
+	//set solr options
+	set_option('solr_search_server', 'localhost');
+	set_option('solr_search_port', '8080');
+	set_option('solr_search_core', '/solr/omeka/');
+	set_option('solr_search_rows', '10');
+	set_option('solr_search_facet_limit', '25');
+	
 	//add public items to Solr index
 	ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
 }
@@ -78,6 +92,13 @@ function solr_search_uninstall()
 	} catch ( Exception $err ) {
 		echo $err->getMessage();
 	}
+	
+	//delete solr options
+	delete_option('solr_search_server');
+	delete_option('solr_search_port');
+	delete_option('solr_search_core');
+	delete_option('solr_search_rows');
+	delete_option('solr_search_facet_limit');
 }
 
 // delete an item from the index
@@ -116,7 +137,7 @@ function solr_search_after_save_item($item)
 	
 	//add tags			
 	foreach($item->Tags as $key => $tag){
-		$doc->setMultiValue('tags', $tag);
+		$doc->setMultiValue('tag', $tag);
 	}
 	
 	//add collection
@@ -124,6 +145,15 @@ function solr_search_after_save_item($item)
 		$collectionName = $db->getTable('Collection')->find($item['collection_id'])->name;
 		$doc->collection = $collectionName;
 	}
+	
+	//add images
+	$files = $db->getTable('File')->findBySql('item_id = ?', array($item['id']));
+	foreach ($files as $file){
+		if($file['has_derivative_image'] == 1){
+			$doc->setMultiValue('image', $file['id']);
+		}
+	}
+	
 	$docs[] = $doc;
 	try {
     	$solr->addDocuments($docs);
@@ -181,11 +211,12 @@ function solr_search_public_header($request)
 //select fields to display in Solr search results
 function solr_search_config_form()
 {
-	$form = solr_search_display_fields();
+	$form = solr_search_options();
 	?>
+	<style type="text/css">.zend_form>dd{ margin-bottom:20px; }</style>
 	<div class="field">
-		<h3>Select displayable fields</h3>
-		<p class="explanation">Use this form to select fields to be displayed in Solr search results.</p>
+		<h3>Solr Options</h3>
+		<p class="explanation">Set Solr options.</p>
 		<? echo $form; ?>
 	</div>
 <?php
@@ -193,7 +224,7 @@ function solr_search_config_form()
 
 //post displable fields to index
 function solr_search_config(){
-	$form = solr_search_display_fields();
+	$form = solr_search_options();
     if ($form->isValid($_POST)) {    
     	//get posted values		
 		$uploadedData = $form->getValues();
@@ -201,10 +232,7 @@ function solr_search_config(){
 		//cycle through each checkbox
 		foreach ($uploadedData as $k => $v){
 			if ($k != 'submit'){
-				$split = explode('_', $k);
-				$data = array('id'=>$split[0], 'is_displayed'=>$v);
-				$db = get_db();
-				$db->insert('solr_search_facets', $data); 
+				set_option($k, $v);
 			}		
 		}
     }
@@ -213,40 +241,49 @@ function solr_search_config(){
 /*********
  * Displayable element form
  *********/
-function solr_search_display_fields(){
+function solr_search_options(){
     require "Zend/Form/Element.php";
     $form = new Zend_Form();
 	//$form->setAction('solr-search/display/update');    	
     $form->setMethod('post');
-    $form->setAttrib('enctype', 'multipart/form-data');
-    
-    //set form as a table
-    $form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'table')),'Form',));	    	
+    $form->setAttrib('enctype', 'multipart/form-data');	
     
     $db = get_db();
-    $elements = $db->getTable('SolrSearch_Facet')->findAll();
     
-    foreach ($elements as $element){
-    	if ($element['element_set_id'] != NULL){
-    	    $elementSetName = $db->getTable('ElementSet')->find($element['element_set_id'])->name;
-    		$displayedFieldName = new Zend_Form_Element_Checkbox($element['id'] . '_facetCheckbox');
-    		$displayedFieldName->setLabel($elementSetName . ': ' . $element['name']);
-    	} else {
-    		$displayedFieldName = new Zend_Form_Element_Checkbox($element['id'] . '_facetCheckbox');
-    		$displayedFieldName->setLabel(ucwords($element['name']));
-    	}
+    $solrServer = new Zend_Form_Element_Text ('solr_search_server');
+    $solrServer->setLabel('Server:');
+    $solrServer->setValue(get_option('solr_search_server'));
+    $solrServer->setRequired('true');
+    $solrServer->addValidator(new Zend_Validate_Alnum());
+    $form->addElement($solrServer);
+    
+	$solrPort = new Zend_Form_Element_Text ('solr_search_port');
+    $solrPort->setLabel('Port:');
+    $solrPort->setValue(get_option('solr_search_port'));
+    $solrPort->setRequired('true');
+    $solrPort->addValidator(new Zend_Validate_Int());
+    $form->addElement($solrPort);
 
-    	if ($element['is_displayed'] == 1){
-    		$displayedFieldName->setCheckedValue(true)
-    			->setValue(true);
-    	}
-    	
-    	//set each element as a table row
-    	$displayedFieldName->setDecorators(array('ViewHelper',
-		array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element')),
-		array('Label', array('tag' => 'td')), array(array('row' => 'HtmlTag'), array('tag' => 'tr')),));	
-    	$form->addElement($displayedFieldName);
-    }    	
+	$solrCore = new Zend_Form_Element_Text ('solr_search_core');
+    $solrCore->setLabel('Core:');
+    $solrCore->setValue(get_option('solr_search_core'));
+    $solrCore->setRequired('true');    
+    $solrCore->addValidator('regex', true, array('/\/.*\//i'));
+    $form->addElement($solrCore);
+    
+    $solrRows = new Zend_Form_Element_Text ('solr_search_rows');
+    $solrRows->setLabel('Results Per Page:');
+    $solrRows->setValue(get_option('solr_search_rows'));
+    $solrRows->setRequired('true');
+    $solrRows->addValidator(new Zend_Validate_Int());
+    $form->addElement($solrRows);
+    
+    $solrFacetLimit = new Zend_Form_Element_Text ('solr_search_facet_limit');
+    $solrFacetLimit->setLabel('Maximum Facet Constraint Count:');
+    $solrFacetLimit->setValue(get_option('solr_search_facet_limit'));
+    $solrFacetLimit->setRequired('true');
+    $solrFacetLimit->addValidator(new Zend_Validate_Int());
+    $form->addElement($solrFacetLimit);
     
     return $form;
 }
@@ -278,6 +315,16 @@ function solr_search_element_lookup($field){
 }
 
 function solr_search_result_link($doc){
+	
+	//get title of doc
+	$title = solr_search_doc_title($doc);
+	
+	//generate link to item
+	$uri = html_escape(WEB_ROOT) . '/items/show/';
+	return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
+}
+
+function solr_search_doc_title($doc){
 	if (is_array($doc->title)){
 		if ($doc->title[0] == ''){
 			$title = '[Untitled]';
@@ -291,10 +338,8 @@ function solr_search_result_link($doc){
 			$title = $doc->title;
 		}
 	}
-
 	
-	$uri = html_escape(WEB_ROOT) . '/items/show/';
-	return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
+	return $title;
 }
 
 function solr_search_facet_link($facet,$label,$count){
@@ -424,5 +469,11 @@ function solr_search_sort_form() {
     $submitElement->setDecorators(array('ViewHelper',
 	array(array('data' => 'HtmlTag'), array('tag' => 'span', 'class' => 'element')),));		
 	
-	return $form;
+	// only return the form if there are sortable fields (other than relevancy)
+	if (count($fields) > 1){
+		return $form;
+	} else {
+		return '';
+	}
+	
 }

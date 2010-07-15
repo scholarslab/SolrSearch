@@ -30,7 +30,7 @@
 						<?php
 						    // iterate document fields / values
 						    foreach ($doc as $field => $value) { ?>					
-							<?php if ($field != 'id' && $field != 'title'){ ?>	
+							<?php if ($field != 'id' && $field != 'title' && $field != 'image'){ ?>	
 								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
 									<div>
 										<dt>
@@ -51,12 +51,24 @@
 									</div>
 								<?php } ?>
 							<?php } ?>
+							<?php if ($field == 'image'){ ?>
+								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
+									<a class="solr_search_image" href="<?php echo WEB_ROOT ?>/files/display/<?php echo $multivalue; ?>/fullsize">
+										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo WEB_ROOT ?>/files/display/<?php echo $multivalue; ?>/square_thumbnail"/>
+									</a>
+								<?php }} else { ?>
+									<a class="solr_search_image" href="<?php echo WEB_ROOT ?>/files/display/<?php echo $value; ?>/fullsize">
+										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo WEB_ROOT ?>/files/display/<?php echo $value; ?>/square_thumbnail"/>
+									</a>
+								<?php } ?>
+							<?php } ?>
 						<?php } ?>
 						</dl>
 					</div>
 				<?php } ?>
 			<?php } ?>
 		</div>
+		<div class="pagination"><?php echo pagination_links(); ?></div>
 	</div>
 	<?php //display facets ?>
 	<?php if (!empty($facets)){ ?>
@@ -75,7 +87,7 @@
 				</ul>
 			<?php } ?>
 		</div>
-	<?php } ?>
+	<?php } ?>	
 </div>
 
 <?php echo foot(); ?>

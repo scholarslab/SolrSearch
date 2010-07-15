@@ -27,13 +27,21 @@ class SolrSearch_IndexAll extends ProcessAbstract
 			
 			//add tags			
 			foreach($item->Tags as $key => $tag){
-				$doc->setMultiValue('tags', $tag);
+				$doc->setMultiValue('tag', $tag);
 			}
 			
 			//add collection
 			if ($item['collection_id'] > 0){
 				$collectionName = $db->getTable('Collection')->find($item['collection_id'])->name;
 				$doc->collection = $collectionName;
+			}
+			
+			//add images
+			$files = $db->getTable('File')->findBySql('item_id = ?', array($item['id']));
+			foreach ($files as $file){
+				if($file['has_derivative_image'] == 1){
+					$doc->setMultiValue('image', $file['id']);
+				}
 			}
 			
 			//add docs to array to be posted to Solr

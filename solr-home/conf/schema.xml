@@ -207,7 +207,8 @@
 		<!-- unique id -->
 		<field name="id" type="string" indexed="true" stored="true" omitNorms="true"/>		
 		<field name="title" type="string" indexed="true" stored="true" multiValued="true"/> 
-		<field name="tags" type="string" indexed="true" stored="true" multiValued="true"/> 
+		<field name="tag" type="string" indexed="true" stored="true" multiValued="true"/>
+		<field name="image" type="integer" indexed="true" stored="true" multiValued="true"/> 
 		<field name="collection" type="string" indexed="true" stored="true"/> 
 		
 		<dynamicField name="*_s" type="string" indexed="true" stored="true" multiValued="true"/> 
