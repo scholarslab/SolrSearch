@@ -272,7 +272,7 @@ function solr_search_options(){
     $solrPort->setLabel('Port:');
     $solrPort->setValue(get_option('solr_search_port'));
     $solrPort->setRequired('true');
-    $solrPort->addValidator(new Zend_Validate_Int());
+    $solrPort->addValidator(new Zend_Validate_Digits());
     $form->addElement($solrPort);
 
 	$solrCore = new Zend_Form_Element_Text ('solr_search_core');
@@ -286,14 +286,14 @@ function solr_search_options(){
     $solrRows->setLabel('Results Per Page:');
     $solrRows->setValue(get_option('solr_search_rows'));
     $solrRows->setRequired('true');
-    $solrRows->addValidator(new Zend_Validate_Int());
+    $solrRows->addValidator(new Zend_Validate_Digits());
     $form->addElement($solrRows);
     
     $solrFacetLimit = new Zend_Form_Element_Text ('solr_search_facet_limit');
     $solrFacetLimit->setLabel('Maximum Facet Constraint Count:');
     $solrFacetLimit->setValue(get_option('solr_search_facet_limit'));
     $solrFacetLimit->setRequired('true');
-    $solrFacetLimit->addValidator(new Zend_Validate_Int());
+    $solrFacetLimit->addValidator(new Zend_Validate_Digits());
     $form->addElement($solrFacetLimit);
     
     return $form;

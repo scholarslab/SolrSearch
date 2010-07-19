@@ -26,11 +26,10 @@
 						<h3><?php echo solr_search_result_link($doc); ?></h3>
 						
 						<dl class="solr_result_doc">
-			
 						<?php
 						    // iterate document fields / values
 						    foreach ($doc as $field => $value) { ?>					
-							<?php if ($field != 'id' && $field != 'title' && $field != 'image'){ ?>	
+							<?php if ($field != 'id' && $field != 'title' && $field != 'image' && $field){ ?>	
 								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
 									<div>
 										<dt>
@@ -51,7 +50,12 @@
 									</div>
 								<?php } ?>
 							<?php } ?>
-							<?php if ($field == 'image'){ ?>
+						<?php } ?>						
+						</dl>
+						<?php
+						// display images last
+						foreach ($doc as $field=>$value) { ?>
+							<?php if ($field == 'image') {?>
 								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
 									<a class="solr_search_image" href="<?php echo WEB_ROOT ?>/files/display/<?php echo $multivalue; ?>/fullsize">
 										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo WEB_ROOT ?>/files/display/<?php echo $multivalue; ?>/square_thumbnail"/>
@@ -63,7 +67,6 @@
 								<?php } ?>
 							<?php } ?>
 						<?php } ?>
-						</dl>
 					</div>
 				<?php } ?>
 			<?php } ?>
