@@ -57,12 +57,12 @@
 						foreach ($doc as $field=>$value) { ?>
 							<?php if ($field == 'image') {?>
 								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
-									<a class="solr_search_image" href="<?php echo WEB_ROOT ?>/files/display/<?php echo $multivalue; ?>/fullsize">
-										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo WEB_ROOT ?>/files/display/<?php echo $multivalue; ?>/square_thumbnail"/>
+									<a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $multivalue) ?>">
+										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $multivalue) ?>"/>
 									</a>
 								<?php }} else { ?>
-									<a class="solr_search_image" href="<?php echo WEB_ROOT ?>/files/display/<?php echo $value; ?>/fullsize">
-										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo WEB_ROOT ?>/files/display/<?php echo $value; ?>/square_thumbnail"/>
+									<a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $value) ?>">
+										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $value) ?>"/>
 									</a>
 								<?php } ?>
 							<?php } ?>
