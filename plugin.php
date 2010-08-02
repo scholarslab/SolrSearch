@@ -490,12 +490,7 @@ function solr_search_sort_form() {
 }
 
 function solr_search_image_path($type='fullsize', $fileId){
-	$db = get_db();
-	$fn = $db->getTable('File')->find($fileId)->archive_filename;
-	
-	$path = array(	'fullsize'         => WEB_FULLSIZE.'/' . $fn,
-					'thumbnail'        => WEB_THUMBNAILS.'/' . $fn,
-					'square_thumbnail' => WEB_SQUARE_THUMBNAILS.'/' . $fn);
-	
-	return $path[$type];
+	$db = get_db();	
+	$file = $db->getTable('File')->find($fileId);
+	return $file->getWebPath($type);
 }
