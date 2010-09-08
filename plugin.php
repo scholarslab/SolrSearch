@@ -62,6 +62,12 @@ function solr_search_install()
 											'is_displayed'=>0,
 											'is_sortable'=>0));
 	
+	//item type
+	$db->insert('solr_search_facets', array('name'=>'itemtype',
+											'is_facet'=>0,
+											'is_displayed'=>0,
+											'is_sortable'=>0));
+	
 	//images
 	$db->insert('solr_search_facets', array('name'=>'image', 'is_displayed'=>0));
 	
@@ -72,8 +78,8 @@ function solr_search_install()
 	set_option('solr_search_rows', '10');
 	set_option('solr_search_facet_limit', '25');
 	
-	//add public items to Solr index
-	ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+	//add public items to Solr index - moved to config form submission
+	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
 }
 
 function solr_search_uninstall()
@@ -118,6 +124,7 @@ function solr_search_before_delete_item($item)
 function solr_search_after_save_item($item)
 {
 	$solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);	
+	//if item is public, save it to solr
 	if ($item['public'] == '1'){		
 		$db = get_db();
 		$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
@@ -147,11 +154,31 @@ function solr_search_after_save_item($item)
 			$doc->collection = $collectionName;
 		}
 		
-		//add images
-		$files = $db->getTable('File')->findBySql('item_id = ?', array($item['id']));
+		//add item type
+		if ($item['item_type_id'] > 0){
+			$itemType = $db->getTable('ItemType')->find($item['item_type_id'])->name;
+			$doc->itemtype = $itemType;
+		}
+		
+		//add images or index XML files
+		$files = $item->Files;
 		foreach ($files as $file){
+			$mimeType = $file->mime_browser;		
 			if($file['has_derivative_image'] == 1){
 				$doc->setMultiValue('image', $file['id']);
+			}
+			if ($mimeType == 'application/xml' || $mimeType == 'text/xml'){
+				$teiFile = $file->getPath('archive');
+				$xml_doc = new DomDocument;	
+				$xml_doc->load($teiFile);
+				$xpath = new DOMXPath($xml_doc);
+				$nodes = $xpath->query('//text()');
+				foreach ($nodes as $node){
+					$value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
+					if ($value != ' '){
+						$doc->setMultiValue('fulltext', $value);
+					}
+				}
 			}
 		}
 		
@@ -165,6 +192,7 @@ function solr_search_after_save_item($item)
 			echo $err->getMessage();
 		}
 	} else {
+		//if item is no longer set as public, remove the item from index
 		try {		
 			$solr->deleteByQuery('id:' . $item['id']);
 			$solr->commit();
@@ -172,6 +200,13 @@ function solr_search_after_save_item($item)
 		} catch ( Exception $err ) {
 			echo $err->getMessage();
 		}
+	}
+}
+
+function xml_dom_iteration($child){
+	$doc->setMultiValue('fulltext', $child);
+	foreach($child->children() as $child){
+		xml_dom_iteration($child);	
 	}
 }
 
@@ -254,8 +289,7 @@ function solr_search_config(){
  *********/
 function solr_search_options(){
     require "Zend/Form/Element.php";
-    $form = new Zend_Form();
-	//$form->setAction('solr-search/display/update');    	
+    $form = new Zend_Form();	
     $form->setMethod('post');
     $form->setAttrib('enctype', 'multipart/form-data');	
     
@@ -326,7 +360,6 @@ function solr_search_element_lookup($field){
 }
 
 function solr_search_result_link($doc){
-	
 	//get title of doc
 	$title = solr_search_doc_title($doc);
 	
@@ -335,21 +368,11 @@ function solr_search_result_link($doc){
 	return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
 }
 
+//get title of doc
 function solr_search_doc_title($doc){
-	if (is_array($doc->title)){
-		if ($doc->title[0] == ''){
-			$title = '[Untitled]';
-		} else{
-			$title = $doc->title[0];
-		}
-	} else {
-		if ($doc->title == ''){
-			$title = '[Untitled]';
-		} else{
-			$title = $doc->title;
-		}
-	}
-	
+	$db = get_db();
+	$item = $db->getTable('Item')->find($doc->id);
+	$title = strip_formatting(item('Dublin Core', 'Title', $options, $item));
 	return $title;
 }
 
@@ -455,13 +478,19 @@ function solr_search_sort_form() {
 	$fields = array();
 	$fields[''] = 'Relevancy';
 	foreach ($sortableList as $sortable){
-		$elements = $db->getTable('Element')->findBySql('element_set_id = ?', array($sortable['element_set_id']));
-		foreach ($elements as $element){
-			if ($element['name'] == $sortable['name']){
-				$fields[$element['id'] . '_s asc'] = $element['name'] . ', Ascending';
-				$fields[$element['id'] . '_s desc'] = $element['name'] . ', Descending';
+		if ($sortable->element_id != NULL){
+			$elements = $db->getTable('Element')->findBySql('element_set_id = ?', array($sortable['element_set_id']));
+			foreach ($elements as $element){
+				if ($element['name'] == $sortable['name']){
+					$fields[$element->id . '_s asc'] = $element->name . ', Ascending';
+					$fields[$element->id . '_s desc'] = $element->name . ', Descending';
+				}
 			}
+		} else {
+			$fields[$sortable->name . ' asc'] = ucwords($sortable->name) . ', Ascending';
+			$fields[$sortable->name . ' desc'] = ucwords($sortable->name) . ', Descending';
 		}
+
 	}
 	$sortField->setOptions(array('multiOptions'=>$fields));
 	$sortField->setDecorators(array('ViewHelper',

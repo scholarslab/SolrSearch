@@ -210,6 +210,7 @@
 		<field name="tag" type="string" indexed="true" stored="true" multiValued="true"/>
 		<field name="image" type="integer" indexed="true" stored="true" multiValued="true"/> 
 		<field name="collection" type="string" indexed="true" stored="true"/> 
+		<field name="itemtype" type="string" indexed="true" stored="true"/> 
 		
 		<dynamicField name="*_s" type="string" indexed="true" stored="true" multiValued="true"/> 
 

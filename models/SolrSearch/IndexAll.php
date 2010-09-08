@@ -13,6 +13,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
 		$docs = array();
 		
 		foreach ($items as $item){
+			//only index items if they are public
 			if ($item['public'] == '1'){
 				$elementTexts = $item->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
 				$doc = new Apache_Solr_Document();
@@ -37,11 +38,31 @@ class SolrSearch_IndexAll extends ProcessAbstract
 					$doc->collection = $collectionName;
 				}
 				
-				//add images
-				$files = $db->getTable('File')->findBySql('item_id = ?', array($item['id']));
+				//add item type
+				if ($item['item_type_id'] > 0){
+					$itemType = $db->getTable('ItemType')->find($item['item_type_id'])->name;
+					$doc->itemtype = $itemType;
+				}
+				
+				//add images or index XML files
+				$files = $item->Files;
 				foreach ($files as $file){
+					$mimeType = $file->mime_browser;		
 					if($file['has_derivative_image'] == 1){
 						$doc->setMultiValue('image', $file['id']);
+					}
+					if ($mimeType == 'application/xml' || $mimeType == 'text/xml'){						
+						$teiFile = $file->getPath('archive');
+						$xml_doc = new DomDocument;	
+						$xml_doc->load($teiFile);
+						$xpath = new DOMXPath($xml_doc);
+						$nodes = $xpath->query('//text()');
+						foreach ($nodes as $node){
+							$value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
+							if ($value != ' '){
+								$doc->setMultiValue('fulltext', $value);
+							}
+						}
 					}
 				}
 			//add docs to array to be posted to Solr
