@@ -67,6 +67,14 @@
 								<?php } ?>
 							<?php } ?>
 						<?php } ?>
+						
+						<?php 
+						//display highlighting, if applicable
+						if ($results->responseHeader->params->hl == 'true'){ ?>
+							<div class="solr_highlight">
+								<?php echo solr_search_display_snippets($doc->id, $results->highlighting); ?>
+							</div>
+						<?php } ?>					
 					</div>
 				<?php } ?>
 			<?php } ?>

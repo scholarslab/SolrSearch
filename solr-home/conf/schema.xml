@@ -206,18 +206,21 @@
    -->
 		<!-- unique id -->
 		<field name="id" type="string" indexed="true" stored="true" omitNorms="true"/>		
-		<field name="title" type="string" indexed="true" stored="true" multiValued="true"/> 
-		<field name="tag" type="string" indexed="true" stored="true" multiValued="true"/>
-		<field name="image" type="integer" indexed="true" stored="true" multiValued="true"/> 
-		<field name="collection" type="string" indexed="true" stored="true"/> 
-		<field name="itemtype" type="string" indexed="true" stored="true"/> 
+		<field name="title" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true"/> 
+		<field name="tag" type="string" indexed="true" stored="true" multiValued="true" omitNorms="true"/>
+		<field name="image" type="integer" indexed="true" stored="true" multiValued="true" omitNorms="true"/> 
+		<field name="collection" type="string" indexed="true" stored="true" omitNorms="true"/> 
+		<field name="itemtype" type="string" indexed="true" stored="true" omitNorms="true"/> 
 		
 		<dynamicField name="*_s" type="string" indexed="true" stored="true" multiValued="true"/> 
 
 		<!-- fulltext -->
-		<field name="fulltext" type="text" indexed="true" stored="false" multiValued="true"/>		
+		<field name="fulltext" type="text" indexed="true" stored="true" multiValued="true"/>		
 		<!-- copy all dynamic fields to fulltext -->
-		<copyField source="*" dest="fulltext"/>
+		<copyField source="*_s" dest="fulltext"/>
+		<copyField source="tag" dest="fulltext"/>
+		<copyField source="collection" dest="fulltext"/>
+		<copyField source="itemtype" dest="fulltext"/>
 	</fields>
 
 	<!-- field to use to determine and enforce document uniqueness. -->

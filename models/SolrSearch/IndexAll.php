@@ -59,7 +59,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
 						$nodes = $xpath->query('//text()');
 						foreach ($nodes as $node){
 							$value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
-							if ($value != ' '){
+							if ($value != ' ' && $value != ''){
 								$doc->setMultiValue('fulltext', $value);
 							}
 						}

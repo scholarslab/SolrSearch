@@ -1,7 +1,7 @@
 <?php
-    head(array('title' => 'Solr Search Facets', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+    head(array('title' => 'Solr Search Hit Highlighting Options', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
-<h1>Manage Solr Search Facets</h1>
+<h1>Hit Highlighting</h1>
 
 <div id="primary">
 	<?php echo flash(); ?>

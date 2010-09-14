@@ -77,6 +77,9 @@ function solr_search_install()
 	set_option('solr_search_core', '/solr/');
 	set_option('solr_search_rows', '10');
 	set_option('solr_search_facet_limit', '25');
+	set_option('solr_search_hl', 'false');
+	set_option('solr_search_snippets', '1');
+	set_option('solr_search_fragsize', '100');
 	
 	//add public items to Solr index - moved to config form submission
 	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
@@ -105,6 +108,9 @@ function solr_search_uninstall()
 	delete_option('solr_search_core');
 	delete_option('solr_search_rows');
 	delete_option('solr_search_facet_limit');
+	delete_option('solr_search_hl');
+	delete_option('solr_search_snippets');
+	delete_option('solr_search_fragsize');
 }
 
 // delete an item from the index
@@ -175,7 +181,7 @@ function solr_search_after_save_item($item)
 				$nodes = $xpath->query('//text()');
 				foreach ($nodes as $node){
 					$value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
-					if ($value != ' '){
+					if ($value != ' ' && $value != ''){
 						$doc->setMultiValue('fulltext', $value);
 					}
 				}
@@ -522,4 +528,19 @@ function solr_search_image_path($type='fullsize', $fileId){
 	$db = get_db();	
 	$file = $db->getTable('File')->find($fileId);
 	return $file->getWebPath($type);
+}
+
+function solr_search_display_snippets($id, $highlighting){
+	foreach ($highlighting as $k=>$v){
+		if ($k == $id){
+			foreach($v as $k=>$snippets){
+				foreach ($snippets as $snippet){
+					echo $snippet;
+					if ($snippet != end($snippets)){
+						echo ' <b>...</b> ';
+					}
+				}
+			}
+		}
+	}
 }

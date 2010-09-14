@@ -34,3 +34,6 @@
 #sort-label label{
 	display:inline;
 }
+.solr_highlight>em{
+	font-weight:bold;	
+}

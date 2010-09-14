@@ -1,13 +1,13 @@
 <?php
-    head(array('title' => 'Solr Search Configuration', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+    head(array('title' => 'Solr Search Hit Highlighting Options', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
-<h1>Configure Solr</h1>
+<h1>Hit Highlighting</h1>
 
 <ul id="section-nav" class="navigation">
-    <li class="current">
+    <li class="">
         <a href="<?php echo html_escape(uri('solr-search/config/')); ?>">Field Configuration</a>
     </li>
-    <li class="">
+    <li class="current">
         <a href="<?php echo html_escape(uri('solr-search/highlight/')); ?>">Hit Highlighting Options</a>
     </li>
 </ul>
@@ -19,7 +19,7 @@
                 echo '<p class="error">' . html_escape($err) . '</p>';
             }
         ?>
-    <p>Select facets from available fields below.</p>
+    <p>Select hit highlighting options from available fields below.</p>
 	<?php echo $form ?>
 </div>
 
