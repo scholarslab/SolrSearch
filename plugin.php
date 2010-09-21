@@ -305,7 +305,6 @@ function solr_search_options(){
     $solrServer->setLabel('Server:');
     $solrServer->setValue(get_option('solr_search_server'));
     $solrServer->setRequired('true');
-    $solrServer->addValidator(new Zend_Validate_Alnum());
     $form->addElement($solrServer);
     
 	$solrPort = new Zend_Form_Element_Text ('solr_search_port');
