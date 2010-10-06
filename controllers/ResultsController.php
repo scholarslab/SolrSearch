@@ -44,13 +44,14 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 		$hl = get_option('solr_search_hl');
 		$snippets = get_option('solr_search_snippets');
 		$fragsize = get_option('solr_search_fragsize');
+		$facetSort = get_option('solr_search_facet_sort');
 		
 		//get sort parameter
 		$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : '';
 		
 		//if there are facets selected, pass them to Solr
 		if (!empty($solrFacets)){
-			$additionalParams = array('fl'=>$displayFields, 'facet'=>'true', 'facet.mincount'=>1, 'facet.limit'=>SOLR_FACET_LIMIT, 'facet.field'=>$solrFacets, 'hl'=>$hl, 'hl.snippets'=>$snippets, 'hl.fragsize'=>$fragsize, 'sort'=>$sort);
+			$additionalParams = array('fl'=>$displayFields, 'facet'=>'true', 'facet.mincount'=>1, 'facet.limit'=>SOLR_FACET_LIMIT, 'facet.field'=>$solrFacets, 'hl'=>$hl, 'hl.snippets'=>$snippets, 'hl.fragsize'=>$fragsize, 'sort'=>$sort, 'facet.sort'=>$facetSort);
 			$results = $solr->search($query, $start, $rows, $additionalParams);
 		}
 		//do no pass facets

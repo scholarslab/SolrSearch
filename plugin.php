@@ -80,6 +80,7 @@ function solr_search_install()
 	set_option('solr_search_hl', 'false');
 	set_option('solr_search_snippets', '1');
 	set_option('solr_search_fragsize', '100');
+	set_option('solr_search_facet_sort', 'count');
 	
 	//add public items to Solr index - moved to config form submission
 	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
@@ -111,6 +112,7 @@ function solr_search_uninstall()
 	delete_option('solr_search_hl');
 	delete_option('solr_search_snippets');
 	delete_option('solr_search_fragsize');
+	delete_option('solr_search_facet_sort');
 }
 
 // delete an item from the index
@@ -327,6 +329,13 @@ function solr_search_options(){
     $solrRows->setRequired('true');
     $solrRows->addValidator(new Zend_Validate_Digits());
     $form->addElement($solrRows);
+    
+    $solrFacetSort = new Zend_Form_Element_Select ('solr_search_facet_sort');
+    $solrFacetSort->setLabel('Facet Sort Order:');
+    $solrFacetSort->addMultiOption('index', 'Alphabetical');
+	$solrFacetSort->addMultiOption('count', 'Occurrences');    
+    $solrFacetSort->setValue(get_option('solr_search_facet_sort'));
+    $form->addElement($solrFacetSort);
     
     $solrFacetLimit = new Zend_Form_Element_Text ('solr_search_facet_limit');
     $solrFacetLimit->setLabel('Maximum Facet Constraint Count:');
