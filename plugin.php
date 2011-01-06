@@ -190,6 +190,24 @@ function solr_search_after_save_item($item)
 			}
 		}
 		
+		//if FedoraConnector is installed, index fulltext of XML
+		if (function_exists('fedora_connector_installed')){
+			$datastreams = $db->getTable('FedoraConnector_Datastream')->findBySql('mime_type = ? AND item_id = ?', array('text/xml', $item->id));
+			foreach($datastreams as $datastream){
+				$teiFile = fedora_connector_content_url($datastream);
+				$fedora_doc = new DomDocument;
+				$fedora_doc->load($teiFile);
+				$xpath = new DOMXPath($fedora_doc);
+				$nodes = $xpath->query('//text()');
+				foreach ($nodes as $node){
+					$value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
+					if ($value != ' ' && $value != ''){
+						$doc->setMultiValue('fulltext', $value);
+					}
+				}
+			}
+		}
+		
 		$docs[] = $doc;
 		try {
 	    	$solr->addDocuments($docs);
@@ -235,7 +253,7 @@ function solr_search_define_routes($router)
 function solr_search_admin_navigation($tabs)
 {
     if (get_acl()->checkUserPermission('SolrSearch_Config', 'index')) {
-        $tabs['Solr Config'] = uri('solr-search/config/');        
+        $tabs['Configure Solr'] = uri('solr-search/config/');        
     }
     return $tabs;
 }

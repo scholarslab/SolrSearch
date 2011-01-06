@@ -51,6 +51,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
 					if($file['has_derivative_image'] == 1){
 						$doc->setMultiValue('image', $file['id']);
 					}
+					//if the file is XML, index the full text
 					if ($mimeType == 'application/xml' || $mimeType == 'text/xml'){						
 						$teiFile = $file->getPath('archive');
 						$xml_doc = new DomDocument;	
@@ -65,6 +66,24 @@ class SolrSearch_IndexAll extends ProcessAbstract
 						}
 					}
 				}
+				//if FedoraConnector is installed, index fulltext of XML
+				if (function_exists('fedora_connector_installed')){
+					$datastreams = $db->getTable('FedoraConnector_Datastream')->findBySql('mime_type = ? AND item_id = ?', array('text/xml', $item->id));
+					foreach($datastreams as $datastream){
+						$teiFile = fedora_connector_content_url($datastream);
+						$fedora_doc = new DomDocument;
+						$fedora_doc->load($teiFile);
+						$xpath = new DOMXPath($fedora_doc);
+						$nodes = $xpath->query('//text()');
+						foreach ($nodes as $node){
+							$value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
+							if ($value != ' ' && $value != ''){
+								$doc->setMultiValue('fulltext', $value);
+							}
+						}
+					}
+				}
+				
 			//add docs to array to be posted to Solr
 			$docs[] = $doc;
 			}
