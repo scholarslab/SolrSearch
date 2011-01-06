@@ -15,7 +15,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
 		foreach ($items as $item){
 			//only index items if they are public
 			if ($item['public'] == '1'){
-				$elementTexts = $item->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
+				$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
 				$doc = new Apache_Solr_Document();
 				$doc->id = $item['id'];
 				foreach ($elementTexts as $elementText){
