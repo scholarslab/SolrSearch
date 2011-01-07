@@ -9,13 +9,14 @@ class SolrSearch_IndexAll extends ProcessAbstract
 		$db = get_db();
 		$items = $db->getTable('Item')->findAll();
 
-		//define docs
-		$docs = array();
+		
 		
 		foreach ($items as $item){
 			//only index items if they are public
 			if ($item['public'] == '1'){
-				$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
+				//define docs
+				$docs = array();
+				$elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));
 				$doc = new Apache_Solr_Document();
 				$doc->id = $item['id'];
 				foreach ($elementTexts as $elementText){
@@ -86,11 +87,11 @@ class SolrSearch_IndexAll extends ProcessAbstract
 				
 			//add docs to array to be posted to Solr
 			$docs[] = $doc;
+			$solr->addDocuments($docs);
 			}
 		}
 		try {
-	    	$solr->addDocuments($docs);
-			$solr->commit();
+	    	$solr->commit();
 			$solr->optimize();
 		}
 		catch ( Exception $e ) {
