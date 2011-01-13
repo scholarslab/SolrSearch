@@ -1,4 +1,33 @@
 <?php
+/**
+ * SolrSearch Omeka Plugin setup file.
+ *
+ * This file will set up the SolrSearch plugin.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+ * applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * @package    omeka
+ * @subpackage SolrSearch
+ * @author     "Scholars Lab"
+ * @copyright  2010 The Board and Visitors of the University of Virginia
+ * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
+ * @version    $Id$
+ * @link       http://www.scholarslab.org
+ *
+ * PHP version 5
+ *
+ */
+?>
+
+<?php
+// Define Omeka constants
+
 define('SOLR_SEARCH_PLUGIN_VERSION', get_plugin_ini('SolrSearch', 'version'));
 define('SOLR_SERVER', get_option('solr_search_server'));
 define('SOLR_PORT', get_option('solr_search_port'));
@@ -22,68 +51,101 @@ add_filter('admin_navigation_main', 'solr_search_admin_navigation');
 add_plugin_hook('config_form', 'solr_search_config_form');
 add_plugin_hook('config', 'solr_search_config');
 
+/**
+ * Set up the database to hold information for Solr
+ */
 function solr_search_install()
 {
-	$db = get_db();
-	    
-	// create for facet mapping
-	$db->exec("CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
-			`id` int(10) unsigned NOT NULL auto_increment,
-			`element_id` int(10) unsigned,
-			`name` tinytext collate utf8_unicode_ci NOT NULL,	      
-			`element_set_id` int(10) unsigned,
-			`is_facet` tinyint unsigned,
-			`is_displayed` tinyint unsigned,			
-			`is_sortable` tinyint unsigned,
-	       PRIMARY KEY  (`id`)
-	       ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+    $db = get_db();
+    
+    // create table for facet mapping
+    $db->exec("CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
+        `id` int(10) unsigned NOT NULL auto_increment,
+        `element_id` int(10) unsigned,
+        `name` tinytext collate utf8_unicode_ci NOT NULL,
+        `element_set_id` int(10) unsigned,
+        `is_facet` tinyint unsigned,
+        `is_displayed` tinyint unsigned,	
+        `is_sortable` tinyint unsigned,
+        PRIMARY KEY  (`id`),
+        INDEX idx_solr_element_id (`element_id`),
+        INDEX idx_solr_elelent_set_id (`element_set_id`),
+        INDEX idx_solr_is_facet (`is_facet`),
+        INDEX idx_solr_is_displayed (`is_displayed`),
+        INDEX idx_solr_is_sortable (`is_sortable`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+    
+
+    $elements = $db->getTable('Element')->findAll();
+    
+    //add all element names to facet table for selection
+    foreach ($elements as $element){
+        $data = array(	
+            'element_id' => $element['id'],
+            'name' => $element['name'],
+            'element_set_id' => $element['element_set_id'],
+            'is_facet' => 0,
+            'is_displayed' => 0,
+            'is_sortable'=>0
+            );
+        
+        $db->insert('solr_search_facets', $data);
+    }
 	
-	$elements = $db->getTable('Element')->findAll();
+    //tag
+    $db->insert('solr_search_facets', array(
+        'name' => 'tag',
+        'is_facet' => 0,
+        'is_displayed' => 0,
+        'is_sortable' => 0
+        )
+     );
+    
+    //collection
+    $db->insert('solr_search_facets', array(
+        'name' => 'collection',
+        'is_facet' => 0,
+        'is_displayed' => 0,
+        'is_sortable' => 0)
+    );
 	
-	//add all element names to facet table for selection
-	foreach ($elements as $element){
-		$data = array(	'element_id' => $element['id'],
-						'name' => $element['name'],
-						'element_set_id' => $element['element_set_id'],
-						'is_facet' => 0,
-						'is_displayed' => 0,
-						'is_sortable'=>0);
-		$db->insert('solr_search_facets', $data);
-	}
-	//tag
-	$db->insert('solr_search_facets', array('name'=>'tag',
-											'is_facet'=>0,
-											'is_displayed'=>0,
-											'is_sortable'=>0));
+    //item type
+    $db->insert('solr_search_facets', array(
+        'name' => 'itemtype',
+        'is_facet' => 0,
+        'is_displayed' => 0,
+        'is_sortable' => 0
+     ));
 	
-	//collection
-	$db->insert('solr_search_facets', array('name'=>'collection',
-											'is_facet'=>0,
-											'is_displayed'=>0,
-											'is_sortable'=>0));
+    //images
+    $db->insert('solr_search_facets', array(
+        'name' => 'image', 
+        'is_displayed' => 0
+        )
+    );
 	
-	//item type
-	$db->insert('solr_search_facets', array('name'=>'itemtype',
-											'is_facet'=>0,
-											'is_displayed'=>0,
-											'is_sortable'=>0));
-	
-	//images
-	$db->insert('solr_search_facets', array('name'=>'image', 'is_displayed'=>0));
-	
-	//set solr options
-	set_option('solr_search_server', 'localhost');
-	set_option('solr_search_port', '8080');
-	set_option('solr_search_core', '/solr/');
-	set_option('solr_search_rows', '10');
-	set_option('solr_search_facet_limit', '25');
-	set_option('solr_search_hl', 'false');
-	set_option('solr_search_snippets', '1');
-	set_option('solr_search_fragsize', '100');
-	set_option('solr_search_facet_sort', 'count');
+    set_default_options(); // set default options
 	
 	//add public items to Solr index - moved to config form submission
 	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+}
+
+
+/**
+ * Set default options for the plugin
+ */
+function set_default_options()
+{
+    //set solr options
+    set_option('solr_search_server',      'localhost');
+    set_option('solr_search_port',        '8080');
+    set_option('solr_search_core',        '/solr/');
+    set_option('solr_search_rows',        '10');
+    set_option('solr_search_facet_limit', '25');
+    set_option('solr_search_hl',          'false');
+    set_option('solr_search_snippets',    '1');
+    set_option('solr_search_fragsize',    '100');
+    set_option('solr_search_facet_sort',  'count');
 }
 
 function solr_search_uninstall()
