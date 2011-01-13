@@ -410,17 +410,7 @@ function solr_search_public_header($request)
  */
 function solr_search_config_form()
 {
-    $form = solr_search_options();
-    
-    $css = <<<CSS
-    <style type="text/css">.zend_form>dd{ margin-bottom:20px; }</style>
-    <div class="field">
-        <h3>Solr Options</h3>
-        <p class="explanation">Set Solr options.</p>
-        $form
-    </div>   
-CSS;
-   
+    include 'config_form.php';
 }
 
 /**
@@ -452,7 +442,7 @@ function solr_search_config(){
  * @return Zend_Form 
  */
 function solr_search_options(){
-    require "Zend/Form/Element.php";
+    require_once "Zend/Form/Element.php";
     
     $form = new Zend_Form();	
     $form->setMethod('post');
@@ -466,7 +456,7 @@ function solr_search_options(){
     $solrServer->setRequired('true');
     $form->addElement($solrServer);
     
-	$solrPort = new Zend_Form_Element_Text ('solr_search_port');
+    $solrPort = new Zend_Form_Element_Text ('solr_search_port');
     $solrPort->setLabel('Port:');
     $solrPort->setValue(get_option('solr_search_port'));
     $solrPort->setRequired('true');
