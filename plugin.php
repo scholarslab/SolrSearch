@@ -35,12 +35,13 @@ define('SOLR_CORE', get_option('solr_search_core'));
 define('SOLR_ROWS', get_option('solr_search_rows'));
 define('SOLR_FACET_LIMIT', get_option('solr_search_facet_limit'));
 
-define('DEBUG_STATUS', 'debug'); 
+define('DEBUG_STATUS', 'debug'); // needs to be pulled from system log_level param
 
 require_once 'lib/Document.php';
 require_once 'lib/Response.php';
 require_once 'lib/Service.php';
 
+// Plugin hooks
 add_plugin_hook('install', 'solr_search_install');
 add_plugin_hook('uninstall', 'solr_search_uninstall');
 add_plugin_hook('before_delete_item', 'solr_search_before_delete_item');
@@ -49,15 +50,25 @@ add_plugin_hook('define_routes', 'solr_search_define_routes');
 add_plugin_hook('define_acl', 'solr_search_define_acl');
 add_plugin_hook('admin_theme_header', 'solr_search_admin_header');
 add_plugin_hook('public_theme_header', 'solr_search_public_header');
-add_filter('admin_navigation_main', 'solr_search_admin_navigation');
 add_plugin_hook('config_form', 'solr_search_config_form');
 add_plugin_hook('config', 'solr_search_config');
+
+// Filters for the plugin
+add_filter('admin_navigation_main', 'solr_search_admin_navigation');
+
+$log_file = LOGS_DIR . DIRECTORY_SEPARATOR . 'solrsearch.log';
+$writer = new Zend_Log_Writer_Stream($log_file);
+$logger = new Zend_Log($writer);
+
+
 
 /**
  * Set up the database to hold information for Solr
  */
 function solr_search_install()
 {
+    $logger->debug('Installing plugin');
+    
     $db = get_db();
     
     // create table for facet mapping
@@ -76,9 +87,11 @@ function solr_search_install()
         INDEX idx_solr_is_displayed (`is_displayed`),
         INDEX idx_solr_is_sortable (`is_sortable`)
     ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-    
 
     $elements = $db->getTable('Element')->findAll();
+    
+    
+    $logger->debug(var_dump($elements));
     
     //add all element names to facet table for selection
     foreach ($elements as $element){
@@ -151,25 +164,10 @@ function set_default_options()
 }
 
 /**
- * Uninstall the SolrSearch plugin
+ * Delete options set by the plugin
  */
-function solr_search_uninstall()
+function remove_options()
 {
-    // Drop the table.
-    $db = get_db();
-    $sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
-    $db->query($sql);
-	
-    //delete Solr documents from index
-    $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-    try {		
-        $solr->deleteByQuery('*:*');
-	$solr->commit();
-	$solr->optimize(); 
-    } catch ( Exception $err ) {
-	echo $err->getMessage();
-    }
-	
     //delete solr options
     delete_option('solr_search_server');
     delete_option('solr_search_port');
@@ -181,6 +179,53 @@ function solr_search_uninstall()
     delete_option('solr_search_fragsize');
     delete_option('solr_search_facet_sort');
 }
+
+/**
+ * Uninstall the SolrSearch plugin
+ */
+function solr_search_uninstall()
+{
+    // Drop the table.
+    $db = get_db();
+    $sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
+    $db->query($sql);
+	 
+    remove_index();     // clean up the index	
+    remove_options();   // clean up omeka options table
+}
+
+/**
+ * Removes all items from the index
+ * 
+ * @return void
+ * 
+ * TODO: Is this a good idea?
+ */
+function remove_index()
+{
+    $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+    try {		
+        $solr->deleteByQuery('*:*');
+	$solr->commit();
+	$solr->optimize(); 
+    } catch ( Exception $err ) {
+	echo $err->getMessage();
+    }
+    
+    return;
+}
+
+
+
+/**
+ * Display the configuration form
+ * 
+ */
+function solr_search_config_form()
+{
+    include 'config_form.php';
+}
+
 
 /**
  * Delete an item from the index
@@ -404,17 +449,10 @@ function solr_search_public_header($request)
 }
 
 /**
- * Select fields to display in Solr search results
- * 
- * TODO: Refactor out of here...
- */
-function solr_search_config_form()
-{
-    include 'config_form.php';
-}
-
-/**
  * Post displayable fields to index
+ * 
+ * TODO: this goes in the admin controller...
+ * 
  */
 function solr_search_config(){
     $form = solr_search_options();
@@ -444,11 +482,11 @@ function solr_search_config(){
 function solr_search_options(){
     require_once "Zend/Form/Element.php";
     
+    $db = get_db();
+    
     $form = new Zend_Form();	
     $form->setMethod('post');
     $form->setAttrib('enctype', 'multipart/form-data');	
-    
-    $db = get_db();
     
     $solrServer = new Zend_Form_Element_Text ('solr_search_server');
     $solrServer->setLabel('Server:');
@@ -480,7 +518,7 @@ function solr_search_options(){
     $solrFacetSort = new Zend_Form_Element_Select ('solr_search_facet_sort');
     $solrFacetSort->setLabel('Facet Sort Order:');
     $solrFacetSort->addMultiOption('index', 'Alphabetical');
-	$solrFacetSort->addMultiOption('count', 'Occurrences');    
+    $solrFacetSort->addMultiOption('count', 'Occurrences');    
     $solrFacetSort->setValue(get_option('solr_search_facet_sort'));
     $form->addElement($solrFacetSort);
     
@@ -494,289 +532,3 @@ function solr_search_options(){
     return $form;
 }
 
-/*********
- * Custom Theme Helpers
- *********/
-
-/**
- * Create a default search form
- * 
- * TODO: Refactor the helpers
- * 
- * @param type $buttonText
- * @param type $formProperties
- * @return string 
- */
-function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'simple-search')) 
-{ 
-    $uri = WEB_ROOT . '/solr-search/results/';
-    $formProperties['action'] = $uri;
-    $formProperties['method'] = 'get';
-    $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
-    $html .= '<fieldset>' . "\n\n";
-    $html .= __v()->formText('q', '', array('name'=>'textinput','class'=>'textinput'));
-    $html .= __v()->formSubmit('submit_search', $buttonText);
-    $html .= '</fieldset>' . "\n\n";
-    $html .= '</form>';
-    return $html;
-}
-
-/**
- *
- * Lookup the element name for a solr element
- * 
- * TODO: store this in the solr index
- * 
- * @param type $field
- * @return type 
- */
-function solr_search_element_lookup($field){
-    $fieldarray = explode('_', $field);
-    $fieldId = $fieldarray[0];
-    $db = get_db();
-    $element = $db->getTable('Element')->find($fieldId);
-    return $element['name'];
-}
-
-/**
- * Generate a Results link for SolrSearch
- * 
- * @param type $doc
- * @return type 
- */
-function solr_search_result_link($doc){
-    //get title of doc
-    $title = solr_search_doc_title($doc);
-	
-    //generate link to item
-    $uri = html_escape(WEB_ROOT) . '/items/show/';
-    return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
-}
-
-/**
- * Return the title of doc
- * 
- * TODO: limit DB lookups
- * 
- * @param type $doc
- * @return string Title of the item
- */
-function solr_search_doc_title($doc){
-    $db = get_db();
-    $item = $db->getTable('Item')->find($doc->id);
-    $title = strip_formatting(item('Dublin Core', 'Title', $options, $item));
-    return $title;
-}
-
-/**
- * Create a SolrFacetLink
- * 
- * @param type $facet
- * @param type $label
- * @param type $count
- * @return string 
- */
-function solr_search_facet_link($facet,$label,$count){
-    $uri = html_escape(WEB_ROOT) . '/solr-search/results/';
-	//if the query contains one of the facets in the list
-    
-    //TODO: refactor
-    if(strstr($_REQUEST['q'], $facet . ':"' . $label . '"')) {
-        //generate remove facet link
-        $removeFacetLink = solr_search_remove_facet($facet,$label);		
-	
-        $html .= '<div class="fn"><b>' . $label . '</b></div>';
-        $html .= '<div class="fc">' . $removeFacetLink . '</div>';
-        
-        return $html;
-    } else{
-      //otherwise just display a link to a new query with the facet count
-        $html .= "<div class='fn'><a href='" . $uri . '?q=' . html_escape($_REQUEST['q']) . ' AND ' . $facet . ':&#x022;' . $label ."&#x022;'>" . $label . '</a></div>';
-        $html .= '<div class="fc">' . $count . '</div>';
-	return $html;
-    }
-    
-    return $html;
-}
-
-/**
- * Create a new anchor with a field popped 
- * 
- * @return string 
- */
-function solr_search_remove_facets()
-{
-    $uri = html_escape(WEB_ROOT) . '/solr-search/results/';
-    $queryParams = explode(' AND ', $_REQUEST['q']);
-	
-    //if there is only one tokenized string in the query and that string is *:*, return ALL TERMS text
-    if ($queryParams[0] == end($queryParams) && $queryParams[0] == '*:*'){
-        $html = '<li><b>ALL TERMS</b></li>';
-    } else { //otherwise continue with process of displaying facets and removal links
-        
-        foreach ($queryParams as $param){
-            $paramSplit = explode(':', $param);
-            
-            if ($paramSplit[1] != NULL){
-                $facet = $paramSplit[0];
-                $label = str_replace('"', '', $paramSplit[1]);
-                
-                if (strstr($param, '_')) { 
-                    $category = solr_search_element_lookup($facet);     
-                } else { 
-                    $category = ucwords($facet); 
-                    
-                }	
-                
-                if ($facet != '*'){
-                    $html .= '<li><b>' . $category . ':</b> ';
-                    $html .= $label . ' ' . solr_search_remove_facet($facet,$label) . '</li>';
-                }
-                
-            } else {
-                $html .= '<li><b>Keyword:</b> ' . $param . ' [<a href="' . $uri . '?q='. str_replace($param, '*:*', html_escape($_REQUEST['q'])) .'">X</a>]</li>';
-            }
-        }	
-    }
-
-    return $html;
-}
-
-function solr_search_remove_facet($facet,$label){
-	//deconstruct current query and remove particular facet
-	$queryParams = explode(' AND ', $_REQUEST['q']);
-	$newParams= array();
-	$removeFacetLink = "[<a href='" . $uri . '?q=';		
-	foreach ($queryParams as $key => $queryParam){
-		if($queryParam != $facet . ':"' . $label . '"'){
-			$newParams[] = $queryParam;
-		}
-	}
-	//if there is only one query parameter, a facet that has been removed, search everything by default
-	if (empty($newParams)){
-		$removeFacetLink .= '*:*';
-	}
-	//build new query
-	else {
-		$removeFacetLink .= implode(' AND ', $newParams);
-	}		
-	$removeFacetLink .= "'>X</a>]";
-	return $removeFacetLink;
-}
-
-/**
- *
- * @return Zend_Form 
- */
-function solr_search_sort_form() {
-    
-    $uri = html_escape(WEB_ROOT) . '/solr-search/results/';
-    require "Zend/Form/Element.php";
-    
-    $form = new Zend_Form();
-    $form->setAction($uri);    	
-    $form->setMethod('get');
-    $form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'div')),'Form',));	
-	
-    $query = new Zend_Form_Element_Hidden('q');
-    $query->setValue($_REQUEST['q']);
-    $query->setDecorators(
-            array('ViewHelper',
-                array(array('data' => 'HtmlTag'), 
-                array('tag' => 'span', 'class' => 'element')),
-                array('Label', array('tag' => 'span')),));	
-    
-    $form->addElement($query);
-	
-    $sortField = new Zend_Form_Element_Select('sort');
-    $sortField->setLabel('Sorted By:');
-	
-    //get sortable fields
-    $db = get_db();
-    $sortableList = $db->getTable('SolrSearch_Facet')->findBySql('is_sortable = ?', array('1'));
-
-    //sortable fields
-    $fields = array();
-    $fields[''] = 'Relevancy';
-    foreach ($sortableList as $sortable){
-        if ($sortable->element_id != NULL){
-            $elements = $db->getTable('Element')->findBySql('element_set_id = ?', array($sortable['element_set_id']));
-
-            foreach ($elements as $element){
-                if ($element['name'] == $sortable['name']){
-                    $fields[$element->id . '_s asc'] = $element->name . ', Ascending';
-                    $fields[$element->id . '_s desc'] = $element->name . ', Descending';
-		}
-            }
-	} else {
-            $fields[$sortable->name . ' asc'] = ucwords($sortable->name) . ', Ascending';
-            $fields[$sortable->name . ' desc'] = ucwords($sortable->name) . ', Descending';
-	}
-
-    }
-    
-    $sortField->setOptions(array('multiOptions'=>$fields));
-    $sortField->setDecorators(array('ViewHelper',
-        array(
-            array('data' => 'HtmlTag'), 
-            array('tag' => 'span', 'class' => 'element')),
-        array('Label', array('tag' => 'span')),));
-				
-	//select the current sorted option
-    $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : '';
-    $sortField->setValue($sort);				
-    $form->addElement($sortField);
-	
-    //Submit button
-    $form->addElement('submit','submit');
-    $submitElement=$form->getElement('submit');
-    $submitElement->setLabel('Go');
-    $submitElement->setDecorators(array(
-        'ViewHelper', array(
-            array('data' => 'HtmlTag'), 
-            array('tag' => 'span', 'class' => 'element')),));		
-	
-        
-    // only return the form if there are sortable fields (other than relevancy)
-    if (count($fields) > 1){
-        return $form;
-    } else {
-        return '';
-    }
-	
-}
-
-/**
- * Return the path for an image
- * 
- * @param type $type
- * @param type $fileId
- * @return type 
- */
-function solr_search_image_path($type='fullsize', $fileId){
-    $db = get_db();	
-    $file = $db->getTable('File')->find($fileId);
-    return $file->getWebPath($type);
-}
-
-/**
- * Display a search snippet if enabled
- * 
- * @param type $id
- * @param type $highlighting 
- */
-function solr_search_display_snippets($id, $highlighting){
-    foreach ($highlighting as $k=>$v){
-        if ($k == $id){
-            foreach($v as $k=>$snippets){
-                foreach ($snippets as $snippet){
-                    echo $snippet;
-                    
-                    if ($snippet != end($snippets)){
-                        echo ' <b>...</b> ';
-                    }
-                }
-            }
-        }
-    }
-}
