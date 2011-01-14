@@ -35,7 +35,8 @@ define('SOLR_CORE', get_option('solr_search_core'));
 define('SOLR_ROWS', get_option('solr_search_rows'));
 define('SOLR_FACET_LIMIT', get_option('solr_search_facet_limit'));
 
-define('DEBUG_STATUS', 'debug'); // needs to be pulled from system log_level param
+// TODO: is this necessary?
+define('DEBUG_STATUS', 'debug'); 
 
 require_once 'lib/Document.php';
 require_once 'lib/Response.php';
@@ -56,8 +57,8 @@ add_plugin_hook('config', 'solr_search_config');
 // Filters for the plugin
 add_filter('admin_navigation_main', 'solr_search_admin_navigation');
 
-$log_file = LOGS_DIR . DIRECTORY_SEPARATOR . 'solrsearch.log';
-$writer = new Zend_Log_Writer_Stream($log_file);
+$logFile = LOGS_DIR . DIRECTORY_SEPARATOR . 'solrsearch.log';
+$writer = new Zend_Log_Writer_Stream($logFile);
 $logger = new Zend_Log($writer);
 
 
@@ -72,7 +73,8 @@ function solr_search_install()
     $db = get_db();
     
     // create table for facet mapping
-    $db->exec("CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
+    $db->exec(
+        "CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
         `id` int(10) unsigned NOT NULL auto_increment,
         `element_id` int(10) unsigned,
         `name` tinytext collate utf8_unicode_ci NOT NULL,
@@ -86,7 +88,8 @@ function solr_search_install()
         INDEX idx_solr_is_facet (`is_facet`),
         INDEX idx_solr_is_displayed (`is_displayed`),
         INDEX idx_solr_is_sortable (`is_sortable`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
+    );
 
     $elements = $db->getTable('Element')->findAll();
     
@@ -94,7 +97,7 @@ function solr_search_install()
     $logger->debug(var_dump($elements));
     
     //add all element names to facet table for selection
-    foreach ($elements as $element){
+    foreach ($elements as $element) {
         $data = array(	
             'element_id' => $element['id'],
             'name' => $element['name'],
@@ -106,43 +109,53 @@ function solr_search_install()
         
         $db->insert('solr_search_facets', $data);
     }
-	
+
     //tag
-    $db->insert('solr_search_facets', array(
-        'name' => 'tag',
-        'is_facet' => 0,
-        'is_displayed' => 0,
-        'is_sortable' => 0
+    $db->insert(
+        'solr_search_facets', 
+        array(
+            'name' => 'tag',
+            'is_facet' => 0,
+            'is_displayed' => 0,
+            'is_sortable' => 0
         )
-     );
+    );
     
     //collection
-    $db->insert('solr_search_facets', array(
-        'name' => 'collection',
-        'is_facet' => 0,
-        'is_displayed' => 0,
-        'is_sortable' => 0)
-    );
-	
-    //item type
-    $db->insert('solr_search_facets', array(
-        'name' => 'itemtype',
-        'is_facet' => 0,
-        'is_displayed' => 0,
-        'is_sortable' => 0
-     ));
-	
-    //images
-    $db->insert('solr_search_facets', array(
-        'name' => 'image', 
-        'is_displayed' => 0
+    $db->insert(
+        'solr_search_facets', 
+        array(
+            'name' => 'collection',
+            'is_facet' => 0,
+            'is_displayed' => 0,
+            'is_sortable' => 0
         )
     );
-	
+
+    //item type
+    $db->insert(
+        'solr_search_facets', 
+        array(
+            'name' => 'itemtype',
+            'is_facet' => 0,
+            'is_displayed' => 0,
+            'is_sortable' => 0
+        )
+    );
+
+    //images
+    $db->insert(
+        'solr_search_facets', 
+        array(
+            'name' => 'image', 
+            'is_displayed' => 0
+        )
+    );
+
     set_default_options(); // set default options
-	
-	//add public items to Solr index - moved to config form submission
-	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+    
+    //add public items to Solr index - moved to config form submission
+    //ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
 }
 
 
@@ -152,15 +165,15 @@ function solr_search_install()
 function set_default_options()
 {
     //set solr options
-    set_option('solr_search_server',      'localhost');
-    set_option('solr_search_port',        '8080');
-    set_option('solr_search_core',        '/solr/');
-    set_option('solr_search_rows',        '10');
+    set_option('solr_search_server', 'localhost');
+    set_option('solr_search_port', '8080');
+    set_option('solr_search_core', '/solr/');
+    set_option('solr_search_rows', '10');
     set_option('solr_search_facet_limit', '25');
-    set_option('solr_search_hl',          'false');
-    set_option('solr_search_snippets',    '1');
-    set_option('solr_search_fragsize',    '100');
-    set_option('solr_search_facet_sort',  'count');
+    set_option('solr_search_hl', 'false');
+    set_option('solr_search_snippets', '1');
+    set_option('solr_search_fragsize', '100');
+    set_option('solr_search_facet_sort', 'count');
 }
 
 /**
@@ -189,7 +202,7 @@ function solr_search_uninstall()
     $db = get_db();
     $sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
     $db->query($sql);
-	 
+
     remove_index();     // clean up the index	
     remove_options();   // clean up omeka options table
 }
@@ -206,10 +219,10 @@ function remove_index()
     $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
     try {		
         $solr->deleteByQuery('*:*');
-	$solr->commit();
-	$solr->optimize(); 
+        $solr->commit();
+        $solr->optimize(); 
     } catch ( Exception $err ) {
-	echo $err->getMessage();
+        echo $err->getMessage();
     }
     
     return;
@@ -254,7 +267,7 @@ function solr_search_after_save_item($item)
 {
     $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);	
     //if item is public, save it to solr
-    if ($item['public'] == '1'){		
+    if ($item['public'] == '1') {		
         $db = get_db();
         $elementTexts = $db->getTable('ElementText')->findBySql('record_id = ?', array($item['id']));	
 	
@@ -263,31 +276,31 @@ function solr_search_after_save_item($item)
         $doc = new Apache_Solr_Document();
         $doc->id = $item['id'];
         
-        foreach ($elementTexts as $elementText){
+        foreach ($elementTexts as $elementText) {
             $titleCount = 0;
             $fieldName = $elementText['element_id'] . '_s';
             $doc->setMultiValue($fieldName, $elementText['text']);
            
             //store Dublin Core titles as separate fields
-            if ($elementText['element_id'] == 50){
+            if ($elementText['element_id'] == 50) {
                 $doc->setMultiValue('title', $elementText['text']);
                 
             }
         }
 		
         //add tags			
-        foreach($item->Tags as $key => $tag){
+        foreach($item->Tags as $key => $tag) {
             $doc->setMultiValue('tag', $tag);
         }
 	
         //add collection
-        if ($item['collection_id'] > 0){
+        if ($item['collection_id'] > 0) {
             $collectionName = $db->getTable('Collection')->find($item['collection_id'])->name;
             $doc->collection = $collectionName;
         }
 		
         //add item type
-        if ($item['item_type_id'] > 0){
+        if ($item['item_type_id'] > 0) {
             $itemType = $db->getTable('ItemType')->find($item['item_type_id'])->name;
             $doc->itemtype = $itemType;
         }
@@ -295,53 +308,59 @@ function solr_search_after_save_item($item)
         //add images or index XML files
         $files = $item->Files;
         
-        foreach ($files as $file){
+        foreach ($files as $file) {
             $mimeType = $file->mime_browser;
             
-            if($file['has_derivative_image'] == 1){
+            if($file['has_derivative_image'] == 1) {
                 $doc->setMultiValue('image', $file['id']);
             }
             
-            if ($mimeType == 'application/xml' || $mimeType == 'text/xml'){
+            if ($mimeType == 'application/xml' || $mimeType == 'text/xml') {
                 
                 $teiFile = $file->getPath('archive');
                 
-                $xml_doc = new DomDocument;	
-                $xml_doc->load($teiFile);
-                $xpath = new DOMXPath($xml_doc);
+                $xmlDoc = new DomDocument;	
+                $xmlDoc->load($teiFile);
+                $xpath = new DOMXPath($xmlDoc);
                 $nodes = $xpath->query('//text()');
                 
-                foreach ($nodes as $node){
-                    $value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
+                foreach ($nodes as $node) {
                     
-                    if ($value != ' ' && $value != ''){
-                        $doc->setMultiValue('fulltext', $value);
-                    }
+                    $value = preg_replace(
+                        '/\s\s+/', 
+                        ' ', 
+                        trim($node->nodeValue)
+                    );
                     
-                }
-             }
-        }
-		
-        //if FedoraConnector is installed, index fulltext of XML
-        if (function_exists('fedora_connector_installed')){
-            $datastreams = $db->getTable('FedoraConnector_Datastream')->findBySql('mime_type = ? AND item_id = ?', array('text/xml', $item->id));
-
-            foreach($datastreams as $datastream){
-                $teiFile = fedora_connector_content_url($datastream);
-                $fedora_doc = new DomDocument;
-                $fedora_doc->load($teiFile);
-                $xpath = new DOMXPath($fedora_doc);
-                $nodes = $xpath->query('//text()');
-                foreach ($nodes as $node){
-                    $value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
-                    
-                    if ($value != ' ' && $value != ''){
+                    if ($value != ' ' && $value != '') {
                         $doc->setMultiValue('fulltext', $value);
                     }
                     
                 }
             }
-	}
+        }
+		
+        //if FedoraConnector is installed, index fulltext of XML
+        if (function_exists('fedora_connector_installed')) {
+            $datastreams = $db->getTable('FedoraConnector_Datastream')->findBySql('mime_type = ? AND item_id = ?', array('text/xml', $item->id));
+
+            foreach ($datastreams as $datastream) {
+                $teiFile = fedora_connector_content_url($datastream);
+                $fedoraDoc = new DomDocument;
+                $fedoraDoc->load($teiFile);
+                $xpath = new DOMXPath($fedoraDoc);
+                $nodes = $xpath->query('//text()');
+                
+                foreach ($nodes as $node) {
+                    $value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
+                    
+                    if ($value != ' ' && $value != '') {
+                        $doc->setMultiValue('fulltext', $value);
+                    }
+                    
+                }
+            }
+        }
 		
         $docs[] = $doc;
         
@@ -349,10 +368,9 @@ function solr_search_after_save_item($item)
             $solr->addDocuments($docs);
             $solr->commit();
             $solr->optimize();
-            
         } catch ( Exception $err ) {
             echo $err->getMessage(); // TODO: send to logger
-	}
+        }
 	
         
     } else {
@@ -363,19 +381,20 @@ function solr_search_after_save_item($item)
             $solr->optimize(); 
         } catch ( Exception $err ) {
             echo $err->getMessage();// TODO: send to logger
-	}
+        }
         
-   }
+    }
 }
 
 /**
  *
  * @param type $child 
  */
-function xml_dom_iteration($child){
+function xml_dom_iteration($child)
+{
     $doc->setMultiValue('fulltext', $child);
     
-    foreach($child->children() as $child){
+    foreach ($child->children() as $child) {
         xml_dom_iteration($child);	
     }
 }
@@ -443,7 +462,8 @@ function solr_search_admin_header($request)
 function solr_search_public_header($request)
 {
     if ($request->getModuleName() == 'solr-search') {
-        echo '<link rel="stylesheet" href="' . html_escape(css('solr_search_public')) . '" />';
+        $css_url = html_escape(css('solr_search_public'));
+        echo '<link rel="stylesheet" href="' . $css_url . '" />';
         //echo js('generic_xml_import_main');
     }
 }
@@ -460,14 +480,14 @@ function solr_search_config(){
     if ($form->isValid($_POST)) {    
        //get posted values		
        $uploadedData = $form->getValues();
-		
+       
         //cycle through each checkbox
-        foreach ($uploadedData as $k => $v){
-            if ($k != 'submit'){
+        foreach ($uploadedData as $k => $v) {
+            if ($k != 'submit') {
                 set_option($k, $v);
             }		
         }
-	
+
         ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
     }
 }
@@ -479,7 +499,8 @@ function solr_search_config(){
  * 
  * @return Zend_Form 
  */
-function solr_search_options(){
+function solr_search_options()
+{
     require_once "Zend/Form/Element.php";
     
     $db = get_db();

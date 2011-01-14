@@ -41,80 +41,84 @@
         $form->setMethod('post');
         
         $form->addElement(
-                'text', 
-                'solr_search_server',
-                array(
-                    'required' => true,
-                    'label' => 'Server Host:',
-                    'value' => get_option('solr_search_server')
-                )
+            'text', 
+            'solr_search_server',
+            array(
+                'required' => true,
+                'label' => 'Server Host:',
+                'value' => get_option('solr_search_server')
+            )
         );
         
         $form->addElement(
-                'text', 
-                'solr_search_port',
-                array(
-                    'validators' => array('alnum'),
-                    'required' => true,
-                    'label' => 'Server Port:',
-                    'value' => get_option('solr_search_port')
-                    
-                )
+            'text', 
+            'solr_search_port',
+            array(
+                'validators' => array('alnum'),
+                'required' => true,
+                'label' => 'Server Port:',
+                'value' => get_option('solr_search_port')
+
+            )
         );
         
         $form->addElement(
-                'text', 
-                'solr_search_port',
-                array(
-                    'validators' => array('alnum'),
-                    'required' => true,
-                    'label' => 'Server Port:',
-                    'value' => get_option('solr_search_port')
-                )
+            'text', 
+            'solr_search_port',
+            array(
+                'validators' => array('alnum'),
+                'required' => true,
+                'label' => 'Server Port:',
+                'value' => get_option('solr_search_port')
+            )
         );
         
         $form->addElement(
-                'text', 
-                'solr_search_core',
-                array(
-                    'validators' => array('alnum', array('regex', false, '/\/.*\//i')),
-                    'required' => true,
-                    'label' => 'Solr Core Name:',
-                    'value' => get_option('solr_search_core')
-                )
+            'text', 
+            'solr_search_core',
+            array(
+                'validators' => array('alnum', array(
+                    'regex', 
+                    false, 
+                    '/\/.*\//i'
+                    )),
+                'required' => true,
+                'label' => 'Solr Core Name:',
+                'value' => get_option('solr_search_core')
+            )
         );
         
         $form->addElement(
-                'text', 
-                'solr_search_rows',
-                array(
-                    'validators' => array('alnum'),
-                    'required' => true,
-                    'label' => 'Results Per Page:',
-                    'value' => get_option('solr_search_rows')
-                )
+            'text', 
+            'solr_search_rows',
+            array(
+                'validators' => array('alnum'),
+                'required' => true,
+                'label' => 'Results Per Page:',
+                'value' => get_option('solr_search_rows')
+            )
         );
         
         $form->addElement(
-                'select', 
-                'solr_search_facet_sort',
-                array(
-                    'validators' => array('alnum'),
-                    'required' => true,
-                    'label' => 'Default Sort Order:',
-                    'value' => get_option('solr_search_facet_sort')
-                )
+            'select', 
+            'solr_search_facet_sort',
+            array(
+                'validators' => array('alnum'),
+                'required' => true,
+                'label' => 'Default Sort Order:',
+                'value' => get_option('solr_search_facet_sort')
+            )
         );
         
         $form->addElement(
-                'text', 
-                'solr_search_facet_limit',
-                array(
-                    'validators' => array('alnum'),
-                    'required' => true,
-                    'label' => 'Maximum Facet Count:',
-                    'value' => get_option('solr_search_facet_limit')
-                )
+            'text', 
+            'solr_search_facet_limit',
+            array(
+                'validators' => array('alnum'),
+                'required' => true,
+                'label' => 'Maximum Facet Count:',
+                'value' => get_option('solr_search_facet_limit')
+            )
         );
         
         
