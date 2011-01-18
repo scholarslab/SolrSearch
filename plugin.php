@@ -61,14 +61,15 @@ $logFile = LOGS_DIR . DIRECTORY_SEPARATOR . 'solrsearch.log';
 $writer = new Zend_Log_Writer_Stream($logFile);
 $logger = new Zend_Log($writer);
 
-
+$logger->info('Starting the plugin...');
 
 /**
  * Set up the database to hold information for Solr
+ * 
  */
 function solr_search_install()
 {
-    $logger->debug('Installing plugin');
+    $logger->info('Installing plugin...');
     
     $db = get_db();
     
@@ -93,10 +94,7 @@ function solr_search_install()
 
     $elements = $db->getTable('Element')->findAll();
     
-    
-    $logger->debug(var_dump($elements));
-    
-    //add all element names to facet table for selection
+    // add all element names to facet table for selection
     foreach ($elements as $element) {
         $data = array(	
             'element_id' => $element['id'],
@@ -109,53 +107,49 @@ function solr_search_install()
         
         $db->insert('solr_search_facets', $data);
     }
-
-    //tag
-    $db->insert(
-        'solr_search_facets', 
-        array(
-            'name' => 'tag',
-            'is_facet' => 0,
-            'is_displayed' => 0,
-            'is_sortable' => 0
-        )
-    );
     
-    //collection
-    $db->insert(
-        'solr_search_facets', 
-        array(
-            'name' => 'collection',
-            'is_facet' => 0,
-            'is_displayed' => 0,
-            'is_sortable' => 0
-        )
-    );
-
-    //item type
-    $db->insert(
-        'solr_search_facets', 
-        array(
-            'name' => 'itemtype',
-            'is_facet' => 0,
-            'is_displayed' => 0,
-            'is_sortable' => 0
-        )
-    );
-
-    //images
-    $db->insert(
-        'solr_search_facets', 
-        array(
-            'name' => 'image', 
-            'is_displayed' => 0
-        )
-    );
+    // add extra convenience fields for the index
+    $fields = array('tag', 'collection', 'itemtype', 'image');
+    
+    solr_search_add_defaults($fields);
 
     set_default_options(); // set default options
     
     //add public items to Solr index - moved to config form submission
     //ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+}
+
+
+
+/**
+ * Adds default values to the database 
+ * 
+ * <code>
+ * <?php 
+ *   $default_fields = array('image', 'tag');
+ *   solr_search_add_defaults($default_fields);
+ * ?>
+ * </code>
+ * 
+ * @param String $fields list of fields to add default values for
+ */
+function solr_search_add_defaults($fields)
+{
+    $db = get_db();
+    
+    $logger->info(var_dump($fields));
+    
+    // iterate over each value in the list and add a     
+    foreach (fields as $field) {
+        $db->insert('solr_search_facets',
+            array(
+                'name' => $field,
+                'is_facet' => 0,
+                'is_displayed' => 0,
+                'is_sortable' => 0
+            )
+        );
+    }
 }
 
 
@@ -199,11 +193,14 @@ function remove_options()
 function solr_search_uninstall()
 {
     // Drop the table.
+    $logger->info('Uninstalling');
     $db = get_db();
     $sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
     $db->query($sql);
+    $logger->info('Dropped database...removing options');
+    
 
-    remove_index();     // clean up the index	
+    //remove_index();     // clean up the index	
     remove_options();   // clean up omeka options table
 }
 
@@ -222,7 +219,10 @@ function remove_index()
         $solr->commit();
         $solr->optimize(); 
     } catch ( Exception $err ) {
+        echo 'Caught Exception in ' . get_class($err);
         echo $err->getMessage();
+        // do nothing
+        $logger->debug(var_dump($err));
     }
     
     return;
@@ -231,8 +231,7 @@ function remove_index()
 
 
 /**
- * Display the configuration form
- * 
+ * Display the SolrSearch configuration form
  */
 function solr_search_config_form()
 {
