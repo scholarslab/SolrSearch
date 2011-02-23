@@ -57,56 +57,51 @@ add_plugin_hook('config', 'solr_search_config');
 add_filter('admin_navigation_main', 'solr_search_admin_navigation');
 // }}}
 
+/**
+ * Install the SolrSearch plugin; set up facet table and autopopulate from
+ * items in the database.
+ * 
+ * @return void
+ */
 function solr_search_install()
 {
 	$db = get_db();
 	    
 	// create for facet mapping
 	$db->exec("CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
-			`id` int(10) unsigned NOT NULL auto_increment,
-			`element_id` int(10) unsigned,
-			`name` tinytext collate utf8_unicode_ci NOT NULL,	      
-			`element_set_id` int(10) unsigned,
-			`is_facet` tinyint unsigned,
-			`is_displayed` tinyint unsigned,			
-			`is_sortable` tinyint unsigned,
-	       PRIMARY KEY  (`id`)
-	       ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+        `id` int(10) unsigned NOT NULL auto_increment,
+        `element_id` int(10) unsigned,
+        `name` tinytext collate utf8_unicode_ci NOT NULL,	      
+        `element_set_id` int(10) unsigned,
+        `is_facet` tinyint unsigned DEFAULT 0,
+        `is_displayed` tinyint unsigned DEFAULT 0,			
+        `is_sortable` tinyint unsigned DEFAULT 0,
+        PRIMARY KEY  (`id`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
 	
 	$elements = $db->getTable('Element')->findAll();
 	
-	//add all element names to facet table for selection
-	foreach ($elements as $element){
-		$data = array(	'element_id' => $element['id'],
-						'name' => $element['name'],
-						'element_set_id' => $element['element_set_id'],
-						'is_facet' => 0,
-						'is_displayed' => 0,
-						'is_sortable'=>0);
+	// add all the element names to facet table 
+	foreach ($elements as $element) {
+		
+		$data = array(	
+		    'element_id' => $element['id'],
+            'name' => $element['name'],
+            'element_set_id' => $element['element_set_id'],
+        );
+        
 		$db->insert('solr_search_facets', $data);
 	}
-	//tag
-	$db->insert('solr_search_facets', array('name'=>'tag',
-											'is_facet'=>0,
-											'is_displayed'=>0,
-											'is_sortable'=>0));
 	
-	//collection
-	$db->insert('solr_search_facets', array('name'=>'collection',
-											'is_facet'=>0,
-											'is_displayed'=>0,
-											'is_sortable'=>0));
+	solr_search_add_facets('tag');
+	solr_search_add_facets('collection');
+	solr_search_add_facets('itemtype');
+	solr_search_add_facets('image');
 	
-	//item type
-	$db->insert('solr_search_facets', array('name'=>'itemtype',
-											'is_facet'=>0,
-											'is_displayed'=>0,
-											'is_sortable'=>0));
+	// add images; special case as it can only be displayed
+	//$db->insert('solr_search_facets', array('name'=>'image', 'is_displayed'=>0));
 	
-	//images
-	$db->insert('solr_search_facets', array('name'=>'image', 'is_displayed'=>0));
-	
-	//set solr options
+	// set solr options for Omeka
 	set_option('solr_search_server', 'localhost');
 	set_option('solr_search_port', '8080');
 	set_option('solr_search_core', '/solr/');
@@ -119,6 +114,15 @@ function solr_search_install()
 	
 	//add public items to Solr index - moved to config form submission
 	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+}
+
+function solr_search_add_facets($field)
+{
+    $db = get_db();
+    
+    $db->insert('solr_search_facets', array('name' => $field));
+    
+    return;
 }
 
 function solr_search_uninstall()
