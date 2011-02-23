@@ -26,111 +26,69 @@
 ?>
 
 <!-- TODO: Refactor in to admin css -->
-<style type="text/css">.zend_form>dd{ margin-bottom:20px;}</style>
+<style type="text/css">
+    dd {margin-bottom:20px;}
+    /* .required {color: red}*/
+</style>
 
 <div class="field">
     <h3>Solr Options</h3>
     
     <?php 
-        // Fix this...
-        //require_once 'Zend/Form/Element.php';
+        // Fix this...        
+        echo new Zend_Form_Element_Text('solr_search_server', array(
+            'required' => true,
+            'label' => 'Server Host:',
+            'value' => get_option('solr_search_server')
+        ));
         
-        $form = new Zend_Form();
+        echo new Zend_Form_Element_Text('solr_search_port', array(
+            'required' => true,
+            'validators' => array('alnum'),
+            'label' => 'Server Port:',
+            'value' => get_option('solr_search_port')
+        ));
         
+        echo new Zend_Form_Element_Text('solr_search_core', array(
+            'required' => true,
+            'validators' => array('alnum', array(
+                'regex',
+                false,
+                '/\/.*\//i'
+                )
+            ),
+            'label' => 'Solr Core Name:',
+            'value' => get_option('solr_search_core')
+        ));
         
-        $form->setMethod('post');
+        // echo new Zend_Form_Element_Text('solr_search_rows', array(
+        //           'required' => true,
+        //           'validators' => array('alnum'),
+        //           'label' => 'Results Per Page:',
+        //           'value' => get_option('solr_search_rows')
+        //       ));
         
-        $form->addElement(
-            'text', 
-            'solr_search_server',
-            array(
-                'required' => true,
-                'label' => 'Server Host:',
-                'value' => get_option('solr_search_server')
-            )
-        );
-        
-        $form->addElement(
-            'text', 
-            'solr_search_port',
-            array(
-                'validators' => array('alnum'),
-                'required' => true,
-                'label' => 'Server Port:',
-                'value' => get_option('solr_search_port')
-
-            )
-        );
-        
-        $form->addElement(
-            'text', 
-            'solr_search_port',
-            array(
-                'validators' => array('alnum'),
-                'required' => true,
-                'label' => 'Server Port:',
-                'value' => get_option('solr_search_port')
-            )
-        );
-        
-        $form->addElement(
-            'text', 
-            'solr_search_core',
-            array(
-                'validators' => array('alnum', array(
-                    'regex', 
-                    false, 
-                    '/\/.*\//i'
-                    )),
-                'required' => true,
-                'label' => 'Solr Core Name:',
-                'value' => get_option('solr_search_core')
-            )
-        );
-        
-        $form->addElement(
-            'text', 
-            'solr_search_rows',
-            array(
-                'validators' => array('alnum'),
-                'required' => true,
-                'label' => 'Results Per Page:',
-                'value' => get_option('solr_search_rows')
-            )
-        );
-        
-        $form->addElement(
-            'select', 
-            'solr_search_facet_sort',
-            array(
-                'validators' => array('alnum'),
-                'required' => true,
-                'label' => 'Default Sort Order:',
-                'value' => get_option('solr_search_facet_sort')
-            )
-        );
-        
-        $form->addElement(
-            'text', 
-            'solr_search_facet_limit',
-            array(
-                'validators' => array('alnum'),
-                'required' => true,
-                'label' => 'Maximum Facet Count:',
-                'value' => get_option('solr_search_facet_limit')
-            )
-        );
+        $rows = new Zend_Form_Element_Text('solr_search_rows');
+        $rows->setLabel('Results Per Page')->setRequired(true);
+        $rows->setValue(get_option('solr_search_rows'));
+        $rows->setValidators(array('alnum'));
+        $rows->addErrorMessage('Results count must be numeric');
+        echo $rows;
         
         
-        $form->addElement('submit', 'Save', array('label' => 'Save'));
+        $sort = new Zend_Form_Element_Select('solr_search_facet_sort');
+        $sort->setLabel('Default Sort Order:')->setRequired(true);
+        $sort->addMultiOption('index', 'Alphabetical');
+    	$sort->addMultiOption('count', 'Occurrences');    
+        $sort->setValue(get_option('solr_search_facet_sort'));
+        echo $sort;
         
-        
-        echo $form;
+        echo new Zend_Form_Element_Text('solr_search_facet_limit', array(
+            'required' => true,
+            'validators' => array('alnum'),
+            'label' => 'Maximum Facet Count:',
+            'value' => get_option('solr_search_facet_limit')
+        ));
         
     ?>
-    
-    
-    
-    
-    <?php //echo solr_search_options(); ?>
 </div>

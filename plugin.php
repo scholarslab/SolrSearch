@@ -49,7 +49,7 @@ add_plugin_hook('define_routes', 'solr_search_define_routes');
 add_plugin_hook('define_acl', 'solr_search_define_acl');
 add_plugin_hook('admin_theme_header', 'solr_search_admin_header');
 add_plugin_hook('public_theme_header', 'solr_search_public_header');
-add_plugin_hook('config_form', 'solr_search_config_form');
+add_plugin_hook('config_form', 'solr_search_option_form');
 add_plugin_hook('config', 'solr_search_config');
 //}}}
 
@@ -60,48 +60,14 @@ add_filter('admin_navigation_main', 'solr_search_admin_navigation');
 /**
  * Install the SolrSearch plugin; set up facet table and autopopulate from
  * items in the database.
- * 
- * @return void
  */
 function solr_search_install()
 {
-	$db = get_db();
-	    
-	// create for facet mapping
-	$db->exec("CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
-        `id` int(10) unsigned NOT NULL auto_increment,
-        `element_id` int(10) unsigned,
-        `name` tinytext collate utf8_unicode_ci NOT NULL,	      
-        `element_set_id` int(10) unsigned,
-        `is_facet` tinyint unsigned DEFAULT 0,
-        `is_displayed` tinyint unsigned DEFAULT 0,			
-        `is_sortable` tinyint unsigned DEFAULT 0,
-        PRIMARY KEY  (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+    
+	solrSearchCreateTable(); // create facet mapping table
+	solrSearchAddFacetsMapping(); // populate the facets table
 	
-	$elements = $db->getTable('Element')->findAll();
-	
-	// add all the element names to facet table 
-	foreach ($elements as $element) {
-		
-		$data = array(	
-		    'element_id' => $element['id'],
-            'name' => $element['name'],
-            'element_set_id' => $element['element_set_id'],
-        );
-        
-		$db->insert('solr_search_facets', $data);
-	}
-	
-	solr_search_add_facets('tag');
-	solr_search_add_facets('collection');
-	solr_search_add_facets('itemtype');
-	solr_search_add_facets('image');
-	
-	// add images; special case as it can only be displayed
-	//$db->insert('solr_search_facets', array('name'=>'image', 'is_displayed'=>0));
-	
-	// set solr options for Omeka
+	// set solr options
 	set_option('solr_search_server', 'localhost');
 	set_option('solr_search_port', '8080');
 	set_option('solr_search_core', '/solr/');
@@ -116,15 +82,94 @@ function solr_search_install()
 	//ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
 }
 
-function solr_search_add_facets($field)
+/**
+ * Create the mapping table for human readable labels for Omeka elements
+ */
+function solrSearchCreateTable()
+{
+   	$db = get_db();
+   	
+   	$sql = <<<SQL
+   	CREATE TABLE IF NOT EXISTS `{$db->prefix}solr_search_facets` (
+        `id` int(10) unsigned NOT NULL auto_increment,
+		`element_id` int(10) unsigned,
+		`name` tinytext collate utf8_unicode_ci NOT NULL,	      
+		`element_set_id` int(10) unsigned,
+		`is_facet` tinyint unsigned DEFAULT 0,
+		`is_displayed` tinyint unsigned DEFAULT 0,		
+		`is_sortable` tinyint unsigned DEFAULT 0,
+        PRIMARY KEY  (`id`)
+       ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+SQL;
+
+    $db->exec($sql);
+}
+
+/**
+ * Populates the facet table with human readable mappings of Omeka Element ids
+ *
+ */
+function solrSearchAddFacetsMapping()
 {
     $db = get_db();
     
-    $db->insert('solr_search_facets', array('name' => $field));
+    // images are a very special case; faceting and sorting are not logical here
+	$db->insert('solr_search_facets', array(
+	    'name'=>'image', 
+	    'is_displayed' => 1,
+	    'is_facet' => NULL,
+	    'is_sortable' => NULL
+	    )
+	);
     
-    return;
+    /*
+     * special cases; default is to create facets, store, and sort <tt>tags</tt>,
+     * <tt>collection</tt>, and <tt>itemtype</tt>
+     */
+    // tags
+	$db->insert('solr_search_facets', array(
+	    'name'=>'tag', 
+	    'is_facet' => 1, 
+	    'is_displayed' => 1,
+	    'is_sortable' => 1
+	    )
+	); 
+	// collection
+	$db->insert('solr_search_facets', array(
+	    'name'=>'collection',
+	    'is_facet' => 1, 
+	    'is_displayed' => 1,
+	    'is_sortable' => 1
+	    )
+	); 
+	
+	// item type
+	$db->insert('solr_search_facets', array(
+	    'name'=>'itemtype',
+	    'is_facet' => 1, 
+	    'is_displayed' => 1,
+	    'is_sortable' => 1
+	    )
+	); 
+	
+    // get the elements that are currently installed
+    $elements = $db->getTable('Element')->findAll();
+	
+	// add all element names to facet table for selection
+	foreach ($elements as $element){
+		$data = array(
+		    'element_id' => $element['id'],
+            'name' => $element['name'],
+            'element_set_id' => $element['element_set_id']
+        );
+        
+		$db->insert('solr_search_facets', $data);
+	}	
 }
 
+/** 
+ * Uninstall SolrSearch plugin and cleanup database and index
+ */
 function solr_search_uninstall()
 {
 	// Drop the table.
@@ -132,7 +177,7 @@ function solr_search_uninstall()
 	$sql = "DROP TABLE IF EXISTS `{$db->prefix}solr_search_facets`";
 	$db->query($sql);
 	
-	//delete Solr documents from index
+	// delete Solr documents from index
 	$solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
 	try {		
 		$solr->deleteByQuery('*:*');
@@ -142,7 +187,7 @@ function solr_search_uninstall()
 		echo $err->getMessage();
 	}
 	
-	//delete solr options
+	// delete solr options
 	delete_option('solr_search_server');
 	delete_option('solr_search_port');
 	delete_option('solr_search_core');
@@ -187,7 +232,7 @@ function solr_search_after_save_item($item)
 			//store Dublin Core titles as separate fields
 			if ($elementText['element_id'] == 50){
 				$doc->setMultiValue('title', $elementText['text']);
-			}
+			} 
 		}
 		
 		//add tags			
@@ -289,6 +334,12 @@ function solr_search_define_routes($router)
 	$router->addRoute('solr_search_results_route', $searchResultsRoute);
 }
 
+/**
+ * Navigation tab for admin panel if user has permission to configure SolrSearch
+ *
+ * @params $tabs 
+ * @return $tabs 
+ */
 function solr_search_admin_navigation($tabs)
 {
     if (get_acl()->checkUserPermission('SolrSearch_Config', 'index')) {
@@ -319,46 +370,59 @@ function solr_search_public_header($request)
 }
 
 //select fields to display in Solr search results
-function solr_search_config_form()
-{
-	$form = solr_search_options();
-	?>
-	<style type="text/css">.zend_form>dd{ margin-bottom:20px; }</style>
-	<div class="field">
-		<h3>Solr Options</h3>
-		<p class="explanation">Set Solr options.</p>
-		<? echo $form; ?>
-	</div>
-<?php
-}
+// function solr_search_config_form()
+// {
+//  $form = solr_search_options();
+// echo '<style type="text/css">.zend_form>dd{ margin-bottom:20px; }</style>
+//  <div class="field">
+//      <h3>Solr Options</h3>
+//      <p class="explanation">Set Solr options.</p>';
+//     echo $form; 
+//  echo '</div>';
+// 
+// }
 
-//post displable fields to index
-function solr_search_config(){
+// post displayble fields to index
+function solr_search_config()
+{
+	
 	$form = solr_search_options();
-    if ($form->isValid($_POST)) {    
-    	//get posted values		
-		$uploadedData = $form->getValues();
-		
-		//cycle through each checkbox
-		foreach ($uploadedData as $k => $v){
-			if ($k != 'submit'){
-				set_option($k, $v);
-			}		
-		}
-		ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
-    }
+	
+	if($form->isValid($_POST)) {
+	    $options = $form->getValues();
+	    
+	    // set options
+	    foreach($options as $option => $value) {
+	        set_option($option, $value);
+	    }
+	    
+	    // Now index
+	    ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+	} else {
+	    echo '<div class="errors">';
+	    
+        var_dump($form->getMessages());
+	    
+	    echo '</div>';
+	    break;
+	}
+  
 }
 
 /*********
  * Displayable element form
  *********/
+ 
+// TODO: migrate this in to ini file
+function solr_search_option_form()
+{
+    include 'config_form.php';
+}
+ 
 function solr_search_options(){
-    require "Zend/Form/Element.php";
-    $form = new Zend_Form();	
-    $form->setMethod('post');
-    $form->setAttrib('enctype', 'multipart/form-data');	
+    //require "Zend/Form/Element.php";
     
-    $db = get_db();
+    $form = new Zend_Form();
     
     $solrServer = new Zend_Form_Element_Text ('solr_search_server');
     $solrServer->setLabel('Server:');
