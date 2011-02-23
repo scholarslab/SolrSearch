@@ -11,7 +11,7 @@
         <a href="<?php echo html_escape(uri('solr-search/highlight/')); ?>">Hit Highlighting Options</a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/reindex/')); ?>">Reindex All Items</a>
+        <a href="<?php echo html_escape(uri('solr-search/reindex/')); ?>">Index Items</a>
     </li>
 </ul>
 <div id="primary">
