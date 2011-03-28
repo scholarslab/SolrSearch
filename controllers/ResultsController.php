@@ -17,8 +17,10 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 		
 		//get q parameter
 		$query = isset($_REQUEST['q']) ? $_REQUEST['q'] : false;
-		$page = $request->get('page') or $page = 1;       
-		$start = ($page - 1) * 10;
+    $page = $request->get('page') or $page = 1;       
+    $search_rows = get_option('solr_search_rows'); // search rows/page
+		//$start = ($page - 1) * 10;
+		$start = ($page - 1) * $search_rows;
 		
 		//get displayable fields
 		$displayFields = $this->getDisplayableFields();
