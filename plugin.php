@@ -524,7 +524,7 @@ function solr_search_facet_link($facet,$label,$count){
 		return $html;
 	} else{
 		//otherwise just display a link to a new query with the facet count
-		$html .= "<div class='fn'><a href='" . $uri . '?q=' . html_escape($_REQUEST['q']) . ' AND ' . $facet . ':&#x022;' . $label ."&#x022;'>" . $label . '</a></div>';
+		$html .= "<div class='fn'><a href='" . $uri . '?q=' . html_escape($_REQUEST['q']) . ' AND ' . $facet . ':&#x022;' . $label ."&#x022;#item_view'>" . $label . '</a></div>';
 		$html .= '<div class="fc">' . $count . '</div>';
 		return $html;
 	}
@@ -583,7 +583,7 @@ function solr_search_remove_facet($facet,$label){
 	else {
 		$removeFacetLink .= implode(' AND ', $newParams);
 	}		
-	$removeFacetLink .= "'>X</a>]";
+	$removeFacetLink .= "#item_view'>X</a>]";
 	return $removeFacetLink;
 }
 
