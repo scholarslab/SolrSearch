@@ -25,6 +25,9 @@
 	text-align:right;
 	width:15%;
 }
+ul.facets, ul.facets ul {
+    list-style-type: none;
+}
 .solr_sort>h4{
 	display:inline;	
 }
