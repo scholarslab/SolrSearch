@@ -83,6 +83,7 @@
 	</div>
 	<?php //display facets ?>
 	<?php if (!empty($facets)){ ?>
+        <?php $query = solr_search_get_params(); ?>
 		<div class="solr_facets">
 			<h2>Facets</h2>
 			<?php foreach ($results->facet_counts->facet_fields as $facet => $values){ ?>
@@ -93,7 +94,7 @@
 					
 				<ul>
 					<?php foreach($values as $label => $count){ ?>
-						<li><?php echo solr_search_facet_link($facet,$label,$count); ?></li>
+						<li><?php echo solr_search_facet_link($query, $facet, $label, $count); ?></li>
 					<?php } ?>
 				</ul>
 			<?php } ?>
