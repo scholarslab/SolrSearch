@@ -427,9 +427,11 @@ function solr_search_display_snippets($id, $highlighting){
  */
 function solr_search_assemble_query($query, $default='*:*')
 {
-    $q = (isset($query['q'])) ? $query['q'] : $default;
+    $q = (isset($query['q']) && strlen($query['q']) > 0) ?
+        $query['q'] :
+        $default;
 
-    if (isset($query['facet']) && $query['facet']) {
+    if (isset($query['facet']) && strlen($query['facet']) > 0) {
         $q .= ' AND ' . $query['facet'];
     }
 
