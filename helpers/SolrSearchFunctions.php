@@ -63,7 +63,7 @@ function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'s
  *
  * Lookup the element name for a solr element
  *
- * TODO: store this in the solr index
+ * TODO: store this in the solr index (add sub-index field for this)
  *
  * @param type $field
  * @return type
