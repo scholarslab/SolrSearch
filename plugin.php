@@ -40,6 +40,9 @@ require_once 'lib/Document.php';
 require_once 'lib/Response.php';
 require_once 'lib/Service.php';
 
+// SolrSearch utility classes
+require_once 'lib/SolrSearch/QueryManager.php';
+
 // {{{ pluginHooks
 add_plugin_hook('install', 'solr_search_install');
 add_plugin_hook('uninstall', 'solr_search_uninstall');
