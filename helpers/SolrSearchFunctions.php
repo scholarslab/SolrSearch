@@ -155,11 +155,13 @@ function solr_search_doc_title($doc){
  * 'solrq'.
  * @param string $facetParam The name of the facet parameter. This defaults to
  * 'solrfacet'.
+ * @param array $other       A list of other parameters to pull and include in
+ * the output.
  *
  * @return array This array is keyed on 'q' and 'facet'.
  */
 function solr_search_get_params(
-    $req=null, $qParam='solrq', $facetParam='solrfacet'
+    $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
 ) {
     if ($req === null) {
         $req = $_REQUEST;
@@ -172,6 +174,14 @@ function solr_search_get_params(
 
     if (isset($req[$facetParam])) {
         $params['facet'] = $req[$facetParam];
+    }
+
+    if ($other !== null) {
+        foreach ($other as $key) {
+            if (array_key_exists($key, $req)) {
+                $params[$key] = $req[$key];
+            }
+        }
     }
 
     return $params;
@@ -213,7 +223,7 @@ function solr_search_facet_link($current, $facet, $label, $count)
 
         //otherwise just display a link to a new query with the facet count
         $html .= "<div class='fn'>"
-            . "<a href='$uri?{$q}solrfacet=$facetq#item_view>$label</a>"
+            . "<a href='$uri?{$q}solrfacet=$facetq'>$label</a>"
             . "</div>"
             . "<div class='fc'>$count</div>";
     }
@@ -312,9 +322,7 @@ function solr_search_remove_facet($facet, $label)
         array_push($query, html_espace('solrq=*:*'));
     }
 
-    $removeFacetLink = "[<a href='$uri?"
-        . implode('&', $query)
-        . '#item_view\'>X</a>]';
+    $removeFacetLink = "[<a href='$uri?" . implode('&', $query) . '\'>X</a>]';
 	return $removeFacetLink;
 }
 
