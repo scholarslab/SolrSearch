@@ -23,9 +23,7 @@
  * PHP version 5
  *
  */
-?>
-
-<?php
+?><?php
 
 /**
  * Create the base URL for the results page.
