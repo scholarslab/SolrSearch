@@ -164,24 +164,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         return $results;
     }
 
-    private function log($values, $mode='w', $filename='/tmp/solr.log') {
-        $f = fopen($filename, $mode);
-
-        ob_start();
-
-        foreach ($values as $key => $val) {
-            echo "$key => ";
-            var_dump($val);
-            echo "\n";
-        }
-        echo "\n";
-
-        fwrite($f, ob_get_clean());
-        ob_end_clean();
-
-        fclose($f);
-    }
-
     //get the displayable fields from the Solr table, which is passed to the view to restrict which fields appear in the results
     private function getDisplayableFields() {
         $db = get_db();
