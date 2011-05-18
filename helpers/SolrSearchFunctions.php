@@ -478,7 +478,7 @@ function solr_search_assemble_query($query, $default='*:*')
         $default;
 
     if (isset($query['facet']) && strlen($query['facet']) > 0) {
-        $q .= ' AND ' . $query['facet'];
+        $q .= " AND ({$query['facet']})";
     }
 
     // XXX: Remove this once the images for Falmouth have been added.
