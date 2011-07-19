@@ -1,7 +1,4 @@
-
-
-  About SolrSearch 
-
+About SolrSearch 
 ----------
 
 SolrSearch is a plugin developed by the [Scholars' Lab][1] at the University of Virginia Library.  It is designed to replace the default Omeka database search mechanism with Solr, a powerful Java-based search index and query system.  It offers more robust full-text searching, faceted browsing, sorting, and hit highlighting than the MySQL search.  The plugin can be used as a foundation for future controlled vocabulary plugins.
@@ -24,10 +21,8 @@ After successfully starting an instance of Solr on a server that can be accessed
   Download 
 
 ----------
-
-*  Subversion: [https://addons.omeka.org/svn/plugins/SolrSearch/trunk/][3]
-
-*  Package: [SolrSearch 1.0][4] - January 2011.
+*  Git: [https://github.com/scholarslab/SolrSearch][3]
+*  Package: [SolrSearch 1.1][4]
 
   Features 
 
@@ -97,6 +92,6 @@ Retrieved from "[http://omeka.org/codex/Plugins/SolrSearch](http://omeka.org/cod
 
 [1]: http://scholarslab.org/ "http://scholarslab.org/"
 [2]: http://lucene.apache.org/solr/#getstarted "http://lucene.apache.org/solr/#getstarted"
-[3]: https://addons.omeka.org/svn/plugins/SolrSearch/trunk/ "https://addons.omeka.org/svn/plugins/SolrSearch/trunk/"
-[4]: http://www.scholarslab.org/wp-content/uploads/2011/01/SolrSearch-1.0.zip "http://www.scholarslab.org/wp-content/uploads/2011/01/SolrSearch-1.0.zip"
+[3]: https://github.com/scholarslab/SolrSearch "https://github.com/scholarslab/SolrSearch"
+[4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
