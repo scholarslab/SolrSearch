@@ -37,6 +37,7 @@ define('SOLR_FACET_LIMIT', get_option('solr_search_facet_limit'));
 
 // Solr PHP Client library
 require_once 'lib/Document.php';
+require_once 'lib/Exception.php';
 require_once 'lib/Response.php';
 require_once 'lib/Service.php';
 
