@@ -1,16 +1,12 @@
-
-
-  About SolrSearch 
-
+About SolrSearch 
 ----------
 
 SolrSearch is a plugin developed by the [Scholars' Lab][1] at the University of Virginia Library.  It is designed to replace the default Omeka database search mechanism with Solr, a powerful Java-based search index and query system.  It offers more robust full-text searching, faceted browsing, sorting, and hit highlighting than the MySQL search.  The plugin can be used as a foundation for future controlled vocabulary plugins.
 
 This plugin is a beta release
 
-  Prerequisites 
-
-----------
+Prerequisites 
+=============
 
 SolrSearch requires an active Solr index.  Solr is a Java application that is generally run in a container like Jetty or Tomcat.  Refer to [documentation][2] for instructions on downloading and installing it.  In the SolrSearch plugin directory, there is a folder called solr-home.  This folder contains configuration files for the index.  It can be copied and pasted elsewhere on the server or Tomcat can be configured to refer to this folder as the solr/home context path with the following XML snipped called solr.xml and placed in /path/to/tomcat/conf/Catalina/localhost/
 
@@ -21,16 +17,12 @@ SolrSearch requires an active Solr index.  Solr is a Java application that is ge
 
 After successfully starting an instance of Solr on a server that can be accessed from your Omeka installation, SolrSearch is ready to be installed and configured.
 
-  Download 
-
+Download 
 ----------
+*  Git: [https://github.com/scholarslab/SolrSearch][3]
+*  Package: [SolrSearch 1.1][4]
 
-*  Subversion: [https://addons.omeka.org/svn/plugins/SolrSearch/trunk/][3]
-
-*  Package: [SolrSearch 1.0][4] - January 2011.
-
-  Features 
-
+Features 
 ----------
 
 *  Easily configurable Solr server settings
@@ -49,8 +41,7 @@ After successfully starting an instance of Solr on a server that can be accessed
 
 *  Well-designed and intuitive public interface for search results
 
-  Installing and Configuring 
-
+Installing and Configuring 
 ----------
 
 1.  PHP-CLI is required for indexing documents in the background.  This can be installed through package managers on most Linux systems.  Refer to Google for instructions for installing the packages on your operating system.
@@ -79,8 +70,7 @@ After successfully starting an instance of Solr on a server that can be accessed
 
 After these changes have been made, you will be able to use the search box in the header to query Solr and filter results by facet.
 
-  Indexing to Solr 
-
+Indexing to Solr 
 ----------
 
 Upon plugin installation, all items designated as 'public' will be indexed into Solr.  Items that are not public are ignored by the indexing script.  When an item is saved and the item is public, the updated metadata is posted to Solr.  If that item was previously public and that designation was removed, the associated document will be removed from Solr.  Items not designated as public already are ignored.  When an item is deleted from Omeka, its corresponding Solr document is also deleted.  When SolrSearch is uninstalled, all Solr documents are purged.
@@ -97,6 +87,6 @@ Retrieved from "[http://omeka.org/codex/Plugins/SolrSearch](http://omeka.org/cod
 
 [1]: http://scholarslab.org/ "http://scholarslab.org/"
 [2]: http://lucene.apache.org/solr/#getstarted "http://lucene.apache.org/solr/#getstarted"
-[3]: https://addons.omeka.org/svn/plugins/SolrSearch/trunk/ "https://addons.omeka.org/svn/plugins/SolrSearch/trunk/"
-[4]: http://www.scholarslab.org/wp-content/uploads/2011/01/SolrSearch-1.0.zip "http://www.scholarslab.org/wp-content/uploads/2011/01/SolrSearch-1.0.zip"
+[3]: https://github.com/scholarslab/SolrSearch "https://github.com/scholarslab/SolrSearch"
+[4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
