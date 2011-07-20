@@ -431,7 +431,7 @@
    <field name="id" type="string" indexed="true" stored="true" required="true" omitNorms='true' /> 
    <field name="title" type="string" indexed="true" stored="true" multiValued="true" omitNorms='true'/>
    <field name="tag" type="string" indexed="true" stored="true" multiValued="true" omitNorms='true'/>
-   <field name="image" type="int" indexed="true" stored="true" multiValued="true" omitNorms='true'/>
+   <field name="image" type="sint" indexed="true" stored="true" multiValued="true" omitNorms='true'/>
    <field name="collection" type="string" indexed="true" stored="true" omitNorms='true'/>
    <field name="itemtype" type="string" indexed="true" stored="true" omitNorms='true'/>
    <field name="fulltext" type="text" indexed="true" stored="true" multiValued="true"/>
