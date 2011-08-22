@@ -25,14 +25,33 @@
  * PHP version 5
  *
  */
- 
+
 // {{{ constants
-define('SOLR_SEARCH_PLUGIN_VERSION', get_plugin_ini('SolrSearch', 'version'));
-define('SOLR_SERVER', get_option('solr_search_server'));
-define('SOLR_PORT', get_option('solr_search_port'));
-define('SOLR_CORE', get_option('solr_search_core'));
-define('SOLR_ROWS', get_option('solr_search_rows'));
-define('SOLR_FACET_LIMIT', get_option('solr_search_facet_limit'));
+
+if (!defined('SOLR_SEARCH_PLUGIN_VERSION')) {
+    define('SOLR_SEARCH_PLUGIN_VERSION', get_plugin_ini('SolrSearch', 'version'));
+}
+
+if (!defined('SOLR_SERVER')) {
+    define('SOLR_SERVER', get_option('solr_search_server'));
+}
+
+if (!defined('SOLR_PORT')) {
+    define('SOLR_PORT', get_option('solr_search_port'));
+}
+
+if (!defined('SOLR_CORE')) {
+    define('SOLR_CORE', get_option('solr_search_core'));
+}
+
+if (!defined('SOLR_ROWS')) {
+    define('SOLR_ROWS', get_option('solr_search_rows'));
+}
+
+if (!defined('SOLR_FACET_LIMIT')) {
+    define('SOLR_FACET_LIMIT', get_option('solr_search_facet_limit'));
+}
+
 // }}}
 
 // Solr PHP Client library
