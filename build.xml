@@ -11,15 +11,28 @@
 
 <project name="SolrSearch" default="usage" basedir=".">
 
-    <description>SolrSearch plugin for Omeka Platform</description>
+  <description>SolrSearch plugin for Omeka Platform</description>
 
-    <property name="project" value="SolrSearch" />
-    <property name="build" location="build" />
-    <property name="dist" location="dist" />
-    <tstamp />
-    <property name="now" value="${DSTAMP}-${TSTAMP}" />
-    <property name="tar" value="${project}-${now}.tar" />
-    <property name="gzip" value="${tar}.gz" />
+
+  <!-- properties for the ini file -->
+  <property name="project" value="SolrSearch" />
+  <property name="version" value="0.8" />
+  <property name="Author" value="Scholars' Lab" />
+  <property name="description" value="Integrate Apache Solr into Omeka for primary searching." />
+  <property name="link" value="http://scholarslab.github.com/SolrSearch/" />
+  <property name="support" value="https://github.com/scholarslab/SolrSearch/issues" />
+  <property name="min_version" value="1.3" />
+  <property name="tested_up" value="1.4.1" />
+  <property name="target_version" value="1.4.1" />
+  <property name="tags" value="solr,search" />
+  <property name="licence" value="Apache 2.0" />
+
+  <property name="build" location="build" />
+  <property name="dist" location="dist" />
+  <tstamp />
+  <property name="now" value="${DSTAMP}-${TSTAMP}" />
+  <property name="tar" value="${project}-${now}.tar" />
+  <property name="gzip" value="${tar}.gz" />
 
     <target name="setup" description="Create the build directory structure">
         <tstamp />
@@ -30,15 +43,29 @@
         <mkdir dir="${build}/logs" />
         <mkdir dir="${build}/pdepend" />
         <mkdir dir="${build}/phpmd" />
-
     </target>
 
     <target name="clean" description="Clean up">
         <delete dir="${build}" />
         <delete dir="${dist}" />
+      </target>
+
+    <target name="writeini" description="Write the INI file for the plugin">
+      <replace file="${basedir}/plugin.ini">
+        <replacefilter token="%version%" value="${version}" />
+      </replace>
     </target>
 
-    <target name="package" description="Create a zipped package for distribution">
+    <target name="package" depends="clean" description="Create zipped packages for public distribution">
+      <mkdir dir="${dir}" />
+
+      <zip destfile="${dist}/${project}-${version}.zip">
+        <zipfileset dir="${basedir}" prefix="${project}" excludes="${build}/**,${dist}/**,tests/**,.git/**" />
+      </zip>
+
+    </target>
+
+    <target name="tar" description="Create a zipped package for distribution">
 
         <mkdir dir="${dist}" />
 
