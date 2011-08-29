@@ -13,7 +13,7 @@
 
     <description>SolrSearch plugin for Omeka Platform</description>
 
-    <property name="project" value="solrsearch" />
+    <property name="project" value="SolrSearch" />
     <property name="build" location="build" />
     <property name="dist" location="dist" />
     <tstamp />
@@ -43,15 +43,24 @@
         <mkdir dir="${dist}" />
 
         <tar destfile="${dist}/${project}-${now}.tar"
-            basedir="${basedir}"
+          basedir="${basedir}"
+          prefix="${project}"
             excludes="${build}/**,${dist}/**,nbproject/**" />
 
         <gzip zipfile="${dist}/${gzip}" src="${dist}/${tar}" />
         <delete file="${dist}/${tar}" />
     </target>
 
+    <target name="zip" description="Create a zipped package for distribution">
+      <mkdir dir="${dist}" />
+
+      <zip destfile="${dist}/${project}-${now}.zip">
+        <zipfileset dir="${basedir}" prefix="${project}" excludes="${build}/**,${dist}/**,tests/**,.git/**" />
+      </zip>
+    </target>
+
     <target name="package-docs" depends="phpdoc" description="Create a zipped package of the documentation">
-        
+
         <echo message="Compressing documentation" />
 
         <mkdir dir="${dist}" />
