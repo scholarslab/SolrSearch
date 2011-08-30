@@ -20,7 +20,7 @@ After successfully starting an instance of Solr on a server that can be accessed
 Download 
 ----------
 *  Git: [https://github.com/scholarslab/SolrSearch][3]
-*  Package: [SolrSearch 1.1][4]
+*  Package: [SolrSearch 0.8][4]
 
 Features 
 ----------
