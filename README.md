@@ -10,10 +10,12 @@ Prerequisites
 
 SolrSearch requires an active Solr index.  Solr is a Java application that is generally run in a container like Jetty or Tomcat.  Refer to [documentation][2] for instructions on downloading and installing it.  In the SolrSearch plugin directory, there is a folder called solr-home.  This folder contains configuration files for the index.  It can be copied and pasted elsewhere on the server or Tomcat can be configured to refer to this folder as the solr/home context path with the following XML snipped called solr.xml and placed in /path/to/tomcat/conf/Catalina/localhost/
 
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Context docBase="/path/to/solr.war" debug="0" crossContext="true" >
 	<Environment name="solr/home" type="java.lang.String" value="/path/to/Omeka/plugins/SolrSearch/solr-home" override="true" />
 </Context>
+```
 
 After successfully starting an instance of Solr on a server that can be accessed from your Omeka installation, SolrSearch is ready to be installed and configured.
 
@@ -66,7 +68,9 @@ Installing and Configuring
 
 * You may also wish to change the Browse Items link to the URL of the search results when querying all records:
 
+```php
 'Browse Items' => uri('solr-search/results/?q=*:*')
+```
 
 After these changes have been made, you will be able to use the search box in the header to query Solr and filter results by facet.
 
