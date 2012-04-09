@@ -214,9 +214,9 @@ function solr_search_facet_link($current, $facet, $label, $count)
             $q = '';
         }
         if (isset($current['facet'])) {
-            $facetq = "{$current['facet']}+AND+$facet:&#x022;$label$#x022;";
+            $facetq = "{$current['facet']}+AND+$facet:&#x022;$label&#x022;";
         } else {
-            $facetq = "$facet:&#x022;$label$#x022;";
+            $facetq = "$facet:&#x022;$label&#x022;";
         }
 
         //otherwise just display a link to a new query with the facet count
