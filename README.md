@@ -69,7 +69,7 @@ Installing and Configuring
 * You may also wish to change the Browse Items link to the URL of the search results when querying all records:
 
 ```php
-'Browse Items' => uri('solr-search/results/?q=*:*')
+'Browse Items' => uri('solr-search/results/?q=*:*');
 ```
 
 After these changes have been made, you will be able to use the search box in the header to query Solr and filter results by facet.
@@ -79,18 +79,19 @@ Indexing to Solr
 
 Upon plugin installation, all items designated as 'public' will be indexed into Solr.  Items that are not public are ignored by the indexing script.  When an item is saved and the item is public, the updated metadata is posted to Solr.  If that item was previously public and that designation was removed, the associated document will be removed from Solr.  Items not designated as public already are ignored.  When an item is deleted from Omeka, its corresponding Solr document is also deleted.  When SolrSearch is uninstalled, all Solr documents are purged.
 
-<!-- 
-NewPP limit report
-Preprocessor node count: 13/1000000
-Post-expand include size: 0/2097152 bytes
-Template argument size: 0/2097152 bytes
-Expensive parser function count: 0/100
--->
+# Developer Mode
+Install the solr keg from [homebrew][homebrew]. You can then start an
+instance of Solr with
 
-Retrieved from "[http://omeka.org/codex/Plugins/SolrSearch](http://omeka.org/codex/Plugins/SolrSearch)"
+```bash
+solr path/to/SolrSearch/solr-home
+```
+
+
 
 [1]: http://scholarslab.org/ "http://scholarslab.org/"
 [2]: http://lucene.apache.org/solr/#getstarted "http://lucene.apache.org/solr/#getstarted"
 [3]: https://github.com/scholarslab/SolrSearch "https://github.com/scholarslab/SolrSearch"
 [4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
+[homebre]: http://mxcl.github.com/homebrew/
