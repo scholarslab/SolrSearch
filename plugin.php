@@ -493,7 +493,7 @@ function solr_search_options(){
 }
 
 function solr_search_simple_search_uri($uri) {
-    $uri = uri('solr-search/results');
+    $uri = uri('solr-search/results/interceptor');
     return $uri;
 }
 

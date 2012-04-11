@@ -31,7 +31,28 @@ require_once 'Omeka/Controller/Action.php';
 class SolrSearch_ResultsController extends Omeka_Controller_Action
 {
 
+    /**
+     * Intercept search queries from simple search and redirect with
+     * a well-formed SolrSearch request.
+     *
+     * @return void
+     */
+    public function interceptorAction()
+    {
+
+        // Construct the query parameters.
+        $query = http_build_query(array(
+            'solrq' => $this->_request->getParam('search'),
+            'solrfacet' => ''
+        ));
+
+        // Redirect.
+        $this->_redirect('solr-search/results?' . $query);
+
+    }
+
     public function indexAction() {
+
         if ($this->isAjax()) {
             $this->handleJson();
         } else {
