@@ -78,6 +78,7 @@ add_plugin_hook('config', 'solr_search_config');
 
 // {{{ filters
 add_filter('admin_navigation_main', 'solr_search_admin_navigation');
+add_filter('simple_search_default_uri', 'solr_search_simple_search_uri');
 // }}}
 
 /**
@@ -489,6 +490,11 @@ function solr_search_options(){
     $form->addElement($solrFacetLimit);
     
     return $form;
+}
+
+function solr_search_simple_search_uri($uri) {
+    $uri = uri('solr-search/results');
+    return $uri;
 }
 
 /*
