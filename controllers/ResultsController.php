@@ -159,7 +159,12 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $query = solr_search_assemble_query(solr_search_get_params());
         $params = $this->getSearchParameters($facets);
 
-        $results = $solr->search($query, $offset, $limit, $params);
+        // print_r(solr_search_get_params());
+        echo $query;
+
+        // $results = $solr->search($query, $offset, $limit, $params);
+
+        $results = array();
 
         return $results;
     }
