@@ -94,4 +94,4 @@ solr path/to/SolrSearch/solr-home
 [3]: https://github.com/scholarslab/SolrSearch "https://github.com/scholarslab/SolrSearch"
 [4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
-[homebre]: http://mxcl.github.com/homebrew/
+[homebrew]: http://mxcl.github.com/homebrew/
