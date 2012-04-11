@@ -182,8 +182,6 @@ function solr_search_get_params(
         }
     }
 
-    print_r($req);
-
     return $params;
 }
 
