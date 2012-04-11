@@ -140,18 +140,6 @@ class SolrPlugin
 
   }
 
-    /**
-     * Intercept simple search request and redirect to SolrSearch.
-     *
-     * @param string $uri The default simple search uri.
-     *
-     * @return void.
-     */
-    public function simpleSearchDefaultUri($uri)
-    {
-        return $uri;
-    }
-
   // {{{protected
 
   /**
