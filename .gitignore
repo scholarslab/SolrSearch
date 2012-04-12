@@ -1,2 +1,7 @@
 dist/
 solr-home/data
+
+# Added Eclipse-specific files
+.buildpath
+.project
+.settings/
