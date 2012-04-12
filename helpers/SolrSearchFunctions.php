@@ -44,13 +44,16 @@ function solr_search_base_url()
  */
 function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'solr_simple-search'))
 {
+  //TODO: make solr search q a CONSTANT
+  $searchQuery = array_key_exists('solrq', $_GET) ? $_GET['solrq'] : '';
+
   $uri = solr_search_base_url();
   $formProperties['action'] = $uri;
   $formProperties['method'] = 'get';
   $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
   $html .= '<fieldset>' . "\n\n";
-  $html .= __v()->formText('solrq', '', array('name'=>'solrq','class'=>'textinput'));
-  $html .= __v()->formHidden('solrfacet', '');
+  $html .= __v()->formText('solrq', $searchQuery, array('name'=>'solrq','class'=>'textinput'));
+//  $html .= __v()->formHidden('solrfacet', '');
   $html .= __v()->formSubmit('submit_solr_search', $buttonText, array('class' => 'solr_search'));
   $html .= '</fieldset>' . "\n\n";
   $html .= '</form>';
