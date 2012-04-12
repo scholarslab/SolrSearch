@@ -111,7 +111,7 @@ class SolrPlugin
                 ->findBySql('record_id = ?', array($item['id']));
 
             $docs = array();
-            $doc = new Apaache_Solr_Document();
+            $doc = new Apache_Solr_Document();
             $doc->id = $item['id'];
             foreach ($elementTexts as $elementText) {
                 $titleCount = 0;
@@ -221,9 +221,7 @@ class SolrPlugin
 
     public function publicThemeHeader()
     {
-        if($request->getModuleName() == 'solr-search') {
-            queue_css('solr_search_public');
-        }
+        queue_css('solr_search_public');
     }
 
     public function configForm()
@@ -280,29 +278,22 @@ class SolrPlugin
      */
     protected function _addFacetMappings()
     {
-        $sql = <<<SQL
-            INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (name, is_facet, is_displayed, is_sortable)
-                VALUES (?, ?, ?, ?);
-SQL;
-        $stmt = $this->_db->prepare($sql);
-
-        $stmt->execute(array('image',      1, 1, 1));
-        $stmt->execute(array('tag',        1, 1, 1));
-        $stmt->execute(array('collection', 1, 1, 1));
-        $stmt->execute(array('itemtype',   1, 1, 1));
-
-        $sql = <<<SQL
-            INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (element_id, name, element_set_id)
-                VALUES (?, ?, ?);
-SQL;
-        $stmt = $this->_db->prepare($sql);
         $elements = $this->_db->getTable('Element')->findAll();
+        $sql = <<<SQL
+            INSERT INTO `{$this->_db->prefix}solr_search_facets`
+                (element_id, name, element_set_id, is_facet, is_displayed, is_sortable)
+                VALUES (?, ?, ?, ?, ?, ?);
+SQL;
+        $stmt = $this->_db->prepare($sql);
+
+        $stmt->execute(array(null, 'image',      null, 1, 1, 1));
+        $stmt->execute(array(null, 'tag',        null, 1, 1, 1));
+        $stmt->execute(array(null, 'collection', null, 1, 1, 1));
+        $stmt->execute(array(null, 'itemtype',   null, 1, 1, 1));
 
         foreach ($elements as $element) {
             $stmt->execute(array(
-                $element['id'], $element['name'], $element['element_set_id']
+                $element['id'], $element['name'], $element['element_set_id'], 0, 0, 0
             ));
         }
     }
