@@ -1,3 +1,7 @@
-.zend_form>dd{
-	margin-bottom:20px;
+.zend_form > dd {
+	margin-bottom: 20px;
+}
+
+.solrsearch.config > dd {
+    margin-bottom: 20px;
 }
