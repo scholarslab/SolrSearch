@@ -152,6 +152,12 @@
   width: 1px;
 }
 
+#results {
+  float: left;
+  width: 60%;
+}
+
+
 
 .solr_result_doc dt{
 	float:left;
@@ -161,12 +167,12 @@
 	margin-right:25px;
 }
 .solr_facets{
-	float:right;
+	float: left;;
 	width:30%;
 }
 .solr_results{
 	float:left;
-	width:60%;
+	width:70%;
 }
 .item{
 	width:100%;

@@ -496,6 +496,19 @@ function solr_search_assemble_query($query, $default='*:*')
   return $q;
 }
 
+
+function solr_search_parse_facet($facet)
+{
+  $header = '';
+  if(strstr($facet, '_')) {
+    $header = solr_search_facet_link($facet);
+  } else {
+    $header = ucwords($facet);
+  }
+
+  return $header;
+}
+
 /*
  * Local variables:
  * tab-width: 4

@@ -26,29 +26,77 @@
 
     </div>
 
+    <?php if(!empty($facets)): ?>
+      <?php $query = solr_search_get_params(); ?>
+      <div class="solr_facets">
+        <h2>Limit your search</h2>
+        <?php foreach($results->facet_counts->facet_fields as $facet => $values): ?>
+        <h3><?php echo solr_search_parse_facet($facet); ?></h3>
+        <ul>
+					<?php foreach($values as $label => $count): ?>
+						<li><?php echo solr_search_facet_link($query, $facet, $label, $count); ?></li>
+					<?php endforeach; ?>
+        </ul>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
+    <div id="results">
     <?php foreach($results->response->docs as $doc): ?>
     <div class="item" id="solr_<?php echo $doc->__get('id'); ?>">
       <div class="details">
-        <dl class="metadata hd">
-          <dt class="hide">Title: </dt>
-          <dd class="titleField">
-            <h2><?php echo solr_search_result_link($doc); ?></h2>
-          </dd>
-        </dl>
+        <div class="title">
+          <h2><?php echo solr_search_result_link($doc); ?></h2>
+        </div>
+
+        <?php $tags = $doc->__get('tag'); ?>
+        <?php if($tags): ?>
+          <div class="tags">
+            <?php foreach($tags as $tag): ?>
+              <?php echo $tag ?> ,
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+
+    
+        <?php print_r($doc->__get('image')); ?>
+        	<?php
+						// display images last
+						foreach ($doc as $field=>$value) { ?>
+							<?php if ($field == 'image') {?>
+								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
+									<a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $multivalue) ?>">
+										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $multivalue) ?>"/>
+									</a>
+								<?php }} else { ?>
+									<a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $value) ?>">
+										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $value) ?>"/>
+									</a>
+								<?php } ?>
+							<?php } ?>
+						<?php } ?>
+						
+						<?php 
+						//display highlighting, if applicable
+						if ($results->responseHeader->params->hl == 'true'){ ?>
+							<div class="solr_highlight">
+								<?php echo solr_search_display_snippets($doc->id, $results->highlighting); ?>
+							</div>
+						<?php } ?>					
+					</div>
+
       </div>
     </div>
     <?php endforeach; ?>
-
-
     </div>
+
 
 
 
 </div>
 
-<hr/>
 
-<div id="primary">
+<div id="nprimary">
 	<div class="<?php if (!empty($facets)){ echo 'solr_results'; } ?>">
 		<h1>Browse</h1>
 		<div class="item-list">
@@ -95,7 +143,7 @@
 										</dt>
 										<dd><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></dd>
 									</div>
-								<?php } ?>
+								n<?php } ?>
 							<?php } ?>
 						<?php } ?>						
 						</dl>
@@ -148,5 +196,6 @@
 		</div>
 	<?php } ?>	
 </div>
+
 
 <?php echo foot(); ?>
