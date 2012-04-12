@@ -493,10 +493,14 @@ function solr_search_assemble_query($query, $default='*:*')
     $q .= " AND ({$query['facet']})";
   }
 
+<<<<<<< HEAD
   // XXX: Remove this once the images for Falmouth have been added.
   $q .= ' AND (image:* OR *:*)';
 
   return $q;
+=======
+    return $q;
+>>>>>>> ed4ad78a942393dbcf27ad17f96321c451f98eb0
 }
 
 /*

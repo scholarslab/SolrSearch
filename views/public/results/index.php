@@ -3,59 +3,51 @@
   head(array('title' => $pageTitle, 'id' => 'items', 'bodyclass' => 'browse'));
 ?>
 
-<div id="primary" class="solr_results">
-  <h1><?php echo $pageTitle; ?> <?php echo __('(%s total)', $results->response->numFound); ?></h1>
+<div id="primary" class="solr_results results">
+  <h1><?php echo $pageTitle; ?> </h1>
 
-  <div id="pagination-top" class="pagination">
-    <?php echo pagination_links(); ?>
-  </div>
-
-  <div class="item-list">
+  <div id="solr_results" class="item-list">
     <div id="solr_search" class="search solr_remove_facets">
       <?php //TODO: Fix button on this... ?>
       <?php echo solr_search_form(); ?>
     </div>
     <div id="appliedParams">
+      <h3>You searched for:</h3>
       <?php echo solr_search_remove_facets(); ?>
     </div>
-
-    <p><?php //TODO: discuss spelling queries and where to push the sort-by method ?></p>
-
-
-    <hr />
-
-    </div>
-    <div class="solr_sort">
-      <h4>Total Results: <?php echo $results->response->numFound; ?></h4>
+    <div class="resultLine">
+      <span class="results">
+        <strong><?php echo __('%s', $results->response->numFound); ?></strong> results
+      </span>
+      <nav class="pagination">
+        <?php echo pagination_links(); ?>
+      </nav>
       <div class="solr_sort_form"><?php echo solr_search_sort_form(); ?></div>
+
     </div>
 
     <?php foreach($results->response->docs as $doc): ?>
-      <div class="item hentry">
-        <div class="item-meta">
-          <h2><?php echo solr_search_result_link($doc); ?></h2>
-          <?php// foreach($doc as $field => $value): ?>
-            <?ph//p $whitelist = array('id', 'title', 'image'); ?>
-            <? //TODO: do this better ?>
-            <?ph//p if(!in_array($field, $whitelist)): ?>
-              <?php// if(is_array($value)): ?>
-                <?php // TODO: split this array better; ?>
-                <?php// foreach($value as $multivalue): ?>
-<?php// echo ucwords($field); ?>
-                <?php// endforeach; ?>
-              <?php// endif; ?>
-              <?php // TODO: write helper to parse value strings ?>
-              <div class="<?php echo $field; ?>"<?php echo $value; ?></div>
-            <?php //endif; ?>
-          <?php //endforeach; ?>
-        </div>
+    <div class="item" id="solr_<?php echo $doc->__get('id'); ?>">
+      <div class="details">
+        <dl class="metadata hd">
+          <dt class="hide">Title: </dt>
+          <dd class="titleField">
+            <h2><?php echo solr_search_result_link($doc); ?></h2>
+          </dd>
+        </dl>
       </div>
+    </div>
     <?php endforeach; ?>
 
-  </div>
+
+    </div>
+
+
+
 </div>
 
 <hr/>
+
 <div id="primary">
 	<div class="<?php if (!empty($facets)){ echo 'solr_results'; } ?>">
 		<h1>Browse</h1>

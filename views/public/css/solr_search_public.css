@@ -46,6 +46,19 @@
   padding: 1em 0.66em 0 1em;
 }
 
+#appliedParams h3 {
+  color: #555;
+  display: block;
+  float: left;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 300;
+  overflow: visible;
+  padding: 4px;
+  margin: 0;
+  position: relative;
+}
+
 .appliedFilter {
   background: none repeat scroll 0 0 #e2edfe;
   border: 1px solid #c4dafe;
@@ -79,6 +92,64 @@
 
 .filterValue {
   padding-right: 37px;
+}
+
+.resultLine {
+  background: none repeat scroll 0 0 #f5f5f5;
+  clear: both;
+  margin: 10px 0;
+  overflow: hidden;
+  padding: 8px 11px 8px 8px;
+}
+
+.resultLine .results {
+  float: left;
+  width: 100px;
+  margin-top: 8px;
+}
+
+.resultLine span {
+  float: left;
+  line-height: 23px;
+}
+
+.resultLine .pagination {
+  float: left;
+  padding: 0 20px;
+}
+
+#solr_results .hd {
+  background-color: #eef5fb;
+  border-top: 1px solid #a4c6ef;
+  float: none;
+  min-height: 48px;
+  padding-left: 10px;
+  width: 100%;
+}
+
+#solr_results .metadata {
+  margin: 0.382em 0 0;
+  width: 80%;
+}
+
+#solr_results dt {
+  float: left;
+  line-height: 14px;
+  margin: 0 8px 8 10px;
+  text-align: right;
+  width: 137px;
+}
+
+.details .metadata dt {
+  font-weight: bold;
+}
+
+.hide, .print {
+  height: 1px;
+  left: -1000em;
+  position: absolute;
+  top: -1000em;
+  width: 1px;
 }
 
 
