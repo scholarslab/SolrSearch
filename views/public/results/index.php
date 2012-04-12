@@ -10,10 +10,10 @@
 			if ($results)
 			{
 			?>
-				<div class="solr_remove_facets"><h2>Current Query</h2><ul><?php echo solr_search_remove_facets(); ?></ul></div>
+				<div class="solr_remove_facets"><h2>Current Query</h2><ul><?php echo SolrSearch_ViewHelpers::removeFacets(); ?></ul></div>
 				<div class="solr_sort">
 					<h4>Total Results: <?php echo $results->response->numFound; ?></h4>
-					<div class="solr_sort_form"><?php echo solr_search_sort_form(); ?></div>
+					<div class="solr_sort_form"><?php echo SolrSearch_ViewHelpers::createSortForm(); ?></div>
 				</div>
 				<div class="pagination"><?php echo pagination_links(); ?></div>
 				
@@ -23,7 +23,7 @@
 				  {
 				?>	
 					<div class="item">
-						<h3><?php echo solr_search_result_link($doc); ?></h3>
+                        <h3><?php echo SolrSearch_ViewHelpers::createResultLink($doc); ?></h3>
 						
 						<dl class="solr_result_doc">
 						<?php
@@ -34,7 +34,7 @@
 									<div>
 										<dt>
 											<?php if (strstr($field, '_')) { ?>
-												<?php echo solr_search_element_lookup($field) ?>
+												<?php echo SolrSearch_ViewHelpers::lookupElement($field) ?>
 											<?php } else { echo ucwords($field); }?>										
 										</dt>
 										<dd><?php echo htmlspecialchars($multivalue, ENT_NOQUOTES, 'utf-8'); ?></dd>
@@ -43,7 +43,7 @@
 									<div>
 										<dt>	
 											<?php if (strstr($field, '_')) { ?>
-												<?php echo solr_search_element_lookup($field) ?>
+												<?php echo SolrSearch_ViewHelpers::lookupElement($field) ?>
 											<?php } else { echo ucwords($field); }?>
 										</dt>
 										<dd><?php echo htmlspecialchars($value, ENT_NOQUOTES, 'utf-8'); ?></dd>
@@ -57,12 +57,12 @@
 						foreach ($doc as $field=>$value) { ?>
 							<?php if ($field == 'image') {?>
 								<?php if (is_array($value)){ foreach ($value as $multivalue) { ?>
-									<a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $multivalue) ?>">
-										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $multivalue) ?>"/>
+									<a class="solr_search_image" href="<?php echo SolrSearch_ViewHelpers::getImagePath('fullsize', $multivalue) ?>">
+										<img alt="<?php echo SolrSearch_ViewHelpers::getDocTitle($doc); ?>" src="<?php echo SolrSearch_ViewHelpers::getImagePath('square_thumbnail', $multivalue) ?>"/>
 									</a>
 								<?php }} else { ?>
-									<a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $value) ?>">
-										<img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $value) ?>"/>
+									<a class="solr_search_image" href="<?php echo SolrSearch_ViewHelpers::getImagePath('fullsize', $value) ?>">
+										<img alt="<?php echo SolrSearch_ViewHelpers::getDocTitle($doc); ?>" src="<?php echo SolrSearch_ViewHelpers::getImagePath('square_thumbnail', $value) ?>"/>
 									</a>
 								<?php } ?>
 							<?php } ?>
@@ -72,7 +72,7 @@
 						//display highlighting, if applicable
 						if ($results->responseHeader->params->hl == 'true'){ ?>
 							<div class="solr_highlight">
-								<?php echo solr_search_display_snippets($doc->id, $results->highlighting); ?>
+								<?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?>
 							</div>
 						<?php } ?>					
 					</div>
@@ -83,18 +83,18 @@
 	</div>
 	<?php //display facets ?>
 	<?php if (!empty($facets)){ ?>
-        <?php $query = solr_search_get_params(); ?>
+        <?php $query = SolrSearch_ViewHelpers::getParams(); ?>
 		<div class="solr_facets">
 			<h2>Facets</h2>
 			<?php foreach ($results->facet_counts->facet_fields as $facet => $values){ ?>
 					<h3><?php if (strstr($facet, '_')) { ?>
-							<?php echo solr_search_element_lookup($facet); ?>		
+							<?php echo SolrSearch_ViewHelpers::lookupElement($facet); ?>		
 						<?php } else { echo ucwords($facet); }?>
 					</h3>	
 					
 				<ul>
 					<?php foreach($values as $label => $count){ ?>
-						<li><?php echo solr_search_facet_link($query, $facet, $label, $count); ?></li>
+						<li><?php echo SolrSearch_ViewHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
 					<?php } ?>
 				</ul>
 			<?php } ?>
