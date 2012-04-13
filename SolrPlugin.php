@@ -223,6 +223,7 @@ class SolrPlugin
     public function publicThemeHeader()
     {
         queue_css('solr_search_public');
+        queue_js('facets');
     }
 
     public function configForm()

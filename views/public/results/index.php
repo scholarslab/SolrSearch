@@ -28,16 +28,19 @@
 
     <?php if(!empty($facets)): ?>
       <?php $query = solr_search_get_params(); ?>
-      <div class="solr_facets">
+      <div class="solr_facets_container">
         <h2>Limit your search</h2>
+        <div class="solr_facets">
         <?php foreach($results->facet_counts->facet_fields as $facet => $values): ?>
         <h3><?php echo solr_search_parse_facet($facet); ?></h3>
+        
         <ul>
 					<?php foreach($values as $label => $count): ?>
 						<li><?php echo solr_search_facet_link($query, $facet, $label, $count); ?></li>
 					<?php endforeach; ?>
         </ul>
         <?php endforeach; ?>
+</div>
       </div>
     <?php endif; ?>
 
