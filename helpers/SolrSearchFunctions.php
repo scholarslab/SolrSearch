@@ -317,7 +317,7 @@ function solr_search_remove_facet($facet, $label)
     }
 
     if (empty($query)) {
-        array_push($query, html_espace('solrq=*:*'));
+        array_push($query, html_escape('solrq=*:*'));
     }
 
     $removeFacetLink = "[<a href='$uri?" . implode('&', $query) . '\'>X</a>]';
