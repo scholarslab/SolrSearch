@@ -67,6 +67,7 @@
 
         <?php $image = $doc->__get('image');?>
         <?php if($image): ?>
+          <?php //TODO: make a helper ?>
           <a class="solr_search_image" href="<?php echo solr_search_image_path('fullsize', $image) ?>">
             <img alt="<?php echo solr_search_doc_title($doc); ?>" src="<?php echo solr_search_image_path('square_thumbnail', $image) ?>"/>
           </a>
