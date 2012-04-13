@@ -496,7 +496,12 @@ function solr_search_assemble_query($query, $default='*:*')
   return $q;
 }
 
-
+/**
+ * Parses facet field to determine human readable version
+ *
+ * @param string $facet Facet to parse
+ * @return string $header Human readable face name
+ */
 function solr_search_parse_facet($facet)
 {
   $header = '';
@@ -507,6 +512,27 @@ function solr_search_parse_facet($facet)
   }
 
   return $header;
+}
+
+/**
+ * Generates an image tag for use in search results
+ *
+ * @param int $image_id Image to look up
+ * @param string $alt Alt text for image
+ * @return string $html link to image
+ */
+function solr_search_result_image($image_id, $alt)
+{
+  $html = '';
+  $fullsize_path = solr_search_image_path('fullsize', $image_id);
+  $thumb_path = solr_search_image_path('square_thumbnail', $image_id);
+
+
+  $html .= '<a class="solr_search_image" href="' . $fullsize_path . '">';
+  $html .= '<img alt="' . $alt . '" src="' . $thumb_path . '" />';
+  $html .= '</a>';
+
+  return $html;
 }
 
 /*
