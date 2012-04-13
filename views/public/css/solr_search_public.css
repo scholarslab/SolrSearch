@@ -170,6 +170,11 @@
 	float: left;;
 	width:30%;
 }
+
+.solr_facets li {
+  list-style: none;
+}
+
 .solr_results{
 	float:left;
 	width:70%;
