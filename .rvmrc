@@ -1,0 +1,5 @@
+rvm use 1.9.3@solrsearch
+
+bundle
+
+bundle exec guard
