@@ -13,7 +13,7 @@
     </div>
     <div id="appliedParams">
       <h3>You searched for:</h3>
-      <?php echo solr_search_remove_facet(); ?>
+      <?php echo solr_search_remove_facets(); ?>
     </div>
     <div class="resultLine">
       <span class="results">
