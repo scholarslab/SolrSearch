@@ -2,6 +2,8 @@ source :rubygems
 
 gem "growl"
 
+gem "listen"
+
 gem "compass", "~> 0.12.1"
 gem "compass-validator"
 gem "oily_png"
