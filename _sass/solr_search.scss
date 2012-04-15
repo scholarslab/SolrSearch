@@ -1,3 +1,5 @@
+@import "mixins";
+
 #solr_search {
   border: 1px solid #aaa;
   border-radius: 4px 4px 0 0;
@@ -21,7 +23,8 @@
 
 .solr_search {
   -moz-transition: background 200ms ease-in-out 0s;
-  background: -moz-linear-gradient(center top, #fffcfa, #aaa7a2) repeat scroll 0 0 #ccc9cf;
+  /*background: -moz-linear-gradient(center top, #fffcfa, #aaa7a2) repeat scroll 0 0 #ccc9cf;*/
+  @include gradient(#fffcfa, #aaa7a2);
   border: 1px solid #79673f;
   box-shadow: 0 1px 3ps rgba(44, 11, 0, 0.3);
   color: #332211;
