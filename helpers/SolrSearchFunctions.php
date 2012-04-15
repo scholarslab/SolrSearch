@@ -359,7 +359,8 @@ function solr_search_sort_form() {
     array('Label', array('tag' => 'span')),));
   $form->addElement($query);
 
-  $facet = new Zend_Form_Element_Hidden('solrfacet');
+  /*
+  facet = new Zend_Form_Element_Hidden('solrfacet');
   $facet->setValue($params['facet']);
   $facet->setDecorators(
     array('ViewHelper',
@@ -367,6 +368,7 @@ function solr_search_sort_form() {
     array('tag' => 'span', 'class' => 'element')),
     array('Label', array('tag' => 'span')),));
   $form->addElement($facet);
+   */
 
   $sortField = new Zend_Form_Element_Select('sort');
   $sortField->setLabel('Sorted By:');
@@ -566,7 +568,7 @@ function solr_tags_as_string($tags = array(), $delimiter = null)
           $facetq = 'tag:"' . $label .'"';
         }
 
-        $searchpath = $uri . '?sorlq=' . $current['q'] . '&solrfacet=' . htmlspecialchars($facetq);
+        $searchpath = $uri . '?solrq=' . $current['q'] . '&solrfacet=' . htmlspecialchars($facetq);
         $tagStrings[$key] = '<a href="' . $searchpath .'" reg="tag">' . $label . '</a>';
       }
 
