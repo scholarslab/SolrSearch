@@ -13,7 +13,7 @@
     </div>
     <div id="appliedParams">
       <h3>You searched for:</h3>
-      <?php echo solr_search_remove_facets(); ?>
+      <?php echo solr_search_remove_facet(); ?>
     </div>
     <div class="resultLine">
       <span class="results">
@@ -33,14 +33,13 @@
         <div class="solr_facets">
         <?php foreach($results->facet_counts->facet_fields as $facet => $values): ?>
         <h3><?php echo solr_search_parse_facet($facet); ?></h3>
-        
         <ul>
 					<?php foreach($values as $label => $count): ?>
 						<li><?php echo solr_search_facet_link($query, $facet, $label, $count); ?></li>
 					<?php endforeach; ?>
         </ul>
         <?php endforeach; ?>
-</div>
+        </div>
       </div>
     <?php endif; ?>
 
@@ -62,9 +61,7 @@
         <?php if($tags): ?>
           <div class="tags">
             <strong>Tags:</strong>
-            <?php foreach($tags as $tag): ?>
-              <?php echo $tag ?>,
-            <?php endforeach; ?>
+            <?php echo solr_tags_as_string(); ?>
           </div>
         <?php endif; ?>
 

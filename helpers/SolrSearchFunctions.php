@@ -23,7 +23,6 @@
  * PHP version 5
  *
  */
-?><?php
 
 /**
  * Create the base URL for the results page.
@@ -32,6 +31,7 @@
  */
 function solr_search_base_url()
 {
+  //TODO: this should read from the routes table...
   return uri('/solr-search/results/');
 }
 
@@ -533,6 +533,47 @@ function solr_search_result_image($image_id, $alt)
   $html .= '</a>';
 
   return $html;
+}
+
+/**
+ * Output a tag string for a given Solr search result
+ *
+ * @param array $tags An array of tags to display from a Solr result
+ * @param string $delimiter ', ' (comma and whitespace) by default
+ *
+ * @return string tagString Facet link for given tag
+ */
+function solr_tags_as_string($tags = array(), $delimiter = null)
+{
+  $uri = solr_search_base_url();
+  $current = solr_search_get_params();
+
+  if(is_null($delimiter)) {
+      $delimiter = get_option('tag_delimiter') . ' ';
+  }
+
+  $tagString = '';
+
+  if(!empty($tags)) {
+    $tagStrings = array();
+
+      foreach($tags as $key => $tag) {
+        $label = html_escape($tag);
+
+        if(isset($current['facet'])) {
+          $facetq = $current['facet'] . '+AND+tag:"' . $label .'"';
+        } else {
+          $facetq = 'tag:"' . $label .'"';
+        }
+
+        $searchpath = $uri . '?sorlq=' . $current['q'] . '&solrfacet=' . htmlspecialchars($facetq);
+        $tagStrings[$key] = '<a href="' . $searchpath .'" reg="tag">' . $label . '</a>';
+      }
+
+      $tagString = join(html_escape($delimiter), $tagStrings);
+  }
+
+  return $tagString;
 }
 
 /*
