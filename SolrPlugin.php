@@ -222,8 +222,8 @@ class SolrPlugin
 
     public function publicThemeHeader()
     {
-        queue_css('solr_search_public');
-        queue_js('facets');
+        queue_css('solr_search');
+        queue_js('solrsearch-1.0-min');
     }
 
     public function configForm()
