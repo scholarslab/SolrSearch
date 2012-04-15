@@ -1,2 +1,4 @@
+.sass-cache
+Gemfile.lock
 dist/
 solr-home/data

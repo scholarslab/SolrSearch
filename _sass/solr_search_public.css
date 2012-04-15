@@ -4,7 +4,13 @@
   font-size: 1.2em;
   padding: 0.666em;
   text-align: left;
+
+  input#solrq {
+    border-radious: 8px;
+  }
 }
+
+
 
 #solr_search input#solrq, #solr_search .solr_search {
   border-radius: 8px 8px 8px 8px;

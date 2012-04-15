@@ -4,19 +4,19 @@
   font-size: 1.2em;
   padding: 0.666em;
   text-align: left;
-}
 
-#solr_search input#solrq, #solr_search .solr_search {
-  border-radius: 8px 8px 8px 8px;
-}
+  input#solrq, .solr_search {
+    border-radious: 8px;
+  }
 
-#solr_search input#solrq {
-  width: 475px;
-  box-shadow: 0 1px 3px rgba(44, 11, 0, 0.3), 0 0 7px rgba(88, 88, 88, 0.4) inset;
-  font-size: 16px;
-  height: 30px;
-  margin-left: 15px;
-  padding: 4px 8px;
+  input#solrq {
+    width: 475px;
+    box-shadow: 0 1px 3px rgba(44, 11, 0, 0.3), 0 0 7px rgba(88, 88, 88, 0.4) inset;
+    font-size: 16px;
+    height: 30px;
+    margin-left: 15px;
+    padding: 4px 8px;
+  }
 }
 
 .solr_search {
