@@ -16,8 +16,7 @@
 </ul>
 <div id="primary">
 	<h2>Hit Highlighting</h2>
-   <?php echo flash(); ?>
-	<?php
+   <?php echo flash(); 
             if (!empty($err)) {
                 echo '<p class="error">' . html_escape($err) . '</p>';
             }
