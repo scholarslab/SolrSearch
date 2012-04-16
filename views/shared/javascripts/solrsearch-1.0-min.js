@@ -1,1 +1,0 @@
-jQuery(document).ready(function(){jQuery(".solr_facets h3").click(function(){return jQuery(this).next().toggle({animated:"bounceslide",icons:{header:"ui-icon-plus",headerSelected:"ui-icon-minus"}}),!1}).next().hide()})

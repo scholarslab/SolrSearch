@@ -1,12 +1,17 @@
 fs = require 'fs'
 util = require 'util'
+ini = require 'inireader'
 
 files = [
   './views/shared/javascripts/facets.js',
 ]
 
-application_name = 'solrsearch'
-version = '1.0'
+plugin_file = './plugin.ini'
+parser = new iniReader.IniReader()
+parser.load(plugin_file)
+
+application_name = parser.param('info.name')
+version = parser.param('info.version')
 
 builddir = './views/shared/javascripts'
 targetfile = "#{application_name}-#{version}"
