@@ -234,5 +234,25 @@ class SolrSearch_QueryHelpers
         return $q;
     }
 
+    /**
+     * Parses facet field to determine human readable version.
+     *
+     * @param string $facet Facet to parse.
+     *
+     * @return string $header Human readable facet name
+     * @author Wayne Graham <wsg4w@virginia.edu>
+     **/
+    public static function parseFacet($facet)
+    {
+        $header = '';
+        if (strstr($facet, ' ')) {
+            $header = SolrSearch_QueryHelpers::createFacetHtml($facet);
+        } else {
+            $header = ucwords($facet);
+        }
+
+        return $header
+    }
+
 }
 
