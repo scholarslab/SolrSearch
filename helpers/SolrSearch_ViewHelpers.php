@@ -458,7 +458,8 @@ class SolrSearch_ViewHelpers
      * @param type $id
      * @param type $highlighting
      */
-    public static function displaySnippets($id, $highlighting){
+    public static function displaySnippets($id, $highlighting)
+    {
         foreach ($highlighting as $k=>$v){
             if ($k == $id){
                 foreach($v as $k=>$snippets){
