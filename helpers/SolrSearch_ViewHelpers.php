@@ -158,48 +158,6 @@ class SolrSearch_ViewHelpers
     }
 
     /**
-     * Return the current search URL with only the given facet removed.
-     *
-     * @param string $facet The facet to remove.
-     * @param string $label The facet label (value) to remove.
-     *
-     * @return string The current search URL without the given facet.
-     */
-    public static function removeFacet($facet, $label)
-    {
-        // Deconstruct current query and remove particular facet.
-        $queryParams = SolrSearch_QueryHelpers::getParams();
-        $newParams = array();
-        $removeFacetLink = "[<a href='$uri?";
-        $query = array();
-
-        if (isset($queryParams['q'])) {
-            array_push($query, "solrq={$queryParams['q']}");
-        }
-
-        $queryParams = explode(' AND ', $_REQUEST['q']);
-        if (isset($queryParams['facet'])) {
-            $facetKey = "$facet:\"$label\"";
-            $facetQuery = array();
-            foreach (explode(' AND ', $queryParams['facet']) as $value) {
-                if ($value != $facetKey) {
-                    array_push($facetQuery, $value);
-                }
-            }
-            if (!empty($facetQuery)) {
-                array_push($query, implode('+AND+', $facetQuery));
-            }
-        }
-
-        if (empty($query)) {
-            array_push($query, html_escape('solrq=*:*'));
-        }
-
-        $removeFacetLink = "[<a href='$uri?" . implode('&', $query) . '\'>X</a>]';
-        return $removeFacetLink;
-    }
-
-    /**
      *
      * @return Zend_Form
      */
