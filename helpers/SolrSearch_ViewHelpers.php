@@ -23,7 +23,6 @@
  * PHP version 5
  *
  */
-?><?php
 
 /**
  * This is a collection of utilities to make displaying results and generating 
