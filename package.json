@@ -1,0 +1,7 @@
+{
+  "name": "SolrSearch",
+  "version": "1.0.0",
+  "dependencies" : {
+    "inireader" : "0.2.4"
+  }
+}

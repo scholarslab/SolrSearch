@@ -205,9 +205,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 
 }
 
-?>
-
-<?php
 /*
  * Local variables:
  * tab-width: 4
@@ -215,4 +212,4 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
  * c-hanging-comment-ender-p: nil
  * End:
  */
-?>
+

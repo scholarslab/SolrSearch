@@ -222,7 +222,8 @@ class SolrPlugin
 
     public function publicThemeHeader()
     {
-        queue_css('solr_search_public');
+        queue_css('solr_search');
+        queue_js('solrsearch-1.0-min');
     }
 
     public function configForm()
@@ -312,9 +313,9 @@ SQL;
         set_option('solr_search_core', '/solr/');
         set_option('solr_search_rows', '10');
         set_option('solr_search_facet_limit', '25');
-        set_option('solr_search_hl', 'false');
+        set_option('solr_search_hl', 'true');
         set_option('solr_search_snippets', '1');
-        set_option('solr_search_fragsize', '100');
+        set_option('solr_search_fragsize', '250');
         set_option('solr_search_facet_sort', 'count');
     }
 

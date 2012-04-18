@@ -92,9 +92,9 @@ class SolrSearch_ViewHelpers
 
     /**
      * Looks up a Solr element name (ID_suffix) in the index returned by 
-     * solr_search_get_element_names.
+     * getElementNames.
      *
-     * @param array  $index The index returned by solr_search_get_element_names.
+     * @param array  $index The index returned by getElementNames.
      * @param string $name  The Solr element name.
      *
      * @return string The display label for the element.

@@ -1,0 +1,209 @@
+@import "mixins";
+
+#solr_search {
+  border: 1px solid #aaa;
+  border-radius: 4px 4px 0 0;
+  font-size: 1.2em;
+  padding: 0.666em;
+  text-align: left;
+
+  input#solrq, .solr_search {
+    border-radious: 8px;
+  }
+
+  input#solrq {
+    width: 475px;
+    box-shadow: 0 1px 3px rgba(44, 11, 0, 0.3), 0 0 7px rgba(88, 88, 88, 0.4) inset;
+    font-size: 16px;
+    height: 30px;
+    margin-left: 15px;
+    padding: 4px 8px;
+  }
+}
+
+.solr_search {
+  -moz-transition: background 200ms ease-in-out 0s;
+  /*background: -moz-linear-gradient(center top, #fffcfa, #aaa7a2) repeat scroll 0 0 #ccc9cf;*/
+  @include gradient(#fffcfa, #aaa7a2);
+  border: 1px solid #79673f;
+  /*box-shadow: 0 1px 3px rgba(44, 11, 0, 0.3);*/
+  @include box-shadow(0, 1px, 3px, rgba(44, 11, 0, 0.3));
+  color: #332211;
+  font-size: 16px;
+  font-weight: bold;
+  height: 40px;
+  line-height: 34px;
+  margin-left: 10px;
+  text-shadow: 0 1px 0 #fff;
+  vertical-align: middle;
+  width: 90px;
+
+}
+
+#appliedParams {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-radius: 0 0 4px 4px;
+  border-right: 1px solid #aaa;
+  margin-bottom: 1.5em;
+  padding: 1em 0.66em 0 1em;
+
+  h3 {
+    color: #555;
+    display: block;
+    float: left;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 300;
+    overflow: visible;
+    padding: 4px;
+    margin: 0;
+    position: relative;
+  }
+}
+
+.appliedFilter {
+  background: none repeat scroll 0 0 #e2edfe;
+  border: 1px solid #c4dafe;
+  border-radius: 15px 15px 15px 15px;
+  display: inline-block;
+  margin-bottom: 0.66em;
+  margin-right: 0.33em;
+  padding: 3px 3px 3px 1.5em;
+  position: relative;
+
+  .btnRemove {
+    background: url('img/remove.gif') no-repeat scroll center center transparent;
+    border-bottom: medium none;
+    border-left: 1px solid #d0daea;
+    display: block;
+    height: 100%;
+    outline: medium none;
+    position: absolute;
+    right: 0;
+    text-indent: -99999px;
+    top: 0;
+    width: 32px;
+  }
+}
+
+.filterName {
+  padding-right: 14px;
+  background: url('img/separator.gif') no-repeat scroll right center transparent;
+}
+
+.filterValue {
+  padding-right: 37px;
+}
+
+.resultLine {
+  background: none repeat scroll 0 0 #f5f5f5;
+  clear: both;
+  margin: 10px 0;
+  overflow: hidden;
+  padding: 8px 11px 8px 8px;
+
+  .results {
+    float: left;
+    width: 100px;
+    margin-top: 8px;
+  }
+
+  span {
+    float: left;
+    line-height: 0 20px;
+  }
+}
+
+#solr_results {
+  .hd {
+    background-color: #eef5fb;
+    border-top: 1px solid #a4c6ef;
+    float: none;
+    min-height: 48px;
+    padding-left: 10px;
+    width: 100%;
+  }
+
+  .metadata {
+    margin: 0.382em 0 0;
+    width: 80%;
+  }
+
+  dt {
+    float: left;
+    line-height: 14px;
+    margin: 0 8px 8 10px;
+    text-align: right;
+    width: 137px;
+  }
+
+}
+
+
+.details .metadata dt {
+  font-weight: bold;
+}
+
+.hide, .print {
+  height: 1px;
+  left: -1000em;
+  position: absolute;
+  top: -1000em;
+  width: 1px;
+}
+
+#results {
+  float: left;
+  width: 60%;
+}
+
+
+
+.solr_result_doc dt{
+	float:left;
+	width:125px;
+	font-weight:bold;
+	text-align:right;
+	margin-right:25px;
+}
+.solr_facets{
+	float: left;;
+	width:30%;
+  li {
+    list-style: none;
+  }
+}
+
+.solr_results{
+	float:left;
+	width:70%;
+}
+.item{
+	width:100%;
+}
+.fn{
+	width:80%;
+	float:left;
+}
+.fc{
+	float:left;
+	text-align:right;
+	width:15%;
+}
+ul.facets, ul.facets ul {
+    list-style-type: none;
+}
+.solr_sort>h4{
+	display:inline;	
+}
+.solr_sort_form{
+	float:right;
+}
+#sort-label label{
+	display:inline;
+}
+.solr_highlight>em{
+	font-weight:bold;	
+}
