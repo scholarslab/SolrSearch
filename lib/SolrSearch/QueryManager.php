@@ -28,8 +28,14 @@
 
 
 /**
- * This class takes the GET/PUT parameters and reads the Solr search parameters from it. It 
- * also makes it easy to modify those parameters and generate a URL for that.
+ * This class takes the GET/PUT parameters and reads the Solr search parameters 
+ * from it. It also makes it easy to modify those parameters and generate a URL 
+ * for that.
+ *
+ * WARNING: This is deprecated. Use the static functions in 
+ * SolrSearch_QueryHelper instead. If there is functionality missing there, it 
+ * needs to be added. This is not a fall-back. It won't be updated or developed 
+ * further.
  */
 class SolrSearch_QueryManager
 {
