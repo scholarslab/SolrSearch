@@ -320,6 +320,48 @@ class SolrSearch_ViewHelpers
         return $html;
     }
 
+    /**
+     * Output a tag string for a given Solr search result
+     *
+     * @param array $tags An array of tags to display from a Solr result
+     * @param string $delimiter ', ' (comma and whitespace) by default
+     *
+     * @return string tagString Facet link for given tag
+     * @author Wayne Graham <wsg4w@virginia.edu>
+     */
+    public static function tagsToStrings($tags=array(), $delimiter=null)
+    {
+        $uri = SolrSearch_ViewHelpers::getBaseUrl();
+        $current = SolrSearch_QueryHelpers::getParams();
+
+        if(is_null($delimiter)) {
+            $delimiter = get_option('tag_delimiter') . ' ';
+        }
+
+        $tagString = '';
+
+        if(!empty($tags)) {
+            $tagStrings = array();
+
+            foreach($tags as $key => $tag) {
+                $label = html_escape($tag);
+
+                if(isset($current['facet'])) {
+                    $facetq = $current['facet'] . '+AND+tag:"' . $label .'"';
+                } else {
+                    $facetq = 'tag:"' . $label .'"';
+                }
+
+                $searchpath = $uri . '?sorlq=' . $current['q'] . '&solrfacet=' . htmlspecialchars($facetq);
+                $tagStrings[$key] = '<a href="' . $searchpath .'" reg="tag">' . $label . '</a>';
+            }
+
+            $tagString = join(html_escape($delimiter), $tagStrings);
+        }
+
+        return $tagString;
+    }
+
 }
 
 /*
