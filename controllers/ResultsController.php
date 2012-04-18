@@ -177,7 +177,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 
     private function search($facets, $offset=0, $limit=10) {
         $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-        $query = SolrSearch_ViewHelpers::createQuery(SolrSearch_QueryHelpers::getParams());
+        $query = SolrSearch_QueryHelpers::createQuery(SolrSearch_QueryHelpers::getParams());
         $params = $this->getSearchParameters($facets);
 
         $results = $solr->search($query, $offset, $limit, $params);
