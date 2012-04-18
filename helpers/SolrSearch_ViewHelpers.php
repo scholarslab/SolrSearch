@@ -295,6 +295,31 @@ class SolrSearch_ViewHelpers
         }
     }
 
+    /**
+     * Generate an image tag for use in search results.
+     *
+     * @param int    $image_id Image to look up
+     * @param string $alt      Alt text for image
+     * @return string $html link to image
+     * @author Wayne Graham <wsg4w@virginia.edu>
+     **/
+    public static function createResultImgHtml($image_id, $alt)
+    {
+        $html = '';
+        $fullsize_path = SolrSearch_ViewHelpers::getImagePath(
+            'fullsize', $image_id
+        );
+        $thumb_path = SolrSearch_ViewHelpers::getImagePath(
+            'square_thumbnaail', $image_id
+        );
+
+        $html .= '<a class="solr_search_image" href="' . $fullsize_path . '">';
+        $html .= '<img alt="' . $alt . '" src="' . $thumb_path . '" />';
+        $html .= '</a>';
+
+        return $html;
+    }
+
 }
 
 /*
