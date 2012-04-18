@@ -10,7 +10,7 @@
 			if ($results)
 			{
 			?>
-				<div class="solr_remove_facets"><h2>Current Query</h2><ul><?php echo SolrSearch_ViewHelpers::removeFacets(); ?></ul></div>
+				<div class="solr_remove_facets"><h2>Current Query</h2><ul><?php echo SolrSearch_QueryHelpers::removeFacets(); ?></ul></div>
 				<div class="solr_sort">
 					<h4>Total Results: <?php echo $results->response->numFound; ?></h4>
 					<div class="solr_sort_form"><?php echo SolrSearch_ViewHelpers::createSortForm(); ?></div>

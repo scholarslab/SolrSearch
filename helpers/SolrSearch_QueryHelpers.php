@@ -115,5 +115,58 @@ class SolrSearch_QueryHelpers
         return $html;
     }
 
+    /**
+     * Create a new anchor with a field popped
+     *
+     * @return string
+     */
+    public static function removeFacets()
+    {
+        $uri = SolrSearch_ViewHelpers::getBaseUrl();
+        $queryParams = SolrSearch_QueryHelpers::getParams();
+        $html = '';
+
+        // If there is only one tokenized string in the query and that string is
+        // *:*, return ALL TERMS text.
+
+        if (empty($queryParams)
+            || (isset($queryParams['q']) && $queryParams['q'] == '*:*'
+                && !isset($queryParams['facet']))
+        ) {
+            $html .= '<li><b>ALL TERMS</b></li>';
+
+        } else {
+            // Otherwise, continue with process of displaying facets and removal
+            // links.
+
+            if (isset($queryParams['q'])) {
+                $html .= "<li><b>Keyword:</b> {$queryParams['q']} "
+                    . "[<a href='$uri?solrfacet={$queryParams['facet']}'>X</a>]"
+                    . "</li>";
+            }
+
+            if (isset($queryParams['facet'])) {
+                foreach (explode(' AND ', $queryParams['facet']) as $param) {
+                    $paramSplit = explode(':', $param);
+                    $facet = $paramSplit[0];
+                    $label = trim($paramSplit[1], '"');
+
+                    if (strpos($param, '_') !== false) {
+                        $category = SolrSearch_ViewHelpers::lookupElement($facet);
+                    } else {
+                        $category = ucwords($facet);
+                    }
+
+                    if ($facet != '*') {
+                        $link = SolrSearch_ViewHelpers::removeFacet($facet, $label);
+                        $html .= "<li><b>$category:</b> $label $link</li>";
+                    }
+                }
+            }
+        }
+
+        return $html;
+    }
+
 }
 
