@@ -158,50 +158,6 @@ class SolrSearch_ViewHelpers
     }
 
     /**
-     * Create a SolrFacetLink
-     *
-     * @param array   $current The current facet search.
-     * @param string  $facet
-     * @param string  $label
-     * @param integer $count
-     * @return string
-     */
-    public static function createFacetHtml($current, $facet, $label, $count)
-    {
-        $html = '';
-        $uri = SolrSearch_ViewHelpers::getBaseUrl();
-
-        // if the query contains one of the facets in the list
-        if (isset($current['q'])
-            && strpos($current['q'], "$facet:\"$label\"") !== false
-        ) {
-            //generate remove facet link
-            $removeFacetLink = SolrSearch_ViewHelpers::removeFacet($facet, $label);
-            $html .= "<div class='fn'><b>$label</b></div> "
-                . "<div class='fc'>$removeFacetLink</div>";
-        } else {
-            if (isset($current['q'])) {
-                $q = 'solrq=' . html_escape($current['q']) . '&';
-            } else {
-                $q = '';
-            }
-            if (isset($current['facet'])) {
-                $facetq = "{$current['facet']}+AND+$facet:&#x022;$label&#x022;";
-            } else {
-                $facetq = "$facet:&#x022;$label&#x022;";
-            }
-
-            //otherwise just display a link to a new query with the facet count
-            $html .= "<div class='fn'>"
-                . "<a href='$uri?{$q}solrfacet=$facetq'>$label</a>"
-                . "</div>"
-                . "<div class='fc'>$count</div>";
-        }
-
-        return $html;
-    }
-
-    /**
      * Create a new anchor with a field popped
      *
      * @return string

@@ -94,7 +94,7 @@
 					
 				<ul>
 					<?php foreach($values as $label => $count){ ?>
-						<li><?php echo SolrSearch_ViewHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
+						<li><?php echo SolrSearch_QueryHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
 					<?php } ?>
 				</ul>
 			<?php } ?>
