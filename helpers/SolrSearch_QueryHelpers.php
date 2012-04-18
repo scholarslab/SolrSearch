@@ -250,7 +250,7 @@ class SolrSearch_QueryHelpers
             $header = ucwords($facet);
         }
 
-        return $header
+        return $header;
     }
 
 }
