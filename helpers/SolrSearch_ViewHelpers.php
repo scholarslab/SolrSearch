@@ -158,47 +158,6 @@ class SolrSearch_ViewHelpers
     }
 
     /**
-     * This returns an array containing the Solr GET/POST parameters.
-     *
-     * @param array  $require    The request array to pull the parameters from.
-     * This defaults to null, which then gets set to $_REQUEST.
-     * @param string $qParam     The name of the q parameter. This defaults to
-     * 'solrq'.
-     * @param string $facetParam The name of the facet parameter. This defaults to
-     * 'solrfacet'.
-     * @param array $other       A list of other parameters to pull and include in
-     * the output.
-     *
-     * @return array This array is keyed on 'q' and 'facet'.
-     */
-    public static function getParams(
-        $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
-    ) {
-        if ($req === null) {
-            $req = $_REQUEST;
-        }
-        $params = array();
-
-        if (isset($req[$qParam])) {
-            $params['q'] = $req[$qParam];
-        }
-
-        if (isset($req[$facetParam])) {
-            $params['facet'] = $req[$facetParam];
-        }
-
-        if ($other !== null) {
-            foreach ($other as $key) {
-                if (array_key_exists($key, $req)) {
-                    $params[$key] = $req[$key];
-                }
-            }
-        }
-
-        return $params;
-    }
-
-    /**
      * Create a SolrFacetLink
      *
      * @param array   $current The current facet search.
@@ -250,7 +209,7 @@ class SolrSearch_ViewHelpers
     public static function removeFacets()
     {
         $uri = SolrSearch_ViewHelpers::getBaseUrl();
-        $queryParams = SolrSearch_ViewHelpers::getParams();
+        $queryParams = SolrSearch_QueryHelpers::getParams();
         $html = '';
 
         // If there is only one tokenized string in the query and that string is
@@ -306,7 +265,7 @@ class SolrSearch_ViewHelpers
     public static function removeFacet($facet, $label)
     {
         // Deconstruct current query and remove particular facet.
-        $queryParams = SolrSearch_ViewHelpers::getParams();
+        $queryParams = SolrSearch_QueryHelpers::getParams();
         $newParams = array();
         $removeFacetLink = "[<a href='$uri?";
         $query = array();
@@ -343,7 +302,7 @@ class SolrSearch_ViewHelpers
      */
     function createSortForm()
     {
-        $params = SolrSearch_ViewHelpers::getParams();
+        $params = SolrSearch_QueryHelpers::getParams();
         $uri = SolrSearch_ViewHelpers::getBaseUrl();
         require "Zend/Form/Element.php";
 

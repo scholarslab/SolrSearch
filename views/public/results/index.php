@@ -83,7 +83,7 @@
 	</div>
 	<?php //display facets ?>
 	<?php if (!empty($facets)){ ?>
-        <?php $query = SolrSearch_ViewHelpers::getParams(); ?>
+        <?php $query = SolrSearch_QueryHelpers::getParams(); ?>
 		<div class="solr_facets">
 			<h2>Facets</h2>
 			<?php foreach ($results->facet_counts->facet_fields as $facet => $values){ ?>

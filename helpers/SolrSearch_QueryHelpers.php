@@ -30,5 +30,46 @@
  **/
 class SolrSearch_QueryHelpers
 {
+    /**
+     * This returns an array containing the Solr GET/POST parameters.
+     *
+     * @param array  $require    The request array to pull the parameters from.
+     * This defaults to null, which then gets set to $_REQUEST.
+     * @param string $qParam     The name of the q parameter. This defaults to
+     * 'solrq'.
+     * @param string $facetParam The name of the facet parameter. This defaults to
+     * 'solrfacet'.
+     * @param array $other       A list of other parameters to pull and include in
+     * the output.
+     *
+     * @return array This array is keyed on 'q' and 'facet'.
+     */
+    public static function getParams(
+        $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
+    ) {
+        if ($req === null) {
+            $req = $_REQUEST;
+        }
+        $params = array();
+
+        if (isset($req[$qParam])) {
+            $params['q'] = $req[$qParam];
+        }
+
+        if (isset($req[$facetParam])) {
+            $params['facet'] = $req[$facetParam];
+        }
+
+        if ($other !== null) {
+            foreach ($other as $key) {
+                if (array_key_exists($key, $req)) {
+                    $params[$key] = $req[$key];
+                }
+            }
+        }
+
+        return $params;
+    }
+
 }
 
