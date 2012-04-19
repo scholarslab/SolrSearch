@@ -84,6 +84,8 @@ class SolrSearch_QueryHelpers
     $html = '';
     $uri = SolrSearch_ViewHelpers::getBaseUrl();
 
+    $escaped = htmlspecialchars($label, ENT_QUOTES);
+
     // if the query contains one of the facets in the list
     if (isset($current['q'])
       && strpos($current['q'], "$facet:\"$label\"") !== false
@@ -99,10 +101,12 @@ class SolrSearch_QueryHelpers
         $q = '';
       }
       if (isset($current['facet'])) {
-        $facetq = "{$current['facet']}+AND+$facet:&#x022;$label&#x022;";
+        $facetq = "{$current['facet']}+AND+$facet:&#x022;$escaped&#x022;";
       } else {
-        $facetq = "$facet:&#x022;$label&#x022;";
+        $facetq = "$facet:&#x022;$escaped&#x022;";
       }
+
+      $link = $uri . '?' . $q . 'solrfacet=' . $facetq;
 
       //otherwise just display a link to a new query with the facet count
       $html .= "<div class='fn'>"
