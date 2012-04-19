@@ -248,7 +248,7 @@ SQL;
         set_option('solr_search_server', 'localhost');
         set_option('solr_search_port', '8080');
         set_option('solr_search_core', '/solr/');
-        set_option('solr_search_rows', '10');
+        set_option('solr_search_rows', '');
         set_option('solr_search_facet_limit', '25');
         set_option('solr_search_hl', 'true');
         set_option('solr_search_snippets', '1');
@@ -311,7 +311,7 @@ SQL;
             ->addValidator('regex', true, array('/\/.*\//i'));
 
         $fields[] = $this->_makeOptionField(
-            $form, 'solr_search_rows', 'Results Per Page:', true
+            $form, 'solr_search_rows', "Results Per Page\n(empty uses Omeka's paging settings):", false
         )
             ->addValidator(new Zend_Validate_Digits())
             ->addErrorMessage('Results count must be numeric');
