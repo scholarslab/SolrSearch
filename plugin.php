@@ -73,6 +73,7 @@ require_once 'lib/SolrSearch/QueryManager.php';
 
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_ViewHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_QueryHelpers.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_IndexHelpers.php';
 
 require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrPlugin.php';
 

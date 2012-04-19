@@ -107,74 +107,10 @@ class SolrPlugin
         $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
 
         if($item['public'] == true){
-            $elementTexts = $this->_db
-                ->getTable('ElementText')
-                ->findBySql('record_id = ?', array($item['id']));
-
             $docs = array();
-            $doc = new Apache_Solr_Document();
-            $doc->id = $item['id'];
-            foreach ($elementTexts as $elementText) {
-                $titleCount = 0;
-                $fieldName = $elementText['element_id'] . '_s';
-                $doc->setMultiValue($fieldName, $elementText['text']);
-
-                // Store dc:titles as separate fields.
-                if ($elementText['element_id'] == 50) {
-                    $doc->setMultiValue('title', $elementText['text']);
-                }
-            }
-
-            // Tags
-            foreach ($item->Tags as $key => $tag) {
-                $doc->setMultiValue('tag', $tag);
-            }
-
-            // Collections
-            if ($item['collection_id'] > 0) {
-                $collectionName = $this->_db
-                    ->getTable('Collection')
-                    ->find($item['collection_id'])
-                    ->name;
-                $doc->collection = $collectionName;
-            }
-
-            // Item Type
-            if ($item['item_type_id'] > 0) {
-                $itemType = $this->_db
-                    ->getTable('ItemType')
-                    ->find($item['item_type_id'])
-                    ->name;
-                $doc->itemtype = $itemType;
-            }
-
-            // Images or XML files
-            $files = $item->Files;
-            foreach ($files as $file) {
-                $mimeType = $file->mime_browser;
-                if ($file['has_derivative_image'] == 1) {
-                    $doc->setMultiValue('image', $file['id']);
-                }
-
-                if ($mimeType == 'application/xml' || $mimeType == 'text/xml') {
-                    $teiFile = $file->getPath('archive');
-                    $this->_indexXml($teiFile, $doc);
-                }
-            }
-
-            // FedoraConnector XML
-            if (function_exists('fedora_connector_installed')) {
-                $dataStreams = $this->_db
-                    ->getTable('FedoraConnector_Datastream')
-                    ->findBySql('mime_type=? AND item_id=?', array('text/xml', $item->id));
-
-                foreach ($dataStreams as $ds) {
-                    $fedoraFile = fedora_connector_content_url($ds);
-                    $this->_indexXml($fedoraFile, $doc);
-                }
-            }
-
+            $doc = SolrSearch_IndexHelpers::itemToDocument($this->_db, $item);
             $docs[] = $doc;
+
             try {
                 $solr->addDocuments($docs);
                 $solr->commit();
@@ -351,20 +287,6 @@ SQL;
 
         $this->_db->exec($sql);
 
-    }
-
-    protected function _indexXml($filename, $solrDoc) {
-        $xml = new DomDocument();
-        $xml->load($filename);
-        $xpath = new DOMXPath($xml);
-
-        $nodes = $xpath->query('//text()');
-        foreach ($nodes as $node) {
-            $value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
-            if ($value != ' ' && $value != '') {
-                $solrDoc->setMultiValue('fulltext', $value);
-            }
-        }
     }
 
     protected function _makeConfigForm() {
