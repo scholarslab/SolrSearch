@@ -50,7 +50,7 @@ class SolrSearch_DbPager
     var $select;
 
     /**
-     * This is the number of page that was retrieved. This starts out at -1.
+     * This is the number of page that was retrieved. This starts out at 0.
      *
      * @var int
      **/
@@ -78,7 +78,7 @@ class SolrSearch_DbPager
     {
         $this->db         = $db;
         $this->select     = $select;
-        $this->pageNumber = -1;
+        $this->pageNumber = 0;
         $this->rowCount   = $rowCount;
         $this->params     = $params;
     }
@@ -96,7 +96,9 @@ class SolrSearch_DbPager
         $this->select->limitPage($this->pageNumber, $this->rowCount);
 
         $results = $this->db->query($this->select, $this->params);
-        return $results->fetchAll();
+        $rows    = $results->fetchAll();
+
+        return $rows;
     }
 }
 
