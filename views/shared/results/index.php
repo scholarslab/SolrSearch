@@ -61,7 +61,7 @@
         <?php if($tags): ?>
           <div class="tags">
             <strong>Tags:</strong>
-            <?php echo SolrSearch_ViewHelpers::tagsToStrings(); ?>
+            <?php echo SolrSearch_ViewHelpers::tagsToStrings($tags); ?>
           </div>
         <?php endif; ?>
 
