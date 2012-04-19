@@ -33,6 +33,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
 			$solr->optimize();
 		}
 		catch ( Exception $e ) {
+            $this->_log($e->getMessage());
 			echo $e->getMessage();
 		}
 	}

@@ -130,6 +130,25 @@ class SolrSearch_IndexHelpers
         }
     }
 
+    /**
+     * This pings the Solr server with the given options and returns true if 
+     * it's currently up.
+     *
+     * @param array $options The configuration to test. Missing values will be 
+     * pulled from the current set of options.
+     *
+     * @return bool
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function pingSolrServer($options)
+    {
+        $server = $options['solr_search_server'] or get_option('solr_search_server');
+        $port   = $options['solr_search_port']   or get_option('solr_search_port');
+        $core   = $options['solr_search_core']   or get_option('solr_search_core');
+        $solr   = new Apache_Solr_Service($server, $port, $core);
+        return $solr->ping();
+    }
+
 }
 
 

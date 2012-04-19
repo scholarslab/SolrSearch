@@ -78,14 +78,10 @@ class SolrPlugin
         $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
         $this->_db->query($sql);
 
-        try {
-            $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-            $solr->deleteByQuery('*:*');
-            $solr->commit();
-            $solr->optimize();
-        } catch (Exception $err ) {
-            echo $err->getMessage();
-        }
+        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr->deleteByQuery('*:*');
+        $solr->commit();
+        $solr->optimize();
 
         self::_deleteOptions();
     }
@@ -93,40 +89,28 @@ class SolrPlugin
     public function beforeDeleteItem($item)
     {
         $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-        try {
-            $solr->deleteByQuery('id:' . $item['id']);
-            $solr->commit();
-            $solr->optimize();
-        } catch ( Exception $err ) {
-            echo $err->getMessage();
-        }
+        $solr->deleteByQuery('id:' . $item['id']);
+        $solr->commit();
+        $solr->optimize();
     }
 
     public function afterSaveItem($item)
     {
         $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
 
-        if($item['public'] == true){
+        if ($item['public'] == true) {
             $docs = array();
             $doc = SolrSearch_IndexHelpers::itemToDocument($this->_db, $item);
             $docs[] = $doc;
 
-            try {
-                $solr->addDocuments($docs);
-                $solr->commit();
-                $solr->optimize();
-            } catch (Exception $err) {
-                echo $err->getMessage();
-            }
+            $solr->addDocuments($docs);
+            $solr->commit();
+            $solr->optimize();
         } else {
             // If the item's no longer public, remove it from the index.
-            try {
-                $solr->deleteByQuery('id:' . $item['id']);
-                $solr->commit();
-                $solr->optimize();
-            } catch (Exception $err) {
-                echo $err->getMessage();
-            }
+            $solr->deleteByQuery('id:' . $item['id']);
+            $solr->commit();
+            $solr->optimize();
         }
     }
 
@@ -184,17 +168,27 @@ class SolrPlugin
         if ($form->isValid($_POST)) {
             $options = $form->getValues();
 
+            if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
+                throw new Omeka_Validator_Exception(
+                    "Invalid Solr server host, port, or core."
+                );
+            }
+
             foreach ($options as $option => $value) {
                 set_option($option, $value);
             }
 
+            $this->_flashSuccess("Config updated.");
+
             ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
         } else {
-            // TODO: Need to fix this with the rest of the error message
-            // handling.
-            echo '<div class="errors">';
-            var_dump($form->getMessages());
-            echo '</div>';
+            $output = '';
+            foreach ($form->getMessages() as $code => $msgs) {
+                foreach ($msgs as $msg) {
+                    $output .= "$msg ($code)\n";
+                }
+            }
+            throw new Omeka_Validator_Exception($output);
         }
     }
 
@@ -295,7 +289,7 @@ SQL;
         return $form;
     }
 
-    protected function _makeConfigFields($form) {
+    protected function _makeConfigFields($form=null) {
         $fields = array();
 
         $fields[] = $this->_makeOptionField(
@@ -345,6 +339,30 @@ SQL;
         }
 
         return $field;
+    }
+
+    /**
+     * This sets a flash error message.
+     *
+     * @param string $msg The message to flash.
+     *
+     * @return void
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function _flashError($msg)
+    {
+        $flash = new Omeka_Controller_Flash;
+        $flash->setFlash(Omeka_Controller_Flash::GENERAL_ERROR, 
+                         $msg, 
+                         Omeka_Controller_Flash::DISPLAY_NEXT);
+    }
+
+    protected function _flashSuccess($msg)
+    {
+        $flash = new Omeka_Controller_Flash;
+        $flash->setFlash(Omeka_Controller_Flash::SUCCESS, 
+                         $msg, 
+                         Omeka_Controller_Flash::DISPLAY_NEXT);
     }
     //}}}
 
