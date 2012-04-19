@@ -154,8 +154,12 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     private function getPagination($numFound=0) {
         $request = $this->getRequest();
         $page = $request->get('page') or $page = 1;
-        $rows = get_option('solr_search_rows') or $rows = SOLR_ROWS;
+        $rows = get_option('solr_search_rows');
         $paginationUrl = $this->getRequest()->getBaseUrl() . '/results/';
+
+        if (! $rows) {
+            $rows = get_option('per_page_public') or SOLR_ROWS;
+        }
 
         $pagination = array(
             'page'          => $page,
