@@ -4,13 +4,4 @@ dist/
 node_modules/
 solr-home/data
 
-# For macs
-.DS_Store
 
-# For VIM
-.*.sw*
-
-# For Eclipse
-.buildpath
-.project
-.settings/
