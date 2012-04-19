@@ -7,7 +7,7 @@ files = [
 ]
 
 plugin_file = './plugin.ini'
-parser = new iniReader.IniReader()
+parser = new ini.IniReader()
 parser.load(plugin_file)
 
 application_name = parser.param('info.name')

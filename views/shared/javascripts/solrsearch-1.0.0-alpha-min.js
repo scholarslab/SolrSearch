@@ -1,0 +1,1 @@
+jQuery(document).ready(function(){jQuery(".solr_facets h3").click(function(){return jQuery(this).next().toggle(),!1}).next().hide()})
