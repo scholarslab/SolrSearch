@@ -168,6 +168,12 @@ class SolrPlugin
         if ($form->isValid($_POST)) {
             $options = $form->getValues();
 
+            if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
+                throw new Omeka_Validator_Exception(
+                    "Invalid Solr server host, port, or core."
+                );
+            }
+
             foreach ($options as $option => $value) {
                 set_option($option, $value);
             }
