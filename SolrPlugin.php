@@ -223,7 +223,8 @@ class SolrPlugin
     public function publicThemeHeader()
     {
         queue_css('solr_search');
-        queue_js('solrsearch-1.0-min');
+        $js = 'solrsearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
+        queue_js($js);
     }
 
     public function configForm()
