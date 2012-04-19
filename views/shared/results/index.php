@@ -31,7 +31,7 @@
       <div class="solr_facets_container">
         <h2>Limit your search</h2>
         <div class="solr_facets">
-        <?php foreach($results->facet_counts->facet_fields as $facet => $values): ?>
+        <?php foreach ((array)$results->facet_counts->facet_fields as $facet => $values): ?>
         <h3><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h3>
         <ul>
 					<?php foreach($values as $label => $count): ?>
