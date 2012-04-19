@@ -54,13 +54,15 @@ class SolrSearch_ViewHelpers
     public static function createSearchForm(
         $buttonText='Search', $formProperties=array( 'id' => 'simple-search' )
     ) {
+        $searchQuery = array_key_exists('solrq', $_GET) ? $_GET['solrq'] : '';
+
         $uri = SolrSearch_ViewHelpers::getBaseUrl();
         $formProperties['action'] = $uri;
         $formProperties['method'] = 'get';
         $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
         $html .= '<fieldset>' . "\n\n";
-        $html .= __v()->formText('solrq', '', array('name'=>'solrq','class'=>'textinput'));
-        $html .= __v()->formHidden('solrfacet', '');
+        $html .= __v()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
+        //$html .= __v()->formHidden('solrfacet', '');
         $html .= __v()->formSubmit('submit_search', $buttonText);
         $html .= '</fieldset>' . "\n\n";
         $html .= '</form>';
