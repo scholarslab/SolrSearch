@@ -84,7 +84,9 @@ class SolrPlugin
             $solr->commit();
             $solr->optimize();
         } catch (Exception $err ) {
+            echo "<b>ERROR</b>";
             echo $err->getMessage();
+            $this->_flashError($err->getMessage());
         }
 
         self::_deleteOptions();
@@ -98,7 +100,7 @@ class SolrPlugin
             $solr->commit();
             $solr->optimize();
         } catch ( Exception $err ) {
-            echo $err->getMessage();
+            $this->_flashError($err->getMessage());
         }
     }
 
@@ -116,7 +118,7 @@ class SolrPlugin
                 $solr->commit();
                 $solr->optimize();
             } catch (Exception $err) {
-                echo $err->getMessage();
+                $this->_flashError($err->getMessage());
             }
         } else {
             // If the item's no longer public, remove it from the index.
@@ -125,7 +127,7 @@ class SolrPlugin
                 $solr->commit();
                 $solr->optimize();
             } catch (Exception $err) {
-                echo $err->getMessage();
+                $this->_flashError($err->getMessage());
             }
         }
     }
@@ -188,13 +190,17 @@ class SolrPlugin
                 set_option($option, $value);
             }
 
+            $this->_flashSuccess("Config updated.");
+
             ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
         } else {
-            // TODO: Need to fix this with the rest of the error message
-            // handling.
-            echo '<div class="errors">';
-            var_dump($form->getMessages());
-            echo '</div>';
+            $output = '';
+            foreach ($form->getMessages() as $code => $msgs) {
+                foreach ($msgs as $msg) {
+                    $output .= "$msg ($code)\n";
+                }
+            }
+            throw new Omeka_Validator_Exception($output);
         }
     }
 
@@ -295,7 +301,7 @@ SQL;
         return $form;
     }
 
-    protected function _makeConfigFields($form) {
+    protected function _makeConfigFields($form=null) {
         $fields = array();
 
         $fields[] = $this->_makeOptionField(
@@ -345,6 +351,30 @@ SQL;
         }
 
         return $field;
+    }
+
+    /**
+     * This sets a flash error message.
+     *
+     * @param string $msg The message to flash.
+     *
+     * @return void
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function _flashError($msg)
+    {
+        $flash = new Omeka_Controller_Flash;
+        $flash->setFlash(Omeka_Controller_Flash::GENERAL_ERROR, 
+                         $msg, 
+                         Omeka_Controller_Flash::DISPLAY_NEXT);
+    }
+
+    protected function _flashSuccess($msg)
+    {
+        $flash = new Omeka_Controller_Flash;
+        $flash->setFlash(Omeka_Controller_Flash::SUCCESS, 
+                         $msg, 
+                         Omeka_Controller_Flash::DISPLAY_NEXT);
     }
     //}}}
 
