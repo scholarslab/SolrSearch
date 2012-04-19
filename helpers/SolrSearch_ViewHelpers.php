@@ -281,14 +281,16 @@ class SolrSearch_ViewHelpers
      */
     public static function displaySnippets($id, $highlighting)
     {
-        foreach ($highlighting as $k=>$v){
+      if($highlighting == null) { return; }
+
+      foreach ($highlighting as $k=>$v){
             if ($k == $id){
                 foreach($v as $k=>$snippets){
                     foreach ($snippets as $snippet){
                         echo $snippet;
 
                         if ($snippet != end($snippets)){
-                            echo ' <b>...</b> ';
+                            echo ' <strong>...</strong> ';
                         }
                     }
                 }
