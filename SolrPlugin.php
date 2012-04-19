@@ -78,16 +78,10 @@ class SolrPlugin
         $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
         $this->_db->query($sql);
 
-        try {
-            $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-            $solr->deleteByQuery('*:*');
-            $solr->commit();
-            $solr->optimize();
-        } catch (Exception $err ) {
-            echo "<b>ERROR</b>";
-            echo $err->getMessage();
-            $this->_flashError($err->getMessage());
-        }
+        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr->deleteByQuery('*:*');
+        $solr->commit();
+        $solr->optimize();
 
         self::_deleteOptions();
     }
@@ -95,40 +89,28 @@ class SolrPlugin
     public function beforeDeleteItem($item)
     {
         $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-        try {
-            $solr->deleteByQuery('id:' . $item['id']);
-            $solr->commit();
-            $solr->optimize();
-        } catch ( Exception $err ) {
-            $this->_flashError($err->getMessage());
-        }
+        $solr->deleteByQuery('id:' . $item['id']);
+        $solr->commit();
+        $solr->optimize();
     }
 
     public function afterSaveItem($item)
     {
         $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
 
-        if($item['public'] == true){
+        if ($item['public'] == true) {
             $docs = array();
             $doc = SolrSearch_IndexHelpers::itemToDocument($this->_db, $item);
             $docs[] = $doc;
 
-            try {
-                $solr->addDocuments($docs);
-                $solr->commit();
-                $solr->optimize();
-            } catch (Exception $err) {
-                $this->_flashError($err->getMessage());
-            }
+            $solr->addDocuments($docs);
+            $solr->commit();
+            $solr->optimize();
         } else {
             // If the item's no longer public, remove it from the index.
-            try {
-                $solr->deleteByQuery('id:' . $item['id']);
-                $solr->commit();
-                $solr->optimize();
-            } catch (Exception $err) {
-                $this->_flashError($err->getMessage());
-            }
+            $solr->deleteByQuery('id:' . $item['id']);
+            $solr->commit();
+            $solr->optimize();
         }
     }
 
