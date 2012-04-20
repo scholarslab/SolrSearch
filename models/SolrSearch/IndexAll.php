@@ -1,4 +1,5 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
 
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
 

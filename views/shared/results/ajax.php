@@ -1,8 +1,7 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+
 /**
- * "Falmouth" Theme custom functions
- *
- * Custom functions for the Falmouth Omeka theme
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -22,9 +21,6 @@
  * PHP version 5
  *
  */
-?>
-
-<?php
 
 $docs = array();
 foreach ($results->response->docs as $doc) {
@@ -41,10 +37,6 @@ echo json_encode(array(
     'count' => $results->response->numFound
 ));
 
-?>
-
-
-<?php
 /*
  * Local variables:
  * tab-width: 4
@@ -52,4 +44,3 @@ echo json_encode(array(
  * c-hanging-comment-ender-p: nil
  * End:
  */
-?>

@@ -1,4 +1,7 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+
+
 /**
  * CsvImport_Import - represents a csv import event
  * 
@@ -8,7 +11,7 @@
  * @copyright Center for History and New Media, 2008
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  **/
-class SolrSearch_Facet extends Omeka_Record { 
+class SolrSearch_Facet extends Omeka_Record {
 	
 		
 	/**
