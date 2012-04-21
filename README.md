@@ -80,11 +80,31 @@ Indexing to Solr
 Upon plugin installation, all items designated as 'public' will be indexed into Solr.  Items that are not public are ignored by the indexing script.  When an item is saved and the item is public, the updated metadata is posted to Solr.  If that item was previously public and that designation was removed, the associated document will be removed from Solr.  Items not designated as public already are ignored.  When an item is deleted from Omeka, its corresponding Solr document is also deleted.  When SolrSearch is uninstalled, all Solr documents are purged.
 
 # Developer Mode
+There are a number of technologies used in the development mode for this
+plugin. You will need [node][node], [ruby gems][gems], as well as
+several gems (installed via [bundler][bundler]), and I recommend
+[rvm][rvm].
+
 Install the solr keg from [homebrew][homebrew]. You can then start an
 instance of Solr with
 
 ```bash
 solr path/to/SolrSearch/solr-home
+```
+
+From scratch, assuming [homebrew][homebrew] is installed.
+
+```bash
+#! /bin/bash
+brew install node solr
+curl http://npmjs.org/install.sh | sh
+rvm gemset create solrsearch
+```
+
+```bash
+brew install solr
+cat >> alias solr='solr path/to/SolrSearch/solr-home'
+solr
 ```
 
 
@@ -94,4 +114,8 @@ solr path/to/SolrSearch/solr-home
 [3]: https://github.com/scholarslab/SolrSearch "https://github.com/scholarslab/SolrSearch"
 [4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
-[homebre]: http://mxcl.github.com/homebrew/
+[homebrew]: http://mxcl.github.com/homebrew/
+[node]: http://nodejs.org/
+[gems]: http://rubygems.org/
+[bundler]: http://gembundler.com/
+[rvm]: http://beginrescueend.com/

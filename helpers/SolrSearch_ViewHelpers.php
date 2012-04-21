@@ -374,4 +374,3 @@ class SolrSearch_ViewHelpers
  * c-hanging-comment-ender-p: nil
  * End:
  */
-?>

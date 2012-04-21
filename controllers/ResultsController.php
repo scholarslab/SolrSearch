@@ -17,8 +17,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 
         // Construct the query parameters.
         $query = http_build_query(array(
-            'solrq' => $this->_request->getParam('search'),
-            'solrfacet' => ''
+            'solrq' => $this->_request->getParam('search')
         ));
 
         // Redirect.
