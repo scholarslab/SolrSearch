@@ -313,7 +313,7 @@ class SolrSearch_ViewHelpers
             'fullsize', $image_id
         );
         $thumb_path = SolrSearch_ViewHelpers::getImagePath(
-            'square_thumbnaail', $image_id
+            'square_thumbnail', $image_id
         );
 
         $html .= '<a class="solr_search_image" href="' . $fullsize_path . '">';
