@@ -3,10 +3,11 @@
 
   $pageTitle = __('Browse Items'); //TODO: Should this be browse items?
   head(array('title' => $pageTitle, 'id' => 'items', 'bodyclass' => 'browse'));
+
 ?>
 
 <div id="primary" class="solr_results results">
-  <h1><?php echo $pageTitle; ?> </h1>
+  <h1><?php echo $pageTitle; ?></h1>
 
   <div id="solr_results" class="item-list">
     <div id="solr_search" class="search solr_remove_facets">
