@@ -1,5 +1,26 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+ * Configuration controller.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+ * applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
+ *
+ * @package omeka
+ * @subpackage SolrSearch
+ * @author Scholars' Lab
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
+ * @copyright 2010 The Board and Visitors of the University of Virginia
+ * @link https://github.com/scholarslab/SolrSearch/
+ *
+ * PHP version 5
+ */
 
 class SolrSearch_ConfigController extends Omeka_Controller_Action
 {
@@ -115,53 +136,72 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
         $form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'table')),'Form',));
 
         // Get fields.
-        $fields = $this->getTable('SolrSearchFacet')->findAll();
+        $db = get_db();
+        $fields = $db->getTable('SolrSearch_Facet')->findAll();
 
-      foreach ($fields as $field) {
-        if ($field['element_set_id'] != NULL){
-              $elementSetName = $db->getTable('ElementSet')->find($field['element_set_id'])->name;
-            $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
-            $mC->setLabel($elementSetName . ': ' . $field['name']);
-            $mC->setMultiOptions(array( 'is_displayed'=>'Is Displayed',
-                          'is_facet'=>'Is Facet',
-                                        'is_sortable'=>'Is Sortable'));
-          } else {
-            $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
-            $mC->setLabel(ucwords($field['name']));
-            if ($field['name'] == 'image'){
-              $mC->setMultiOptions(array( 'is_displayed'=>'Is Displayed'));
-            } else{
-                $mC->setMultiOptions(array( 'is_displayed'=>'Is Displayed',
+        // Walk fields.
+        foreach ($fields as $field) {
+
+            if ($field['element_set_id'] != NULL) {
+
+                $elementSetName = $db->getTable('ElementSet')->find($field['element_set_id'])->name;
+                $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
+                $mC->setLabel($elementSetName . ': ' . $field['name']);
+                $mC->setMultiOptions(array(
+                  'is_displayed'=>'Is Displayed',
                   'is_facet'=>'Is Facet',
-                                'is_sortable'=>'Is Sortable'));
+                  'is_sortable'=>'Is Sortable'
+                ));
+
             }
 
-          }
-          //see if it is checked
-          $values = array();
-        if ($field['is_displayed'] == 1){
-            $values[] = 'is_displayed';
-          }
-        if ($field['is_facet'] == 1){
-            $values[] = 'is_facet';
-          }
-        if ($field['is_sortable'] == 1){
-            $values[] = 'is_sortable';
-          }
-          $mC->setValue($values);
-          $mC->setDecorators(array('ViewHelper',
-        array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element')),
-        array('Label', array('tag' => 'td')), array(array('row' => 'HtmlTag'), array('tag' => 'tr')),));
-          $form->addElement($mC);
+            else {
+
+                $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
+                $mC->setLabel(ucwords($field['name']));
+
+                if ($field['name'] == 'image') {
+                    $mC->setMultiOptions(array( 'is_displayed'=>'Is Displayed'));
+                }
+
+                else {
+                    $mC->setMultiOptions(array(
+                        'is_displayed' => 'Is Displayed',
+                        'is_facet' => 'Is Facet',
+                        'is_sortable' => 'Is Sortable'
+                    ));
+                }
+
+            }
+
+            $values = array();
+            if ($field['is_displayed'] == 1) {
+              $values[] = 'is_displayed';
+            }
+            if ($field['is_facet'] == 1) {
+              $values[] = 'is_facet';
+            }
+            if ($field['is_sortable'] == 1) {
+              $values[] = 'is_sortable';
+            }
+
+            $mC->setValue($values);
+            $mC->setDecorators(array('ViewHelper',
+                array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element')),
+                array('Label', array('tag' => 'td')), array(array('row' => 'HtmlTag'), array('tag' => 'tr')),));
+
+            $form->addElement($mC);
+
         }
 
-      //Submit button
+        //Submit button
         $form->addElement('submit','submit');
         $submitElement=$form->getElement('submit');
         $submitElement->setLabel('Submit');
         $submitElement->setDecorators(array('ViewHelper',
-        array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element', 'colspan' => 2)),
-         array(array('row' => 'HtmlTag'), array('tag' => 'tr')),));
+            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element', 'colspan' => 2)),
+            array(array('row' => 'HtmlTag'), array('tag' => 'tr'))
+        ));
 
         return $form;
   }
