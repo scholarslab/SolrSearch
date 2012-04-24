@@ -144,7 +144,7 @@ class SolrSearch_QueryHelpers
       // Otherwise, continue with process of displaying facets and removal
       // links.
 
-      if (isset($queryParams['q'])) {
+      if (isset($queryParams['q']) && $queryParams['q'] !== '*:*') {
         $html .= '<span class="appliedFilter constraint query">';
         $html .= '<span class="filterValue">' . $queryParams['q'] . '</span>';
         $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet={$queryParams['facet']}'>";
