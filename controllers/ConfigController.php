@@ -136,15 +136,14 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
         $form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'table')),'Form',));
 
         // Get fields.
-        $db = get_db();
-        $fields = $db->getTable('SolrSearch_Facet')->findAll();
+        $fields = $this->getTable('SolrSearchFacet')->findAll();
 
         // Walk fields.
         foreach ($fields as $field) {
 
             if ($field['element_set_id'] != NULL) {
 
-                $elementSetName = $db->getTable('ElementSet')->find($field['element_set_id'])->name;
+                $elementSetName = $this->getTable('ElementSet')->find($field['element_set_id'])->name;
                 $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
                 $mC->setLabel($elementSetName . ': ' . $field['name']);
                 $mC->setMultiOptions(array(
