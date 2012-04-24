@@ -18,5 +18,3 @@ group :frontend do
     watch(%r{.+\.(css|js|html?|php|inc)$})
   end
 end
-
-
