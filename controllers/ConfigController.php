@@ -12,6 +12,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     public function indexAction()
     {
 
+        // Construct facet form.
         $form = $this->facetForm();
         $this->view->form = $form;
 
@@ -25,53 +26,75 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     public function updateAction()
     {
 
+      // Get form instance.
       $form = $this->facetForm();
 
-      if ($_POST) {
+      // If the form has been posted.
+      if ($this->_request->isPost()) {
+
+          // Validate form.
           if ($form->isValid($this->_request->getPost())) {
-            //get posted values
-          $uploadedData = $form->getValues();
 
-          //cycle through each checkbox
-          foreach ($uploadedData as $k => $values){
-            if ($k != 'submit'){
-              $split = explode('_', $k);
+              // Get form values.
+              $uploadedData = $form->getValues();
 
-              //test whether or not is_facet and is_sortable have values
-              $options = array();
-              if (isset($values) && in_array('is_displayed',$values)){
-                $options['is_displayed'] = 1;
-              } else{
-                $options['is_displayed'] = 0;
-              }
-              if (isset($values) && in_array('is_facet',$values)){
-                $options['is_facet'] = 1;
-              } else{
-                $options['is_facet'] = 0;
-              }
-              if (isset($values) && in_array('is_sortable',$values)){
-                $options['is_sortable'] = 1;
-              } else{
-                $options['is_sortable'] = 0;
-              }
+                // Walk the fields.
+                foreach ($uploadedData as $k => $values){
 
-              $data = array('id'=>$split[1], 'is_displayed'=>$options['is_displayed'], 'is_facet'=>$options['is_facet'], 'is_sortable'=>$options['is_sortable']);
-              try{
-                //update the database with new values
-                $db = get_db();
-                $db->insert('solr_search_facets', $data); 
-                $this->flashSuccess('Solr facets updated.');
-              } catch (Exception $err) {
-                $this->flashError($err->getMessage());
+                  if ($k != 'submit') {
+
+                      $split = explode('_', $k);
+                      $options = array();
+
+                      /**
+                       * test for is_facet and is_sortable values.
+                       */
+
+                      // is_displayed
+                      if (isset($values) && in_array('is_displayed',$values)){
+                          $options['is_displayed'] = 1;
+                      } else {
+                          $options['is_displayed'] = 0;
+                      }
+
+                      // is_facet
+                      if (isset($values) && in_array('is_facet',$values)){
+                          $options['is_facet'] = 1;
+                      } else {
+                          $options['is_facet'] = 0;
+                      }
+
+                      // is_sortable
+                      if (isset($values) && in_array('is_sortable',$values)){
+                          $options['is_sortable'] = 1;
+                      } else {
+                          $options['is_sortable'] = 0;
+                      }
+
+                      $data = array('id'=>$split[1], 'is_displayed'=>$options['is_displayed'], 'is_facet'=>$options['is_facet'], 'is_sortable'=>$options['is_sortable']);
+
+                      try {
+                          $db = get_db();
+                          $db->insert('solr_search_facets', $data); 
+                          $this->flashSuccess('Solr facets updated.');
+                      } catch (Exception $err) {
+                          $this->flashError($err->getMessage());
+                      }
+
                   }
-            }
+
+              }
+
           }
-          }
+
+          // If the form is invalid, redisplay.
           else {
               $this->flashError('Failed to gather posted data.');
               $this->view->form = $form;
           }
+
         }
+
     }
 
   private function facetForm() {
