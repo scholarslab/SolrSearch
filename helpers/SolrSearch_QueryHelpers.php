@@ -157,7 +157,7 @@ class SolrSearch_QueryHelpers
         foreach (explode(' AND ', $queryParams['facet']) as $param) {
           $paramSplit = explode(':', $param);
           $facet = $paramSplit[0];
-          $label = trim($paramSplit[1], '"');
+          $label = substr($paramSplit[1], 1, -1);
 
           if (strpos($param, '_') !== false) {
             $category = SolrSearch_ViewHelpers::lookupElement($facet);
