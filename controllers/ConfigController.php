@@ -22,6 +22,8 @@
  * PHP version 5
  */
 
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
+
 class SolrSearch_ConfigController extends Omeka_Controller_Action
 {
 
@@ -34,7 +36,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     {
 
         // Construct facet form.
-        $form = $this->facetForm();
+        $form = new FacetForm;
         $this->view->form = $form;
 
     }
