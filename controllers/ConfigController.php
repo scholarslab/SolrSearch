@@ -126,7 +126,6 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     private function facetForm() {
 
         // Initialize form.
-        require "Zend/Form/Element.php";
         $form = new Zend_Form();
         $form->setAction('update');
         $form->setMethod('post');
