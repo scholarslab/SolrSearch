@@ -47,7 +47,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                       $options = array();
 
                       /**
-                       * test for is_facet and is_sortable values.
+                       * Test for is_facet and is_sortable values.
                        */
 
                       // is_displayed
@@ -97,18 +97,25 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
     }
 
-  private function facetForm() {
-      require "Zend/Form/Element.php";
-      $form = new Zend_Form();
-      $form->setAction('update');
+    /**
+     * Construct the form.
+     *
+     * @return Zend_Form $form The form.
+     */
+    private function facetForm() {
+
+        // Initialize form.
+        require "Zend/Form/Element.php";
+        $form = new Zend_Form();
+        $form->setAction('update');
         $form->setMethod('post');
         $form->setAttrib('enctype', 'multipart/form-data');
 
-        //set form as a table
+        // Set form as a table
         $form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'table')),'Form',));
 
-        $db = get_db();
-        $fields = $db->getTable('SolrSearch_Facet')->findAll();
+        // Get fields.
+        $fields = $this->getTable('SolrSearchFacet')->findAll();
 
       foreach ($fields as $field) {
         if ($field['element_set_id'] != NULL){
