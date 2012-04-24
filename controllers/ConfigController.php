@@ -147,9 +147,9 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                 $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
                 $mC->setLabel($elementSetName . ': ' . $field['name']);
                 $mC->setMultiOptions(array(
-                  'is_displayed'=>'Is Displayed',
-                  'is_facet'=>'Is Facet',
-                  'is_sortable'=>'Is Sortable'
+                    'is_displayed'=>'Is Displayed',
+                    'is_facet'=>'Is Facet',
+                    'is_sortable'=>'Is Sortable'
                 ));
 
             }
