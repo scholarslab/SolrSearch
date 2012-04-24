@@ -195,20 +195,19 @@ class SolrSearch_QueryHelpers
     $query = array();
 
     if (isset($queryParams['q'])) {
-      array_push($query, "solrq={$queryParams['q']}");
+      $query[] = "solrq={$queryParams['q']}";
     }
 
-    $queryParams = explode(' AND ', $_REQUEST['q']);
     if (isset($queryParams['facet'])) {
       $facetKey = "$facet:\"$label\"";
       $facetQuery = array();
       foreach (explode(' AND ', $queryParams['facet']) as $value) {
-        if ($value != $facetKey) {
-          array_push($facetQuery, $value);
+        if ($value !== $facetKey) {
+          $facetQuery[] = html_escape($value);
         }
       }
       if (!empty($facetQuery)) {
-        array_push($query, implode('+AND+', $facetQuery));
+        array_push($query, 'solrfacet=' . implode('+AND+', $facetQuery));
       }
     }
 
