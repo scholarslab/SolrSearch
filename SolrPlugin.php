@@ -136,7 +136,7 @@ class SolrPlugin
     {
         $module = $request->getModuleName();
         if ($module == 'solr-search' || $module == 'default') {
-            queue_css('solr_search_main');
+            queue_css('solr_search');
         }
     }
 
