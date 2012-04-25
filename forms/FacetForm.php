@@ -59,10 +59,27 @@ class FacetForm extends Omeka_Form
 
                 // Add element.
                 $this->addElement('MultiCheckbox', $inputName, array(
-                    'label' => $facet->name
+                    'label' => $facet->name,
+                    'multiOptions' => array(
+                        'is_displayed' => 'Is Displayed',
+                        'is_facet' => 'Is Facet',
+                        'is_sortable' => 'Is Sortable'
+                    )
                 ));
 
             }
+
+            // Group the set fields.
+            $this->addDisplayGroup($displayGroup, $title, array (
+                'legend' => $title
+            ));
+
+            // Get the fieldset and modify decorator.
+            // ** dev: Is there really no better way to do this?
+            $fieldset = $this->getDisplayGroup($title);
+            $fieldset->setDecorators(array('FormElements', 'Fieldset', array (
+                'HtmlTag', array('tag' => 'div')
+            )));
 
         }
 
