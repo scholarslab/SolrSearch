@@ -76,9 +76,6 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         $facet->element_id = $element->id;
         $facet->element_set_id = $elementSet->id;
         $facet->name = 'facet';
-        $facet->is_facet = 1;
-        $facet->is_displayed = 1;
-        $facet->is_sortable = 1;
         $facet->save();
 
         // Get element set name.
@@ -86,6 +83,24 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
             $facet->getElementSet()->id,
             $elementSet->id
         );
+
+    }
+
+    /**
+     * getElementSet() should return null when the element_set_id is null.
+     *
+     * @return void.
+     */
+    public function testGetElementSetWhenKeyDoesNotExist()
+    {
+
+        // Create a facet.
+        $facet = new SolrSearchFacet;
+        $facet->name = 'facet';
+        $facet->save();
+
+        // Get element set name.
+        $this->assertNull($facet->getElementSet());
 
     }
 
