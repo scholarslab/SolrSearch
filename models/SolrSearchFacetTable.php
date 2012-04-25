@@ -25,4 +25,40 @@
 class SolrSearchFacetTable extends Omeka_Db_Table
 {
 
+
+    /**
+     * Get all facets grouped by element set name.
+     *
+     * @return array $facets The ElementSet-grouped facets.
+     */
+    public function getByElementSet()
+    {
+
+        // Get all facets.
+        $facets = $this->findAll();
+        $facetGroups = array();
+
+        // Group by element set.
+        foreach ($facets as $facet) {
+
+            // Get element set name.
+            $elementSet = $facet->getElementSetName();
+
+            // If the key exists, push.
+            if (array_key_exists($elementSet, $facetGroups)) {
+                array_push($facetGroups[$elementSet], $facet);
+            }
+
+            // If not, create and push.
+            else {
+                $facetGroups[$elementSet] = $facet;
+            }
+
+        }
+
+        return $facetGroups;
+
+    }
+
+
 }
