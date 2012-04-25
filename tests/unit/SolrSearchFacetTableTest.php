@@ -50,14 +50,35 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         $noElementSetFacet->name = 'No Element Set';
         $noElementSetFacet->save();
 
-        // Create facet with element_set_id.
-        $elementSetFacet = new SolrSearchFacet;
-        $elementSetFacet->element_id;
-        $elementSetFacet->element_set_id;
+        // Create facets with element_set_id.
+        $elementSetFacet1 = new SolrSearchFacet;
+        $elementSetFacet1->name = 'Element Set 1';
+        $elementSetFacet1->element_id = $element->id;
+        $elementSetFacet1->element_set_id = $elementSet->id;
+        $elementSetFacet1->save();
+        $elementSetFacet2 = new SolrSearchFacet;
+        $elementSetFacet2->name = 'Element Set 2';
+        $elementSetFacet2->element_id = $element->id;;
+        $elementSetFacet2->element_set_id = $elementSet->id;
+        $elementSetFacet2->save();
 
-        // Group facets.
+        // Group facets and check formation.
         $groups = $this->facetsTable->groupByElementSet();
-        print_r($groups);
+
+        $this->assertEquals(
+            $groups[$elementSet->name][1]->id,
+            $elementSetFacet1->id
+        );
+
+        $this->assertEquals(
+            $groups[$elementSet->name][0]->id,
+            $elementSetFacet2->id
+        );
+
+        $this->assertEquals(
+            $groups['Omeka Categories'][0]->id,
+            $noElementSetFacet->id
+        );
 
     }
 

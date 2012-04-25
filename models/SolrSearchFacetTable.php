@@ -41,18 +41,18 @@ class SolrSearchFacetTable extends Omeka_Db_Table
         // Group by element set.
         foreach ($facets as $facet) {
 
-            // Get element set id.
-            $elementSetId = !is_null($facet->element_set_id) ?
-                $facet->element_set_id : 0;
+            // Get element set name.
+            $setName = !is_null($facet->element_set_id) ?
+                $facet->getElementSet()->name : 'Omeka Categories';
 
             // If the key exists, push.
-            if (array_key_exists($elementSetId, $facetGroups)) {
-                array_push($facetGroups[$elementSetId], $facet);
+            if (array_key_exists($setName, $facetGroups)) {
+                array_push($facetGroups[$setName], $facet);
             }
 
             // If not, create and push.
             else {
-                $facetGroups[$elementSetId] = $facet;
+                $facetGroups[$setName] = array($facet);
             }
 
         }
