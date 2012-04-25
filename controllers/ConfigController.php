@@ -37,86 +37,75 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
         // Construct facet form.
         $form = new FacetForm;
-        $this->view->form = $form;
 
-    }
+        // If the form has been posted.
+        if ($this->_request->isPost()) {
 
-    /**
-     * Process the facets form.
-     *
-     * @return void
-     */
-    public function updateAction()
-    {
+            // Validate form.
+            if ($form->isValid($this->_request->getPost())) {
 
-      // Get form instance.
-      $form = new FacetForm;
-
-      // If the form has been posted.
-      if ($this->_request->isPost()) {
-
-          // Validate form.
-          if ($form->isValid($this->_request->getPost())) {
-
-              // Get form values.
-              $uploadedData = $form->getValues();
+                // Get form values.
+                $uploadedData = $form->getValues();
 
                 // Walk the fields.
                 foreach ($uploadedData as $k => $values){
 
-                  if ($k != 'submit') {
+                    if ($k != 'submit') {
 
-                      $split = explode('_', $k);
-                      $options = array();
+                        $split = explode('_', $k);
+                        $options = array();
 
-                      /**
-                       * Test for is_facet and is_sortable values.
-                       */
+                        /**
+                        * Test for is_facet and is_sortable values.
+                        */
 
-                      // is_displayed
-                      if (isset($values) && in_array('is_displayed',$values)){
+                        // is_displayed
+                        if (isset($values) && in_array('is_displayed',$values)){
                           $options['is_displayed'] = 1;
-                      } else {
+                        } else {
                           $options['is_displayed'] = 0;
-                      }
+                        }
 
-                      // is_facet
-                      if (isset($values) && in_array('is_facet',$values)){
+                        // is_facet
+                        if (isset($values) && in_array('is_facet',$values)){
                           $options['is_facet'] = 1;
-                      } else {
+                        } else {
                           $options['is_facet'] = 0;
-                      }
+                        }
 
-                      // is_sortable
-                      if (isset($values) && in_array('is_sortable',$values)){
+                        // is_sortable
+                        if (isset($values) && in_array('is_sortable',$values)){
                           $options['is_sortable'] = 1;
-                      } else {
+                        } else {
                           $options['is_sortable'] = 0;
-                      }
+                        }
 
-                      $data = array('id'=>$split[1], 'is_displayed'=>$options['is_displayed'], 'is_facet'=>$options['is_facet'], 'is_sortable'=>$options['is_sortable']);
+                        $data = array(
+                            'id' => $split[1],
+                            'is_displayed' => $options['is_displayed'],
+                            'is_facet' => $options['is_facet'],
+                            'is_sortable' => $options['is_sortable']
+                        );
 
-                      try {
+                        try {
                           $db = get_db();
                           $db->insert('solr_search_facets', $data); 
                           $this->flashSuccess('Solr facets updated.');
-                      } catch (Exception $err) {
+                          $this->_redirect('solr-search/config');
+                        } catch (Exception $err) {
                           $this->flashError($err->getMessage());
-                      }
+                        }
 
-                  }
+                    }
 
-              }
+                }
 
-          }
-
-          // If the form is invalid, redisplay.
-          else {
-              $this->flashError('Failed to gather posted data.');
-              $this->view->form = $form;
-          }
+            }
 
         }
+
+        // Push form to view.
+        $this->view->form = $form;
 
     }
 

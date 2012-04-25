@@ -26,7 +26,7 @@
     <?php echo flash(); ?>
     <?php if (!empty($err)) { echo '<p class="error">' . html_escape($err) . '</p>'; } ?>
 
-    <form id="facets-form" method="post" action="update">
+    <form id="facets-form" method="post">
     <table>
       <thead>
         <tr>
