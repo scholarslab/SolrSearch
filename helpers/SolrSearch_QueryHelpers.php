@@ -84,7 +84,9 @@ class SolrSearch_QueryHelpers
     $html = '';
     $uri = SolrSearch_ViewHelpers::getBaseUrl();
 
-    $escaped = htmlspecialchars($label, ENT_QUOTES);
+    $escaped = htmlspecialchars(
+        SolrSearch_QueryHelpers::escapeFacet($label), ENT_QUOTES
+    );
 
     // if the query contains one of the facets in the list
     if (isset($current['q'])
@@ -95,12 +97,12 @@ class SolrSearch_QueryHelpers
       $html .= "<div class='fn'><b>$label</b></div> "
         . "<div class='fc'>$removeFacetLink</div>";
     } else {
-      if (isset($current['q'])) {
+      if (!empty($current['q'])) {
         $q = 'solrq=' . html_escape($current['q']) . '&';
       } else {
         $q = '';
       }
-      if (isset($current['facet'])) {
+      if (!empty($current['facet'])) {
         $facetq = "{$current['facet']}+AND+$facet:&#x022;$escaped&#x022;";
       } else {
         $facetq = "$facet:&#x022;$escaped&#x022;";
@@ -144,7 +146,7 @@ class SolrSearch_QueryHelpers
       // Otherwise, continue with process of displaying facets and removal
       // links.
 
-      if (isset($queryParams['q'])) {
+      if (!empty($queryParams['q']) && $queryParams['q'] !== '*:*') {
         $html .= '<span class="appliedFilter constraint query">';
         $html .= '<span class="filterValue">' . $queryParams['q'] . '</span>';
         $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet={$queryParams['facet']}'>";
@@ -153,11 +155,11 @@ class SolrSearch_QueryHelpers
         $html .= '</span>';
       }
 
-      if (isset($queryParams['facet'])) {
+      if (!empty($queryParams['facet'])) {
         foreach (explode(' AND ', $queryParams['facet']) as $param) {
           $paramSplit = explode(':', $param);
           $facet = $paramSplit[0];
-          $label = trim($paramSplit[1], '"');
+          $label = substr($paramSplit[1], 1, -1);
 
           if (strpos($param, '_') !== false) {
             $category = SolrSearch_ViewHelpers::lookupElement($facet);
@@ -167,9 +169,10 @@ class SolrSearch_QueryHelpers
 
           if ($facet != '*') {
             $link = SolrSearch_QueryHelpers::removeFacet($facet, $label);
+            $cleaned = str_replace('\\', '', $label);
             $html .= "<span class='appliedFilter constraint filter filter-subject_topic_facet'>";
             $html .= "<span class='filterName'>$category</span>";
-            $html .= "<span class='filterValue'>$label</span> $link</span>";
+            $html .= "<span class='filterValue'>$cleaned</span> $link</span>";
           }
         }
       }
@@ -203,7 +206,12 @@ class SolrSearch_QueryHelpers
       $facetQuery = array();
       foreach (explode(' AND ', $queryParams['facet']) as $value) {
         if ($value !== $facetKey) {
-          $facetQuery[] = html_escape($value);
+            $valueParts = explode(':', $value, 2);
+            $key        = $valueParts[0];
+            $cleaned    = SolrSearch_QueryHelpers::escapeFacet(
+                substr($valueParts[1], 1, -1)
+            );
+            $facetQuery[] = html_escape("$key:\"$cleaned\"");
         }
       }
       if (!empty($facetQuery)) {
@@ -215,7 +223,10 @@ class SolrSearch_QueryHelpers
       array_push($query, html_escape('solrq=*:*'));
     }
     
-    $removeFacetLink = '<a class="btnRemove imgReplace" href="' . $uri . '?' . implode('&', $query) . '" rel="tag">' . $label . '</a>';
+    $removeFacetLink = '<a class="btnRemove imgReplace" href="'
+        . $uri . '?' . implode('&', $query) . '" rel="tag">'
+        . str_replace("\\", "", $label)
+        . '</a>';
     //$removeFacetLink = "[<a href='$uri?" . implode('&', $query) . '\'>X</a>]';
     return $removeFacetLink;
   }
@@ -262,6 +273,26 @@ class SolrSearch_QueryHelpers
     }
 
     return $header;
+  }
+
+  /**
+   * This Solr-escapes this facet value.
+   *
+   * The regex comes from
+   * http://fragmentsofcode.wordpress.com/2010/03/10/escape-special-characters-for-solrlucene-query/.
+   *
+   * @param string $facet The facet value to clean up.
+   *
+   * @return string $facet The escaped facet value.
+   * @author Eric Rochester <erochest@virginia.edu>
+   **/
+  public static function escapeFacet($facet)
+  {
+      return preg_replace(
+          '/(?<!\\\\)([&|+\-!(){}[\]^"~*?:])/',
+          '\\\\$1',
+          $facet
+      );
   }
 
 }
