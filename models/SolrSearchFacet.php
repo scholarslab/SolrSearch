@@ -58,14 +58,14 @@ class SolrSearchFacet extends Omeka_Record
 
 
     /**
-     * Get the name of the parent element set.
+     * Get the parent element set.
      *
-     * @return string $name The name of the element set.
+     * @return Omeka_Record The element set.
      */
-    public function getElementSetName()
+    public function getElementSet()
     {
         $_elementSetTable = $this->getTable('ElementSet');
-        return $_elementSetTable->find($this->element_set_id)->name;
+        return $_elementSetTable->find($this->element_set_id);
     }
 
 }

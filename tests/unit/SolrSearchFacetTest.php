@@ -59,11 +59,12 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
     }
 
     /**
-     * getElementSetName() should return the name of the parent element set.
+     * getElementSet() should return the name of the parent element set
+     * when the element_set_id is non-null.
      *
      * @return void.
      */
-    public function testGetElementSetName()
+    public function testGetElementSetWhenKeyExists()
     {
 
         // Get element and element set.
@@ -82,8 +83,8 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
 
         // Get element set name.
         $this->assertEquals(
-            $facet->getElementSetName(),
-            $elementSet->name
+            $facet->getElementSet()->id,
+            $elementSet->id
         );
 
     }
