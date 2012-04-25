@@ -27,6 +27,8 @@
  * @tutorial    tutorials/omeka/SolrSearch.pkg
  */
 
+require_once 'SolrSearch_Test_AppTestCase.php';
+
 /**
  * Test suite for SolrSearch.
  *
@@ -41,17 +43,19 @@ class SolrSearch_AllTests extends PHPUnit_Framework_TestSuite
      * @return SolrSearch_AllTests The test suites.
      */
     public static function suite() {
+
         $suite = new SolrSearch_AllTests('SolrSearch Tests');
 
         $testCollector = new PHPUnit_Runner_IncludePathTestCollector(
             array(
-                // dirname(__FILE__) . '/cases',
+                dirname(__FILE__) . '/unit',
                 dirname(__FILE__) . '/SolrSearch'
             )
         );
         $suite->addTestFiles($testCollector->collectTests());
 
         return $suite;
+
     }
 }
 

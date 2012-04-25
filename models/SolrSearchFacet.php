@@ -22,6 +22,50 @@
  * PHP version 5
  */
 
-class SolrSearchFacet extends Omeka_Record {
+class SolrSearchFacet extends Omeka_Record
+{
+
+
+    /**
+     * The id of the parent element [integer].
+     */
+    public $element_id;
+
+    /**
+     * The name of the element [string].
+     */
+    public $name;
+
+    /**
+     * The id of the parent element set [integer].
+     */
+    public $element_set_id;
+
+    /**
+     * Facet status [boolean/tinyint].
+     */
+    public $is_facet;
+
+    /**
+     * Displayed status [boolean/tinyint].
+     */
+    public $is_displayed;
+
+    /**
+     * Sortable status [boolean/tinyint].
+     */
+    public $is_sortable;
+
+
+    /**
+     * Get the name of the parent element set.
+     *
+     * @return string $name The name of the element set.
+     */
+    public function getElementSetName()
+    {
+        $_elementSetTable = $this->getTable('ElementSet');
+        return $_elementSetTable->find($this->element_set_id);
+    }
 
 }

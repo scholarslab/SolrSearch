@@ -22,7 +22,7 @@
  * PHP version 5
  */
 
-class SolrPlugin
+class SolrSearchPlugin
 {
     // {{{ hooks
     private static $_hooks = array(

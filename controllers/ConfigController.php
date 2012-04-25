@@ -22,6 +22,8 @@
  * PHP version 5
  */
 
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
+
 class SolrSearch_ConfigController extends Omeka_Controller_Action
 {
 
@@ -34,7 +36,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     {
 
         // Construct facet form.
-        $form = $this->facetForm();
+        $form = new FacetForm;
         $this->view->form = $form;
 
     }
@@ -126,7 +128,6 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     private function facetForm() {
 
         // Initialize form.
-        require "Zend/Form/Element.php";
         $form = new Zend_Form();
         $form->setAction('update');
         $form->setMethod('post');
@@ -147,9 +148,9 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                 $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
                 $mC->setLabel($elementSetName . ': ' . $field['name']);
                 $mC->setMultiOptions(array(
-                  'is_displayed'=>'Is Displayed',
-                  'is_facet'=>'Is Facet',
-                  'is_sortable'=>'Is Sortable'
+                    'is_displayed'=>'Is Displayed',
+                    'is_facet'=>'Is Facet',
+                    'is_sortable'=>'Is Sortable'
                 ));
 
             }
