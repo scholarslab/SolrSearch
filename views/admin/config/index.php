@@ -38,21 +38,26 @@
         )); ?>
         </tr>
       </thead>
-      <tbody>
+    </table>
 
         <?php foreach ($form->getDisplayGroups() as $group): ?>
 
-          <tr class="fieldset"><td colspan="4"><?php echo $group->getLegend(); ?></td></tr>
-
+          <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
+          <div>
           <?php foreach ($group->getElements() as $element): ?>
+            <table>
             <tr>
-              <td><?php echo $element->getName(); ?></td>
+              <td class="element"><?php echo $element->getLabel(); ?></td>
+              <?php foreach ($element->getMultiOptions() as $name => $label): ?>
+                <td><input type="checkbox" name="<?php echo $element->getName(); ?>[]" value="<?php echo $name; ?>" <?php if (in_array($name, $form->getValue($element->getName()))) { echo 'checked="checked"'; } ?>/></td>
+              <?php endforeach; ?>
             </tr>
+            </table>
           <?php endforeach; ?>
+          </div>
 
         <?php endforeach; ?>
 
-      </tbody>
     </table>
     <?php echo $form->getElement('submit'); ?>
     </form></div>

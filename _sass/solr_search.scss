@@ -219,4 +219,34 @@ ul.facets, ul.facets ul {
     display: block;
   }
 
+  tr.fieldset {
+    font-weight: bold;
+  }
+
+  td, th {
+    width: 25%;
+  }
+
+  td {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  table, tr {
+    border: none;
+  }
+
+  .ui-accordion, .ui-accordion-content {
+    padding: 1em 0 !important;
+  }
+
+  td.element {
+    padding-left: 2em;
+    font-weight: bold;
+  }
+
+  th:first-child {
+    padding-left: 2em;
+  }
+
 }

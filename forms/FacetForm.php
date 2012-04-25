@@ -57,6 +57,14 @@ class FacetForm extends Omeka_Form
                 $inputName = 'options_' . $facet->id;
                 array_push($displayGroup, $inputName);
 
+                // Construct values array.
+                $values = array();
+                foreach (array('is_displayed', 'is_facet', 'is_sortable') as $key) {
+                    if ($facet->$key == 1) {
+                        array_push($values, $key);
+                    }
+                }
+
                 // Add element.
                 $this->addElement('MultiCheckbox', $inputName, array(
                     'label' => $facet->name,
@@ -64,7 +72,8 @@ class FacetForm extends Omeka_Form
                         'is_displayed' => 'Is Displayed',
                         'is_facet' => 'Is Facet',
                         'is_sortable' => 'Is Sortable'
-                    )
+                    ),
+                    'value' => $values
                 ));
 
             }
