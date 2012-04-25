@@ -78,17 +78,12 @@ class SolrSearch_IndexHelpers
             $doc->itemtype = $itemType;
         }
 
-        // Images or XML files
+        // Images
         $files = $item->Files;
         foreach ((array)$files as $file) {
             $mimeType = $file->mime_browser;
-            if ($file['has_derivative_image'] == 1) {
+            if ($file->has_derivative_image == 1) {
                 $doc->setMultiValue('image', $file['id']);
-            }
-
-            if ($mimeType == 'application/xml' || $mimeType == 'text/xml') {
-                $teiFile = $file->getPath('archive');
-                $this->_indexXml($teiFile, $doc);
             }
         }
 
