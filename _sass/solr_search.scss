@@ -207,3 +207,10 @@ ul.facets, ul.facets ul {
 .solr_highlight>em{
 	font-weight:bold;	
 }
+
+
+#facets-form {
+  legend {
+    width: 100%;
+  }
+}

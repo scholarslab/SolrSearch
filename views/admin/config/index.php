@@ -24,14 +24,6 @@
     <h2>Select Facet Fields</h2>
     <?php echo flash(); ?>
     <?php if (!empty($err)) { echo '<p class="error">' . html_escape($err) . '</p>'; } ?>
-
-    <div id="facet-form">
-      <h3><a href="#">Test1</a></h3>
-      <div>First content.</div>
-      <h3><a href="#">Test2</a></h3>
-      <div>Second content.</div>
-    </div>
-
     <?php echo $form; ?>
 </div>
 

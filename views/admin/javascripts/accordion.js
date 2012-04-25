@@ -20,5 +20,18 @@
  */
 
 jQuery(document).ready(function($) {
-    $('#facet-form').accordion();
+
+    // Wrap inputs.
+    $.each($('legend'), function(i, legend) {
+        $(legend).wrapInner('<a href="#" />');
+        $(legend).siblings('dd, dt').wrapAll('<div />');
+    });
+
+    // Instantiate accordion.
+    $('#facets-form').accordion({
+        header: 'legend',
+        autoHeight: false,
+        collapsible: true
+    });
+
 });

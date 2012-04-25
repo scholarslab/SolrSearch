@@ -74,13 +74,6 @@ class FacetForm extends Omeka_Form
                 'legend' => $title
             ));
 
-            // Get the fieldset and modify decorator.
-            // ** dev: Is there really no better way to do this?
-            $fieldset = $this->getDisplayGroup($title);
-            $fieldset->setDecorators(array('FormElements', 'Fieldset', array (
-                'HtmlTag', array('tag' => 'div')
-            )));
-
         }
 
     }
