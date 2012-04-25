@@ -21,17 +21,17 @@
 
 jQuery(document).ready(function($) {
 
-    // Wrap inputs.
-    $.each($('legend'), function(i, legend) {
-        $(legend).wrapInner('<a href="#" />');
-        $(legend).siblings('dd, dt').wrapAll('<div />');
-    });
+    // // Wrap inputs.
+    // $.each($('legend'), function(i, legend) {
+    //     $(legend).wrapInner('<a href="#" />');
+    //     $(legend).siblings('dd, dt').wrapAll('<div />');
+    // });
 
-    // Instantiate accordion.
-    $('#facets-form').accordion({
-        header: 'legend',
-        autoHeight: false,
-        collapsible: true
-    });
+    // // Instantiate accordion.
+    // $('#facets-form').accordion({
+    //     header: 'legend',
+    //     autoHeight: false,
+    //     collapsible: true
+    // });
 
 });

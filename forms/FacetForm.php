@@ -76,6 +76,11 @@ class FacetForm extends Omeka_Form
 
         }
 
+        // Submit.
+        $this->addElement('submit', 'submit', array(
+            'label' => 'Save Facets'
+        ));
+
     }
 
 }

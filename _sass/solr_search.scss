@@ -210,7 +210,13 @@ ul.facets, ul.facets ul {
 
 
 #facets-form {
+
   legend {
     width: 100%;
   }
+
+  .form-row {
+    display: block;
+  }
+
 }
