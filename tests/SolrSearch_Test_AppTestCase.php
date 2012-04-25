@@ -32,6 +32,8 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->user = $this->db->getTable('User')->find(1);
         $this->_authenticateUser($this->user);
         $this->facetsTable = $this->db->getTable('SolrSearchFacet');
+        $this->elementSetTable = $this->db->getTable('ElementSet');
+        $this->elementTable = $this->db->getTable('Element');
 
         // Set up SolrSearch.
         $plugin_broker = get_plugin_broker();

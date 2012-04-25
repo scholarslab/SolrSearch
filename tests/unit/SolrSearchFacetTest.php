@@ -58,4 +58,34 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
 
     }
 
+    /**
+     * getElementSetName() should return the name of the parent element set.
+     *
+     * @return void.
+     */
+    public function testGetElementSetName()
+    {
+
+        // Get element and element set.
+        $element = $this->elementTable->find(1);
+        $elementSet = $this->elementSetTable->find(1);
+
+        // Create a facet.
+        $facet = new SolrSearchFacet;
+        $facet->element_id = $element->id;
+        $facet->element_set_id = $elementSet->id;
+        $facet->name = 'facet';
+        $facet->is_facet = 1;
+        $facet->is_displayed = 1;
+        $facet->is_sortable = 1;
+        $facet->save();
+
+        // Get element set name.
+        $this->assertEquals(
+            $facet->getElementSetName(),
+            $elementSet->name
+        );
+
+    }
+
 }
