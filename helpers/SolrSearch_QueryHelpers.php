@@ -97,12 +97,12 @@ class SolrSearch_QueryHelpers
       $html .= "<div class='fn'><b>$label</b></div> "
         . "<div class='fc'>$removeFacetLink</div>";
     } else {
-      if (isset($current['q'])) {
+      if (!empty($current['q'])) {
         $q = 'solrq=' . html_escape($current['q']) . '&';
       } else {
         $q = '';
       }
-      if (isset($current['facet'])) {
+      if (!empty($current['facet'])) {
         $facetq = "{$current['facet']}+AND+$facet:&#x022;$escaped&#x022;";
       } else {
         $facetq = "$facet:&#x022;$escaped&#x022;";
@@ -146,7 +146,7 @@ class SolrSearch_QueryHelpers
       // Otherwise, continue with process of displaying facets and removal
       // links.
 
-      if (isset($queryParams['q']) && $queryParams['q'] !== '*:*') {
+      if (!empty($queryParams['q']) && $queryParams['q'] !== '*:*') {
         $html .= '<span class="appliedFilter constraint query">';
         $html .= '<span class="filterValue">' . $queryParams['q'] . '</span>';
         $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet={$queryParams['facet']}'>";
@@ -155,7 +155,7 @@ class SolrSearch_QueryHelpers
         $html .= '</span>';
       }
 
-      if (isset($queryParams['facet'])) {
+      if (!empty($queryParams['facet'])) {
         foreach (explode(' AND ', $queryParams['facet']) as $param) {
           $paramSplit = explode(':', $param);
           $facet = $paramSplit[0];
