@@ -50,7 +50,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
     {
 
       // Get form instance.
-      $form = $this->facetForm();
+      $form = new FacetForm;
 
       // If the form has been posted.
       if ($this->_request->isPost()) {
@@ -120,89 +120,4 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
     }
 
-    /**
-     * Construct the form.
-     *
-     * @return Zend_Form $form The form.
-     */
-    private function facetForm() {
-
-        // Initialize form.
-        $form = new Zend_Form();
-        $form->setAction('update');
-        $form->setMethod('post');
-        $form->setAttrib('enctype', 'multipart/form-data');
-
-        // Set form as a table
-        $form->setDecorators(array('FormElements',array('HtmlTag', array('tag' => 'table')),'Form',));
-
-        // Get fields.
-        $fields = $this->getTable('SolrSearchFacet')->findAll();
-
-        // Walk fields.
-        foreach ($fields as $field) {
-
-            if ($field['element_set_id'] != NULL) {
-
-                $elementSetName = $this->getTable('ElementSet')->find($field['element_set_id'])->name;
-                $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
-                $mC->setLabel($elementSetName . ': ' . $field['name']);
-                $mC->setMultiOptions(array(
-                    'is_displayed'=>'Is Displayed',
-                    'is_facet'=>'Is Facet',
-                    'is_sortable'=>'Is Sortable'
-                ));
-
-            }
-
-            else {
-
-                $mC = new Zend_Form_Element_MultiCheckbox('options_' . $field['id']);
-                $mC->setLabel(ucwords($field['name']));
-
-                if ($field['name'] == 'image') {
-                    $mC->setMultiOptions(array( 'is_displayed'=>'Is Displayed'));
-                }
-
-                else {
-                    $mC->setMultiOptions(array(
-                        'is_displayed' => 'Is Displayed',
-                        'is_facet' => 'Is Facet',
-                        'is_sortable' => 'Is Sortable'
-                    ));
-                }
-
-            }
-
-            $values = array();
-            if ($field['is_displayed'] == 1) {
-              $values[] = 'is_displayed';
-            }
-            if ($field['is_facet'] == 1) {
-              $values[] = 'is_facet';
-            }
-            if ($field['is_sortable'] == 1) {
-              $values[] = 'is_sortable';
-            }
-
-            $mC->setValue($values);
-            $mC->setDecorators(array('ViewHelper',
-                array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element')),
-                array('Label', array('tag' => 'td')), array(array('row' => 'HtmlTag'), array('tag' => 'tr')),));
-
-            $form->addElement($mC);
-
-        }
-
-        //Submit button
-        $form->addElement('submit','submit');
-        $submitElement=$form->getElement('submit');
-        $submitElement->setLabel('Submit');
-        $submitElement->setDecorators(array('ViewHelper',
-            array(array('data' => 'HtmlTag'), array('tag' => 'td', 'class' => 'element', 'colspan' => 2)),
-            array(array('row' => 'HtmlTag'), array('tag' => 'tr'))
-        ));
-
-        return $form;
-  }
 }
