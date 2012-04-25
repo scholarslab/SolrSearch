@@ -225,10 +225,10 @@ class SolrSearchPlugin
 SQL;
         $stmt = $this->_db->prepare($sql);
 
-        $stmt->execute(array(null, 'image',      null, 1, 1, 1));
-        $stmt->execute(array(null, 'tag',        null, 1, 1, 1));
-        $stmt->execute(array(null, 'collection', null, 1, 1, 1));
-        $stmt->execute(array(null, 'itemtype',   null, 1, 1, 1));
+        $stmt->execute(array(null, 'Image',      null, 1, 1, 1));
+        $stmt->execute(array(null, 'Tag',        null, 1, 1, 1));
+        $stmt->execute(array(null, 'Collection', null, 1, 1, 1));
+        $stmt->execute(array(null, 'Itemtype',   null, 1, 1, 1));
 
         foreach ($elements as $element) {
             $stmt->execute(array(

@@ -37,6 +37,35 @@ class FacetForm extends Omeka_Form
         $_db = get_db();
         $_facetsTable = $_db->getTable('SolrSearchFacet');
 
+        // Set form parameters.
+        $this->setMethod('post');
+        $this->setAction('update');
+        $this->setAttrib('id', 'facets-form');
+
+        // Get grouped facets.
+        $groups = $_facetsTable->groupByElementSet();
+
+        // Walk facet groups.
+        foreach ($groups as $title => $group) {
+
+            // Bucket group elements.
+            $displayGroup = array();
+
+            foreach ($group as $facet) {
+
+                // Build element name.
+                $inputName = 'options_' . $facet->id;
+                array_push($displayGroup, $inputName);
+
+                // Add element.
+                $this->addElement('MultiCheckbox', $inputName, array(
+                    'label' => $facet->name
+                ));
+
+            }
+
+        }
+
     }
 
 }
