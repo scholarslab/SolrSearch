@@ -365,6 +365,81 @@ class SolrSearch_ViewHelpers
         return $tagString;
     }
 
+    /**
+     * This creates and returns the configuration form.
+     *
+     * @return Zend_Form
+     * @author Eric Rochester <erochest@virginia.edu>
+     */
+    public static function makeConfigForm() {
+        $form = new Zend_Form();
+        SolrSearch_ViewHelpers::makeConfigFields($form);
+        return $form;
+    }
+
+    /**
+     * This creates the fields for the configuration form. If a form is passed 
+     * in, the fields are added to it.
+     *
+     * @param Zend_Form|null $form The form to add the fields to.
+     *
+     * @return array $fields An associate array mapping option names to fields.
+     * @author Eric Rochester <erochest@virginia.edu>
+     */
+    public static function makeConfigFields($form=null) {
+        $fields = array();
+
+        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            $form, 'solr_search_server', 'Server Host:', true
+        );
+        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            $form, 'solr_search_port', 'Server Port:', true
+        )
+            ->addValidator(new Zend_Validate_Digits());
+        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            $form, 'solr_search_core', 'Solr Core Name:', true
+        )
+            ->addValidator('regex', true, array('/\/.*\//i'));
+
+        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            $form, 'solr_search_rows', "Results Per Page\n(empty uses Omeka's paging settings):", false
+        )
+            ->addValidator(new Zend_Validate_Digits())
+            ->addErrorMessage('Results count must be numeric');
+
+        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            $form, 'solr_search_facet_sort', 'Default Sort Order:', false,
+            'Zend_Form_Element_Select'
+        )
+            ->addMultiOption('index', 'Alphabetical')
+            ->addMultiOption('count', 'Occurrences');
+
+        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            $form, 'solr_search_facet_limit', 'Maximum Facet Count:', true
+        )
+            ->addValidator(new Zend_Validate_Digits());
+
+        return $fields;
+    }
+
+    public static function makeOptionField(
+        $form, $name, $label, $required, $cls='Zend_Form_Element_Text'
+    ) {
+        $field = new $cls($name, array(
+            'label'    => $label,
+            'value'    => get_option($name),
+            'required' => $required
+        ));
+
+        if ($form != null) {
+            $form->addElement($field);
+        }
+
+        return $field;
+    }
+
+
+
 }
 
 /*
