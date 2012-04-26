@@ -31,10 +31,10 @@
       <thead>
         <tr>
         <?php browse_headings(array(
-          'Field' => null,
-          'Is Displayed' => null,
-          'Is Facet' => null,
-          'Is Sortable' => null
+          'Field'         => null,
+          'Is Searchable' => null,
+          'Is Facet'      => null,
+          'Is Sortable'   => null
         )); ?>
         </tr>
       </thead>
