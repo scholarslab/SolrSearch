@@ -95,6 +95,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             }
         }
 
+        natcasesort($facets);
         return $facets;
     }
 
