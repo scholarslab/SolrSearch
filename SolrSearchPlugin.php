@@ -178,8 +178,6 @@ class SolrSearchPlugin
                 set_option($option, $value);
             }
 
-            $this->_flashSuccess("Config updated.");
-
             ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
         } else {
             $output = '';
@@ -283,29 +281,6 @@ SQL;
 
     }
 
-    /**
-     * This sets a flash error message.
-     *
-     * @param string $msg The message to flash.
-     *
-     * @return void
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    protected function _flashError($msg)
-    {
-        $flash = new Omeka_Controller_Flash;
-        $flash->setFlash(Omeka_Controller_Flash::GENERAL_ERROR, 
-                         $msg, 
-                         Omeka_Controller_Flash::DISPLAY_NEXT);
-    }
-
-    protected function _flashSuccess($msg)
-    {
-        $flash = new Omeka_Controller_Flash;
-        $flash->setFlash(Omeka_Controller_Flash::SUCCESS, 
-                         $msg, 
-                         Omeka_Controller_Flash::DISPLAY_NEXT);
-    }
     //}}}
 
 }
