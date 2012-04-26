@@ -91,7 +91,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
                     }
                 }
             } else {
-                $facets[] = $facet['name'];
+                $facets[] = strtolower($facet['name']);
             }
         }
 
@@ -174,7 +174,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             if ($displayField['element_id'] != NULL){
                 $fields .= ',' . $displayField['element_id'] . '_s';
             } else{
-                $fields .= ',' . $displayField['name'];
+                $fields .= ',' . strtolower($displayField['name']);
             }
 
         }
