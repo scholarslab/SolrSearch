@@ -63,8 +63,8 @@ class SolrSearch_IndexHelpers
         }
 
         if (array_key_exists('tag', $indexSet)) {
-            foreach ((array)$item->Tags as $key => $tag) {
-                $doc->setMultiValue('tag', $tag);
+            foreach ($item->getTags() as $tag) {
+                $doc->setMultiValue('tag', $tag->name);
             }
         }
 
