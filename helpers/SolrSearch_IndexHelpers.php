@@ -96,18 +96,6 @@ class SolrSearch_IndexHelpers
             }
         }
 
-        // FedoraConnector XML
-        if (function_exists('fedora_connector_installed')) {
-            $dataStreams = $db
-                ->getTable('FedoraConnector_Datastream')
-                ->findBySql('mime_type=? AND item_id=?', array('text/xml', $item->id));
-
-            foreach ($dataStreams as $ds) {
-                $fedoraFile = fedora_connector_content_url($ds);
-                $this->_indexXml($fedoraFile, $doc);
-            }
-        }
-
         return $doc;
     }
 
