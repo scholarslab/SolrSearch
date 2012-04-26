@@ -34,7 +34,7 @@
           'Field' => null,
           'Is Displayed' => null,
           'Is Facet' => null,
-          'Is Visible' => null
+          'Is Sortable' => null
         )); ?>
         </tr>
       </thead>
