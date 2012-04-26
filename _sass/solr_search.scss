@@ -250,3 +250,19 @@ ul.facets, ul.facets ul {
   }
 
 }
+
+.solrsearch.config {
+    dt {
+        margin-top: 2em;
+        height: 2em;
+        label {
+            width: 500px;
+        }
+    }
+    dd {
+        input, select {
+            width: 200px;
+        }
+    }
+}
+
