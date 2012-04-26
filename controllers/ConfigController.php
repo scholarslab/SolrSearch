@@ -43,8 +43,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
             // Validate form.
             if ($form->isValid($this->_request->getPost())) {
-
-                // Get form values.
+                $db = get_db();
                 $uploadedData = $form->getValues();
 
                 // Walk the fields.
@@ -81,25 +80,25 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                         }
 
                         $data = array(
-                            'id' => $split[1],
+                            'id'           => $split[1],
                             'is_displayed' => $options['is_displayed'],
-                            'is_facet' => $options['is_facet'],
-                            'is_sortable' => $options['is_sortable']
+                            'is_facet'     => $options['is_facet'],
+                            'is_sortable'  => $options['is_sortable']
                         );
 
                         try {
-                          $db = get_db();
-                          $db->insert('solr_search_facets', $data); 
-                          $this->flashSuccess('Solr facets updated.');
-                          $this->_redirect('solr-search/config');
+                            $db->insert('solr_search_facets', $data); 
                         } catch (Exception $err) {
-                          $this->flashError($err->getMessage());
+                            $this->flashError($err->getMessage());
+                            return;
                         }
 
                     }
 
                 }
 
+                $this->flashSuccess('Solr facets updated.');
+                $this->_redirect('solr-search/config');
             }
 
         }
