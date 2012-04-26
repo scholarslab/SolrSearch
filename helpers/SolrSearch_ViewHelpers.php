@@ -402,14 +402,15 @@ class SolrSearch_ViewHelpers
             ->addValidator('regex', true, array('/\/.*\//i'));
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_rows', "Results Per Page\n(empty uses Omeka's paging settings):", false
+            $form, 'solr_search_rows', "Results Per Page:",
+            false, "Defaults to Omeka's paging settings."
         )
             ->addValidator(new Zend_Validate_Digits())
             ->addErrorMessage('Results count must be numeric');
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_facet_sort', 'Default Sort Order:', false,
-            'Zend_Form_Element_Select'
+            null, 'Zend_Form_Element_Select'
         )
             ->addMultiOption('index', 'Alphabetical')
             ->addMultiOption('count', 'Occurrences');
@@ -423,13 +424,17 @@ class SolrSearch_ViewHelpers
     }
 
     public static function makeOptionField(
-        $form, $name, $label, $required, $cls='Zend_Form_Element_Text'
+        $form, $name, $label, $required, $descr=null,
+        $cls='Zend_Form_Element_Text'
     ) {
         $field = new $cls($name, array(
             'label'    => $label,
             'value'    => get_option($name),
             'required' => $required
         ));
+        if ($descr != null) {
+            $field->setDescription($descr);
+        }
 
         if ($form != null) {
             $form->addElement($field);
