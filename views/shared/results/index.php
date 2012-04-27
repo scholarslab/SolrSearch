@@ -35,12 +35,15 @@
         <h2>Limit your search</h2>
         <div class="solr_facets">
         <?php foreach ((array)$results->facet_counts->facet_fields as $facet => $values): ?>
-        <h3><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h3>
-        <ul>
+            <?php $props = get_object_vars($values); ?>
+            <?php if (!empty($props)): ?>
+                <h3><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h3>
+                    <ul>
 					<?php foreach($values as $label => $count): ?>
-            <li><?php echo SolrSearch_QueryHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
+                        <li><?php echo SolrSearch_QueryHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
 					<?php endforeach; ?>
-        </ul>
+                    </ul>
+            <?php endif; ?>
         <?php endforeach; ?>
         </div>
       </div>
