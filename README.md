@@ -115,7 +115,10 @@ solr
 [4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
 [homebrew]: http://mxcl.github.com/homebrew/
+<<<<<<< HEAD
 [node]: http://nodejs.org/
 [gems]: http://rubygems.org/
 [bundler]: http://gembundler.com/
 [rvm]: http://beginrescueend.com/
+=======
+>>>>>>> e578a34465420dc52f31a769248e1725bb9bd11b
