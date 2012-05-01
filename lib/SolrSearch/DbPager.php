@@ -43,6 +43,13 @@ class SolrSearch_DbPager
     var $db;
 
     /**
+     * This is the Omeka_Db_Table object to pull objects with.
+     *
+     * @var Omeka_DB_Table
+     **/
+    var $table;
+
+    /**
      * This is the Zend_Db_Select instance to query.
      *
      * @var Zend_Db_Select
@@ -74,9 +81,10 @@ class SolrSearch_DbPager
     /**
      * This constructs a SolrSearch_DbPager.
      **/
-    function __construct($db, $select, $rowCount=1000, $params=array())
+    function __construct($db, $table, $select, $rowCount=1000, $params=array())
     {
         $this->db         = $db;
+        $this->table      = $table;
         $this->select     = $select;
         $this->pageNumber = 0;
         $this->rowCount   = $rowCount;
@@ -95,9 +103,7 @@ class SolrSearch_DbPager
         $this->pageNumber++;
         $this->select->limitPage($this->pageNumber, $this->rowCount);
 
-        $results = $this->db->query($this->select, $this->params);
-        $rows    = $results->fetchAll();
-
+        $rows = $this->table->fetchObjects($this->select, $this->params);
         return $rows;
     }
 }

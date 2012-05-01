@@ -223,7 +223,7 @@ class SolrSearchPlugin
 SQL;
         $stmt = $this->_db->prepare($sql);
 
-        $stmt->execute(array(null, 'Image',      null, 1, 1, 1));
+        // $stmt->execute(array(null, 'Image',      null, 1, 1, 1));
         $stmt->execute(array(null, 'Tag',        null, 1, 1, 1));
         $stmt->execute(array(null, 'Collection', null, 1, 1, 1));
         $stmt->execute(array(null, 'Itemtype',   null, 1, 1, 1));
