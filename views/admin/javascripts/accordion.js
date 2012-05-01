@@ -21,7 +21,7 @@
 
 jQuery(document).ready(function($) {
 
-    // Instantiate accordion.
+    // Instantiate accordion
     $('#facets-form').accordion({
         header: 'h3.fieldset',
         autoHeight: false,
