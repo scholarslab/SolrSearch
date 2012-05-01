@@ -86,13 +86,11 @@ class SolrSearch_IndexHelpers
         }
 
         // Images
-        if (array_key_exists('image', $indexSet)) {
-            $files = $item->Files;
-            foreach ((array)$files as $file) {
-                $mimeType = $file->mime_browser;
-                if ($file->has_derivative_image == 1) {
-                    $doc->setMultiValue('image', $file['id']);
-                }
+        $files = $item->Files;
+        foreach ((array)$files as $file) {
+            $mimeType = $file->mime_browser;
+            if ($file->has_derivative_image == 1) {
+                $doc->setMultiValue('image', $file['id']);
             }
         }
 
