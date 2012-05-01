@@ -101,11 +101,18 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 
     private function getSearchParameters($facets) {
         $displayFields = $this->getDisplayableFields();
+        $hiddenFields  = $this->getHiddenFields();
+
+        $fields = $displayFields;
+        if ($hiddenFields != null && strlen($hiddenFields) > 0) {
+            $fields .= ",$hiddenFields";
+        }
+
         $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : '';
 
         if (!empty($facets)) {
             $params = array(
-                'fl'             => $displayFields,
+                'fl'             => $fields,
                 'facet'          => 'true',
                 'facet.mincount' => 1,
                 'facet.limit'    => SOLR_FACET_LIMIT,
@@ -179,6 +186,18 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             }
 
         }
+        return $fields;
+    }
+
+    /**
+     * This returns all fields that need to be included in the output from Solr, but aren't displayed.
+     *
+     * @return string $fields A comma-delimited list of fields.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    private function getHiddenFields()
+    {
+        $fields = "image";
         return $fields;
     }
 
