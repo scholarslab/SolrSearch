@@ -256,6 +256,21 @@ class SolrSearch_QueryHelpers
   }
 
   /**
+  * Looks up elements for the index
+  *
+  * @param string $field Element field to look up
+  * @return string $element Element name
+   */
+  public static function elementLookup($field)
+  {
+    $fieldArray = explode('_', $field);
+    $fieldId = $fieldArray[0];
+    $db = get_db();
+    $element = $db->getTable('Element')->find($fieldId);
+    return $element['name'];
+  }
+
+  /**
    * Parses facet field to determine human readable version.
    *
    * @param string $facet Facet to parse.
@@ -266,12 +281,12 @@ class SolrSearch_QueryHelpers
   public static function parseFacet($facet)
   {
     $header = '';
-    if (strstr($facet, ' ')) {
-      $header = SolrSearch_QueryHelpers::createFacetHtml($facet);
+    if (strstr($facet, '_')) {
+      $header = self::elementLookup($facet);
+      //$header = SolrSearch_QueryHelpers::createFacetHtml($facet);
     } else {
       $header = ucwords($facet);
     }
-
     return $header;
   }
 
