@@ -215,6 +215,12 @@ class SolrSearchPlugin
      */
     protected function _addFacetMappings()
     {
+        $dc = $this->_db->getTable('ElementSet')->findByName('Dublin Core');
+        $defaults = array(
+            'title'       => 1,
+            'description' => 1
+        );
+
         $elements = $this->_db->getTable('Element')->findAll();
         $sql = <<<SQL
             INSERT INTO `{$this->_db->prefix}solr_search_facets`
@@ -229,8 +235,17 @@ SQL;
         $stmt->execute(array(null, 'Itemtype',   null, 1, 1, 1));
 
         foreach ($elements as $element) {
+            $v = 0;
+
+            if ($element['element_set_id'] == $dc->id
+                && array_key_exists(strtolower($element['name']), $defaults)) {
+
+                $v = 1;
+            }
+
             $stmt->execute(array(
-                $element['id'], $element['name'], $element['element_set_id'], 0, 0, 0
+                $element['id'], $element['name'], $element['element_set_id'],
+                $v, $v, $v
             ));
         }
     }
