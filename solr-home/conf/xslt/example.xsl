@@ -24,7 +24,7 @@
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
 >
 
-  <xsl:output media-type="text/html"/>
+  <xsl:output media-type="text/html" encoding="UTF-8"/> 
   
   <xsl:variable name="title" select="concat('Solr search results (',response/result/@numFound,' documents)')"/>
   
