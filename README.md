@@ -1,14 +1,29 @@
 About SolrSearch 
 ----------
 
-SolrSearch is a plugin developed by the [Scholars' Lab][1] at the University of Virginia Library.  It is designed to replace the default Omeka database search mechanism with Solr, a powerful Java-based search index and query system.  It offers more robust full-text searching, faceted browsing, sorting, and hit highlighting than the MySQL search.  The plugin can be used as a foundation for future controlled vocabulary plugins.
+**SolrSearch** is an Omeka plugin that allows you to leverage the powerful
+[Solr][solr] search engine within Omeka. Not only does Solr provide robust,
+configurable, full-text indexing, it also allows you a flexible
+interface to configure how your users discover the content in your
+Omeka application. 
 
-This plugin is a beta release
+## Requirements
 
-Prerequisites 
-=============
+**SolrSearch** relies on access to a [Solr 3.5+][solr] server to
+maintain the search indexes. Installation of this software is covered in
+the [Solr Documentation][2]. 
 
-SolrSearch requires an active Solr index.  Solr is a Java application that is generally run in a container like Jetty or Tomcat.  Refer to [documentation][2] for instructions on downloading and installing it.  In the SolrSearch plugin directory, there is a folder called solr-home.  This folder contains configuration files for the index.  It can be copied and pasted elsewhere on the server or Tomcat can be configured to refer to this folder as the solr/home context path with the following XML snipped called solr.xml and placed in /path/to/tomcat/conf/Catalina/localhost/
+### Configuration
+Once Solr is up-and-running, you will need to tell Solr about the the
+Omeka SolrSearch configuration. While there are many ways to define the
+```solr/home``` (where the index and configuration files are located),
+one of the easiest ways to deal with this is by deploying Solr with a
+Context which defines the path to where the ```SolrSearch``` plugin 
+directory is located (specifically the ```SolrSearch/solr-home```
+directory).
+
+The following is an example of a context file that can be deployed
+easily through the [Tomcat Manager][tomcatmanager]:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -17,67 +32,47 @@ SolrSearch requires an active Solr index.  Solr is a Java application that is ge
 </Context>
 ```
 
-After successfully starting an instance of Solr on a server that can be accessed from your Omeka installation, SolrSearch is ready to be installed and configured.
+It is worth noting that the ```solr-home``` directory can be placed
+anywhere on the server that makes sense from a maitenance perspective,
+which is valuable for institutions using the [multicore][multicore]
+feature in Solr.
 
-Download 
+Installation and Configuration
 ----------
-*  Git: [https://github.com/scholarslab/SolrSearch][3]
-*  Package: [SolrSearch 0.8][4]
+* Upload the 'SolrSearch' plugin directory to your Omeka installation's ```plugin``` directory. See [Installing a Plugin][plugininstall].
+* Activate the plugin from the admin → Settings → Plugins page.
+* Configure your connection to the Solr server. We have provided some
+  typical default settings, but double check to ensure that these
+settings are correct for you installation of Solr.
 
-Features 
-----------
+## Index Configuration
 
-*  Easily configurable Solr server settings
+SolrSearch comes with some pre-selected defaults, including titles,
+itemtype, tag, and references to files. These are configurable in the
+Solr Index tab of Omeka's Admin interface:
 
-*  Easily configurable checkbox form for selecting display, sort, and facet fields
+TODO: add image
 
-*  Hit highlighting
+The index configuration is split in to the different types of
+information Omeka uses, plus a few 'special' fields (image, tag,
+collection, itemtype) that are outside of the normal classification.
+Each element has three options:
 
-*  Robust full-text search with relevancy ranking that can accommodate Lucene query syntax
+* **Is Searchable**: Adds the text of the field to the search index.
+* **Is Facet**: Adds the field as a 'facet' in the search interface
+* **Is Sortable**: ??? Are we removing this?
 
-*  Faceted browse based on selected elements, tags, or collection name
+After you have configured the fields you want indexed, and how you want
+them indexed, click on the ```Save Facets``` button. 
 
-*  Sorting of documents based on select elements, tags, item type, or collection name
+**Note:** SolrSearch indexes any item marked 'public' in Omeka. 
 
-*  Indexable and displayable image files per item
+## Hit Highlighting
+SolrSearch uses 'hit highlighting' to contextualize the query result.
+You can configure this in the ```Hit Highlighting Options``` tab.
 
-*  Well-designed and intuitive public interface for search results
+## Reindexing
 
-Installing and Configuring 
-----------
-
-1.  PHP-CLI is required for indexing documents in the background.  This can be installed through package managers on most Linux systems.  Refer to Google for instructions for installing the packages on your operating system.
-
-2.  Checkout from svn or download/extract zipped package to omeka/plugins (see [Installing_a_Plugin][5]).
-
-3.  Set appropriate write permissions for your solr-home/data folder.
-
-4.  Install SolrSearch on the Settings->Plugins page.
-
-5.  Configure the plugin with server information and results per page, facet limit, and facet sort order parameters.  The default server configuration will work with any single core  Solr index running in Tomcat (port 8080) that is installed on the same server as your Omeka instance.
-
-6.  Use the Configure Solr tab to select displayable, facet, and sortable fields that will go into effect in the public interface.  From this section, the user can click on a tab to view Solr highlighting options and also reindex all Omeka items, which may be necessary to do from time to time if multiple plugins that use the after_save_item hook are installed.
-
-7.  Now you need to make a minor modification to your theme to replace the simple_search database query with the Solr search form.
-
-* Edit the header.php for your theme located in omeka/themes/[theme name]/common/header.php (or wherever simple_search() is called).
-
-* Replace simple_search() with the solr_search_form() function.
-
-* You may wish to remove or comment out the Advanced Search function: link_to_advanced_search().  SolrSearch is capable of a number of advanced features that reduce the usefulness of the default advanced search.
-
-* You may also wish to change the Browse Items link to the URL of the search results when querying all records:
-
-```php
-'Browse Items' => uri('solr-search/results/?q=*:*');
-```
-
-After these changes have been made, you will be able to use the search box in the header to query Solr and filter results by facet.
-
-Indexing to Solr 
-----------
-
-Upon plugin installation, all items designated as 'public' will be indexed into Solr.  Items that are not public are ignored by the indexing script.  When an item is saved and the item is public, the updated metadata is posted to Solr.  If that item was previously public and that designation was removed, the associated document will be removed from Solr.  Items not designated as public already are ignored.  When an item is deleted from Omeka, its corresponding Solr document is also deleted.  When SolrSearch is uninstalled, all Solr documents are purged.
 
 # Developer Mode
 There are a number of technologies used in the development mode for this
@@ -115,10 +110,12 @@ solr
 [4]: http://github.com/scholarslab/SolrSearch/tarball/master "http://github.com/scholarslab/SolrSearch/tarball/master"
 [5]: /codex/Installing_a_Plugin "Installing a Plugin"
 [homebrew]: http://mxcl.github.com/homebrew/
-<<<<<<< HEAD
+
 [node]: http://nodejs.org/
 [gems]: http://rubygems.org/
 [bundler]: http://gembundler.com/
 [rvm]: http://beginrescueend.com/
-=======
->>>>>>> e578a34465420dc52f31a769248e1725bb9bd11b
+[solr]: http://lucene.apache.org/solr
+[solrinstall]: http://wiki.apache.org/solr/SolrInstall
+[tomcatmanager]: http://tomcat.apache.org/tomcat-6.0-doc/manager-howto.html
+[multicore]: http://wiki.apache.org/solr/CoreAdmin
