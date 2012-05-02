@@ -224,15 +224,15 @@ class SolrSearchPlugin
         $elements = $this->_db->getTable('Element')->findAll();
         $sql = <<<SQL
             INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (element_id, name, element_set_id, is_facet, is_displayed, is_sortable)
-                VALUES (?, ?, ?, ?, ?, ?);
+                (element_id, name, element_set_id, is_facet, is_displayed)
+                VALUES (?, ?, ?, ?, ?);
 SQL;
         $stmt = $this->_db->prepare($sql);
 
-        // $stmt->execute(array(null, 'Image',      null, 1, 1, 1));
-        $stmt->execute(array(null, 'Tag',        null, 1, 1, 1));
-        $stmt->execute(array(null, 'Collection', null, 1, 1, 1));
-        $stmt->execute(array(null, 'Itemtype',   null, 1, 1, 1));
+        // $stmt->execute(array(null, 'Image',      null, 1, 1));
+        $stmt->execute(array(null, 'Tag',        null, 1, 1));
+        $stmt->execute(array(null, 'Collection', null, 1, 1));
+        $stmt->execute(array(null, 'Itemtype',   null, 1, 1));
 
         foreach ($elements as $element) {
             $v = 0;
@@ -244,8 +244,7 @@ SQL;
             }
 
             $stmt->execute(array(
-                $element['id'], $element['name'], $element['element_set_id'],
-                $v, $v, $v
+                $element['id'], $element['name'], $element['element_set_id'], 0, $v
             ));
         }
     }
@@ -287,7 +286,6 @@ SQL;
             `element_set_id` int(10) unsigned,
             `is_facet` tinyint unsigned DEFAULT 0,
             `is_displayed` tinyint unsigned DEFAULT 0,
-            `is_sortable` tinyint unsigned DEFAULT 0,
         PRIMARY KEY  (`id`)
        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL;

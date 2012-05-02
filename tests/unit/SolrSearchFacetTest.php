@@ -42,7 +42,6 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         $facet->name = 'name';
         $facet->is_facet = 1;
         $facet->is_displayed = 1;
-        $facet->is_sortable = 1;
         $facet->save();
 
         // Re-get the facet object.
@@ -54,7 +53,6 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         $this->assertEquals($facet->name, 'name');
         $this->assertEquals($facet->is_facet, 1);
         $this->assertEquals($facet->is_displayed, 1);
-        $this->assertEquals($facet->is_sortable, 1);
 
     }
 

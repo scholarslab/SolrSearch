@@ -118,7 +118,7 @@ class SolrSearch_IndexHelpers
             ->findAll();
 
         foreach ($facets as $facet) {
-            if ($facet->is_displayed || $facet->is_facet || $facet->is_sortable) {
+            if ($facet->is_displayed || $facet->is_facet) {
                 $key = $facet->element_id
                     ? $facet->element_id
                     : strtolower($facet->name);

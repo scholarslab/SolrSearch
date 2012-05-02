@@ -55,7 +55,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                         $options = array();
 
                         /**
-                        * Test for is_facet and is_sortable values.
+                        * Test for is_facet values.
                         */
 
                         // is_displayed
@@ -72,18 +72,10 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                           $options['is_facet'] = 0;
                         }
 
-                        // is_sortable
-                        if (isset($values) && in_array('is_sortable',$values)){
-                          $options['is_sortable'] = 1;
-                        } else {
-                          $options['is_sortable'] = 0;
-                        }
-
                         $data = array(
                             'id'           => $split[1],
                             'is_displayed' => $options['is_displayed'],
-                            'is_facet'     => $options['is_facet'],
-                            'is_sortable'  => $options['is_sortable']
+                            'is_facet'     => $options['is_facet']
                         );
 
                         try {

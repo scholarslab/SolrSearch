@@ -51,11 +51,6 @@ class SolrSearchFacet extends Omeka_Record
      */
     public $is_displayed;
 
-    /**
-     * Sortable status [boolean/tinyint].
-     */
-    public $is_sortable;
-
 
     /**
      * Get the parent element set.

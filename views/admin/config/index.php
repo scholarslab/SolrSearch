@@ -38,8 +38,7 @@
         <?php browse_headings(array(
           'Field'         => null,
           'Is Searchable' => null,
-          'Is Facet'      => null,
-          'Is Sortable'   => null
+          'Is Facet'      => null
         )); ?>
         </tr>
       </thead>

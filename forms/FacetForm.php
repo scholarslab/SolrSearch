@@ -59,7 +59,7 @@ class FacetForm extends Omeka_Form
 
                 // Construct values array.
                 $values = array();
-                foreach (array('is_displayed', 'is_facet', 'is_sortable') as $key) {
+                foreach (array('is_displayed', 'is_facet') as $key) {
                     if ($facet->$key == 1) {
                         array_push($values, $key);
                     }
@@ -70,8 +70,7 @@ class FacetForm extends Omeka_Form
                     'label' => $facet->name,
                     'multiOptions' => array(
                         'is_displayed' => 'Is Searchable',
-                        'is_facet'     => 'Is Facet',
-                        'is_sortable'  => 'Is Sortable'
+                        'is_facet'     => 'Is Facet'
                     ),
                     'value' => $values
                 ));

@@ -25,8 +25,6 @@
       <nav class="pagination">
         <?php echo pagination_links(); ?>
       </nav>
-      <div class="solr_sort_form"><?php echo SolrSearch_ViewHelpers::createSortForm(); ?></div>
-
     </div>
 
     <?php if(!empty($facets)): ?>
