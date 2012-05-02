@@ -63,7 +63,7 @@
   }
 }
 
-.facet-fields tr:nth-child(2n+1) {
+.facet-fields tbody tr:nth-child(2n+1) {
   background-color: #eee;
 }
 
@@ -215,6 +215,27 @@ ul.facets, ul.facets ul {
 
 #facets-form {
 
+  .ui-state-focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow:none !important;
+    outline:none !important;
+  }
+
+  .ui-accordion-header a {
+    padding-left: 1.6em !important;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight:bold;
+    margin:0;
+
+    .ui-icon {
+      opacity: 0.5;
+    }
+
+  }
   legend {
     width: 100%;
   }
@@ -231,9 +252,9 @@ ul.facets, ul.facets ul {
     width: 25%;
   }
 
-  td {
-    padding-top: 0;
-    padding-bottom: 0;
+  table {
+    margin:0;
+    padding:0;
   }
 
   table, tr {

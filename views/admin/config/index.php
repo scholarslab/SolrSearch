@@ -27,7 +27,12 @@
     <?php if (!empty($err)) { echo '<p class="error">' . html_escape($err) . '</p>'; } ?>
 
     <form id="facets-form" method="post">
-    <table>
+
+        <?php foreach ($form->getDisplayGroups() as $group): ?>
+
+          <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
+          <div>
+          <table class="facet-fields">
       <thead>
         <tr>
         <?php browse_headings(array(
@@ -38,22 +43,17 @@
         )); ?>
         </tr>
       </thead>
-    </table>
-
-        <?php foreach ($form->getDisplayGroups() as $group): ?>
-
-          <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
-          <div>
+      <tbody>
           <?php foreach ($group->getElements() as $element): ?>
-            <table class="facet-fields">
             <tr>
               <td class="element"><?php echo $element->getLabel(); ?></td>
               <?php foreach ($element->getMultiOptions() as $name => $label): ?>
                 <td><input type="checkbox" name="<?php echo $element->getName(); ?>[]" value="<?php echo $name; ?>" <?php if (in_array($name, $form->getValue($element->getName()))) { echo 'checked="checked"'; } ?>/></td>
               <?php endforeach; ?>
             </tr>
-            </table>
           <?php endforeach; ?>
+      </tbody>
+          </table>
           </div>
 
         <?php endforeach; ?>
