@@ -245,7 +245,7 @@ SQL;
 
             $stmt->execute(array(
                 $element['id'], $element['name'], $element['element_set_id'],
-                $v, $v, $v
+                0, $v, $v
             ));
         }
     }
