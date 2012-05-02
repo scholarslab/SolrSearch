@@ -63,6 +63,10 @@
   }
 }
 
+.facet-fields tr:nth-child(2n+1) {
+  background-color: #eee;
+}
+
 .appliedFilter {
   background: none repeat scroll 0 0 #e2edfe;
   border: 1px solid #c4dafe;

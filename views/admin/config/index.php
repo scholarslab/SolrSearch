@@ -45,7 +45,7 @@
           <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
           <div>
           <?php foreach ($group->getElements() as $element): ?>
-            <table>
+            <table class="facet-fields">
             <tr>
               <td class="element"><?php echo $element->getLabel(); ?></td>
               <?php foreach ($element->getMultiOptions() as $name => $label): ?>
