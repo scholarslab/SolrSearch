@@ -108,8 +108,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             $fields .= ",$hiddenFields";
         }
 
-        $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : '';
-
         if (!empty($facets)) {
             $params = array(
                 'fl'             => $fields,
@@ -120,13 +118,11 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
                 'hl'             => get_option('solr_search_hl'),
                 'hl.snippets'    => get_option('solr_search_snippets'),
                 'hl.fragsize'    => get_option('solr_search_fragsize'),
-                'sort'           => $sort,
                 'facet.sort'     => get_option('solr_search_facet_sort')
             );
         } else {
             $params = array(
-                'fl'   => $displayFields,
-                'sort' => $sort
+                'fl'   => $displayFields
             );
         }
 
