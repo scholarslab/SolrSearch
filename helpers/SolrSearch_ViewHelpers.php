@@ -409,7 +409,7 @@ class SolrSearch_ViewHelpers
             ->addErrorMessage('Results count must be numeric');
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_facet_sort', 'Default Sort Order:', false,
+            $form, 'solr_search_facet_sort', 'Facet Field Constraint Order:', false,
             null, 'Zend_Form_Element_Select'
         )
             ->addMultiOption('index', 'Alphabetical')
