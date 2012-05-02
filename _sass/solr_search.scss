@@ -248,10 +248,6 @@ ul.facets, ul.facets ul {
     font-weight: bold;
   }
 
-  td, th {
-    width: 25%;
-  }
-
   table {
     margin:0;
     padding:0;
@@ -270,8 +266,15 @@ ul.facets, ul.facets ul {
     font-weight: bold;
   }
 
+  th,td {
+    text-align:center;
+  }
   th:first-child {
     padding-left: 2em;
+    text-align:left;
+  }
+  td:first-child {
+    text-align:left;
   }
 
 }
