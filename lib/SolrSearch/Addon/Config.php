@@ -26,13 +26,28 @@
 
 
 /**
- * This static class handles parsing config files into SolrSearch_Addon_* 
- * classes.
+ * This class handles parsing config files into SolrSearch_Addon_* classes.
  **/
 class SolrSearch_Addon_Config
 {
 
-    // {{{Public Static Methods
+    // {{{Properties
+
+    /**
+     * The database this will interface with.
+     *
+     * @var Omeka_Db
+     **/
+    var $db;
+
+    // }}}
+
+    // {{{Public Methods
+
+    function __construct($db)
+    {
+        $this->db = $db;
+    }
 
     /**
      * This parses a string into an associative array of SolrSearch_Addon_Addon 
@@ -43,11 +58,15 @@ class SolrSearch_Addon_Config
      * @return array of SolrSearch_Addon_Addon
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function parseString($input)
+    public function parseString($input)
     {
+        $addons = array();
         $json   = json_decode($input, TRUE);
-        $addon  = SolrSearch_Addon_Config::parseAddon($json);
-        $addons = SolrSearch_Addon_Config::indexAddons($addon);
+
+        if ($json !== null) {
+            $addons = $this->parseAddonCollection($json);
+        }
+
         return $addons;
     }
 
@@ -59,11 +78,9 @@ class SolrSearch_Addon_Config
      * @return array of SolrSearch_Addon_Addon
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function parseFile($filename)
+    public function parseFile($filename)
     {
-        return SolrSearch_Addon_Config::parseString(
-            file_get_contents($filename)
-        );
+        return $this->parseString(file_get_contents($filename));
     }
 
     /**
@@ -74,14 +91,14 @@ class SolrSearch_Addon_Config
      * @return array of SolrSearch_Addon_Addon
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function parseDir($dirname)
+    public function parseDir($dirname)
     {
         $addons = array();
 
         if ($d = opendir($dirname)) {
             while (($file = readdir($d)) !== false) {
                 if (preg_match('/\.json$/i', $file)) {
-                    $a = SolrSearch_Addon_Config::parseFile($file);
+                    $a = $this->parseFile($file);
                     $addons = array_merge($addons, $a);
                 }
             }
@@ -93,46 +110,63 @@ class SolrSearch_Addon_Config
 
     // }}}
 
-    // {{{Private Static Methods
-
-    /**
-     * This walks an Addon tree and indexes them into an associate array, keyed 
-     * by name.
-     *
-     * @param SolrSearch_Addon_Addon $addon The parent of the addon tree to 
-     * index.
-     *
-     * @return array
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    private static function indexAddons($addon)
-    {
-        $addons = array();
-        $stack  = array();
-
-        $stack[] = $addon;
-        while (($a = array_pop($stack)) !== NULL) {
-            $addons[$a->name] = $a;
-            $stack = array_merge($stack, $a->children);
-        }
-
-        return $addons;
-    }
+    // {{{Private Methods
 
     /**
      * This takes a JSON object describing an addon and parses it into an 
      * Addon.
      *
      * @param string $json The JSON object to parse.
+     * @param SolrSearch_Addon_Addon|null $parent The parent for the objects in 
+     * this collection.
      *
-     * @return SolrSearch_Addon_Addon|null
+     * @return array of SolrSearch_Addon_Addon
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    private static function parseAddon($json)
+    private function parseAddonCollection($json, $parent=null)
     {
-        $addon = new SolrSearch_Addon_Addon();
+        $addons = array();
 
-        return $addon;
+        foreach ($json as $name => $jAddon) {
+            $addon = $this->parseAddon(
+                $name, $jAddon, $parent
+            );
+
+            if ($addon !== null) {
+                $addons = array_merge($addons, $addon);
+            }
+        }
+
+        return $addons;
+    }
+
+    /**
+     * This parses the data for a single addon.
+     *
+     * @param string $name The name of the addon.
+     * @param array $json An associate array representing the JSON object for 
+     * the addon.
+     * @param SolrSearch_Addon_Addon|null $parent The parent for the object.
+     *
+     * @return array of SolrSearch_Addon_Addon
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    private function parseAddon($name, $json, $parent=null)
+    {
+        $addon  = new SolrSearch_Addon_Addon($name);
+        $addons = array( $name => $addon );
+
+        if (array_key_exists('children', $json)) {
+            $children = $this->parseAddonCollection(
+                $json['children'], $addon
+            );
+            foreach ($children as $cname => $child) {
+                $addon->children[] = $child;
+                $addons[$cname] = $child;
+            }
+        }
+
+        return $addons;
     }
 
     // }}}

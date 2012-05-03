@@ -82,7 +82,8 @@ EOF;
      **/
     public function testParse()
     {
-        $addons = SolrSearch_Addon_Config::parseString($this->config_json);
+        $config = new SolrSearch_Addon_Config($this->db);
+        $addons = $config->parseString(self::$config_json);
 
         $this->assertCount(2, $addons);
         $this->assertArrayHasKey('exhibits', $addons);
