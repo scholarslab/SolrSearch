@@ -35,11 +35,11 @@ class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
                     "title",
                     "description"
                 ],
-                "table": "{$prefix}_sections"
+                "table": "Sections"
             }
         },
         "flag": "public",
-        "table": "{$prefix}_exhibits",
+        "table": "Exhibits",
         "result_type": "Exhibits"
     }
 }
