@@ -32,6 +32,8 @@
 class SolrSearch_Addon_Config
 {
 
+    // {{{Public Static Methods
+
     /**
      * This parses a string into an associative array of SolrSearch_Addon_Addon 
      * classes.
@@ -43,9 +45,9 @@ class SolrSearch_Addon_Config
      **/
     public static function parseString($input)
     {
-        $json   = json_decode($input);
-        $addons = array();
-
+        $json   = json_decode($input, TRUE);
+        $addon  = SolrSearch_Addon_Config::parseAddon($json);
+        $addons = SolrSearch_Addon_Config::indexAddons($addon);
         return $addons;
     }
 
@@ -88,6 +90,52 @@ class SolrSearch_Addon_Config
 
         return $addons;
     }
+
+    // }}}
+
+    // {{{Private Static Methods
+
+    /**
+     * This walks an Addon tree and indexes them into an associate array, keyed 
+     * by name.
+     *
+     * @param SolrSearch_Addon_Addon $addon The parent of the addon tree to 
+     * index.
+     *
+     * @return array
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    private static function indexAddons($addon)
+    {
+        $addons = array();
+        $stack  = array();
+
+        $stack[] = $addon;
+        while (($a = array_pop($stack)) !== NULL) {
+            $addons[$a->name] = $a;
+            $stack = array_merge($stack, $a->children);
+        }
+
+        return $addons;
+    }
+
+    /**
+     * This takes a JSON object describing an addon and parses it into an 
+     * Addon.
+     *
+     * @param string $json The JSON object to parse.
+     *
+     * @return SolrSearch_Addon_Addon|null
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    private static function parseAddon($json)
+    {
+        $addon = new SolrSearch_Addon_Addon();
+
+        return $addon;
+    }
+
+    // }}}
 
 }
 
