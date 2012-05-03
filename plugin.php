@@ -65,6 +65,7 @@ require_once 'lib/Service.php';
 
 // SolrSearch utility classes
 require_once 'lib/SolrSearch/QueryManager.php';
+require_once 'lib/SolrSearch/Addon.php';
 
 /*
  * Custom Theme Helpers. They're imported from the helpers file, which appears 
