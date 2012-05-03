@@ -59,7 +59,11 @@ EOF;
         $this->assertEquals($resultType, $addon->resultType);
         $this->assertEquals($table, $addon->table);
         $this->assertEquals($idCol, $addon->idColumn);
-        $this->assertEquals($parent, $addon->parentAddon);
+        if (is_null($parent)) {
+            $this->assertNull($addon->parentAddon);
+        } else {
+            $this->assertEquals($parent, $addon->parentAddon->name);
+        }
         $this->assertEquals($parentKey, $addon->parentKey);
         $this->assertEquals($tagged, $addon->tagged);
         $this->assertEquals($flag, $addon->flag);
@@ -91,7 +95,7 @@ EOF;
 
         $a = $addons['exhibits'];
         $this->assertAddon(
-            $a, 'exhibits', 'Exhibits', 'omeka_exhibits', 'eid', null, 
+            $a, 'exhibits', 'Exhibits', 'Exhibits', 'eid', null, 
             null, true, 'public', 3, 1
         );
         $this->assertField($a->fields[0], 'title', 'title', false);
@@ -105,7 +109,7 @@ EOF;
 
         $a = $addons['sections'];
         $this->assertAddon(
-            $a, 'sections', null, 'omeka_sections', 'id', 'exhibits',
+            $a, 'sections', null, 'Sections', 'id', 'exhibits',
             'exhibit_id', false, null, 2, 0
         );
         $this->assertField($a->fields[0], 'title', 'title', false);

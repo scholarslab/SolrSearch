@@ -24,9 +24,43 @@
  *
  */
 
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Addon.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Config.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Field.php';
+/**
+ * This contains the data for the main information for an addon field.
+ **/
+class SolrSearch_Addon_Field
+{
+    //{{{Properties
+
+    /**
+     * The Solr name of the field.
+     *
+     * @var string
+     **/
+    var $name;
+
+    /**
+     * The display label for the field.
+     *
+     * @var string
+     **/
+    var $label;
+
+    /**
+     * Is this field a facet?
+     *
+     * @var bool
+     **/
+    var $is_facet;
+
+    //}}}
+
+    function __construct($name=null, $label=null, $is_facet=null)
+    {
+        $this->name     = $name;
+        $this->label    = $label;
+        $this->is_facet = $is_facet;
+    }
+}
 
 /*
  * Local variables:
@@ -35,4 +69,3 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Field.php';
  * c-hanging-comment-ender-p: nil
  * End:
  */
-

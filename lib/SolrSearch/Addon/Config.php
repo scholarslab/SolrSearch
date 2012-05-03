@@ -156,6 +156,33 @@ class SolrSearch_Addon_Config
         $addon  = new SolrSearch_Addon_Addon($name);
         $addons = array( $name => $addon );
 
+        if (array_key_exists('result_type', $json)) {
+            $addon->resultType = $json['result_type'];
+        }
+        if (array_key_exists('table', $json)) {
+            $addon->table = $json['table'];
+        }
+        if (array_key_exists('id_column', $json)) {
+            $addon->idColumn = $json['id_column'];
+        }
+        $addon->parentAddon = $parent;
+        if (array_key_exists('parent_key', $json)) {
+            $addon->parentKey = $json['parent_key'];
+        }
+        if (array_key_exists('tagged', $json)) {
+            $addon->tagged = $json['tagged'];
+        }
+        if (array_key_exists('flag', $json)) {
+            $addon->flag = $json['flag'];
+        }
+
+        if (array_key_exists('fields', $json)) {
+            $addon->fields = array();
+            foreach ($json['fields'] as $field) {
+                $addon->fields[] = $this->parseField($field);
+            }
+        }
+
         if (array_key_exists('children', $json)) {
             $children = $this->parseAddonCollection(
                 $json['children'], $addon
@@ -167,6 +194,31 @@ class SolrSearch_Addon_Config
         }
 
         return $addons;
+    }
+
+    /**
+     * This parses a JSON object or string into a SolrSearch_Addon_Field.
+     * 
+     * @param array|string $json The JSON object to parse into a field.
+     *
+     * @return SolrSearch_Addon_Field $field That parsed field.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    private function parseField($json)
+    {
+        $field = new SolrSearch_Addon_Field();
+
+        if (is_array($json)) {
+            $field->name     = $json['field'];
+            $field->label    = $json['label'];
+            $field->is_facet = $json['facet'];
+        } else {
+            $field->name     = $json;
+            $field->label    = $json;
+            $field->is_facet = false;
+        }
+
+        return $field;
     }
 
     // }}}
