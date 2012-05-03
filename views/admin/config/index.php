@@ -1,4 +1,6 @@
-<?php queue_js('accordion'); ?>
+<?php 
+  queue_js('accordion');
+?>
 
 <?php head(array(
   'title' => 'Solr Search Configuration',
@@ -22,7 +24,7 @@
 
 <div id="primary">
 
-    <h2>Select Facet Fields</h2>
+    <h2>Configure Search Fields</h2>
     <?php echo flash(); ?>
     <?php if (!empty($err)) { echo '<p class="error">' . html_escape($err) . '</p>'; } ?>
 

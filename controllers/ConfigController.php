@@ -89,7 +89,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
                 }
 
-                $this->flashSuccess('Solr facets updated.');
+                $this->flashSuccess('Solr configuration updated. Be sure to reindex.');
                 $this->_redirect('solr-search/config');
             }
 
