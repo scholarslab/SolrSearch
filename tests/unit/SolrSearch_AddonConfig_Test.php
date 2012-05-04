@@ -2,8 +2,6 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
 
 /**
- * Facet table tests.
- *
  * @package     omeka
  * @subpackage  SolrSearch
  * @author      Scholars' Lab <>
