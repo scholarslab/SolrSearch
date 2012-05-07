@@ -98,7 +98,7 @@ class SolrSearch_Addon_Config
         if ($d = opendir($dirname)) {
             while (($file = readdir($d)) !== false) {
                 if (preg_match('/\.json$/i', $file)) {
-                    $a = $this->parseFile($file);
+                    $a = $this->parseFile("$dirname/$file");
                     $addons = array_merge($addons, $a);
                 }
             }
