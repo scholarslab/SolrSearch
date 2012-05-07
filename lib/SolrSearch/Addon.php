@@ -27,6 +27,7 @@
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Addon.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Config.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Field.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Manager.php';
 
 /*
  * Local variables:
