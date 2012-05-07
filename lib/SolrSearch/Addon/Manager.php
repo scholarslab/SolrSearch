@@ -85,6 +85,18 @@ class SolrSearch_Addon_Manager
      **/
     public function parseAll($config=null)
     {
+        if (is_null($config)) {
+            $config = new SolrSearch_Addon_Config($this->db);
+        }
+        if (is_null($this->addons)) {
+            $this->addons = array();
+        }
+
+        $this->addons = array_merge(
+            $this->addons, $config->parseDir($this->addonDir)
+        );
+
+        return $this->addons;
     }
 
     // }}}
