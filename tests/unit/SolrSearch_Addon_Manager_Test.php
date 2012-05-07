@@ -17,12 +17,11 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
     public function setUp()
     {
         $this->setUpPlugin();
-        $this->config = new SolrSearch_Addon_Config($this->db);
     }
 
     public function testAddonDir()
     {
-        $mgr = new SolrSearch_Addon_Manager();
+        $mgr = new SolrSearch_Addon_Manager($this->db);
         $this->assertEquals(
             realpath(SOLR_SEARCH_PLUGIN_DIR . '/addons'),
             $mgr->addonDir
@@ -31,8 +30,8 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
 
     public function testParseAll()
     {
-        $mgr = new SolrSearch_Addon_Manager();
-        $mgr->parseAll($this->config);
+        $mgr = new SolrSearch_Addon_Manager($this->db);
+        $mgr->parseAll();
         $this->assertCount(4, $mgr->addons);
     }
 
