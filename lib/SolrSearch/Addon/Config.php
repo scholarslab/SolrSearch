@@ -102,7 +102,7 @@ class SolrSearch_Addon_Config
                     $addons = array_merge($addons, $a);
                 }
             }
-            closedir($addons);
+            closedir($d);
         }
 
         return $addons;
