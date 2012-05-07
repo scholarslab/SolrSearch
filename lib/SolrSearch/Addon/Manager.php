@@ -64,14 +64,13 @@ class SolrSearch_Addon_Manager
      **/
     function __construct($db, $addonDir=null)
     {
-        /*
-         * $this->db = $db;
-         * $this->addonDir = $addonDir;
-         * if ($this->addonDir === null) {
-         *     $this->addonDir = SOLR_SEARCH_PLUGIN_DIR . '/addons';
-         * }
-         */
-        $this->addons = null;
+        $this->db       = $db;
+        $this->addonDir = $addonDir;
+        $this->addons   = null;
+
+        if ($this->addonDir === null) {
+            $this->addonDir = SOLR_SEARCH_PLUGIN_DIR . '/addons';
+        }
     }
 
     /**
