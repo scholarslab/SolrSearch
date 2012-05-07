@@ -1,0 +1,11 @@
+{
+    "simple_pages": {
+        "table"       : "SimplePages_Pages",
+        "result_type" : "Pages",
+        "flag"        : "is_published",
+        "fields"      : [
+            "title",
+            "text"
+        ]
+    }
+}

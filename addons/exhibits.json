@@ -1,0 +1,33 @@
+{
+    "exhibits": {
+        "table"       : "Exhibits",
+        "result_type" : "Exhibits",
+        "tagged"      : true,
+        "flag"        : "public",
+
+        "fields": [
+            "title",
+            "description"
+        ],
+        "children": {
+            "sections": {
+                "table"       : "Sections",
+                "result_type" : "Sections",
+                "parent_key"  : "exhibit_id",
+
+                "fields": [
+                    "title",
+                    "description"
+                ],
+                "children": {
+                    "section_pages": {
+                        "table"       : "SectionPages",
+                        "result_type" : "Exhibit Pages",
+                        "parent_key"  : "section_id",
+                        "fields"      : ["title"]
+                    }
+                }
+            }
+        }
+    }
+}
