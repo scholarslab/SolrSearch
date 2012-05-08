@@ -78,7 +78,7 @@ class SolrSearchPlugin
         $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
         $this->_db->query($sql);
 
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
         $solr->deleteByQuery('*:*');
         $solr->commit();
         $solr->optimize();
@@ -89,7 +89,7 @@ class SolrSearchPlugin
 
     public function beforeDeleteItem($item)
     {
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
         $solr->deleteByQuery('id:' . $item['id']);
         $solr->commit();
         $solr->optimize();
@@ -97,7 +97,7 @@ class SolrSearchPlugin
 
     public function afterSaveItem($item)
     {
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
 
         if ($item['public'] == true) {
             $docs = array();
