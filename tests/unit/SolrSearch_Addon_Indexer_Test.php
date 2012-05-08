@@ -23,6 +23,10 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $this->exhibits = $addons['exhibits'];
     }
 
+    private function loadModels()
+    {
+    }
+
     public function testMakeSolrName()
     {
         $indexer = new SolrSearch_Addon_Indexer();
@@ -43,6 +47,66 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
     public function testIndexAddons()
     {
         $this->assertTrue(false, 'testIndexAddons');
+    }
+
+    public function testIndexExhibit()
+    {
+        $this->assertTrue(false, 'testIndexExhibit');
+    }
+
+    public function testIndexSection()
+    {
+        $this->assertTrue(false, 'testIndexSection');
+    }
+
+    public function testIndexPage()
+    {
+        $this->assertTrue(false, 'testIndexPage');
+    }
+
+    public function testIndexPrivateExhibit()
+    {
+        $this->assertTrue(false, 'testIndexPrivateExhibit');
+    }
+
+    public function testIndexPrivateSection()
+    {
+        $this->assertTrue(false, 'testIndexPrivateSection');
+    }
+
+    public function testIndexPrivatePage()
+    {
+        $this->assertTrue(false, 'testIndexPrivatePage');
+    }
+
+    public function testIndexTagged()
+    {
+        $this->assertTrue(false, 'testIndexTagged');
+    }
+
+    public function testIndexExhibitResultType()
+    {
+        $this->assertTrue(false, 'testIndexExhibitResultType');
+    }
+
+    public function testIndexSectionResultType()
+    {
+        $this->assertTrue(false, 'testIndexSectionResultType');
+    }
+
+    public function testIndexPageResultType()
+    {
+        $this->assertTrue(false, 'testIndexPageResultType');
+    }
+
+    public function testAfterSaveRecord()
+    {
+        $this->assertTrue(false, 'testAfterSaveRecord');
+    }
+
+    public function testAfterDeleteRecord()
+    {
+        $this->assertTrue(false, 'testAfterDeleteRecord');
     }
 
 }
