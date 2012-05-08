@@ -17,11 +17,27 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
     public function setUp()
     {
         $this->setUpPlugin();
+
+        $this->mgr = new SolrSearch_Addon_Manager($this->db);
+        $addons = $this->mgr->parseAll();
+        $this->exhibits = $addons['exhibits'];
     }
 
     public function testMakeSolrName()
     {
-        $this->assertTrue(false, 'testMakeSolrName');
+        $indexer = new SolrSearch_Addon_Indexer();
+        $this->assertEquals(
+            'exhibits_title_s',
+            $indexer->makeSolrName($this->exhibits, 'title')
+        );
+        $this->assertEquals(
+            'exhibits_description_s',
+            $indexer->makeSolrName($this->exhibits, 'description')
+        );
+        $this->assertEquals(
+            'section_pages_title_s',
+            $indexer->makeSolrName($this->mgr->addons['section_pages'], 'title')
+        );
     }
 
     public function testIndexAddons()

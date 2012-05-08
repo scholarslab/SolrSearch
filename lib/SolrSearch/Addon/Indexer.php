@@ -29,7 +29,21 @@
  **/
 class SolrSearch_Addon_Indexer
 {
-    
+
+    /**
+     * This creates a Solr-style name for an addon and field.
+     *
+     * @param SolrSearch_Addon_Addon $addon This is the addon.
+     * @param string                 $field The field to get.
+     *
+     * @return string $name The Solr name.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function makeSolrName($addon, $field)
+    {
+        return "{$addon->name}_{$field}_s";
+    }
+
 }
 
 /*
