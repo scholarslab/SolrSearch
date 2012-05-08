@@ -37,16 +37,23 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     private function loadModels()
     {
+        $e = new Exhibit();
+        $e->title = 'Test Exhibit ' . date('c');
+        $e->description = 'Like Alice in Wonderland.';
+        $e->slug = $e->title;
+        $e->save();
     }
 
     public function testExhibitBuilderInstalled()
     {
-        $table = $this->db->getTable('Exhibits');
+        $table = $this->db->getTable('Exhibit');
         $this->assertNotNull($table);
 
         $tables = $this->db->fetchAssoc('SHOW TABLES;');
-        // print_r($tables);
         $this->assertArrayHasKey('omeka_exhibits', $tables);
+
+        $rows = $table->findAll();
+        $this->assertNotEmpty($rows);
     }
 
     public function testMakeSolrName()
