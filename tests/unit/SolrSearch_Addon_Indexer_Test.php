@@ -35,13 +35,67 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $helper->setUp('ExhibitBuilder');
     }
 
-    private function loadModels()
+    private function createExhibit($exhibit)
     {
         $e = new Exhibit();
-        $e->title = 'Test Exhibit ' . date('c');
-        $e->description = 'Like Alice in Wonderland.';
-        $e->slug = $e->title;
+        $e->title       = property_exists($exhibit, 'title') ? $exhibit->title : null;
+        $e->description = property_exists($exhibit, 'description') ? $exhibit->description : null;
+        $e->public      = property_exists($exhibit, 'public') ? $exhibit->public : true;
+        $e->public      = $e->public ? 1 : 0;
         $e->save();
+
+        $i = 1;
+        foreach ($exhibit->sections as $section) {
+            $s = new ExhibitSection();
+            $s->title       = property_exists($section, 'title') ? $section->title : null;
+            $s->description = property_exists($section, 'description') ? $section->description : null;
+            $s->exhibit_id  = $e->id;
+            $s->order       = $i;
+            $s->save();
+
+            $j = 0;
+            foreach ($section->pages as $page) {
+                $p = new ExhibitPage();
+                $p->title      = property_exists($page, 'title') ? $page->title : null;
+                $p->section_id = $s->id;
+                $p->order      = $j;
+                $p->save();
+
+                $k = 0;
+                foreach ($page->entries as $entry) {
+                    $item = $this->__item(
+                        property_exists($entry, 'title') ? $entry->title : null,
+                        property_exists($entry, 'subject') ? $entry->subject : null
+                    );
+
+                    $pe = new ExhibitPageEntry();
+                    $pe->item_id = $item->id;
+                    $pe->page_id = $p->id;
+                    $pe->order   = $k;
+                    $pe->text    = property_exists($entry, 'text') ? $entry->text : null;
+                    $pe->caption = property_exists($entry, 'caption') ? $entry->caption : null;
+                    $pe->save();
+
+                    $k++;
+                }
+
+                $j++;
+            }
+
+            $i++;
+        }
+
+        return $e;
+    }
+
+    private function loadModels()
+    {
+        $filename = SOLR_SEARCH_PLUGIN_DIR . '/tests/fixtures/exhibits.json';
+        $exhibits = json_decode(file_get_contents($filename));
+
+        foreach ($exhibits as $exhibit) {
+            $this->createExhibit($exhibit);
+        }
     }
 
     public function testExhibitBuilderInstalled()

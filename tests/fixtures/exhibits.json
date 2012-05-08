@@ -1,0 +1,31 @@
+[
+    {
+        "title": "Test Exhibit",
+        "description": "Like Alice in Wonderland",
+        "public": false,
+        "sections": [
+            {
+                "title": "White Rabbit's House",
+                "pages": [
+                    {
+                        "title": "White Rabbit",
+                        "entries": [
+                        ]
+                    }
+                ]
+            },
+            {
+                "title": "Mad Hatter's Tea Party",
+                "pages": [
+                    {
+                        "title": "Dormouse",
+                        "entries": [
+                            { "title": "Dormouse", "subject": "Sleepy", "text": "Yawwwn" },
+                            { "title": "Country Mouse", "subject": "Bumpkin", "text": "Traveling far and wide" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
