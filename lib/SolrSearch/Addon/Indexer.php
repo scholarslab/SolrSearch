@@ -24,11 +24,13 @@
  *
  */
 
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Addon.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Config.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Field.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Indexer.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Manager.php';
+/**
+ * This handles indexes data from the addons.
+ **/
+class SolrSearch_Addon_Indexer
+{
+    
+}
 
 /*
  * Local variables:
@@ -37,4 +39,3 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon/Manager.php';
  * c-hanging-comment-ender-p: nil
  * End:
  */
-
