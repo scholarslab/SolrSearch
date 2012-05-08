@@ -84,6 +84,7 @@ class SolrSearchPlugin
         $solr->optimize();
 
         self::_deleteOptions();
+        self::_deleteAcl();
     }
 
     public function beforeDeleteItem($item)
@@ -127,9 +128,11 @@ class SolrSearchPlugin
 
     public function defineAcl($acl)
     {
-        $acl->loadResourceList(array(
-            'SolrSearch_Config' => array('index', 'status')
-        ));
+        if (!$acl->has('SolrSearch_Config')) {
+            $acl->loadResourceList(array(
+                'SolrSearch_Config' => array('index', 'status')
+            ));
+        }
     }
 
     public function adminThemeHeader($request)
@@ -273,6 +276,15 @@ SQL;
         delete_option('solr_search_snippets');
         delete_option('solr_search_fragsize');
         delete_option('solr_search_facet_sort');
+    }
+
+    protected function _deleteAcl()
+    {
+        $acl = Omeka_Contents::getInstance()->getAcl();
+        if (!$acl) {
+            throw new RuntimeException('ACL not available');
+        }
+        $acl->remove('SolrSearch_Config');
     }
 
 
