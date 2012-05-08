@@ -11,20 +11,42 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html Apache 2 License
  */
 
+
 class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 {
     
     public function setUp()
     {
         $this->setUpPlugin();
+        $this->setUpExhibitBuilder();
+        $this->loadModels();
 
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $addons = $this->mgr->parseAll();
         $this->exhibits = $addons['exhibits'];
     }
 
+    private function setUpExhibitBuilder()
+    {
+        $broker = get_plugin_broker();
+        $this->_addHooksAndFilters($broker, 'ExhibitBuilder');
+
+        $helper = new Omeka_Test_Helper_Plugin();
+        $helper->setUp('ExhibitBuilder');
+    }
+
     private function loadModels()
     {
+    }
+
+    public function testExhibitBuilderInstalled()
+    {
+        $table = $this->db->getTable('Exhibits');
+        $this->assertNotNull($table);
+
+        $tables = $this->db->fetchAssoc('SHOW TABLES;');
+        // print_r($tables);
+        $this->assertArrayHasKey('omeka_exhibits', $tables);
     }
 
     public function testMakeSolrName()
