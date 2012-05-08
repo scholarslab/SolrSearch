@@ -124,7 +124,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     {
         $item = new Item;
         $item->save();
-        $this->_toDelete[] = $item;
+        $this->_todel[] = $item;
 
         if (!is_null($title)) {
             $this->addElementText($item, $this->_title, $title);
