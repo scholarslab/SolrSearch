@@ -157,17 +157,53 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexExhibit()
     {
-        $this->assertTrue(false, 'testIndexExhibit');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($title = $doc->getField('exhibits_title_s')) !== false) {
+                $descr = $doc->getField('exhibits_description_s');
+
+                $this->assertEquals('Test Exhibit', $title['value'][0]);
+                $this->assertEquals('Like Alice in Wonderland', $descr['value'][0]);
+            }
+        }
     }
 
     public function testIndexSection()
     {
-        $this->assertTrue(false, 'testIndexSection');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($title = $doc->getField('sections_title_s')) !== false) {
+                $descr = $doc->getField('sections_descriptions_s');
+
+                $this->assertContains(
+                    $title['value'][0],
+                    array("White Rabbit's House", "Mad Hatter's Tea Party")
+                );
+                $this->assertFalse($descr);
+            }
+        }
     }
 
     public function testIndexPage()
     {
-        $this->assertTrue(false, 'testIndexPage');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($title = $doc->getField('section_pages_title_s')) !== false) {
+                $this->assertContains(
+                    $title['value'][0],
+                    array("White Rabbit", "Dormouse")
+                );
+                $this->assertFalse($descr);
+            }
+        }
+    }
+
+    public function testIndexPageEntry()
+    {
+        $this->assertTrue(false, 'testIndexPageEntry');
     }
 
     public function testIndexPrivateExhibit()
