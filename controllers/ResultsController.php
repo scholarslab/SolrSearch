@@ -35,6 +35,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     }
 
     private function isAjax() {
+      return false;
         return ($this->getRequest()->isXmlHttpRequest() ||
                 (isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
     }

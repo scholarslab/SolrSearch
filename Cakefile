@@ -4,6 +4,8 @@ ini = require 'inireader'
 
 files = [
   './views/shared/javascripts/facets.js',
+  './views/shared/javascripts/jquery.infinitescroll.js',
+  './views/shared/javascripts/scroll.js'
 ]
 
 plugin_file = './plugin.ini'

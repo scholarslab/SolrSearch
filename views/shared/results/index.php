@@ -23,7 +23,7 @@
         <strong><?php echo __('%s', $results->response->numFound); ?></strong> results
       </span>
       <nav class="pagination">
-        <?php echo pagination_links(); ?>
+        <?php echo pagination_links(array('partial_file' => 'common/pagination.php')); ?>
       </nav>
     </div>
 
