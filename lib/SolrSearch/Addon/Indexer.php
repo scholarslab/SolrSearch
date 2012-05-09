@@ -139,8 +139,37 @@ class SolrSearch_Addon_Indexer
      **/
     public function buildSelect($table, $addon)
     {
-        $select = $table->getSelect();
+        $select = $table->getSelect()->from($table->getTableName());
+
+        if ($addon->hasFlag()) {
+            $this->_addFlag($select, $addon);
+        }
+
+        // echo "SELECT => \"$select\"\n";
         return $select;
+    }
+
+    /**
+     * This adds the joins and where clauses to respect an addon's privacy 
+     * settings.
+     *
+     * @param Omeka_Db_Select        $select The select object to modify.
+     * @param SolrSearch_Addon_Addon $addon  The current addon. You should 
+     * already know that this addon does have a public flag somewhere in its 
+     * hierarchy before calling this.
+     *
+     * @return null
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    private function _addFlag($select, $addon)
+    {
+        if (!is_null($addon->flag)) {
+            $table = $this->db->getTable($addon->table);
+            $select->where(
+                "`{$table->getTableName()}`.`{$addon->flag}`=1"
+            );
+        // } else if (!is_null($addon->parentAddon)) {
+        }
     }
 
 }
