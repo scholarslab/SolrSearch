@@ -27,5 +27,19 @@
                 ]
             }
         ]
+    },
+    {
+        "title": "Private Exhibit",
+        "description": "Down the Rabbit Hole",
+        "public": false,
+        "sections": [
+            {
+                "title": "Mud",
+                "pages": [
+                    { "title": "Earthworms" },
+                    { "title": "Centipedes" }
+                ]
+            }
+        ]
     }
 ]

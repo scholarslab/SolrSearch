@@ -65,8 +65,9 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
                 $p->order      = $j;
                 $p->save();
 
+                $entries = property_exists($page, 'entries') ? $page->entries : array();
                 $k = 0;
-                foreach ($page->entries as $entry) {
+                foreach ($entries as $entry) {
                     $item = $this->__item(
                         property_exists($entry, 'title') ? $entry->title : null,
                         property_exists($entry, 'subject') ? $entry->subject : null
@@ -208,17 +209,36 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexPrivateExhibit()
     {
-        $this->assertTrue(false, 'testIndexPrivateExhibit');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($title = $doc->getField('exhibits_title_s')) !== false) {
+                $this->assertNotEquals('Private Exhibit', $title['value'][0]);
+            }
+        }
     }
 
     public function testIndexPrivateSection()
     {
-        $this->assertTrue(false, 'testIndexPrivateSection');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($title = $doc->getField('sections_title_s')) !== false) {
+                $this->assertNotEquals($title['value'][0], "Mud");
+            }
+        }
     }
 
     public function testIndexPrivatePage()
     {
-        $this->assertTrue(false, 'testIndexPrivatePage');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($title = $doc->getField('section_pages_title_s')) !== false) {
+                $this->assertNotEquals($title['value'][0], "Earthworms");
+                $this->assertNotEquals($title['value'][0], "Centipedes");
+            }
+        }
     }
 
     public function testIndexTagged()
