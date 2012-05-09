@@ -74,14 +74,12 @@ class SolrSearch_Addon_Indexer
         $docs = array();
 
         foreach ($addons as $name => $addon) {
-            $select = $this->buildSelect($addon);
             $table  = $this->db->getTable($addon->table);
+            $select = $this->buildSelect($table, $addon);
             $rows   = $table->fetchObjects($select);
 
             foreach ($rows as $record) {
-                $doc = new Apache_Solr_Document();
-                $doc->id = $record->id;
-
+                $doc = $this->indexRecord($record, $addon);
                 $docs[] = $doc;
             }
         }
@@ -114,20 +112,28 @@ class SolrSearch_Addon_Indexer
      **/
     public function indexRecord($record, $addon)
     {
+        $doc = new Apache_Solr_Document();
+
+        $doc->id = $record->id;
+
+        return $doc;
     }
 
     /**
      * This builds a query for returning all the records to index from the 
      * database.
      *
+     * @param Omeka_Db_Table         $table The table to create the SQL for.
      * @param SolrSearch_Addon_Addon $addon The addon to generate SQL for.
      *
      * @return Omeka_Db_Select $select The select statement to execute for the 
      * query.
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public function buildSelect($addon)
+    public function buildSelect($table, $addon)
     {
+        $select = $table->getSelect();
+        return $select;
     }
 
 }
