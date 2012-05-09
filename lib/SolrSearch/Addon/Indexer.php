@@ -115,6 +115,13 @@ class SolrSearch_Addon_Indexer
         $doc = new Apache_Solr_Document();
 
         $doc->id = $record->id;
+        foreach ($addon->fields as $field) {
+            $solrName = $this->makeSolrName($addon, $field->name);
+            $value    = $record[$field->name];
+            if (!is_null($value)) {
+                $doc->setMultiValue($solrName, $record[$field->name]);
+            }
+        }
 
         return $doc;
     }

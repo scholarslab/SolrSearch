@@ -140,6 +140,21 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
 
+    public function testIndexFields()
+    {
+        $idxr = $this->idxr;
+        $docs = $idxr->indexAll($this->mgr->addons);
+
+        // All addons have a title field, so check for that on every document.
+        foreach ($docs as $doc) {
+            $ok = false;
+            foreach ($doc->getFieldNames() as $name) {
+                $ok = $ok || stripos($name, '_title_') !== FALSE;
+            }
+            $this->assertTrue($ok, $doc->id);
+        }
+    }
+
     public function testIndexExhibit()
     {
         $this->assertTrue(false, 'testIndexExhibit');
