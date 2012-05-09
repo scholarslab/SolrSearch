@@ -120,6 +120,25 @@ class SolrSearch_Addon_Addon
         $this->fields      = array();
         $this->children    = array();
     }
+
+    /**
+     * This tests whether this addon has a flag anywhere up its ancenstors.
+     *
+     * @return bool
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function hasFlag()
+    {
+        $flag = false;
+
+        if (is_null($this->parentAddon)) {
+            $flag = !is_null($this->flag);
+        } else {
+            $flag = $this->parentAddon->hasFlag();
+        }
+
+        return $flag;
+    }
 }
 
 /*
