@@ -123,6 +123,12 @@ class SolrSearch_Addon_Indexer
             }
         }
 
+        if ($addon->tagged) {
+            foreach ($record->getTags() as $tag) {
+                $doc->setMultiValue('tag', $tag->name);
+            }
+        }
+
         return $doc;
     }
 

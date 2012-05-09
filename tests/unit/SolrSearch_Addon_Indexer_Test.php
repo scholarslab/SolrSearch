@@ -48,6 +48,11 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $e->public      = $e->public ? 1 : 0;
         $e->save();
 
+        if (property_exists($exhibit, 'tags')) {
+            $e->addTags($exhibit->tags, $this->user);
+            $e->save();
+        }
+
         $i = 1;
         foreach ($exhibit->sections as $section) {
             $s = new ExhibitSection();
@@ -113,6 +118,22 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
         $rows = $table->findAll();
         $this->assertNotEmpty($rows);
+    }
+
+    public function testModels()
+    {
+        $table = $this->db->getTable('Exhibit');
+        $select = $table->getSelect();
+        $table->filterByPublic($select, 1);
+        $es = $table->fetchObjects($select);
+
+        $this->assertCount(1, $es);
+
+        $e = $es[0];
+        $this->assertEquals('Test Exhibit', $e->title);
+
+        $tags = $e->getTags();
+        $this->assertCount(3, $tags);
     }
 
     public function testMakeSolrName()
@@ -243,7 +264,17 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexTagged()
     {
-        $this->assertTrue(false, 'testIndexTagged');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($doc->getField('exhibits_title_s')) !== false) {
+                $tags = $doc->getField('tag');
+
+                $this->assertContains('test',    $tags['value']);
+                $this->assertContains('exhibit', $tags['value']);
+                $this->assertContains('tagged',  $tags['value']);
+            }
+        }
     }
 
     public function testIndexExhibitResultType()

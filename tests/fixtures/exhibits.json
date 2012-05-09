@@ -3,6 +3,7 @@
         "title": "Test Exhibit",
         "description": "Like Alice in Wonderland",
         "public": true,
+        "tags": ["test", "exhibit", "tagged"],
         "sections": [
             {
                 "title": "White Rabbit's House",
