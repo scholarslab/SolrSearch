@@ -139,13 +139,14 @@ class SolrSearch_Addon_Indexer
      **/
     public function buildSelect($table, $addon)
     {
-        $select = $table->getSelect()->from($table->getTableName());
+        $select = $table
+            ->select()
+            ->from($table->getTableName());
 
         if ($addon->hasFlag()) {
             $this->_addFlag($select, $addon);
         }
 
-        // echo "SELECT => \"$select\"\n";
         return $select;
     }
 
@@ -168,7 +169,18 @@ class SolrSearch_Addon_Indexer
             $select->where(
                 "`{$table->getTableName()}`.`{$addon->flag}`=1"
             );
-        // } else if (!is_null($addon->parentAddon)) {
+        } else if (!is_null($addon->parentAddon)) {
+            $parent = $addon->parentAddon;
+            $table  = $this->db->getTable($addon->table)->getTableName();
+            $ptable = $this->db->getTable($parent->table)->getTableName();
+
+            $select->join(
+                $ptable,
+                "`$table`.`{$addon->parentKey}`=`$ptable`.`{$parent->idColumn}`",
+                array()
+            );
+
+            $this->_addFlag($select, $parent);
         }
     }
 

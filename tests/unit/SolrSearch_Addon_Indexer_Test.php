@@ -182,7 +182,7 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
                     $title['value'][0],
                     array("White Rabbit's House", "Mad Hatter's Tea Party")
                 );
-                $this->assertFalse($descr);
+                $this->assertFalse($descr, print_r($descr, true));
             }
         }
     }
