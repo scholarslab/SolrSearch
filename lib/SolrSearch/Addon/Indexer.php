@@ -29,6 +29,21 @@
  **/
 class SolrSearch_Addon_Indexer
 {
+    //{{{ Properties
+
+    /**
+     * This is the database interface.
+     *
+     * @var Omeka_Db
+     **/
+    var $db;
+
+    //}}}
+
+    function __construct($db)
+    {
+        $this->db = $db;
+    }
 
     /**
      * This creates a Solr-style name for an addon and field.
@@ -56,6 +71,22 @@ class SolrSearch_Addon_Indexer
      **/
     public function indexAll($addons)
     {
+        $docs = array();
+
+        foreach ($addons as $name => $addon) {
+            $select = $this->buildSelect($addon);
+            $table  = $this->db->getTable($addon->table);
+            $rows   = $table->fetchObjects($select);
+
+            foreach ($rows as $record) {
+                $doc = new Apache_Solr_Document();
+                $doc->id = $record->id;
+
+                $docs[] = $doc;
+            }
+        }
+
+        return $docs;
     }
 
     /**
