@@ -57,6 +57,15 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
     }
 
+    public function _setUpNamedPlugin($name)
+    {
+        $broker = get_plugin_broker();
+        $this->_addHooksAndFilters($broker, $name);
+
+        $helper = new Omeka_Test_Helper_Plugin();
+        $helper->setUp($name);
+    }
+
     /**
      * Install SolrSearch.
      *

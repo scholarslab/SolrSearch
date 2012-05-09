@@ -19,6 +19,7 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
     {
         $this->setUpPlugin();
         $this->setUpExhibitBuilder();
+        $this->setUpSimplePages();
         $this->loadModels();
 
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
@@ -30,11 +31,12 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     private function setUpExhibitBuilder()
     {
-        $broker = get_plugin_broker();
-        $this->_addHooksAndFilters($broker, 'ExhibitBuilder');
+        $this->_setUpNamedPlugin('ExhibitBuilder');
+    }
 
-        $helper = new Omeka_Test_Helper_Plugin();
-        $helper->setUp('ExhibitBuilder');
+    private function setUpSimplePages()
+    {
+        $this->_setUpNamedPlugin('SimplePages');
     }
 
     private function createExhibit($exhibit)
