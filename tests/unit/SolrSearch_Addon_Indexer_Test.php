@@ -279,17 +279,44 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexExhibitResultType()
     {
-        $this->assertTrue(false, 'testIndexExhibitResultType');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($doc->getField('exhibits_title_s')) !== false) {
+                $resultType = $doc->getField('resulttype');
+
+                $this->assertTrue($resultType !== false);
+                $this->assertContains('Exhibits', $resultType['value']);
+            }
+        }
     }
 
     public function testIndexSectionResultType()
     {
-        $this->assertTrue(false, 'testIndexSectionResultType');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($doc->getField('sections_title_s')) !== false) {
+                $resultType = $doc->getField('resulttype');
+
+                $this->assertTrue($resultType !== false);
+                $this->assertContains('Sections', $resultType['value']);
+            }
+        }
     }
 
     public function testIndexPageResultType()
     {
-        $this->assertTrue(false, 'testIndexPageResultType');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if (($doc->getField('section_pages_title_s')) !== false) {
+                $resultType = $doc->getField('resulttype');
+
+                $this->assertTrue($resultType !== false);
+                $this->assertContains('Exhibit Pages', $resultType['value']);
+            }
+        }
     }
 
     public function testAfterSaveRecord()

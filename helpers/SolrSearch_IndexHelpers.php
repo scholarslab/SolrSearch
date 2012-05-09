@@ -62,6 +62,8 @@ class SolrSearch_IndexHelpers
             }
         }
 
+        $doc->setMultiValue('resulttype', 'Item');
+
         if (array_key_exists('tag', $indexSet)) {
             foreach ($item->getTags() as $tag) {
                 $doc->setMultiValue('tag', $tag->name);

@@ -236,6 +236,7 @@ SQL;
         $stmt->execute(array(null, 'Tag',        null, 1, 1));
         $stmt->execute(array(null, 'Collection', null, 1, 1));
         $stmt->execute(array(null, 'Itemtype',   null, 1, 1));
+        $stmt->execute(array(null, 'Resulttype', null, 1, 1));
 
         foreach ($elements as $element) {
             $v = 0;

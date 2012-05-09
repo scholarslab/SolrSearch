@@ -129,6 +129,10 @@ class SolrSearch_Addon_Indexer
             }
         }
 
+        if ($addon->resultType) {
+            $doc->setMultiValue('resulttype', $addon->resultType);
+        }
+
         return $doc;
     }
 
