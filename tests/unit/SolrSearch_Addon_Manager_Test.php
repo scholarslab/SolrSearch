@@ -35,5 +35,15 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $this->assertCount(4, $mgr->addons);
     }
 
+    public function testReindexAddons()
+    {
+        $this->assertTrue(false, 'testReindexAddons');
+    }
+
+    public function testIndexRecord()
+    {
+        $this->assertTrue(false, 'testIndexRecord');
+    }
+
 }
 
