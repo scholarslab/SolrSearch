@@ -1,6 +1,6 @@
 {
     "exhibits": {
-        "table"       : "Exhibits",
+        "table"       : "Exhibit",
         "result_type" : "Exhibits",
         "tagged"      : true,
         "flag"        : "public",
@@ -11,7 +11,7 @@
         ],
         "children": {
             "sections": {
-                "table"       : "Sections",
+                "table"       : "ExhibitSection",
                 "result_type" : "Sections",
                 "parent_key"  : "exhibit_id",
 
@@ -21,7 +21,7 @@
                 ],
                 "children": {
                     "section_pages": {
-                        "table"       : "SectionPages",
+                        "table"       : "ExhibitPage",
                         "result_type" : "Exhibit Pages",
                         "parent_key"  : "section_id",
                         "fields"      : ["title"]
