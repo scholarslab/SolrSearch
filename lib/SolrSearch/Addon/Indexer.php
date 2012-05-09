@@ -44,6 +44,61 @@ class SolrSearch_Addon_Indexer
         return "{$addon->name}_{$field}_s";
     }
 
+    /**
+     * This gets all the records in the database matching all the addons passed 
+     * in and returns a list of Solr documents for indexing.
+     *
+     * @param associative array of SolrSearch_Addon_Addon $addons The addon 
+     * configuration information about the records to index.
+     *
+     * @return array of Apache_Solr_Document $docs The documents to index.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function indexAll($addons)
+    {
+    }
+
+    /**
+     * This gets all the records associated with a single addon for indexing.
+     *
+     * @param SolrSearch_Addon_Addon The addon to pull records for.
+     *
+     * @return array of Apache_Solr_Documents $docs The documents to index.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function indexAllAddon($addon)
+    {
+    }
+
+    /**
+     * This returns an Apache_Solr_Document to index, if the addons say it 
+     * should be.
+     *
+     * @param Omeka_Record $record The record to index.
+     * @param associative array of SolrSearch_Addon_Addon $addons The 
+     * configuration controlling how records are indexed.
+     *
+     * @return Apache_Solr_Document|null
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function indexRecord($record, $addon)
+    {
+    }
+
+    /**
+     * This builds a query for returning all the records to index from the 
+     * database.
+     *
+     * @param SolrSearch_Addon_Addon $addon The addon to generate SQL for.
+     *
+     * @return Omeka_Db_Select $select The select statement to execute for the 
+     * query.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function buildSelect($addon)
+    {
+    }
+
 }
 
 /*
