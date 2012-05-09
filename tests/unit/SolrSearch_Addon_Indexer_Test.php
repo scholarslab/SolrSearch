@@ -24,6 +24,8 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $addons = $this->mgr->parseAll();
         $this->exhibits = $addons['exhibits'];
+
+        $this->idxr = new SolrSearch_Addon_Indexer();
     }
 
     private function setUpExhibitBuilder()
@@ -129,7 +131,11 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexAddons()
     {
-        $this->assertTrue(false, 'testIndexAddons');
+        $idxr = new SolrSearch_Addon_Indexer();
+        $docs = $idxr->indexAll($this->mgr->addons);
+
+        $this->assertNotEmpty($docs);
+        $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
 
     public function testIndexExhibit()
