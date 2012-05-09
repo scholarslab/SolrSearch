@@ -329,5 +329,10 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $this->assertTrue(false, 'testAfterDeleteRecord');
     }
 
+    public function testReindexAll()
+    {
+        $this->assertTrue(false, 'testReindexAll');
+    }
+
 }
 
