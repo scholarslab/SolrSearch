@@ -74,14 +74,7 @@ class SolrSearch_Addon_Indexer
         $docs = array();
 
         foreach ($addons as $name => $addon) {
-            $table  = $this->db->getTable($addon->table);
-            $select = $this->buildSelect($table, $addon);
-            $rows   = $table->fetchObjects($select);
-
-            foreach ($rows as $record) {
-                $doc = $this->indexRecord($record, $addon);
-                $docs[] = $doc;
-            }
+            $docs = array_merge($docs, $this->indexAllAddon($addon));
         }
 
         return $docs;
@@ -97,6 +90,18 @@ class SolrSearch_Addon_Indexer
      **/
     public function indexAllAddon($addon)
     {
+        $docs = array();
+
+        $table  = $this->db->getTable($addon->table);
+        $select = $this->buildSelect($table, $addon);
+        $rows   = $table->fetchObjects($select);
+
+        foreach ($rows as $record) {
+            $doc = $this->indexRecord($record, $addon);
+            $docs[] = $doc;
+        }
+
+        return $docs;
     }
 
     /**
