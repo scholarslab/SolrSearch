@@ -1,3 +1,7 @@
+jQuery(document).ready(function() {
+  jQuery('#solr-nav').hide();
+});
+
 jQuery(function($) {
   var $container = $('#results');
 
