@@ -69,6 +69,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     protected function setUpExhibitBuilder()
     {
         $this->_setUpNamedPlugin('ExhibitBuilder');
+        try {
+            exhibit_builder_setup_acl(Omeka_Context::getInstance()->acl);
+        } catch (Exception $e) {
+        }
     }
 
     protected function setUpSimplePages()
