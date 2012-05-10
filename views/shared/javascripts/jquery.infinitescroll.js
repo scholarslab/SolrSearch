@@ -1,13 +1,3 @@
-jQuery(document).ready(function() {
-
-  jQuery('.solr_facets h3').click(function() {
-    jQuery(this).next().toggle();
-    return false;
-  }).next().hide();
-
-});
-
-
 /*
 	--------------------------------
 	Infinite Scroll
@@ -726,21 +716,3 @@ jQuery(document).ready(function() {
 
 
 })(window, jQuery);
-
-
-jQuery(function($) {
-  var $container = $('#results');
-
-  $container.infinitescroll({
-    //debug: true,
-    animate: true,
-    nextSelector: '#solr-nav a.next',
-    navSelector: '#solr-nav',
-    itemSelector: '.item',
-    loading: {
-      msgText: '<em>Loading next set of items...</em>',
-      finishedMsg: '<em>You have reached the end of the results.</em>'
-    }
-  });
-
-});

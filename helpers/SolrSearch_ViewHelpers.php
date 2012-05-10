@@ -372,8 +372,6 @@ class SolrSearch_ViewHelpers
         return $field;
     }
 
-
-
 }
 
 /*
