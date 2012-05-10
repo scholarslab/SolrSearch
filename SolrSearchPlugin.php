@@ -193,7 +193,7 @@ class SolrSearchPlugin
     public function adminNavigationMain($tabs)
     {
         if (get_acl()->checkUserPermission('SolrSearch_Config', 'index')) {
-            $tabs['Solr Index'] = uri('solr-search/config/');
+            $tabs['SolrSearch'] = uri('solr-search/config/');
         }
         return $tabs;
     }
