@@ -16,9 +16,11 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     {
 
         // Construct the query parameters.
-        $query = http_build_query(array(
-            'solrq' => $this->_request->getParam('search')
-        ));
+        $query = http_build_query(
+            array(
+                'solrq' => $this->_request->getParam('search')
+            )
+        );
 
         // Redirect.
         $this->_redirect('solr-search/results?' . $query);
@@ -35,9 +37,10 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     }
 
     private function isAjax() {
-      return false;
-        return ($this->getRequest()->isXmlHttpRequest() ||
-                (isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
+        return false;
+        //TODO: clean this up
+        //return ($this->getRequest()->isXmlHttpRequest() ||
+                //(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
     }
 
     protected function handleHtml() {
@@ -50,11 +53,13 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $results = $this->search($facets, $start, $search_rows);
 
         $this->updatePagination($pagination, $results->response->numFound);
-        $this->view->assign(array(
-            'results'    => $results,
-            'pagination' => $pagination,
-            'page'       => $page
-        ));
+        $this->view->assign(
+            array(
+                'results'    => $results,
+                'pagination' => $pagination,
+                'page'       => $page
+            )
+        );
 
         $this->view->facets = $facets;
     }
@@ -63,9 +68,12 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $this->getResponse()->setHeader('Content-type', 'application/json');
         $facets = $this->getSearchFacets();
         $results = $this->search($facets, 0, 1500);
-        $this->view->assign(array(
-            'results' => $results
-        ));
+        $this->view->assign(
+            array(
+                'results' => $results
+            )
+        );
+
         $this->view->facets = $facets;
         $this->_helper->viewRenderer('ajax');
     }
@@ -79,7 +87,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             ->getTable('SolrSearch_Facet')
             ->findBySql('is_facet = ?', array('1'));
         foreach ($facetList as $facet) {
-            if ($facet['element_set_id'] != NULL) {
+            if ($facet['element_set_id'] != null) {
                 $elements = $db
                     ->getTable('Element')
                     ->findBySql(
@@ -152,7 +160,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         return $pagination;
     }
 
-    private function updatePagination($pagination, $numFound) {
+    private function updatePagination($pagination, $numFound)
+    {
         $pagination['total_results'] = $numFound;
         Zend_Registry::set('pagination', $pagination);
         return $pagination;
@@ -169,7 +178,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     }
 
     //get the displayable fields from the Solr table, which is passed to the view to restrict which fields appear in the results
-    private function getDisplayableFields() {
+    private function getDisplayableFields()
+    {
         $db = get_db();
         $displayFields = $db->getTable('SolrSearch_Facet')->findBySql('is_displayed = ?', array('1'));
 
