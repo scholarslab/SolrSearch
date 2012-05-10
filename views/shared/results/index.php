@@ -18,11 +18,8 @@
       <h3>You searched for:</h3>
       <?php echo SolrSearch_QueryHelpers::removeFacets(); ?>
     </div>
-    <div class="resultLine">
-      <nav class="pagination">
-        <?php echo pagination_links(array('partial_file' => 'common/pagination.php')); ?>
-      </nav>
-    </div>
+
+    <?php echo pagination_links(array('partial_file' => 'common/pagination.php')); ?>
 
     <?php if(!empty($facets)): ?>
       <?php $query = SolrSearch_QueryHelpers::getParams(); ?>

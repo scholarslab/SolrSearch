@@ -1,5 +1,5 @@
 <?php if($this->pageCount > 1): ?>
-<nav id="solr-nav">
+<nav id="solr-nav" class="pagination">
    <?php if (isset($this->previous)): ?>
       <a class="previous" href="<?php echo html_escape($this->url(array('page' => $this->previous), null, $_GET)); ?>"></a>
    <?php endif; ?>
