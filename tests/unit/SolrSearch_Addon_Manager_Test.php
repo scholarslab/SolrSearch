@@ -17,6 +17,9 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
     public function setUp()
     {
         $this->setUpPlugin();
+        $this->setUpExhibitBuilder();
+        $this->setUpSimplePages();
+        $this->loadModels();
     }
 
     public function testAddonDir()
@@ -33,6 +36,48 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $mgr = new SolrSearch_Addon_Manager($this->db);
         $mgr->parseAll();
         $this->assertCount(4, $mgr->addons);
+    }
+
+    public function testFindAddonForRecordExhibit()
+    {
+        $mgr   = new SolrSearch_Addon_Manager($this->db);
+        $table = $this->db->getTable('Exhibit');
+        $rows  = $table->fetchObjects($table->getSelect());
+
+        $mgr->parseAll();
+
+        $this->assertNotEmpty($rows);
+        $addon = $mgr->findAddonForRecord($rows[0]);
+        $this->assertNotNull($addon);
+        $this->assertEquals('exhibits', $addon->name);
+    }
+
+    public function testFindAddonForRecordSection()
+    {
+        $mgr   = new SolrSearch_Addon_Manager($this->db);
+        $table = $this->db->getTable('ExhibitSection');
+        $rows  = $table->fetchObjects($table->getSelect());
+
+        $mgr->parseAll();
+
+        $this->assertNotEmpty($rows);
+        $addon = $mgr->findAddonForRecord($rows[0]);
+        $this->assertNotNull($addon);
+        $this->assertEquals('sections', $addon->name);
+    }
+
+    public function testFindAddonForRecordExhibitPage()
+    {
+        $mgr   = new SolrSearch_Addon_Manager($this->db);
+        $table = $this->db->getTable('ExhibitPage');
+        $rows  = $table->fetchObjects($table->getSelect());
+
+        $mgr->parseAll();
+
+        $this->assertNotEmpty($rows);
+        $addon = $mgr->findAddonForRecord($rows[0]);
+        $this->assertNotNull($addon);
+        $this->assertEquals('section_pages', $addon->name);
     }
 
     public function testReindexAddons()

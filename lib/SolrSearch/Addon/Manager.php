@@ -99,6 +99,31 @@ class SolrSearch_Addon_Manager
         return $this->addons;
     }
 
+    /**
+     * A helper method to the return the addon for the record.
+     *
+     * @param Omeka_Record $record The record to find an addon for.
+     *
+     * @return SolrSearch_Addon_Addon|null $addon The addon for the input 
+     * record.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function findAddonForRecord($record)
+    {
+        $hit = null;
+
+        $recordTable = get_class($record->getTable());
+        foreach ($this->addons as $key => $addon) {
+            $tableName = get_class($this->db->getTable($addon->table));
+            if ($tableName == $recordTable) {
+                $hit = $addon;
+                break;
+            }
+        }
+
+        return $hit;
+    }
+
     // }}}
 
 }
