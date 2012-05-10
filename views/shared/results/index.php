@@ -19,9 +19,6 @@
       <?php echo SolrSearch_QueryHelpers::removeFacets(); ?>
     </div>
     <div class="resultLine">
-      <span class="results">
-        <strong><?php echo __('%s', $results->response->numFound); ?></strong> results
-      </span>
       <nav class="pagination">
         <?php echo pagination_links(array('partial_file' => 'common/pagination.php')); ?>
       </nav>
@@ -48,6 +45,9 @@
     <?php endif; ?>
 
     <div id="results">
+      <h2 class="results">
+        <?php echo __('%s results', $results->response->numFound); ?>
+      </h2>
     <?php foreach($results->response->docs as $doc): ?>
     <div class="item" id="solr_<?php echo $doc->__get('id'); ?>">
       <div class="details">
