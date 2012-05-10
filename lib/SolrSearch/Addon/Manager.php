@@ -178,6 +178,34 @@ class SolrSearch_Addon_Manager
         return $doc;
     }
 
+    /**
+     * This returns the Solr ID for the record.
+     *
+     * @param Omeka_Record $record The record to index.
+     * @param SolrSearch_Addon_Config $config The configuration parser. If 
+     * null, this is created. If given, this forces the Addons to be re-parsed; 
+     * otherwise, they're only re-parsed if they haven't been yet.
+     *
+     * @return string|null
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function getId($record, $config=null)
+    {
+        $id  = null;
+        $idxr = new SolrSearch_Addon_Indexer($this->db);
+
+        if (is_null($this->addons) || !is_null($config)) {
+            $this->parseAll($config);
+        }
+
+        $addon = $this->findAddonForRecord($record);
+        if (!is_null($addon)) {
+            $id = $record->id;
+        }
+
+        return $id;
+    }
+
     // }}}
 
 }

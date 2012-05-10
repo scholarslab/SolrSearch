@@ -57,27 +57,45 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
     }
 
-    protected function _setUpNamedPlugin($name)
+    protected function _setUpNamedPlugin($name, $table=null)
     {
+        $dbLoaded = false;
+
         $broker = get_plugin_broker();
         $this->_addHooksAndFilters($broker, $name);
 
         $helper = new Omeka_Test_Helper_Plugin();
         $helper->setUp($name);
+
+        if (!is_null($table)) {
+            $tname   = $this->db->getTable($table)->getTableName();
+            $results = $this->db->fetchAll('SHOW TABLES;', array(), Zend_Db::FETCH_NUM);
+            foreach ($results as $row) {
+                if ($row[0] == $tname) {
+                    $dbLoaded = true;
+                    break;
+                }
+            }
+        }
+
+        return $dbLoaded;
     }
 
     protected function setUpExhibitBuilder()
     {
-        $this->_setUpNamedPlugin('ExhibitBuilder');
+        $dbLoaded = $this->_setUpNamedPlugin('ExhibitBuilder', 'ExhibitSection');
         try {
             exhibit_builder_setup_acl(Omeka_Context::getInstance()->acl);
         } catch (Exception $e) {
+        }
+        if (!$dbLoaded) {
+            exhibit_builder_install();
         }
     }
 
     protected function setUpSimplePages()
     {
-        $this->_setUpNamedPlugin('SimplePages');
+        $this->_setUpNamedPlugin('SimplePages', 'SimplePagesPage');
     }
 
     protected function createExhibit($exhibit)
