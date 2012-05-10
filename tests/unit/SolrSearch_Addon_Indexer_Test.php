@@ -139,7 +139,6 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
                     $title['value'][0],
                     array("White Rabbit", "Dormouse")
                 );
-                $this->assertFalse($descr);
             }
         }
     }

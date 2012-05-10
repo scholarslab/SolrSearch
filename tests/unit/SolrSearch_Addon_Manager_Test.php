@@ -82,7 +82,11 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
 
     public function testReindexAddons()
     {
-        $this->assertTrue(false, 'testReindexAddons');
+        $mgr  = new SolrSearch_Addon_Manager($this->db);
+        $docs = $mgr->reindexAddons();
+
+        $this->assertCount(5, $docs);
+        $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
 
     public function testIndexRecord()

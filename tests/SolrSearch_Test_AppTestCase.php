@@ -99,7 +99,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             $s->order       = $i;
             $s->save();
 
-            $j = 0;
+            $j = 1;
             foreach ($section->pages as $page) {
                 $p = new ExhibitPage();
                 $p->title      = property_exists($page, 'title') ? $page->title : null;
