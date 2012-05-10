@@ -199,6 +199,37 @@ class SolrSearch_Addon_Indexer
         }
     }
 
+    /**
+     * This returns true if this addon (and none of its ancestors) are flagged.
+     *
+     * @param Omeka_Record           $record The Omeka record to consider 
+     * indexing.
+     * @param SolrSearch_Addon_Addon $addon  The addon for the record.
+     *
+     * @return bool $indexed A flag indicating whether to index the record.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function isRecordIndexed($record, $addon)
+    {
+        $indexed = true;
+
+        if (is_null($record)) {
+
+        } else if (!is_null($addon->flag)) {
+            $flag = $addon->flag;
+            $indexed = $record->$flag;
+
+        } else if (!is_null($addon->parentAddon)) {
+            $key    = $addon->parentKey;
+            $table  = $this->db->getTable($addon->parentAddon->table);
+            $parent = $table->find($record->$key);
+
+            $indexed = $this->isRecordIndexed($parent, $addon->parentAddon);
+        }
+
+        return $indexed;
+    }
+
 }
 
 /*

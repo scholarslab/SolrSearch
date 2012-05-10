@@ -89,9 +89,54 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
 
+    private function _testSolrDoc($record, $doc, $public)
+    {
+        if ($public) {
+            $this->assertNotNull($doc);
+            $this->assertInstanceOf('Apache_Solr_Document', $doc);
+
+            $resulttype = $doc->getField('resulttype');
+            $resulttype = $resulttype['value'][0];
+
+            switch ($resulttype) {
+            case 'Exhibits':
+                $titleField = 'exhibits_title_s';
+                break;
+            case 'Sections':
+                $titleField = 'sections_title_s';
+                break;
+            case 'Exhibit Pages':
+                $titleField = 'section_pages_title_s';
+                break;
+            }
+
+            $title = $doc->getField($titleField);
+            $this->assertContains($record->title, $title['value']);
+
+        } else {
+            $this->assertNull($doc);
+        }
+    }
+
     public function testIndexRecord()
     {
-        $this->assertTrue(false, 'testIndexRecord');
+        $mgr     = new SolrSearch_Addon_Manager($this->db);
+        $extable = $this->db->getTable('Exhibit');
+
+        foreach ($extable->findAll() as $ex) {
+            $doc = $mgr->indexRecord($ex);
+            $this->_testSolrDoc($ex, $doc, $ex->public);
+
+            foreach ($ex->getSections() as $section) {
+                $doc = $mgr->indexRecord($section);
+                $this->_testSolrDoc($section, $doc, $ex->public);
+
+                foreach ($section->getPages() as $page) {
+                    $doc = $mgr->indexRecord($page);
+                    $this->_testSolrDoc($page, $doc, $ex->public);
+                }
+            }
+        }
     }
 
 }

@@ -149,6 +149,35 @@ class SolrSearch_Addon_Manager
         return $docs;
     }
 
+    /**
+     * This indexes a single record.
+     *
+     * @param Omeka_Record $record The record to index.
+     * @param SolrSearch_Addon_Config $config The configuration parser. If 
+     * null, this is created. If given, this forces the Addons to be re-parsed; 
+     * otherwise, they're only re-parsed if they haven't been yet.
+     *
+     * @return Apache_Solr_Document|null $doc The indexed document or null, if 
+     * the record's not to be indexed.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function indexRecord($record, $config=null)
+    {
+        $doc  = null;
+        $idxr = new SolrSearch_Addon_Indexer($this->db);
+
+        if (is_null($this->addons) || !is_null($config)) {
+            $this->parseAll($config);
+        }
+
+        $addon = $this->findAddonForRecord($record);
+        if (!is_null($addon) && $idxr->isRecordIndexed($record, $addon)) {
+            $doc = $idxr->indexRecord($record, $addon);
+        }
+
+        return $doc;
+    }
+
     // }}}
 
 }
