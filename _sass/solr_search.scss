@@ -1,3 +1,4 @@
+@import "compass";
 @import "mixins";
 
 #solr_search {
@@ -159,8 +160,8 @@
 }
 
 #results {
-  float: left;
-  width: 60%;
+  float: right;
+  width: 65%;
 }
 
 
@@ -172,18 +173,15 @@
 	text-align:right;
 	margin-right:25px;
 }
-.solr_facets{
-	float: left;;
+
+.solr_facets_container{
+	float: left;
 	width:30%;
   li {
     list-style: none;
   }
 }
 
-.solr_results{
-	float:left;
-	width:70%;
-}
 .item{
 	width:100%;
 }
@@ -296,9 +294,22 @@ ul.facets, ul.facets ul {
     }
 }
 
-.solr_facets {
-    h3 {
-        cursor: pointer;
+.clicker {
+    cursor: pointer;
+    &:before {
+        text-align:right;
+        content: "";
+
+        border-top: 6px solid transparent;
+        border-left: 6px solid #ddd;
+        border-bottom: 6px solid transparent;
+        display: inline-block;
+        margin-right:6px;
     }
+
+    &.active:before {
+        @include rotate(90deg);
+    }
+
 }
 

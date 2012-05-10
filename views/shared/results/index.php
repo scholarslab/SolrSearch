@@ -24,12 +24,12 @@
     <?php if(!empty($facets)): ?>
       <?php $query = SolrSearch_QueryHelpers::getParams(); ?>
       <div class="solr_facets_container">
-        <h2>Limit your search</h2>
+        <h3>Limit your search</h3>
         <div class="solr_facets">
         <?php foreach ((array)$results->facet_counts->facet_fields as $facet => $values): ?>
             <?php $props = get_object_vars($values); ?>
             <?php if (!empty($props)): ?>
-                <h3><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h3>
+                <h4 class="facet"><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h4>
                     <ul>
 					<?php foreach($values as $label => $count): ?>
                         <li><?php echo SolrSearch_QueryHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
