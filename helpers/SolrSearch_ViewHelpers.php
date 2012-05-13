@@ -109,24 +109,21 @@ class SolrSearch_ViewHelpers
     }
 
     /**
-     *
      * Lookup the element name for a solr element
      *
      * TODO: store this in the solr index (add sub-index field for this)
      *
-     * @param type $field
-     * @return type
+     * @param string $field Field name to look up
+     * 
+     * @return string Human readable solr element name
      */
     public static function lookupElement($field)
     {
-        return $field;
-        /*
-         * $fieldarray = explode('_', $field);
-         * $fieldId    = $fieldarray[0];
-         * $db         = get_db();
-         * $element    = $db->getTable('Element')->find($fieldId);
-         * return $element['name'];
-         */
+        $fieldArray = explode('_', $field);
+        $fieldId = $fieldArray[0];
+        $db = get_db();
+        $element = $db->getTable('Element')->find($fieldId);
+        return $element['name'];
     }
 
     /**
