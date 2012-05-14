@@ -248,11 +248,6 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         }
     }
 
-    public function testReindexAll()
-    {
-        $this->assertTrue(false, 'testReindexAll');
-    }
-
     public function testIndexUrls()
     {
         $this->assertTrue(false, 'testIndexUrls');
