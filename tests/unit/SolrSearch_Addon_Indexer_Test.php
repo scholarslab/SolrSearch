@@ -250,17 +250,11 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         }
     }
 
-    public function testIndexUrls()
+    public function testFixView()
     {
-        // TODO: Need to include the addon name in the solr id field.
-        $this->assertTrue(false, 'testIndexUrls');
-    }
-
-    public function testStoreUrls()
-    {
-        // TODO: Need to store the URLs in the Solr document and use that in 
-        // displaying and retrieving the entity in the search results.
-        $this->assertTrue(false, 'testStoreUrls');
+        // TODO: This fixes the view to use the Solr fields and not hit the DB 
+        // as often.
+        $this->assertTrue(false, 'testFixView');
     }
 
 }

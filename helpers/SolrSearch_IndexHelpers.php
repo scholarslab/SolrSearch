@@ -26,6 +26,8 @@
  * @link        http://omeka.org/add-ons/plugins/SolrSearch/
  */
 
+require_once HELPER_DIR . '/UrlFunctions.php';
+
 /**
  * This contains some helpers for indexing items.
  **/
@@ -44,7 +46,10 @@ class SolrSearch_IndexHelpers
     public static function itemToDocument($db, $item)
     {
         $doc = new Apache_Solr_Document();
-        $doc->id = $item['id'];
+        $doc->id = "Item_{$item['id']}";
+        $doc->setField('model', 'Item');
+        $doc->setField('modelid', $item['id']);
+        $doc->setField('url', record_uri($item, 'browse'));
 
         $indexSet = SolrSearch_IndexHelpers::getIndexSet($db);
 

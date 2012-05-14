@@ -119,12 +119,22 @@ class SolrSearch_Addon_Indexer
     {
         $doc = new Apache_Solr_Document();
 
-        $doc->id = $record->id;
+        $doc->id = "{$addon->table}_{$record->id}";
+        $doc->addField('model', $addon->table);
+        $doc->addField('modelid', $record->id);
+        $doc->addField('url', record_uri($record, 'browse'));
+
         foreach ($addon->fields as $field) {
             $solrName = $this->makeSolrName($addon, $field->name);
             $value    = $record[$field->name];
+
             if (!is_null($value)) {
-                $doc->setMultiValue($solrName, $record[$field->name]);
+                $doc->setMultiValue($solrName, $value);
+
+                // TODO configurable
+                if ($field->name == 'title') {
+                    $doc->addField('title', $value);
+                }
             }
         }
 
