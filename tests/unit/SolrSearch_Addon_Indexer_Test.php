@@ -154,6 +154,8 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexPageEntry()
     {
+        // TODO: This is a marker for the task to pull in content from the 
+        // PageEntry table for the Page addon.
         $this->assertTrue(false, 'testIndexPageEntry');
     }
 
@@ -250,11 +252,14 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexUrls()
     {
+        // TODO: Need to include the addon name in the solr id field.
         $this->assertTrue(false, 'testIndexUrls');
     }
 
     public function testStoreUrls()
     {
+        // TODO: Need to store the URLs in the Solr document and use that in 
+        // displaying and retrieving the entity in the search results.
         $this->assertTrue(false, 'testStoreUrls');
     }
 
