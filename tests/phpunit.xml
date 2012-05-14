@@ -9,7 +9,7 @@
   <testsuite name="SolrSearchTests">
     <directory>cases</directory>
     <directory>unit</directory>
-  </testsuite>A
+  </testsuite>
   <logging>
     <log type="coverage-html"
       target="build/coverage"
