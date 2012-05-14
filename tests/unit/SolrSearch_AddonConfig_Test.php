@@ -116,5 +116,11 @@ EOF;
         );
     }
 
+    public function testFieldTitleFlag()
+    {
+        // TODO: This tests for setting the title field in the configuration.
+        $this->assertTrue(false, 'testFieldTitleFlag');
+    }
+
 }
 
