@@ -49,7 +49,7 @@ class SolrSearch_IndexHelpers
         $doc->id = "Item_{$item['id']}";
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item['id']);
-        $doc->setField('url', record_uri($item, 'browse'));
+        $doc->setField('url', SolrSearch_IndexHelpers::getUri($item));
 
         $indexSet = SolrSearch_IndexHelpers::getIndexSet($db);
 
@@ -102,6 +102,47 @@ class SolrSearch_IndexHelpers
         }
 
         return $doc;
+    }
+
+    /**
+     * This returns the URI for an Omeka_Record.
+     *
+     * @param Omeka_Record $record The record to return the URI for.
+     *
+     * @return string $uri The URI to access the record with.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function getUri($record)
+    {
+        $uri    = '';
+        $action = 'show';
+
+        if (get_class($record) === 'SimplePagesPage') {
+            if (simple_pages_is_home_page($record)) {
+                $uri = abs_uri('');
+            } else {
+                $uri = uri($record->slug);
+            }
+
+        } else if (property_exists($record, 'slug')) {
+            // Copied from omeka/applications/helpers/UrlFunctions.php, record_uri.
+            // Yuck.
+            $recordClass = get_class($record);
+            $inflector   = new Zend_Filter_Word_CamelCaseToDash();
+            $controller  = strtolower($inflector->filter($recordClass));
+            $controller  = Inflector::pluralize($controller);
+            $options     = array(
+                'controller' => $controller,
+                'action'     => $action,
+                'id'         => $record->slug
+            );
+            $uri = uri($options, 'id');
+
+        } else {
+            $uri = record_uri($record, $action);
+        }
+
+        return $uri;
     }
 
     /**

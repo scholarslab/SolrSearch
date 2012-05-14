@@ -122,7 +122,7 @@ class SolrSearch_Addon_Indexer
         $doc->id = "{$addon->table}_{$record->id}";
         $doc->addField('model', $addon->table);
         $doc->addField('modelid', $record->id);
-        $doc->addField('url', record_uri($record, 'browse'));
+        $doc->addField('url', SolrSearch_IndexHelpers::getUri($record));
 
         foreach ($addon->fields as $field) {
             $solrName = $this->makeSolrName($addon, $field->name);
