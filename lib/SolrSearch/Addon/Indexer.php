@@ -124,6 +124,7 @@ class SolrSearch_Addon_Indexer
         $doc->addField('modelid', $record->id);
         $doc->addField('url', SolrSearch_IndexHelpers::getUri($record));
 
+        $titleField = $addon->getTitleField();
         foreach ($addon->fields as $field) {
             $solrName = $this->makeSolrName($addon, $field->name);
             $value    = $record[$field->name];
@@ -131,8 +132,7 @@ class SolrSearch_Addon_Indexer
             if (!is_null($value)) {
                 $doc->setMultiValue($solrName, $value);
 
-                // TODO configurable
-                if ($field->name == 'title') {
+                if (!is_null($titleField) && $titleField->name === $field->name) {
                     $doc->addField('title', $value);
                 }
             }

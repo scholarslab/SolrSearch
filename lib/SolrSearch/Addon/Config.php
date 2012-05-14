@@ -211,11 +211,13 @@ class SolrSearch_Addon_Config
         if (is_array($json)) {
             $field->name     = $json['field'];
             $field->label    = $json['label'];
-            $field->is_facet = $json['facet'];
+            $field->is_facet = array_key_exists('facet', $json) ? $json['facet'] : false;
+            $field->is_title = array_key_exists('is_title', $json) ? $json['is_title'] : false;
         } else {
             $field->name     = $json;
             $field->label    = $json;
             $field->is_facet = false;
+            $field->is_title = false;
         }
 
         return $field;

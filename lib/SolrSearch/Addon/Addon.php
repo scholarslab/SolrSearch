@@ -139,6 +139,38 @@ class SolrSearch_Addon_Addon
 
         return $flag;
     }
+
+    /**
+     * This returns the field marked title, named title, or null for this 
+     * addon.
+     *
+     * @return SolrSearch_Addon_Field|null
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function getTitleField()
+    {
+        $result  = null;
+        $named   = null;
+        $flagged = null;
+
+        foreach ($this->fields as $field) {
+            if ($field->name === 'title') {
+                $named = $field;
+            }
+            if ($field->is_title) {
+                $flagged = $field;
+            }
+        }
+
+        if (!is_null($flagged)) {
+            $result = $flagged;
+        } else if (!is_null($named)) {
+            $result = $named;
+        }
+
+        return $result;
+    }
+
 }
 
 /*

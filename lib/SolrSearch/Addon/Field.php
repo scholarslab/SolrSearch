@@ -52,13 +52,21 @@ class SolrSearch_Addon_Field
      **/
     var $is_facet;
 
+    /**
+     * Should this field be used for the Solr documet title?
+     *
+     * @var bool
+     **/
+    var $is_title;
+
     //}}}
 
-    function __construct($name=null, $label=null, $is_facet=null)
+    function __construct($name=null, $label=null, $is_facet=null, $is_title=null)
     {
         $this->name     = $name;
         $this->label    = $label;
         $this->is_facet = $is_facet;
+        $this->is_title = $is_title;
     }
 }
 

@@ -30,7 +30,7 @@ class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
             "sections": {
                 "parent_key": "exhibit_id",
                 "fields": [
-                    "title",
+                    { "field": "name", "label": "Name", "is_title": true },
                     "description"
                 ],
                 "table": "Sections"
@@ -69,11 +69,12 @@ EOF;
         $this->assertCount($childCount, $addon->children);
     }
 
-    private function assertField($field, $name, $label, $facet)
+    private function assertField($field, $name, $label, $facet, $title)
     {
         $this->assertEquals($name, $field->name);
         $this->assertEquals($label, $field->label);
         $this->assertEquals($facet, $field->is_facet);
+        $this->assertEquals($title, $field->is_title);
     }
 
     /**
@@ -96,12 +97,12 @@ EOF;
             $a, 'exhibits', 'Exhibits', 'Exhibits', 'eid', null, 
             null, true, 'public', 3, 1
         );
-        $this->assertField($a->fields[0], 'title', 'title', false);
+        $this->assertField($a->fields[0], 'title', 'title', false, false);
         $this->assertField(
-            $a->fields[1], 'description', 'description', false
+            $a->fields[1], 'description', 'description', false, false
         );
         $this->assertField(
-            $a->fields[2], 'featured', 'Featured Exhibits', true
+            $a->fields[2], 'featured', 'Featured Exhibits', true, false
         );
         $this->assertEquals('sections', $a->children[0]->name);
 
@@ -110,16 +111,10 @@ EOF;
             $a, 'sections', null, 'Sections', 'id', 'exhibits',
             'exhibit_id', false, null, 2, 0
         );
-        $this->assertField($a->fields[0], 'title', 'title', false);
+        $this->assertField($a->fields[0], 'name', 'Name', false, true);
         $this->assertField(
-            $a->fields[1], 'description', 'description', false
+            $a->fields[1], 'description', 'description', false, false
         );
-    }
-
-    public function testFieldTitleFlag()
-    {
-        // TODO: This tests for setting the title field in the configuration.
-        $this->assertTrue(false, 'testFieldTitleFlag');
     }
 
 }
