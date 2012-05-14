@@ -1,4 +1,4 @@
-<phpunit bootstrap="../../../application/tests/bootstrap.php"
+<phpunit bootstrap="bootstrap.php"
   verbose="true"
   convertErrorsToExceptions="true"
   convertWarningsToExceptions="true">
@@ -9,5 +9,13 @@
   <testsuite name="SolrSearchTests">
     <directory>cases</directory>
     <directory>unit</directory>
-  </testsuite>
+  </testsuite>A
+  <logging>
+    <log type="coverage-html"
+      target="build/coverage"
+      charset="UTF-8" yui="true"
+      highlight="true"
+      lowUpperBound="35"
+      highLowerBound="70" />
+  </logging>
 </phpunit>
