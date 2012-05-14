@@ -137,9 +137,7 @@ class SolrSearch_ViewHelpers
      */
     public static function createResultLink($doc)
     {
-        $title = SolrSearch_ViewHelpers::getDocTitle($doc);
-        $uri   = html_escape(WEB_ROOT) . '/items/show/';
-        return '<a href="' . $uri . $doc->id .'">' . $title . '</a>';
+        return "<a href='{$doc->url}'>{$doc->title}</a>";
     }
 
     /**
@@ -152,9 +150,16 @@ class SolrSearch_ViewHelpers
      */
     public static function getDocTitle($doc)
     {
-        $db    = get_db();
-        $item  = $db->getTable('Item')->find($doc->id);
-        $title = strip_formatting(item('Dublin Core', 'Title', $options, $item));
+        $title = null;
+
+        if (isset($doc->title)) {
+            $title = $doc->title;
+        } else {
+            $db    = get_db();
+            $item  = $db->getTable('Item')->find($doc->id);
+            $title = strip_formatting(item('Dublin Core', 'Title', $options, $item));
+        }
+
         return $title;
     }
 

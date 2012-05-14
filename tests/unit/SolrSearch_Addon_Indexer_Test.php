@@ -250,12 +250,5 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         }
     }
 
-    public function testFixView()
-    {
-        // TODO: This fixes the view to use the Solr fields and not hit the DB 
-        // as often.
-        $this->assertTrue(false, 'testFixView');
-    }
-
 }
 
