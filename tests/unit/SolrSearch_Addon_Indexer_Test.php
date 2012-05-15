@@ -157,9 +157,12 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if ($doc->getField('section_pages_title_s') !== false) {
+            if (
+                ($title = $doc->getField('section_pages_title_s')) !== false
+                && $title['value'][0] === 'Dormouse'
+            ) {
                 $text = $doc->getField('section_pages_text_s');
-                $this->assertTrue($text !== false);
+                $this->assertTrue($text !== false, $title['value'][0]);
                 $this->assertCount(2, $text['value']);
                 $this->assertContains(
                     $text['value'][0],
@@ -262,13 +265,6 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
                 $this->assertContains('Exhibit Pages', $resultType['value']);
             }
         }
-    }
-
-    public function testPageContent()
-    {
-        // TODO: Apparently, section_pages_text_s gets populated for every page 
-        // by the text of all pages.
-        $this->assertTrue(false, "testPageContent");
     }
 
 }

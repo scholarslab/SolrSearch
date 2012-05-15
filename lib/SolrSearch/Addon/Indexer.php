@@ -187,11 +187,14 @@ class SolrSearch_Addon_Indexer
     {
         $value = array();
 
-        $table = $this->db->getTable($field->remote->table);
-        $rows  = $table->findBy(array(
-            $field->remote->key => $record->id
-        ));
+        $table  = $this->db->getTable($field->remote->table);
 
+        $select = $table->getSelect();
+        $select->where(
+            "{$table->getTableAlias()}.{$field->remote->key}={$record->id}"
+        );
+
+        $rows   = $table->fetchObjects($select);
         foreach ($rows as $item) {
             $value[] = $item[$field->name];
         }
