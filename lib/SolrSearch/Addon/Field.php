@@ -59,14 +59,24 @@ class SolrSearch_Addon_Field
      **/
     var $is_title;
 
+    /**
+     * This is an array containing the table and key to a remote location for 
+     * the data in this field.
+     *
+     * @var array|null
+     **/
+    var $remote;
+
     //}}}
 
-    function __construct($name=null, $label=null, $is_facet=null, $is_title=null)
-    {
+    function __construct(
+        $name=null, $label=null, $is_facet=null, $is_title=null, $remote=null
+    ) {
         $this->name     = $name;
         $this->label    = $label;
         $this->is_facet = $is_facet;
         $this->is_title = $is_title;
+        $this->remote   = $remote;
     }
 }
 

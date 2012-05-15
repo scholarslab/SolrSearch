@@ -31,7 +31,17 @@ class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
                 "parent_key": "exhibit_id",
                 "fields": [
                     { "field": "name", "label": "Name", "is_title": true },
-                    "description"
+                    "description",
+                    {
+                        "field": "pagetitle",
+                        "label": "Page Title",
+                        "facet": false,
+                        "is_title": false,
+                        "remote": {
+                            "table": "ExhibitPageEntry",
+                            "key": "page_id"
+                        }
+                    }
                 ],
                 "table": "Sections"
             }
@@ -69,12 +79,20 @@ EOF;
         $this->assertCount($childCount, $addon->children);
     }
 
-    private function assertField($field, $name, $label, $facet, $title)
-    {
+    private function assertField(
+        $field, $name, $label, $facet, $title, $remote=null
+    ) {
         $this->assertEquals($name, $field->name);
         $this->assertEquals($label, $field->label);
         $this->assertEquals($facet, $field->is_facet);
         $this->assertEquals($title, $field->is_title);
+
+        if (is_null($remote)) {
+            $this->assertNull($field->remote);
+        } else {
+            $this->assertEquals($remote['table'], $field->remote->table);
+            $this->assertEquals($remote['key'],   $field->remote->key);
+        }
     }
 
     /**
@@ -109,11 +127,15 @@ EOF;
         $a = $addons['sections'];
         $this->assertAddon(
             $a, 'sections', null, 'Sections', 'id', 'exhibits',
-            'exhibit_id', false, null, 2, 0
+            'exhibit_id', false, null, 3, 0
         );
         $this->assertField($a->fields[0], 'name', 'Name', false, true);
         $this->assertField(
             $a->fields[1], 'description', 'description', false, false
+        );
+        $this->assertField(
+            $a->fields[2], 'pagetitle', 'Page Title', false, false,
+            array( 'table' => 'ExhibitPageEntry', 'key' => 'page_id' )
         );
     }
 

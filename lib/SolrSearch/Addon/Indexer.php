@@ -127,28 +127,76 @@ class SolrSearch_Addon_Indexer
         $titleField = $addon->getTitleField();
         foreach ($addon->fields as $field) {
             $solrName = $this->makeSolrName($addon, $field->name);
-            $value    = $record[$field->name];
 
-            if (!is_null($value)) {
-                $doc->setMultiValue($solrName, $value);
+            if (is_null($field->remote)) {
+                $value = $this->getLocalValue($record, $field);
+            } else {
+                $value = $this->getRemoteValue($record, $field);
+            }
+
+            foreach ($value as $v) {
+                $doc->addField($solrName, $v);
 
                 if (!is_null($titleField) && $titleField->name === $field->name) {
-                    $doc->addField('title', $value);
+                    $doc->addField('title', $v);
                 }
             }
         }
 
         if ($addon->tagged) {
             foreach ($record->getTags() as $tag) {
-                $doc->setMultiValue('tag', $tag->name);
+                $doc->addField('tag', $tag->name);
             }
         }
 
         if ($addon->resultType) {
-            $doc->setMultiValue('resulttype', $addon->resultType);
+            $doc->addField('resulttype', $addon->resultType);
         }
 
         return $doc;
+    }
+
+    /**
+     * This returns a value that is local to the record.
+     *
+     * @param Omeka_Record           $record The record to get the value from.
+     * @param SolrSearch_Addon_Field $field  The field that defines where to get
+     * the value.
+     *
+     * @return mixed $value The value of the field in the record.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function getLocalValue($record, $field)
+    {
+        $value = array();
+        $value[] = $record[$field->name];
+        return $value;
+    }
+
+    /**
+     * This returns a value that is remotely attached to the record.
+     *
+     * @param Omeka_Record           $record The record to get the value from.
+     * @param SolrSearch_Addon_Field $field  The field that defines where to get
+     * the value.
+     *
+     * @return mixed $value The value of the field in the record.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function getRemoteValue($record, $field)
+    {
+        $value = array();
+
+        $table = $this->db->getTable($field->remote->table);
+        $rows  = $table->findBy(array(
+            $field->remote->key => $record->id
+        ));
+
+        foreach ($rows as $item) {
+            $value[] = $item[$field->name];
+        }
+
+        return $value;
     }
 
     /**

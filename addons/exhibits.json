@@ -24,7 +24,19 @@
                         "table"       : "ExhibitPage",
                         "result_type" : "Exhibit Pages",
                         "parent_key"  : "section_id",
-                        "fields"      : ["title"]
+                        "fields"      : [
+                            "title",
+                            {
+                                "field"    : "text",
+                                "label"    : "Page Text",
+                                "facet"    : false,
+                                "is_title" : false,
+                                "remote"   : {
+                                    "table" : "ExhibitPageEntry",
+                                    "key"   : "page_id"
+                                }
+                            }
+                        ]
                     }
                 }
             }

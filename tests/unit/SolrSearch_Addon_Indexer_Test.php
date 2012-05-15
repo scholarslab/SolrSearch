@@ -154,9 +154,23 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function testIndexPageEntry()
     {
-        // TODO: This is a marker for the task to pull in content from the 
-        // PageEntry table for the Page addon.
-        $this->assertTrue(false, 'testIndexPageEntry');
+        $docs = $this->idxr->indexAll($this->mgr->addons);
+
+        foreach ($docs as $doc) {
+            if ($doc->getField('section_pages_title_s') !== false) {
+                $text = $doc->getField('section_pages_text_s');
+                $this->assertTrue($text !== false);
+                $this->assertCount(2, $text['value']);
+                $this->assertContains(
+                    $text['value'][0],
+                    array('Yawwwn', 'Traveling far and wide')
+                );
+                $this->assertContains(
+                    $text['value'][1],
+                    array('Yawwwn', 'Traveling far and wide')
+                );
+            }
+        }
     }
 
     public function testIndexPrivateExhibit()

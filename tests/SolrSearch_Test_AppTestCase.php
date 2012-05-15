@@ -132,7 +132,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
                 $p->save();
 
                 $entries = property_exists($page, 'entries') ? $page->entries : array();
-                $k = 0;
+                $k = 1;
                 foreach ($entries as $entry) {
                     $item = $this->__item(
                         property_exists($entry, 'title') ? $entry->title : null,
