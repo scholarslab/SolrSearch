@@ -30,6 +30,8 @@ class SolrSearchPlugin
         'uninstall',
         'before_delete_item',
         'after_save_item',
+        'before_delete_record',
+        'after_save_record',
         'define_routes',
         'define_acl',
         'admin_theme_header',
@@ -78,17 +80,25 @@ class SolrSearchPlugin
         $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
         $this->_db->query($sql);
 
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
-        $solr->deleteByQuery('*:*');
-        $solr->commit();
-        $solr->optimize();
+        try {
+            $solr = new Apache_Solr_Service(
+                get_option('solr_search_server'),
+                get_option('solr_search_port'),
+                get_option('solr_search_core')
+            );
+            $solr->deleteByQuery('*:*');
+            $solr->commit();
+            $solr->optimize();
+        } catch (Exception $e) {
+        }
 
         self::_deleteOptions();
+        self::_deleteAcl();
     }
 
     public function beforeDeleteItem($item)
     {
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
         $solr->deleteByQuery('id:' . $item['id']);
         $solr->commit();
         $solr->optimize();
@@ -96,7 +106,7 @@ class SolrSearchPlugin
 
     public function afterSaveItem($item)
     {
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
 
         if ($item['public'] == true) {
             $docs = array();
@@ -109,6 +119,40 @@ class SolrSearchPlugin
         } else {
             // If the item's no longer public, remove it from the index.
             $solr->deleteByQuery('id:' . $item['id']);
+            $solr->commit();
+            $solr->optimize();
+        }
+    }
+
+    public function beforeDeleteRecord($record)
+    {
+        $mgr = new SolrSearch_Addon_Manager($this->_db);
+        $id = $mgr->getId($record);
+
+        if (!is_null($id)) {
+            $solr = new Apache_Solr_Service(
+                get_option('solr_search_server'),
+                get_option('solr_search_port'),
+                get_option('solr_search_core')
+            );
+            $solr->deleteByQuery("id:$id");
+            $solr->commit();
+            $solr->optimize();
+        }
+    }
+
+    public function afterSaveRecord($record)
+    {
+        $mgr = new SolrSearch_Addon_Manager($this->_db);
+        $doc = $mgr->indexRecord($record);
+
+        if (!is_null($doc)) {
+            $solr = new Apache_Solr_Service(
+                get_option('solr_search_server'),
+                get_option('solr_search_port'),
+                get_option('solr_search_core')
+            );
+            $solr->addDocuments(array($doc));
             $solr->commit();
             $solr->optimize();
         }
@@ -127,9 +171,11 @@ class SolrSearchPlugin
 
     public function defineAcl($acl)
     {
-        $acl->loadResourceList(array(
-            'SolrSearch_Config' => array('index', 'status')
-        ));
+        if (!$acl->has('SolrSearch_Config')) {
+            $acl->loadResourceList(array(
+                'SolrSearch_Config' => array('index', 'status')
+            ));
+        }
     }
 
     public function adminThemeHeader($request)
@@ -233,6 +279,7 @@ SQL;
         $stmt->execute(array(null, 'Tag',        null, 1, 1));
         $stmt->execute(array(null, 'Collection', null, 1, 1));
         $stmt->execute(array(null, 'Itemtype',   null, 1, 1));
+        $stmt->execute(array(null, 'Resulttype', null, 1, 1));
 
         foreach ($elements as $element) {
             $v = 0;
@@ -273,6 +320,15 @@ SQL;
         delete_option('solr_search_snippets');
         delete_option('solr_search_fragsize');
         delete_option('solr_search_facet_sort');
+    }
+
+    protected function _deleteAcl()
+    {
+        $acl = Omeka_Context::getInstance()->getAcl();
+        if (!$acl) {
+            throw new RuntimeException('ACL not available');
+        }
+        $acl->remove('SolrSearch_Config');
     }
 
 

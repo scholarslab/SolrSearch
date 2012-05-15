@@ -7,7 +7,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
 {
     public function run($args)
     {
-        $solr   = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr   = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
         $db     = get_db();
         $table  = $db->getTable('Item');
         $select = $table->getSelect();
@@ -15,6 +15,7 @@ class SolrSearch_IndexAll extends ProcessAbstract
         $table->filterByPublic($select, true);
         $table->applySorting($select, 'id', 'ASC');
 
+        // First get the items.
         $pager = new SolrSearch_DbPager($db, $table, $select);
         while ($items = $pager->next()) {
             foreach ($items as $item) {
@@ -30,6 +31,18 @@ class SolrSearch_IndexAll extends ProcessAbstract
                 throw $e;
             }
         }
+
+        // Now the other addon stuff.
+        try {
+            $mgr  = new SolrSearch_Addon_Manager($db);
+            $docs = $mgr->reindexAddons();
+            $solr->addDocuments($docs);
+            $solr->commit();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            throw $e;
+        }
+
         try {
             $solr->optimize();
         }

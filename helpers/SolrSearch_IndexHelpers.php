@@ -26,6 +26,8 @@
  * @link        http://omeka.org/add-ons/plugins/SolrSearch/
  */
 
+require_once HELPER_DIR . '/UrlFunctions.php';
+
 /**
  * This contains some helpers for indexing items.
  **/
@@ -44,7 +46,10 @@ class SolrSearch_IndexHelpers
     public static function itemToDocument($db, $item)
     {
         $doc = new Apache_Solr_Document();
-        $doc->id = $item['id'];
+        $doc->id = "Item_{$item['id']}";
+        $doc->setField('model', 'Item');
+        $doc->setField('modelid', $item['id']);
+        $doc->setField('url', SolrSearch_IndexHelpers::getUri($item));
 
         $indexSet = SolrSearch_IndexHelpers::getIndexSet($db);
 
@@ -61,6 +66,8 @@ class SolrSearch_IndexHelpers
                 }
             }
         }
+
+        $doc->setMultiValue('resulttype', 'Item');
 
         if (array_key_exists('tag', $indexSet)) {
             foreach ($item->getTags() as $tag) {
@@ -95,6 +102,78 @@ class SolrSearch_IndexHelpers
         }
 
         return $doc;
+    }
+
+    /**
+     * This returns the URI for an Omeka_Record.
+     *
+     * @param Omeka_Record $record The record to return the URI for.
+     *
+     * @return string $uri The URI to access the record with.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function getUri($record)
+    {
+        $uri    = '';
+        $action = 'show';
+        $rc     = get_class($record);
+
+        if ($rc === 'SimplePagesPage') {
+            if (simple_pages_is_home_page($record)) {
+                $uri = abs_uri('');
+            } else {
+                $uri = uri($record->slug);
+            }
+
+        } else if ($rc === 'ExhibitSection') {
+            $exhibit = $record->getExhibit();
+            $exUri   = SolrSearch_IndexHelpers::getSlugUri($exhibit, $action);
+            $uri     = "$exUri/{$record->slug}";
+
+        } else if ($rc === 'ExhibitPage') {
+            $section = $record->getSection();
+            $exhibit = $section->getExhibit();
+            $exUri   = SolrSearch_IndexHelpers::getSlugUri($exhibit, $action);
+            $uri     = "$exUri/{$section->slug}/{$record->slug}";
+
+        } else if (property_exists($record, 'slug')) {
+            $uri = SolrSearch_IndexHelpers::getSlugUri($record, $action);
+
+        } else {
+            $uri = record_uri($record, $action);
+        }
+
+        // These should never be under /admin/, so remove that if it's there.
+        $uri = preg_replace('|^/admin/|', '/', $uri, 1);
+
+        return $uri;
+    }
+
+    /**
+     * This returns the URL for an Omeka_Record with a 'slug' property.
+     *
+     * @param Omeka_Record $record The sluggable record to create the URL for.
+     * @param string       $action The action to access the record with.
+     *
+     * @return string $uri The URI for the record.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function getSlugURI($record, $action)
+    {
+        // Copied from omeka/applications/helpers/UrlFunctions.php, record_uri.
+        // Yuck.
+        $recordClass = get_class($record);
+        $inflector   = new Zend_Filter_Word_CamelCaseToDash();
+        $controller  = strtolower($inflector->filter($recordClass));
+        $controller  = Inflector::pluralize($controller);
+        $options     = array(
+            'controller' => $controller,
+            'action'     => $action,
+            'id'         => $record->slug
+        );
+        $uri = uri($options, 'id');
+
+        return $uri;
     }
 
     /**

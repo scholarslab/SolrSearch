@@ -496,6 +496,10 @@
    <field name="image" type="sint" indexed="true" stored="true" multiValued="true" omitNorms='true'/>
    <field name="collection" type="string" indexed="true" stored="true" omitNorms='true'/>
    <field name="itemtype" type="string" indexed="true" stored="true" omitNorms='true'/>
+   <field name="resulttype" type="string" indexed="true" stored="true" omitNorms='true'/>
+   <field name="url" type="string" indexed="false" stored="true" omitNorms='true' />
+   <field name="model" type="string" indexed="false" stored="true" omitNorms='true' />
+   <field name="modelid" type="string" indexed="false" stored="true" omitNorms='true' />
    <field name="fulltext" type="text_en" indexed="true" stored="false" multiValued="true"/>
 
    <!-- Uncommenting the following will create a "timestamp" field using
@@ -525,6 +529,7 @@
    <copyField source="tag" dest="fulltext" />
    <copyField source="collection" dest="fulltext" />
    <copyField source="itemtype" dest="fulltext" />
+   <copyField source="resulttype" dest="fulltext" />
    
  </fields>
 

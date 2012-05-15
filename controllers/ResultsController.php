@@ -122,7 +122,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
                 'fl'             => $fields,
                 'facet'          => 'true',
                 'facet.mincount' => 1,
-                'facet.limit'    => SOLR_FACET_LIMIT,
+                'facet.limit'    => get_option('solr_search_facet_limit'),
                 'facet.field'    => $facets,
                 'hl'             => get_option('solr_search_hl'),
                 'hl.snippets'    => get_option('solr_search_snippets'),
@@ -145,7 +145,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $paginationUrl = $this->getRequest()->getBaseUrl() . '/results/';
 
         if (! $rows) {
-            $rows = get_option('per_page_public') or SOLR_ROWS;
+            $rows = get_option('per_page_public') or get_option('solr_search_rows');
         }
 
         $pagination = array(
@@ -168,7 +168,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     }
 
     private function search($facets, $offset=0, $limit=10) {
-        $solr = new Apache_Solr_Service(SOLR_SERVER, SOLR_PORT, SOLR_CORE);
+        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
         $query = SolrSearch_QueryHelpers::createQuery(SolrSearch_QueryHelpers::getParams());
         $params = $this->getSearchParameters($facets);
 
@@ -204,7 +204,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
      **/
     private function getHiddenFields()
     {
-        $fields = "image";
+        $fields = "image,title,url";
         return $fields;
     }
 
