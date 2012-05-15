@@ -264,5 +264,19 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         }
     }
 
+    public function testAdminUri()
+    {
+        // TODO: When saved from the admin console, /admin/ is added to the 
+        // beginning of the URLs.
+        $this->assertTrue(false, 'testAdminUri');
+    }
+
+    public function testPageContent()
+    {
+        // TODO: Apparently, section_pages_text_s gets populated for every page 
+        // by the text of all pages.
+        $this->assertTrue(false, "testPageContent");
+    }
+
 }
 
