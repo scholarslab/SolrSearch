@@ -142,6 +142,9 @@ class SolrSearch_IndexHelpers
             $uri = record_uri($record, $action);
         }
 
+        // These should never be under /admin/, so remove that if it's there.
+        $uri = preg_replace('|^/admin/|', '/', $uri, 1);
+
         return $uri;
     }
 
