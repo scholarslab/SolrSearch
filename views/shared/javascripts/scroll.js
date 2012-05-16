@@ -12,8 +12,8 @@ jQuery(function($) {
     navSelector: '#solr-nav',
     itemSelector: '.item',
     loading: {
-      msgText: '<em>Loading next set of items...</em>',
-      finishedMsg: '<em>You have reached the end of the results.</em>'
+      msgText: '<p><em>Loading next set of items...</em></p>',
+      finishedMsg: '<p><em>You have reached the end of the results.</em></p>'
     }
   });
 
