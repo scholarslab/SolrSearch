@@ -134,10 +134,7 @@ class SolrSearch_QueryHelpers
     // If there is only one tokenized string in the query and that string is
     // *:*, return ALL TERMS text.
 
-    if (empty($queryParams)
-      || (isset($queryParams['q']) && $queryParams['q'] == '*:*'
-      && !isset($queryParams['facet']))
-    ) {
+    if (SolrSearch_QueryHelpers::isNullQuery($queryParams)) {
         $html .= '<span class="appliedFilter constraint query">';
         $html .= '<span class="filterValue">ALL TERMS</span>';
         $html .= '</span>';
@@ -179,6 +176,34 @@ class SolrSearch_QueryHelpers
     }
 
     return $html;
+  }
+
+  /**
+   * This returns true if the search searches for nothing.
+   *
+   * @param array $params The GET parameters as an associative array.
+   *
+   * @return bool $is_null Is the query null?
+   * @author Eric Rochester <erochest@virginia.edu>
+   **/
+  public static function isNullQuery($params)
+  {
+    $is_null = false;
+
+    if (empty($params)) {
+      $is_null = true;
+
+    } else {
+      $nullq     = false;
+      $nullfacet = false;
+
+      $nullq = (!isset($params['q']) || $params['q'] === '*:*' || $params['q'] === '');
+      $nullfacet = (!isset($params['facet']) || $params['facet'] === '');
+
+      $is_null = $nullq && $nullfacet;
+    }
+
+    return $is_null;
   }
 
   /**
