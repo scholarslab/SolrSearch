@@ -70,7 +70,7 @@ class SolrSearchPlugin
     public function install()
     {
         self::_createSolrTable();
-        self::_addFacetMappings();
+       self::_addFacetMappings();
         self::_setOptions();
     }
 
@@ -216,7 +216,7 @@ class SolrSearchPlugin
 
             if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
                 throw new Omeka_Validator_Exception(
-                    "Invalid Solr server host, port, or core."
+                    "Cannot connect to Solr with the given configuration. Please check your server host, port, and core."
                 );
             }
 
