@@ -134,8 +134,9 @@ class SolrSearch_ViewHelpers
      */
     public static function createResultLink($doc)
     {
+        $url   = WEB_ROOT . $doc->url;
         $title = (is_null($doc->title) || $doc->title === '') ? '[Untitled]' : $doc->title;
-        return "<a href='{$doc->url}'>{$title}</a>";
+        return "<a href='{$url}'>{$title}</a>";
     }
 
     /**
