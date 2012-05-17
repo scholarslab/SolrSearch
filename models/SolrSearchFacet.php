@@ -37,6 +37,13 @@ class SolrSearchFacet extends Omeka_Record
     public $name;
 
     /**
+     * The label of the element.
+     *
+     * @var string
+     **/
+    public $label;
+
+    /**
      * The id of the parent element set [integer].
      */
     public $element_set_id;

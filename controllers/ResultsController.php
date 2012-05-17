@@ -87,21 +87,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             ->getTable('SolrSearch_Facet')
             ->findBySql('is_facet = ?', array('1'));
         foreach ($facetList as $facet) {
-            if ($facet['element_set_id'] != null) {
-                $elements = $db
-                    ->getTable('Element')
-                    ->findBySql(
-                        'element_set_id = ?',
-                        array($facet['element_set_id'])
-                    );
-                foreach ($elements as $element) {
-                    if ($element['name'] == $facet['name']) {
-                        $facets[] = $element['id'] . '_s';
-                    }
-                }
-            } else {
-                $facets[] = strtolower($facet['name']);
-            }
+            $facets[] = $facet->name;
         }
 
         natcasesort($facets);

@@ -67,7 +67,7 @@ class FacetForm extends Omeka_Form
 
                 // Add element.
                 $this->addElement('MultiCheckbox', $inputName, array(
-                    'label' => $facet->name,
+                    'label' => $facet->label,
                     'multiOptions' => array(
                         'is_displayed' => 'Is Searchable',
                         'is_facet'     => 'Is Facet'

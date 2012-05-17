@@ -270,28 +270,30 @@ class SolrSearchPlugin
         $elements = $this->_db->getTable('Element')->findAll();
         $sql = <<<SQL
             INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (element_id, name, element_set_id, is_facet, is_displayed)
-                VALUES (?, ?, ?, ?, ?);
+                (element_id, name, label, element_set_id, is_facet, is_displayed)
+                VALUES (?, ?, ?, ?, ?, ?);
 SQL;
         $stmt = $this->_db->prepare($sql);
 
         // $stmt->execute(array(null, 'Image',      null, 1, 1));
-        $stmt->execute(array(null, 'Tag',        null, 1, 1));
-        $stmt->execute(array(null, 'Collection', null, 1, 1));
-        $stmt->execute(array(null, 'Itemtype',   null, 1, 1));
-        $stmt->execute(array(null, 'Resulttype', null, 1, 1));
+        $stmt->execute(array(null, 'tag',        'Tag',         null, 1, 1));
+        $stmt->execute(array(null, 'collection', 'Collection',  null, 1, 1));
+        $stmt->execute(array(null, 'itemtype',   'Item Type',   null, 1, 1));
+        $stmt->execute(array(null, 'resulttype', 'Result Type', null, 1, 1));
 
         foreach ($elements as $element) {
             $v = 0;
+            $eid  = $element['id'];
+            $name = $element['name'];
 
             if ($element['element_set_id'] == $dc->id
-                && array_key_exists(strtolower($element['name']), $defaults)) {
+                && array_key_exists(strtolower($name), $defaults)) {
 
                 $v = 1;
             }
 
             $stmt->execute(array(
-                $element['id'], $element['name'], $element['element_set_id'], 0, $v
+                $eid, "{$eid}_s", $name, $element['element_set_id'], 0, $v
             ));
         }
     }
@@ -339,6 +341,7 @@ SQL;
         `id` int(10) unsigned NOT NULL auto_increment,
             `element_id` int(10) unsigned,
             `name` tinytext collate utf8_unicode_ci NOT NULL,
+            `label` tinytext collate utf8_unicode_ci NOT NULL,
             `element_set_id` int(10) unsigned,
             `is_facet` tinyint unsigned DEFAULT 0,
             `is_displayed` tinyint unsigned DEFAULT 0,

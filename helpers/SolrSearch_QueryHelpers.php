@@ -298,21 +298,19 @@ class SolrSearch_QueryHelpers
   /**
    * Parses facet field to determine human readable version.
    *
-   * @param string $facet Facet to parse.
+   * @param string $facetName Facet to parse.
    *
    * @return string $header Human readable facet name
    * @author Wayne Graham <wsg4w@virginia.edu>
    **/
-  public static function parseFacet($facet)
+  public static function parseFacet($facetName)
   {
-    $header = '';
-    if (strstr($facet, '_')) {
-      $header = self::elementLookup($facet);
-      //$header = SolrSearch_QueryHelpers::createFacetHtml($facet);
-    } else {
-      $header = ucwords($facet);
-    }
-    return $header;
+      $db     = get_db();
+      $table  = $db->getTable('SolrSearchFacet');
+      $select = $table->getSelect();
+      $select->where("{$table->getTableAlias()}.name=?", $facetName);
+      $facet  = $table->fetchObject($select);
+      return $facet->label;
   }
 
   /**
