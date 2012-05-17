@@ -134,7 +134,8 @@ class SolrSearch_ViewHelpers
      */
     public static function createResultLink($doc)
     {
-        return "<a href='{$doc->url}'>{$doc->title}</a>";
+        $title = (is_null($doc->title) || $doc->title === '') ? '[Untitled]' : $doc->title;
+        return "<a href='{$doc->url}'>{$title}</a>";
     }
 
     /**
@@ -153,8 +154,12 @@ class SolrSearch_ViewHelpers
             $title = $doc->title;
         } else {
             $db    = get_db();
-            $item  = $db->getTable('Item')->find($doc->id);
+            $item  = $db->getTable('Item')->find($doc->modelid);
             $title = strip_formatting(item('Dublin Core', 'Title', $options, $item));
+        }
+
+        if (is_null($title) || $title === '') {
+            $title = '[Untitled]';
         }
 
         return $title;

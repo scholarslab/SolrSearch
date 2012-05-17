@@ -204,7 +204,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
      **/
     private function getHiddenFields()
     {
-        $fields = "image,title,url";
+        $fields = "image,title,url,model,modelid";
         return $fields;
     }
 
