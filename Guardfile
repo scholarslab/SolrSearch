@@ -16,3 +16,6 @@ end
 guard 'livereload' do
   watch(%r{.+\.(css|js|html?|php|inc)$})
 end
+
+guard :coffeescript, :input => '_coffee', :output => 'views/shared/javascripts'
+
