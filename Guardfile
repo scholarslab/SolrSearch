@@ -18,4 +18,5 @@ guard 'livereload' do
 end
 
 guard :coffeescript, :input => '_coffee', :output => 'views/shared/javascripts'
+guard :coffeescript, :input => 'spec/coffee', :output => 'spec/javascripts'
 
