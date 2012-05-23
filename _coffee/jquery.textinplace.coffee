@@ -1,6 +1,6 @@
 ( ($) ->
 
-  $.widget 'textinplace',
+  $.widget 'solrsearch.textinplace',
     options: {
       form_name: null
     }

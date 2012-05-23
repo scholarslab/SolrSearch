@@ -1,7 +1,7 @@
 (function() {
 
   (function($) {
-    return $.widget('textinplace', {
+    return $.widget('solrsearch.textinplace', {
       options: {
         form_name: null
       },
