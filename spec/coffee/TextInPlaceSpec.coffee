@@ -1,5 +1,5 @@
 
-describe 'TextInPlace widget', ->
+describe 'In the TextInPlace widget,', ->
   n     = 0
   todel = []
 
@@ -45,74 +45,82 @@ describe 'TextInPlace widget', ->
 
   ## And finally, the specs themselves.
 
-  it 'should create a hidden input element.', ->
-    div = createDiv()
-    expect(div.find('input[type="hidden"]').size()).toBe(1)
+  describe 'the container div', ->
 
-  it 'should create a hidden input element with a default name.', ->
-    div = createDiv()
-    expect(div.find('input[type="hidden"]').attr('name')).toBe(div.attr('id'))
+    it 'should have no contents;', ->
+      div = createDiv("initial text #{n}")
+      texts = (n.nodeValue for n in getTextNodes(div)).join('')
+      expect(texts).toBe('')
 
-  it 'should create a hidden input element with a custom name.', ->
-    div = createDiv('', { form_name: 'customname' })
-    expect(div.find('input[type="hidden"]').attr('name')).toBe('customname')
+    it 'should add a .textinplace class to the container div;', ->
+      div = createDiv()
+      expect(div.hasClass('textinplace')).toBeTruthy()
 
-  it 'should create a hidden input element with the value of the div.', ->
-    div = createDiv("initial text #{n}")
-    expect(div.find('input[type="hidden"]').val()).toBe("initial text #{n}")
+    it 'should maintain existing classes on the container div;', ->
+      div = createDiv('', {}, (d) -> d.addClass('something'))
+      expect(div.hasClass('something')).toBeTruthy()
 
-  it 'should remove the value from the wrapper div.', ->
-    div = createDiv("initial text #{n}")
-    texts = (n.nodeValue for n in getTextNodes(div)).join('')
-    expect(texts).toBe('')
+  describe 'the hidden input element', ->
 
-  it 'should wrap the initial value in a new div.', ->
-    div = createDiv("initial text #{n}")
-    expect(div.find('div.value').html()).toBe("initial text #{n}")
+    it 'should be created;', ->
+      div = createDiv()
+      expect(div.find('input[type="hidden"]').size()).toBe(1)
 
-  it 'should add a .textinplace class to the container div.', ->
-    div = createDiv()
-    expect(div.hasClass('textinplace')).toBeTruthy()
+    it 'should have a default name;', ->
+      div = createDiv()
+      expect(div.find('input[type="hidden"]').attr('name')).toBe(div.attr('id'))
 
-  it 'should maintain existing classes on the container div.', ->
-    div = createDiv('', {}, (d) -> d.addClass('something'))
-    expect(div.hasClass('something')).toBeTruthy()
+    it 'should use a custom name;', ->
+      div = createDiv('', { form_name: 'customname' })
+      expect(div.find('input[type="hidden"]').attr('name')).toBe('customname')
 
-  it "should hide the value div it's clicked on.", ->
-    div = createDiv("initial text #{n}")
-    text = triggerEditing div
-    expect(text.is ':visible').toBeFalsy()
+    it 'should have the value of the initial div;', ->
+      div = createDiv("initial text #{n}")
+      expect(div.find('input[type="hidden"]').val()).toBe("initial text #{n}")
 
-  it 'should make a visible text input when the value div is clicked on.', ->
-    div = createDiv("initial text #{n}")
-    triggerEditing div
-    text = div.find(':text')
-    expect(text.size()).toBe 1
-    expect(text.val() ).toBe "initial text #{n}"
+  describe 'the visible div', ->
 
-  it 'should hide the text input when it loses focus.', ->
-    div = createDiv("initial text #{n}")
-    triggerEditing div
-    text = editBlur div, ''
-    expect(text.is(':visible')).toBeFalsy()
+    it 'should wrap the initial value;', ->
+      div = createDiv("initial text #{n}")
+      expect(div.find('div.value').html()).toBe("initial text #{n}")
 
-  it 'should update the hidden input when the text input loses focus.', ->
-    div = createDiv("initial text #{n}")
-    triggerEditing div
-    editBlur div, "updated text #{n}"
-    expect(div.find('input[type="hidden"]').attr('value')).toBe("updated text #{n}")
+  describe 'the text input', ->
 
-  it 'should update the visible div when the text input loses focus.', ->
-    div = createDiv("initial text #{n}")
-    triggerEditing div
-    editBlur div, "updated text #{n}"
-    expect(div.find('div.value').html()).toBe("updated text #{n}")
+    it "should hide the value div it's clicked on.", ->
+      div = createDiv("initial text #{n}")
+      text = triggerEditing div
+      expect(text.is ':visible').toBeFalsy()
 
-  it 'should show the value div when the text input loses focus.', ->
-    div = createDiv("initial text #{n}")
-    triggerEditing div
-    editBlur div, "updated text #{n}"
-    expect(div.find('div.value').is(':visible')).toBeTruthy()
+    it 'should make a visible text input when the value div is clicked on;', ->
+      div = createDiv("initial text #{n}")
+      triggerEditing div
+      text = div.find(':text')
+      expect(text.size()).toBe 1
+      expect(text.val() ).toBe "initial text #{n}"
+
+    it 'should hide the text input when it loses focus;', ->
+      div = createDiv("initial text #{n}")
+      triggerEditing div
+      text = editBlur div, ''
+      expect(text.is(':visible')).toBeFalsy()
+
+    it 'should update the hidden input when the text input loses focus;', ->
+      div = createDiv("initial text #{n}")
+      triggerEditing div
+      editBlur div, "updated text #{n}"
+      expect(div.find('input[type="hidden"]').attr('value')).toBe("updated text #{n}")
+
+    it 'should update the visible div when the text input loses focus;', ->
+      div = createDiv("initial text #{n}")
+      triggerEditing div
+      editBlur div, "updated text #{n}"
+      expect(div.find('div.value').html()).toBe("updated text #{n}")
+
+    it 'should show the value div when the text input loses focus.', ->
+      div = createDiv("initial text #{n}")
+      triggerEditing div
+      editBlur div, "updated text #{n}"
+      expect(div.find('div.value').is(':visible')).toBeTruthy()
 
 
 
