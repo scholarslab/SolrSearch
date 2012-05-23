@@ -6,14 +6,19 @@
     }
 
     _create: ->
-      text = this.element.html()
+      this.element.addClass('textinplace')
       form_name = this._initFormName()
+      text = this.element.html()
+      this.element.html('')
 
       input = """
         <input type='hidden' name='#{form_name}' value='#{text}' />
         """
+      div = """
+        <div class='value'>#{text}</div>
+        """
 
-      this.element.append(input)
+      this.element.append(input + div)
 
     _setOption: (key, val) ->
       # switch key

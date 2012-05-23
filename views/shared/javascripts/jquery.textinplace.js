@@ -6,11 +6,14 @@
         form_name: null
       },
       _create: function() {
-        var form_name, input, text;
-        text = this.element.html();
+        var div, form_name, input, text;
+        this.element.addClass('textinplace');
         form_name = this._initFormName();
+        text = this.element.html();
+        this.element.html('');
         input = "<input type='hidden' name='" + form_name + "' value='" + text + "' />";
-        return this.element.append(input);
+        div = "<div class='value'>" + text + "</div>";
+        return this.element.append(input + div);
       },
       _setOption: function(key, val) {
         return $.Widget.prototype._setOption.apply(this, arguments);

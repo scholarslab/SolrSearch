@@ -1,7 +1,7 @@
 (function() {
 
   describe('TextInPlace widget', function() {
-    var createDiv, n, todel;
+    var createDiv, getTextNodes, n, todel;
     n = 0;
     todel = [];
     createDiv = function(text) {
@@ -14,6 +14,11 @@
       jQuery('body').append(div);
       todel.push(div);
       return div;
+    };
+    getTextNodes = function(el) {
+      return jQuery(el).contents().filter(function() {
+        return this.nodeType === 3;
+      });
     };
     afterEach(function() {
       var id, _i, _len;
@@ -43,11 +48,41 @@
       });
       return expect(div.find('input[type="hidden"]').attr('name')).toBe('customname');
     });
-    return it('should create a hidden input element with the value of the div.', function() {
+    it('should create a hidden input element with the value of the div.', function() {
       var div;
       div = jQuery(createDiv('initial text'));
       div.textinplace();
       return expect(div.find('input[type="hidden"]').val()).toBe('initial text');
+    });
+    it('should wrap the initial value in a new div.', function() {
+      var div, n, texts;
+      div = jQuery(createDiv('initial text 2'));
+      div.textinplace();
+      texts = ((function() {
+        var _i, _len, _ref, _results;
+        _ref = getTextNodes(div);
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          n = _ref[_i];
+          _results.push(n.nodeValue);
+        }
+        return _results;
+      })()).join('');
+      expect(texts).toBe('');
+      return expect(div.find('div.value').html()).toBe('initial text 2');
+    });
+    it('should add a .textinplace class to the container div.', function() {
+      var div;
+      div = jQuery(createDiv());
+      div.textinplace();
+      return expect(div.hasClass('textinplace')).toBeTruthy();
+    });
+    return it('should maintain existing classes on the container div.', function() {
+      var div;
+      div = jQuery(createDiv());
+      div.addClass('something');
+      div.textinplace();
+      return expect(div.hasClass('something')).toBeTruthy();
     });
   });
 

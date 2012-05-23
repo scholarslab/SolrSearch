@@ -14,6 +14,12 @@ describe 'TextInPlace widget', ->
 
     div
 
+  getTextNodes = (el) ->
+    # jQuery(el).find(':not(iframe)').andSelf().contents().filter( ->
+    jQuery(el).contents().filter( ->
+      this.nodeType == 3
+    )
+
   afterEach ->
     jQuery(id).remove() for id in todel
     todel.length = 0
@@ -40,5 +46,25 @@ describe 'TextInPlace widget', ->
     div = jQuery(createDiv('initial text'))
     div.textinplace()
     expect(div.find('input[type="hidden"]').val()).toBe('initial text')
+
+  it 'should wrap the initial value in a new div.', ->
+    div = jQuery(createDiv('initial text 2'))
+    div.textinplace()
+
+    texts = (n.nodeValue for n in getTextNodes(div)).join('')
+
+    expect(texts).toBe('')
+    expect(div.find('div.value').html()).toBe('initial text 2')
+
+  it 'should add a .textinplace class to the container div.', ->
+    div = jQuery(createDiv())
+    div.textinplace()
+    expect(div.hasClass('textinplace')).toBeTruthy()
+
+  it 'should maintain existing classes on the container div.', ->
+    div = jQuery(createDiv())
+    div.addClass('something')
+    div.textinplace()
+    expect(div.hasClass('something')).toBeTruthy()
 
 
