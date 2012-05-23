@@ -7,7 +7,7 @@ guard 'shell' do
       `cake build:browser`
     end
 
-  watch(%r{^/_sass/.*\.s[ac]ss}) do
+  watch(%r{^_sass/.*\.s[ac]ss}) do
     `compass compile`
   end
 
