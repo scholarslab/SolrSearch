@@ -44,6 +44,9 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
             // Validate form.
             if ($form->isValid($this->_request->getPost())) {
                 $db = get_db();
+
+                // TODO: The format of $uploadedData has changed drastically, 
+                // and these won't know where to look.
                 $uploadedData = $form->getValues();
 
                 // Walk the fields.
@@ -74,6 +77,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
                         $data = array(
                             'id'           => $split[1],
+                            // 'label'        => $options['label'],
                             'is_displayed' => $options['is_displayed'],
                             'is_facet'     => $options['is_facet']
                         );
@@ -88,6 +92,12 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                     }
 
                 }
+                /*
+                 * $f = fopen('/tmp/solr.log', 'w');
+                 * fwrite($f, date('c') . "\n\n");
+                 * fwrite($f, print_r($uploadedData, true));
+                 * fclose($f);
+                 */
 
                 $this->flashSuccess('Solr configuration updated. Be sure to reindex.');
                 $this->_redirect('solr-search/config');
