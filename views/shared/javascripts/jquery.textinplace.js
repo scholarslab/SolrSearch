@@ -28,7 +28,7 @@
       _destroy: function() {},
       _initFormName: function() {
         var _base, _ref;
-        return (_ref = (_base = this.options).form_name) != null ? _ref : _base.form_name = this._escape(this.element.attr('id'));
+        return (_ref = (_base = this.options).form_name) != null ? _ref : _base.form_name = this.element.attr('id');
       },
       _escape: function(input) {
         return input.replace(/\W/, '_').replace(/_+/, '_');
@@ -53,12 +53,14 @@
         value = this.hidden.val();
         text = $("<input type='text' name='" + name + "' value='" + value + "' />");
         this.element.append(text);
-        text.on('blur', function() {
-          return _this._textDone();
+        text.on('blur', function(ev) {
+          _this._textDone();
+          return ev.preventDefault();
         });
         text.on('keyup', function(ev) {
           if (ev.key === 'Enter' || ev.keyCode === 13) {
-            return _this._textDone();
+            _this._textDone();
+            return ev.preventDefault();
           }
         });
         return text;

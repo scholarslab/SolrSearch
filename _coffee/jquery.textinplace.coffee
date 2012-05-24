@@ -42,7 +42,7 @@
     _destroy: ->
 
     _initFormName: ->
-      @options.form_name ?= this._escape(@element.attr('id'))
+      @options.form_name ?= @element.attr('id')
 
     # This escapes the input by replacing all non-alphanumeric characters with
     # underscores and by normalizing sequences of underscores.
@@ -66,9 +66,16 @@
         """)
       @element.append text
 
-      text.on 'blur', () => this._textDone()
+      # TODO: preventDefault does not stop 'Enter' from triggering form
+      # submission.
+
+      text.on 'blur', (ev) =>
+        this._textDone()
+        ev.preventDefault()
       text.on 'keyup', (ev) =>
-        this._textDone() if ev.key == 'Enter' || ev.keyCode == 13
+        if ev.key == 'Enter' || ev.keyCode == 13
+          this._textDone()
+          ev.preventDefault()
 
       text
 
