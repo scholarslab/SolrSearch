@@ -30,7 +30,7 @@
 
     <form id="facets-form" method="post">
 
-        <?php foreach ($form->getDisplayGroups() as $group): ?>
+        <?php foreach ($form->getSubForms() as $group): ?>
 
           <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
           <div>
@@ -45,14 +45,31 @@
         </tr>
       </thead>
       <tbody>
-          <?php foreach ($group->getElements() as $element): ?>
+          <?php $facetIds = ''; ?>
+          <?php foreach ($group->getSubForms() as $eform): ?>
             <tr>
-              <td class="element"><?php echo $element->getLabel(); ?></td>
-              <?php foreach ($element->getMultiOptions() as $name => $label): ?>
-                <td><input type="checkbox" name="<?php echo $element->getName(); ?>[]" value="<?php echo $name; ?>" <?php if (in_array($name, $form->getValue($element->getName()))) { echo 'checked="checked"'; } ?>/></td>
-              <?php endforeach; ?>
+            <?php foreach ($eform->getElements() as $element): ?>
+            <?php
+                /*********************************************************************/
+                /** These should use decorators to display the way we want them to. **/
+                /*********************************************************************/
+              ?>
+              <?php if ($element->getName() === 'facetid'): ?>
+                <?php $facetIds .= "<input name='{$element->getFullyQualifiedName()}' type='hidden' value='{$element->getValue()}' />"; ?>
+              <?php elseif ($element->getName() === 'label'): ?>
+                  <td class="element">
+                    <div id='<?php echo $element->getFullyQualifiedName(); ?>' class='facetlabel'><?php echo $element->getValue(); ?></div>
+                  </td>
+              <?php elseif ($element->getName() === 'options'): ?>
+                  <?php foreach ($element->getMultiOptions() as $name => $label): ?>
+                    <td><input type="checkbox" name="<?php echo $element->getFullyQualifiedName(); ?>" value="<?php echo $name; ?>" <?php if (in_array($name, $form->getValue($element->getName()))) { echo 'checked="checked"'; } ?>/></td>
+                  <?php endforeach; ?>
+                </tr>
+              <?php endif; ?>
+            <?php endforeach; ?>
             </tr>
           <?php endforeach; ?>
+          <?php echo $facetIds; ?>
       </tbody>
           </table>
           </div>
@@ -62,5 +79,10 @@
     </table>
     <?php echo $form->getElement('submit'); ?>
     </form></div>
+<script type='text/javascript'>
+jQuery(function() {
+    var fl = jQuery('.facetlabel').textinplace();
+    });
+</script>
 
 <?php foot(); ?>
