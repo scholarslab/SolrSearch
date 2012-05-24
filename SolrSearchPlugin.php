@@ -183,6 +183,10 @@ class SolrSearchPlugin
         $module = $request->getModuleName();
         if ($module == 'solr-search' || $module == 'default') {
             queue_css('solr_search');
+            queue_css('textinplace');
+            queue_js('jquery.textinplace');
+            $js = 'solrsearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
+            queue_js($js);
         }
     }
 
