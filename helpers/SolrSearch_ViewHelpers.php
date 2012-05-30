@@ -323,7 +323,8 @@ class SolrSearch_ViewHelpers
      * @return array $fields An associate array mapping option names to fields.
      * @author Eric Rochester <erochest@virginia.edu>
      */
-    public static function makeConfigFields($form=null) {
+    public static function makeConfigFields($form=null)
+    {
         $fields = array();
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
