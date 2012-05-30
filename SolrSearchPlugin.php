@@ -70,7 +70,7 @@ class SolrSearchPlugin
     public function install()
     {
         self::_createSolrTable();
-       self::_addFacetMappings();
+        self::_addFacetMappings();
         self::_setOptions();
     }
 
@@ -98,7 +98,12 @@ class SolrSearchPlugin
 
     public function beforeDeleteItem($item)
     {
-        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
+        $solr = new Apache_Solr_Service(
+            get_option('solr_search_server'),
+            get_option('solr_search_port'),
+            get_option('solr_search_core')
+        );
+
         $solr->deleteByQuery('id:' . $item['id']);
         $solr->commit();
         $solr->optimize();
@@ -106,7 +111,11 @@ class SolrSearchPlugin
 
     public function afterSaveItem($item)
     {
-        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
+        $solr = new Apache_Solr_Service(
+            get_option('solr_search_server'),
+            get_option('solr_search_port'),
+            get_option('solr_search_core')
+        );
 
         if ($item['public'] == true) {
             $docs = array();
@@ -244,9 +253,20 @@ class SolrSearchPlugin
         return $tabs;
     }
 
+    /**
+     * Overrides the default simple-search URI to automagically integrate in
+     * to the theme; leaves admin section alone for default search.
+     *
+     * @param string $uri URI for Simple Search
+     *
+     * @return string URI;
+     */
     public function simpleSearchDefaultUri($uri)
     {
-        $uri = uri('solr-search/results/interceptor');
+        if (! is_admin_theme()) {
+            $uri = uri('solr-search/results/interceptor');
+        }
+
         return $uri;
     }
 
@@ -292,9 +312,15 @@ SQL;
                 $v = 1;
             }
 
-            $stmt->execute(array(
-                $eid, "{$eid}_s", $name, $element['element_set_id'], 0, $v
-            ));
+            $stmt->execute(
+                array(
+                    $eid, "{$eid}_s",
+                    $name,
+                    $element['element_set_id'],
+                    0,
+                    $v
+                )
+            );
         }
     }
 
