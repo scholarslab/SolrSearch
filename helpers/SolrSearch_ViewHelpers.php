@@ -338,12 +338,12 @@ class SolrSearch_ViewHelpers
         )
             ->addValidator('regex', true, array('/\/.*\//i'));
 
-        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_rows', "Results Per Page:",
-            false, "Defaults to Omeka's paging settings."
-        )
-            ->addValidator(new Zend_Validate_Digits())
-            ->addErrorMessage('Results count must be numeric');
+        //$fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            //$form, 'solr_search_rows', "Results Per Page:",
+            //false, "Defaults to Omeka's paging settings."
+        //)
+            //->addValidator(new Zend_Validate_Digits())
+            //->addErrorMessage('Results count must be numeric');
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_facet_sort', 'Facet Field Constraint Order:', false,
