@@ -70,7 +70,7 @@ class SolrSearchPlugin
     public function install()
     {
         self::_createSolrTable();
-       self::_addFacetMappings();
+        self::_addFacetMappings();
         self::_setOptions();
     }
 
