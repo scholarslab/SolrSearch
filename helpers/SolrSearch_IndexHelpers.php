@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
  *
@@ -30,7 +30,7 @@ require_once HELPER_DIR . '/UrlFunctions.php';
 
 /**
  * This contains some helpers for indexing items.
- **/
+ */
 class SolrSearch_IndexHelpers
 {
     /**
@@ -177,10 +177,10 @@ class SolrSearch_IndexHelpers
     }
 
     /**
-     * This returns a set of fields to be indexed by Solr according to the solr_search_facet 
-     * table.
+     * This returns a set of fields to be indexed by Solr according to the
+     * solr_search_facet table.
      *
-     * The fields can be either the element IDs or the names of categories like 
+     * The fields can be either the element IDs or the names of categories like
      * 'description'.
      *
      * @param Omeka_Db $db The database to query.
@@ -216,7 +216,7 @@ class SolrSearch_IndexHelpers
      *
      * @return null
      * @author Eric Rochester <erochest@virginia.edu>
-     **/
+     */
     protected static function _indexXml($filename, $solrDoc) {
         $xml = new DomDocument();
         $xml->load($filename);
@@ -240,7 +240,7 @@ class SolrSearch_IndexHelpers
      *
      * @return bool
      * @author Eric Rochester <erochest@virginia.edu>
-     **/
+     */
     public static function pingSolrServer($options)
     {
         $server = $options['solr_search_server'] or get_option('solr_search_server');

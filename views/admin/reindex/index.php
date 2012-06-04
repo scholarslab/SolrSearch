@@ -1,6 +1,7 @@
 <?php
-    head(array('title' => 'Reindex Items in Solr', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+head(array('title' => 'Reindex Items in Solr', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
+
 <h1>Configure Solr</h1>
 
 <ul id="section-nav" class="navigation">
@@ -15,17 +16,17 @@
     </li>
 </ul>
 <div id="primary">
-	<h2>Reindex All Items</h2>
+  <h2>Reindex All Items</h2>
+
    <?php echo flash(); ?>
-	<?php
-            if (!empty($err)) {
-                echo '<p class="error">' . html_escape($err) . '</p>';
-            }
-        ?>
-    <p>Click the button below to repost all of Omeka's public items into the Solr index.</p>
-	<?php echo $form ?>
+<?php
+if (!empty($err)) {
+  echo '<p class="error">' . html_escape($err) . '</p>';
+}
+?>
+    <p>Click the button below to reindex all of your public items into the Solr index.</p>
+  <?php echo $form ?>
 </div>
 
-<?php 
-    foot(); 
-?>
+<?php
+foot();

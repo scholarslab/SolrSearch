@@ -1,5 +1,8 @@
 @import "compass";
 @import "mixins";
+@import "variables";
+@import "buttons";
+
 
 #solr_search {
   border: 1px solid #aaa;
@@ -27,8 +30,8 @@
   /*background: -moz-linear-gradient(center top, #fffcfa, #aaa7a2) repeat scroll 0 0 #ccc9cf;*/
   @include gradient(#fffcfa, #aaa7a2);
   border: 1px solid #79673f;
-  /*box-shadow: 0 1px 3px rgba(44, 11, 0, 0.3);*/
-  @include box-shadow(0, 1px, 3px, rgba(44, 11, 0, 0.3));
+  /*box_shadow: 0 1px 3px rgba(44, 11, 0, 0.3);*/
+  @include box-shadow(0 1px 3px rgba(44,11,0,0.3));
   color: #332211;
   font-size: 16px;
   font-weight: bold;
