@@ -1,4 +1,4 @@
-<?php 
+<?php
   queue_js('accordion');
 ?>
 

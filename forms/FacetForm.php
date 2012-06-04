@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
  * Facet form.
@@ -66,28 +66,40 @@ class FacetForm extends Omeka_Form
                 }
 
                 // Add element.
-                $this->addElement('MultiCheckbox', $inputName, array(
-                    'label' => $facet->label,
-                    'multiOptions' => array(
-                        'is_displayed' => 'Is Searchable',
-                        'is_facet'     => 'Is Facet'
-                    ),
+                $this->addElement(
+                    'MultiCheckbox',
+                    $inputName,
+                    array(
+                        'label' => $facet->label,
+                        'multiOptions' => array(
+                            'is_displayed' => 'Is Searchable',
+                            'is_facet'     => 'Is Facet'
+                        ),
                     'value' => $values
-                ));
+                    )
+                );
 
             }
 
             // Group the set fields.
-            $this->addDisplayGroup($displayGroup, $title, array (
-                'legend' => $title
-            ));
+            $this->addDisplayGroup(
+                $displayGroup,
+                $title,
+                array (
+                    'legend' => $title
+                )
+            );
 
         }
 
         // Submit.
-        $this->addElement('submit', 'submit', array(
-            'label' => 'Update Search Fields'
-        ));
+        $this->addElement(
+            'submit',
+            'submit',
+            array(
+                'label' => 'Update Search Fields'
+            )
+        );
 
     }
 
