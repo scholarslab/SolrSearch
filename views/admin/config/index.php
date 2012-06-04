@@ -62,7 +62,10 @@
                   </td>
               <?php elseif ($element->getName() === 'options'): ?>
                   <?php foreach ($element->getMultiOptions() as $name => $label): ?>
-                    <td><input type="checkbox" name="<?php echo $element->getFullyQualifiedName(); ?>" value="<?php echo $name; ?>" <?php if (in_array($name, $form->getValue($element->getName()))) { echo 'checked="checked"'; } ?>/></td>
+                    <td><input type="checkbox" name="<?php echo $element->getFullyQualifiedName(); ?>"
+                               value="<?php echo $name; ?>"
+                               <?php if (in_array($name, $eform->getValue($element->getName()))) { echo 'checked="checked"'; } ?>
+                               /></td>
                   <?php endforeach; ?>
                 </tr>
               <?php endif; ?>
