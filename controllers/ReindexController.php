@@ -16,6 +16,7 @@ class SolrSearch_ReindexController extends Omeka_Controller_Action
         if ($_POST) {
             if ($form->isValid($this->_request->getPost())) {
                 try{
+                    ProcessDispatcher::startProcess('SolrSearch_DeleteAll', null, $args);
                     ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
                     $this->flashSuccess('Reindex process started.');
                 } catch (Exception $err) {
@@ -25,17 +26,19 @@ class SolrSearch_ReindexController extends Omeka_Controller_Action
         }	
     }
 
-    private function facetForm() {
+    private function facetForm()
+    {
         include "Zend/Form/Element.php";
         $form = new Zend_Form();
-        $form->setAction('update');    	
+        $form->setAction('update');
         $form->setMethod('post');
         $form->setAttrib('enctype', 'multipart/form-data');
 
         //Submit button
         $form->addElement('submit', 'submit');
         $submitElement=$form->getElement('submit');
-        $submitElement->setLabel('Reindex');
+        $submitElement->setLabel('Clear & Reindex');
+        $submitElement->setAttrib('class', 'btn btn-danger btn-large');
 
         return $form;
     }
