@@ -56,6 +56,7 @@
       @div.hide()
       @text ?= this._createTextInput()
       @text.show()
+      @text.focus()
 
     _createTextInput: ->
       name  = @options.form_name + "_text"
@@ -69,10 +70,9 @@
       # TODO: preventDefault does not stop 'Enter' from triggering form
       # submission.
 
-      text.on 'blur', (ev) =>
+      text.blur (ev) =>
         this._textDone()
-        ev.preventDefault()
-      text.on 'keyup', (ev) =>
+      text.keyup (ev) =>
         if ev.key == 'Enter' || ev.keyCode == 13
           this._textDone()
           ev.preventDefault()

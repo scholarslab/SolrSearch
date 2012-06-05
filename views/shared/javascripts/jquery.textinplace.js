@@ -44,7 +44,8 @@
         if (this.text == null) {
           this.text = this._createTextInput();
         }
-        return this.text.show();
+        this.text.show();
+        return this.text.focus();
       },
       _createTextInput: function() {
         var name, text, value,
@@ -53,11 +54,10 @@
         value = this.hidden.val();
         text = $("<input type='text' name='" + name + "' value='" + value + "' />");
         this.element.append(text);
-        text.on('blur', function(ev) {
-          _this._textDone();
-          return ev.preventDefault();
+        text.blur(function(ev) {
+          return _this._textDone();
         });
-        text.on('keyup', function(ev) {
+        text.keyup(function(ev) {
           if (ev.key === 'Enter' || ev.keyCode === 13) {
             _this._textDone();
             return ev.preventDefault();
