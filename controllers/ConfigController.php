@@ -45,59 +45,32 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
             if ($form->isValid($this->_request->getPost())) {
                 $db = get_db();
 
-                // TODO: The format of $uploadedData has changed drastically, 
-                // and these won't know where to look.
                 $uploadedData = $form->getValues();
 
-                // Walk the fields.
-                foreach ($uploadedData as $k => $values){
-
-                    if ($k != 'submit') {
-
-                        $split = explode('_', $k);
-                        $options = array();
-
-                        /**
-                        * Test for is_facet values.
-                        */
-
-                        // is_displayed
-                        if (isset($values) && in_array('is_displayed',$values)){
-                          $options['is_displayed'] = 1;
-                        } else {
-                          $options['is_displayed'] = 0;
-                        }
-
-                        // is_facet
-                        if (isset($values) && in_array('is_facet',$values)){
-                          $options['is_facet'] = 1;
-                        } else {
-                          $options['is_facet'] = 0;
-                        }
-
-                        $data = array(
-                            'id'           => $split[1],
-                            // 'label'        => $options['label'],
-                            'is_displayed' => $options['is_displayed'],
-                            'is_facet'     => $options['is_facet']
-                        );
-
-                        try {
-                            $db->insert('solr_search_facets', $data); 
-                        } catch (Exception $err) {
-                            $this->flashError($err->getMessage());
-                            return;
-                        }
-
-                    }
-
-                }
                 /*
-                 * $f = fopen('/tmp/solr.log', 'w');
-                 * fwrite($f, date('c') . "\n\n");
+                 * $f = fopen('/vagrant/solr.log', 'w');
                  * fwrite($f, print_r($uploadedData, true));
                  * fclose($f);
                  */
+
+                foreach ($uploadedData['facets'] as $group) {
+                    foreach ($group['facets'] as $group) {
+                        $options = array(
+                            'is_displayed' => 0,
+                            'is_facet'     => 0
+                        );
+                        foreach ($group['options'] as $opt) {
+                            $options[$opt] = 1;
+                        }
+
+                        $db->insert('solr_search_facets', array(
+                            'id'           => $group['facetid'],
+                            'label'        => $group['label'],
+                            'is_displayed' => $options['is_displayed'],
+                            'is_facet'     => $options['is_facet'],
+                        ));
+                    }
+                }
 
                 $this->flashSuccess('Solr configuration updated. Be sure to reindex.');
                 $this->_redirect('solr-search/config');
