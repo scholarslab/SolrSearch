@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 require_once 'Omeka/Controller/Action.php';
 
@@ -27,7 +27,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
 
         if ($this->isAjax()) {
             $this->handleJson();
@@ -36,11 +37,12 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         }
     }
 
-    private function isAjax() {
+    private function isAjax()
+    {
         return false;
         //TODO: clean this up
         //return ($this->getRequest()->isXmlHttpRequest() ||
-                //(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
+        //(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
     }
 
     protected function handleHtml() {
@@ -64,7 +66,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $this->view->facets = $facets;
     }
 
-    protected function handleJson() {
+    protected function handleJson() 
+    {
         $this->getResponse()->setHeader('Content-type', 'application/json');
         $facets = $this->getSearchFacets();
         $results = $this->search($facets, 0, 1500);
@@ -78,7 +81,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $this->_helper->viewRenderer('ajax');
     }
 
-    private function getSearchFacets() {
+    private function getSearchFacets()
+    {
         //get facets
         $facets = array();
 
@@ -94,7 +98,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         return $facets;
     }
 
-    private function getSearchParameters($facets) {
+    private function getSearchParameters($facets)
+    {
         $displayFields = $this->getDisplayableFields();
         $hiddenFields  = $this->getHiddenFields();
 
@@ -124,7 +129,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         return $params;
     }
 
-    private function getPagination($numFound=0) {
+    private function getPagination($numFound=0)
+    {
         $request = $this->getRequest();
         $page = $request->get('page') or $page = 1;
         $rows = get_option('solr_search_rows');
@@ -170,11 +176,11 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $displayFields = $db->getTable('SolrSearch_Facet')->findBySql('is_displayed = ?', array('1'));
 
         $fields .= 'title,id';
-        foreach ($displayFields as $k=>$displayField){
+        foreach ($displayFields as $k => $displayField) {
             //pass field accordingly, depending on whether it is an element or collection/tag
-            if ($displayField['element_id'] != NULL){
+            if ($displayField['element_id'] != null) {
                 $fields .= ',' . $displayField['element_id'] . '_s';
-            } else{
+            } else {
                 $fields .= ',' . strtolower($displayField['name']);
             }
 
@@ -187,7 +193,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
      *
      * @return string $fields A comma-delimited list of fields.
      * @author Eric Rochester <erochest@virginia.edu>
-     **/
+     */
     private function getHiddenFields()
     {
         $fields = "image,title,url,model,modelid";

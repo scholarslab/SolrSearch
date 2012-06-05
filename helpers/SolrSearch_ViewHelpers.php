@@ -1,4 +1,6 @@
 <?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
 /**
  * SolrSearch Omeka Plugin helpers.
  *
@@ -323,7 +325,8 @@ class SolrSearch_ViewHelpers
      * @return array $fields An associate array mapping option names to fields.
      * @author Eric Rochester <erochest@virginia.edu>
      */
-    public static function makeConfigFields($form=null) {
+    public static function makeConfigFields($form=null)
+    {
         $fields = array();
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
@@ -338,12 +341,12 @@ class SolrSearch_ViewHelpers
         )
             ->addValidator('regex', true, array('/\/.*\//i'));
 
-        $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_rows', "Results Per Page:",
-            false, "Defaults to Omeka's paging settings."
-        )
-            ->addValidator(new Zend_Validate_Digits())
-            ->addErrorMessage('Results count must be numeric');
+        //$fields[] = SolrSearch_ViewHelpers::makeOptionField(
+            //$form, 'solr_search_rows', "Results Per Page:",
+            //false, "Defaults to Omeka's paging settings."
+        //)
+            //->addValidator(new Zend_Validate_Digits())
+            //->addErrorMessage('Results count must be numeric');
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_facet_sort', 'Facet Field Constraint Order:', false,

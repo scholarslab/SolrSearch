@@ -56,12 +56,12 @@ class SolrSearchPlugin
 
     public function addHooksAndFilters()
     {
-        foreach(self::$_hooks as $hookName) {
+        foreach (self::$_hooks as $hookName) {
             $functionName = Inflector::variablize($hookName);
             add_plugin_hook($hookName, array($this, $functionName));
         }
 
-        foreach(self::$_filters as $filterName) {
+        foreach (self::$_filters as $filterName) {
             $functionName = Inflector::variablize($filterName);
             add_filter($filterName, array($this, $functionName));
         }
@@ -98,7 +98,12 @@ class SolrSearchPlugin
 
     public function beforeDeleteItem($item)
     {
-        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
+        $solr = new Apache_Solr_Service(
+            get_option('solr_search_server'),
+            get_option('solr_search_port'),
+            get_option('solr_search_core')
+        );
+
         $solr->deleteByQuery('id:' . $item['id']);
         $solr->commit();
         $solr->optimize();
@@ -106,7 +111,11 @@ class SolrSearchPlugin
 
     public function afterSaveItem($item)
     {
-        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
+        $solr = new Apache_Solr_Service(
+            get_option('solr_search_server'),
+            get_option('solr_search_port'),
+            get_option('solr_search_core')
+        );
 
         if ($item['public'] == true) {
             $docs = array();
@@ -161,20 +170,25 @@ class SolrSearchPlugin
     public function defineRoutes($router)
     {
         $searchResultsRoute = new Zend_Controller_Router_Route(
-            'results', array(
+            'results',
+            array(
                 'controller' => 'search',
                 'action'     => 'results',
                 'module'     => 'solr-search'
-            ));
+            )
+        );
+
         $router->addRoute('solr_search_results_route', $searchResultsRoute);
     }
 
     public function defineAcl($acl)
     {
         if (!$acl->has('SolrSearch_Config')) {
-            $acl->loadResourceList(array(
-                'SolrSearch_Config' => array('index', 'status')
-            ));
+            $acl->loadResourceList(
+                array(
+                    'SolrSearch_Config' => array('index', 'status')
+                )
+            );
         }
     }
 
@@ -248,9 +262,20 @@ class SolrSearchPlugin
         return $tabs;
     }
 
+    /**
+     * Overrides the default simple-search URI to automagically integrate in
+     * to the theme; leaves admin section alone for default search.
+     *
+     * @param string $uri URI for Simple Search
+     *
+     * @return string URI;
+     */
     public function simpleSearchDefaultUri($uri)
     {
-        $uri = uri('solr-search/results/interceptor');
+        if (! is_admin_theme()) {
+            $uri = uri('solr-search/results/interceptor');
+        }
+
         return $uri;
     }
 
@@ -296,9 +321,15 @@ SQL;
                 $v = 1;
             }
 
-            $stmt->execute(array(
-                $eid, "{$eid}_s", $name, $element['element_set_id'], 0, $v
-            ));
+            $stmt->execute(
+                array(
+                    $eid, "{$eid}_s",
+                    $name,
+                    $element['element_set_id'],
+                    0,
+                    $v
+                )
+            );
         }
     }
 
