@@ -63,7 +63,7 @@
       value = @hidden.val()
 
       text = $("""
-        <input type='text' name='#{name}' value='#{value}' />
+        <input type='text' name='#{name}' value='#{value}' form='' />
         """)
       @element.append text
 
@@ -76,6 +76,8 @@
         if ev.key == 'Enter' || ev.keyCode == 13
           this._textDone()
           ev.preventDefault()
+          ev.stopImmediatePropagation()
+          ev.stopPropagation()
 
       text
 

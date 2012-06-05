@@ -52,7 +52,7 @@
           _this = this;
         name = this.options.form_name + "_text";
         value = this.hidden.val();
-        text = $("<input type='text' name='" + name + "' value='" + value + "' />");
+        text = $("<input type='text' name='" + name + "' value='" + value + "' form='' />");
         this.element.append(text);
         text.blur(function(ev) {
           return _this._textDone();
@@ -60,7 +60,9 @@
         text.keyup(function(ev) {
           if (ev.key === 'Enter' || ev.keyCode === 13) {
             _this._textDone();
-            return ev.preventDefault();
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            return ev.stopPropagation();
           }
         });
         return text;
