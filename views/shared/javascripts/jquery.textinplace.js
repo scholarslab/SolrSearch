@@ -3,16 +3,21 @@
   (function($) {
     return $.widget('solrsearch.textinplace', {
       options: {
-        form_name: null
+        form_name: null,
+        revert_to: null
       },
       _create: function() {
-        var form_name, text;
+        var form_name, revert_to, text;
         this.element.addClass('textinplace');
         form_name = this._initFormName();
         text = this.element.html();
+        revert_to = this.options.revert_to;
+        if (revert_to == null) {
+          revert_to = text;
+        }
         this.element.html('');
-        this.hidden = $("<input type='hidden' name='" + form_name + "' value='" + text + "' />");
-        this.div = $("<div class='valuewrap'>\n  <span class='value'>" + text + "</span>\n  <span class='icons'>\n    <i class='icon-pencil'></i>\n  </span>\n</div>");
+        this.hidden = $("<input type='hidden' name='" + form_name + "' value='" + text + "'\n       data-value='" + text + "'\n       />");
+        this.div = $("<div class='valuewrap'>\n  <span class='value'>" + text + "</span>\n  <span class='icons'>\n    <i class='icon-pencil'></i>\n    <i class='icon-repeat'></i>\n  </span>\n</div>");
         this.text = null;
         this.element.append(this.hidden);
         this.element.append(this.div);
@@ -37,6 +42,9 @@
         var _this = this;
         return this.div.on('click', function(ev) {
           return _this._click(ev);
+        }).find('.icon-repeat').click(function(ev) {
+          _this._revert();
+          return ev.stopPropagation();
         });
       },
       _click: function() {
@@ -46,6 +54,11 @@
         }
         this.text.show();
         return this.text.focus();
+      },
+      _revert: function() {
+        var value;
+        value = this.hidden.attr('data-value');
+        return this._setValue(value);
       },
       _createTextInput: function() {
         var name, text, value,
@@ -68,12 +81,17 @@
         return text;
       },
       _textDone: function() {
-        var val;
-        val = this.text.val();
         this.text.hide();
-        jQuery('.value', this.div).html(val);
-        this.hidden.attr('value', val);
+        this._setValue(this.text.val());
         return this.div.show();
+      },
+      _setValue: function(value) {
+        var _ref;
+        jQuery('.value', this.div).html(value);
+        if ((_ref = this.text) != null) {
+          _ref.val(value);
+        }
+        return this.hidden.attr('value', value);
       }
     });
   })(jQuery);
