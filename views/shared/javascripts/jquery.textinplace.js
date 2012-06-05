@@ -12,7 +12,7 @@
         text = this.element.html();
         this.element.html('');
         this.hidden = $("<input type='hidden' name='" + form_name + "' value='" + text + "' />");
-        this.div = $("<div class='value'>" + text + "</div>");
+        this.div = $("<div class='valuewrap'>\n  <span class='value'>" + text + "</span>\n  <span class='icons'>\n    <i class='icon-pencil'></i>\n  </span>\n</div>");
         this.text = null;
         this.element.append(this.hidden);
         this.element.append(this.div);
@@ -71,7 +71,7 @@
         var val;
         val = this.text.val();
         this.text.hide();
-        this.div.html(val);
+        jQuery('.value', this.div).html(val);
         this.hidden.attr('value', val);
         return this.div.show();
       }

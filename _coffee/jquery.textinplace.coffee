@@ -15,7 +15,12 @@
         <input type='hidden' name='#{form_name}' value='#{text}' />
         """)
       @div    = $("""
-        <div class='value'>#{text}</div>
+        <div class='valuewrap'>
+          <span class='value'>#{text}</span>
+          <span class='icons'>
+            <i class='icon-pencil'></i>
+          </span>
+        </div>
         """)
       @text   = null
 
@@ -84,7 +89,7 @@
     _textDone: ->
       val = @text.val()
       @text.hide()
-      @div.html val
+      jQuery('.value', @div).html val
       @hidden.attr 'value', val
       @div.show()
 

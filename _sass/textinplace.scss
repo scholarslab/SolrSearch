@@ -12,13 +12,17 @@
         width: 100%;
     }
 
-    .value {
+    .valuewrap {
         border: 1px solid #ccc;
         padding-left: 0.4em;
 
         &:hover {
             background-color: #bbb;
             cursor: pointer;
+        }
+
+        .icons {
+            float: right;
         }
     }
 }
