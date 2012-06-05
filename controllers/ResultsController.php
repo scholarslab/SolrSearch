@@ -27,17 +27,28 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
 
     }
 
+    /**
+     * Default index action
+     *
+     * @return void
+     */
     public function indexAction()
     {
+        $this->handleHtml();
 
-        if ($this->isAjax()) {
-            $this->handleJson();
-        } else {
-            $this->handleHtml();
-        }
+        //if ($this->isAjax()) {
+        //$this->handleJson();
+        //} else {
+        //$this->handleHtml();
+        //}
     }
 
-    private function isAjax()
+    /**
+     * Parse request to determine if it is an AJAX request
+     *
+     * @return bool
+     */
+    private function _isAjax()
     {
         return false;
         //TODO: clean this up
@@ -45,16 +56,22 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         //(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
     }
 
-    protected function handleHtml() {
-        $facets = $this->getSearchFacets();
-        $pagination = $this->getPagination();
+    /**
+     * Display results using HTML handler
+     *
+     * @return void
+     */
+    protected function handleHtml()
+    {
+        $facets = $this->_getSearchFacets();
+        $pagination = $this->_getPagination();
         $page = $pagination['page'];
         $search_rows = $pagination['per_page'];
         $start = ($page - 1) * $search_rows;
 
-        $results = $this->search($facets, $start, $search_rows);
+        $results = $this->_search($facets, $start, $search_rows);
 
-        $this->updatePagination($pagination, $results->response->numFound);
+        $this->_updatePagination($pagination, $results->response->numFound);
         $this->view->assign(
             array(
                 'results'    => $results,
@@ -66,11 +83,16 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $this->view->facets = $facets;
     }
 
-    protected function handleJson() 
+    /**
+     * Display result set using JSON handler
+     *
+     * @return void
+     */
+    protected function handleJson()
     {
         $this->getResponse()->setHeader('Content-type', 'application/json');
-        $facets = $this->getSearchFacets();
-        $results = $this->search($facets, 0, 1500);
+        $facets = $this->_getSearchFacets();
+        $results = $this->_search($facets, 0, 1500);
         $this->view->assign(
             array(
                 'results' => $results
@@ -81,7 +103,12 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         $this->_helper->viewRenderer('ajax');
     }
 
-    private function getSearchFacets()
+    /**
+     * Retrive search facet settings from the database
+     *
+     * @return array Array containing facet fields
+     */
+    private function _getSearchFacets()
     {
         //get facets
         $facets = array();
@@ -98,10 +125,17 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         return $facets;
     }
 
-    private function getSearchParameters($facets)
+    /**
+     * Retrieve search fields
+     *
+     * @param array $facets Array containing facet fields
+     *
+     * @return array Array of fields to pass to Solr
+     */
+    private function _getSearchParameters($facets)
     {
-        $displayFields = $this->getDisplayableFields();
-        $hiddenFields  = $this->getHiddenFields();
+        $displayFields = $this->_getDisplayableFields();
+        $hiddenFields  = $this->_getHiddenFields();
 
         $fields = $displayFields;
         if ($hiddenFields != null && strlen($hiddenFields) > 0) {
@@ -118,18 +152,25 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
                 'hl'             => get_option('solr_search_hl'),
                 'hl.snippets'    => get_option('solr_search_snippets'),
                 'hl.fragsize'    => get_option('solr_search_fragsize'),
-                'facet.sort'     => get_option('solr_search_facet_sort')
+                'facet.sort'     => get_option('solr_search_facet_sort'),
+                'hl.fl'          => $displayFields
             );
         } else {
             $params = array(
                 'fl'   => $displayFields
             );
         }
-
         return $params;
     }
 
-    private function getPagination($numFound=0)
+    /**
+     * Retrieve pagination settings from the database
+     *
+     * @param int $numFound Number of results
+     *
+     * @return int Pagination settings
+     */
+    private function _getPagination($numFound=0)
     {
         $request = $this->getRequest();
         $page = $request->get('page') or $page = 1;
@@ -152,32 +193,67 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
         return $pagination;
     }
 
-    private function updatePagination($pagination, $numFound)
+    /**
+     * Update the pagination setting
+     *
+     * @param int $pagination Number of results per page
+     * @param int $numFound   Total number of results in query
+     *
+     * @return int Pagination setting
+     */
+    private function _updatePagination($pagination, $numFound)
     {
         $pagination['total_results'] = $numFound;
         Zend_Registry::set('pagination', $pagination);
         return $pagination;
     }
 
-    private function search($facets, $offset=0, $limit=10) {
-        $solr = new Apache_Solr_Service(get_option('solr_search_server'), get_option('solr_search_port'), get_option('solr_search_core'));
-        $query = SolrSearch_QueryHelpers::createQuery(SolrSearch_QueryHelpers::getParams());
-        $params = $this->getSearchParameters($facets);
+    /**
+     * Pass setting to Solr search
+     *
+     * @param array $facets Facet fields
+     * @param int   $offset Results offset
+     * @param int   $limit  Limit per page
+     *
+     * @return SolrResultDoc Solr results
+     */
+    private function _search($facets, $offset=0, $limit=10)
+    {
+        $solr = new Apache_Solr_Service(
+            get_option('solr_search_server'),
+            get_option('solr_search_port'),
+            get_option('solr_search_core')
+        );
+
+        $query = SolrSearch_QueryHelpers::createQuery(
+            SolrSearch_QueryHelpers::getParams()
+        );
+
+        $params = $this->_getSearchParameters($facets);
 
         $results = $solr->search($query, $offset, $limit, $params);
 
         return $results;
     }
 
-    //get the displayable fields from the Solr table, which is passed to the view to restrict which fields appear in the results
-    private function getDisplayableFields()
+    /**
+     * Get the displayable fields from the Solr table, which is passed to the
+     * view to restring fields that appear in the results
+     *
+     * @return string Fields to display
+     */
+    private function _getDisplayableFields()
     {
         $db = get_db();
-        $displayFields = $db->getTable('SolrSearch_Facet')->findBySql('is_displayed = ?', array('1'));
+        $displayFields = $db->getTable('SolrSearch_Facet')->findBySql(
+            'is_displayed = ?',
+            array('1')
+        );
 
         $fields .= 'title,id';
         foreach ($displayFields as $k => $displayField) {
-            //pass field accordingly, depending on whether it is an element or collection/tag
+            //pass field accordingly, depending on whether it is an element or
+            //collection/tag
             if ($displayField['element_id'] != null) {
                 $fields .= ',' . $displayField['element_id'] . '_s';
             } else {
@@ -189,12 +265,13 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
     }
 
     /**
-     * This returns all fields that need to be included in the output from Solr, but aren't displayed.
+     * This returns all fields that need to be included in the output from Solr,
+     * but aren't displayed.
      *
      * @return string $fields A comma-delimited list of fields.
      * @author Eric Rochester <erochest@virginia.edu>
      */
-    private function getHiddenFields()
+    private function _getHiddenFields()
     {
         $fields = "image,title,url,model,modelid";
         return $fields;
