@@ -1,5 +1,10 @@
 
 @import "compass/css3/box-sizing";
+@import "mixins";
+@import "variables";
+@import "buttons";
+@import "sprites";
+
 
 .textinplace {
     input[type=text] {
