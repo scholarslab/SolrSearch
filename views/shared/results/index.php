@@ -52,6 +52,7 @@
           <h2><?php echo SolrSearch_ViewHelpers::createResultLink($doc); ?></h2>
         </div>
 
+
         <?php if($results->responseHeader->params->hl == true): ?>
         <div class="solr_highlight">
           <p><?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?></p>
