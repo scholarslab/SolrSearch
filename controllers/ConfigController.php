@@ -47,12 +47,6 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
 
                 $uploadedData = $form->getValues();
 
-                /*
-                 * $f = fopen('/vagrant/solr.log', 'w');
-                 * fwrite($f, print_r($uploadedData, true));
-                 * fclose($f);
-                 */
-
                 foreach ($uploadedData['facets'] as $group) {
                     foreach ($group['facets'] as $group) {
                         $options = array(
