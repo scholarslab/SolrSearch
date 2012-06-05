@@ -380,6 +380,45 @@ class SolrSearch_ViewHelpers
         return $field;
     }
 
+    /**
+     * This takes a subform for the facet config form and renders it.
+     *
+     * This should really use decorators to display them the way we want.
+     *
+     * @param Zend_Form $subform The subform to populate.
+     *
+     * @return string
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function createFacetSubForm($subform)
+    {
+        $output  = '';
+        $facetId = $subform->getElement('facetid');
+        $label   = $subform->getElement('label');
+        $options = $subform->getElement('options');
+
+        $output .= '<tr>';
+
+        $output .= '<td class="element">';
+        $output .= "<input name={$facetId->getFullyQualifiedName()} type='hidden' value='{$facetId->getValue()}' />";
+        $output .= "<div id='{$label->getFullyQualifiedName()}' class='facetlabel'>{$label->getValue()}</div>";
+        $output .= '</td>';
+
+        foreach ($options->getMultiOptions() as $name => $label) {
+            $output .= '<td>';
+            $output .= "<input type='checkbox' name='{$options->getFullyQualifiedName()}' value='$name' ";
+            if (in_array($name, $options->getValue())) {
+                $output .= ' checked="checked"';
+            }
+            $output .= '/>';
+            $output .= '</td>';
+        }
+
+        $output .= '</tr>';
+
+        return $output;
+    }
+
 }
 
 /*

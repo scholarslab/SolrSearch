@@ -45,34 +45,9 @@
         </tr>
       </thead>
       <tbody>
-          <?php $facetIds = ''; ?>
-          <?php foreach ($group->getSubForms() as $eform): ?>
-            <tr>
-            <?php foreach ($eform->getElements() as $element): ?>
-            <?php
-                /*********************************************************************/
-                /** These should use decorators to display the way we want them to. **/
-                /*********************************************************************/
-              ?>
-              <?php if ($element->getName() === 'facetid'): ?>
-                <?php $facetIds .= "<input name='{$element->getFullyQualifiedName()}' type='hidden' value='{$element->getValue()}' />"; ?>
-              <?php elseif ($element->getName() === 'label'): ?>
-                  <td class="element">
-                    <div id='<?php echo $element->getFullyQualifiedName(); ?>' class='facetlabel'><?php echo $element->getValue(); ?></div>
-                  </td>
-              <?php elseif ($element->getName() === 'options'): ?>
-                  <?php foreach ($element->getMultiOptions() as $name => $label): ?>
-                    <td><input type="checkbox" name="<?php echo $element->getFullyQualifiedName(); ?>"
-                               value="<?php echo $name; ?>"
-                               <?php if (in_array($name, $eform->getValue($element->getName()))) { echo 'checked="checked"'; } ?>
-                               /></td>
-                  <?php endforeach; ?>
-                </tr>
-              <?php endif; ?>
-            <?php endforeach; ?>
-            </tr>
-          <?php endforeach; ?>
-          <?php echo $facetIds; ?>
+        <?php foreach ($group->getSubForms() as $eform): ?>
+          <?php echo SolrSearch_ViewHelpers::createFacetSubForm($eform); ?>
+        <?php endforeach; ?>
       </tbody>
           </table>
           </div>
