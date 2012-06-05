@@ -1,10 +1,20 @@
 
-/* TODO: Style */
+@import "compass/css3/box-sizing";
+
 .textinplace {
     input[type=text] {
+        @include box-sizing(border-box);
+        width: 100%;
     }
 
     .value {
+        border: 1px solid #ccc;
+        padding-left: 0.4em;
+
+        &:hover {
+            background-color: #bbb;
+            cursor: pointer;
+        }
     }
 }
 
