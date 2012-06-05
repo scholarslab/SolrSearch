@@ -3,12 +3,22 @@
 
 class SolrSearch_HighlightController extends Omeka_Controller_Action
 {
+    /**
+     * Index Action
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $form = $this->highlightForm();
         $this->view->form = $form;
     }
 
+    /**
+     * Update Action
+     *
+     * @return void
+     */
     public function updateAction()
     {
         $form = $this->highlightForm();
@@ -28,7 +38,13 @@ class SolrSearch_HighlightController extends Omeka_Controller_Action
         }	
     }
 
-    private function highlightForm(){
+    /**
+     * Highlight form
+     *
+     * @return void
+     */
+    protected function highlightForm()
+    {
         include "Zend/Form/Element.php";
         $form = new Zend_Form();
         $form->setAction('update');
@@ -49,7 +65,7 @@ class SolrSearch_HighlightController extends Omeka_Controller_Action
         $snippets->setLabel('Snippets:');
         $snippets->setDescription('The maximum number of highlighted snippets to generate');
         $snippets->setValue(get_option('solr_search_snippets'));
-        $snippets->setRequired('true');    
+        $snippets->setRequired('true');
         $snippets->addValidator(new Zend_Validate_Int());
         $form->addElement($snippets);
 
