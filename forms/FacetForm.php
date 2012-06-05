@@ -40,9 +40,8 @@ class FacetForm extends Omeka_Form
         $this->setAttrib('id', 'facets-form');
         $this->setElementsBelongTo("facets");
 
-        // TODO: These aren't getting populated with values from the database.
         $g = 0;
-        $n = 0;
+        $n = 1000;
         $groups = $_facetsTable->groupByElementSet();
         foreach ($groups as $title => $group) {
             $sf = new Zend_Form_SubForm();
