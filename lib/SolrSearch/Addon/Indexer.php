@@ -91,17 +91,40 @@ class SolrSearch_Addon_Indexer
     public function indexAllAddon($addon)
     {
         $docs = array();
-
         $table  = $this->db->getTable($addon->table);
-        $select = $this->buildSelect($table, $addon);
-        $rows   = $table->fetchObjects($select);
 
-        foreach ($rows as $record) {
-            $doc = $this->indexRecord($record, $addon);
-            $docs[] = $doc;
+        if ($this->_tableExists($table->getTableName())) {
+            $select = $this->buildSelect($table, $addon);
+            $rows   = $table->fetchObjects($select);
+
+            foreach ($rows as $record) {
+                $doc = $this->indexRecord($record, $addon);
+                $docs[] = $doc;
+            }
         }
 
         return $docs;
+    }
+
+    /**
+     * This tests whether the table exists.
+     *
+     * @param Omeka_Table $table The name of the table to check for.
+     *
+     * @return bool
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function _tableExists($table)
+    {
+        $exists = false;
+
+        try {
+            $info   = $this->db->describeTable($table);
+            $exists = !empty($info);
+        } catch (Zend_Db_Exception $e) {
+        }
+
+        return $exists;
     }
 
     /**
