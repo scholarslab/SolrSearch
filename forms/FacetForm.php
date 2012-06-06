@@ -32,32 +32,30 @@ class FacetForm extends Omeka_Form
      */
     public function init()
     {
-
-        // Get facets table.
         $_db = get_db();
         $_facetsTable = $_db->getTable('SolrSearchFacet');
 
-        // Set form parameters.
         $this->setMethod('post');
         $this->setAction('update');
         $this->setAttrib('id', 'facets-form');
+        $this->setElementsBelongTo("facets");
 
-        // Get grouped facets.
+        $g = 0;
+        $n = 1000;
         $groups = $_facetsTable->groupByElementSet();
-
-        // Walk facet groups.
         foreach ($groups as $title => $group) {
-
-            // Bucket group elements.
-            $displayGroup = array();
+            $sf = new Zend_Form_SubForm();
+            $sf->setLegend($title);
+            $this->addSubForm($sf, "$g");
 
             foreach ($group as $facet) {
+                $ssf = new Zend_Form_SubForm();
+                $sf->addSubForm($ssf, "$n");
+                $ssf->addElement('hidden', 'facetid', array(
+                    'value' => $facet->id
+                ));
+                $ssf->setElementsBelongTo("facets[$n]");
 
-                // Build element name.
-                $inputName = 'options_' . $facet->id;
-                array_push($displayGroup, $inputName);
-
-                // Construct values array.
                 $values = array();
                 foreach (array('is_displayed', 'is_facet') as $key) {
                     if ($facet->$key == 1) {
@@ -65,41 +63,26 @@ class FacetForm extends Omeka_Form
                     }
                 }
 
-                // Add element.
-                $this->addElement(
-                    'MultiCheckbox',
-                    $inputName,
-                    array(
-                        'label' => $facet->label,
-                        'multiOptions' => array(
-                            'is_displayed' => 'Is Searchable',
-                            'is_facet'     => 'Is Facet'
-                        ),
+                $ssf->addElement('text', 'label', array(
+                    'value'    => $facet->label,
+                    'revertto' => $facet->getOriginalValue()
+                ));
+                $ssf->addElement('MultiCheckbox', 'options', array(
+                    'multiOptions' => array(
+                        'is_displayed' => 'Is Searchable',
+                        'is_facet'     => 'Is Facet'
+                    ),
                     'value' => $values
-                    )
-                );
+                ));
 
+                $n++;
             }
-
-            // Group the set fields.
-            $this->addDisplayGroup(
-                $displayGroup,
-                $title,
-                array (
-                    'legend' => $title
-                )
-            );
-
+            $g++;
         }
 
-        // Submit.
-        $this->addElement(
-            'submit',
-            'submit',
-            array(
-                'label' => 'Update Search Fields'
-            )
-        );
+        $this->addElement('submit', 'submit', array(
+            'label' => 'Update Search Fields'
+        ));
 
     }
 

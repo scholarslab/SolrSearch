@@ -28,49 +28,26 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
             // Validate form.
             if ($form->isValid($this->_request->getPost())) {
                 $db = get_db();
+
                 $uploadedData = $form->getValues();
 
-                // Walk the fields.
-                foreach ($uploadedData as $k => $values) {
-
-                    if ($k != 'submit') {
-
-                        $split = explode('_', $k);
-                        $options = array();
-
-                        /**
-                         * Test for is_facet values.
-                         */
-
-                        // is_displayed
-                        if (isset($values) && in_array('is_displayed', $values)) {
-                            $options['is_displayed'] = 1;
-                        } else {
-                            $options['is_displayed'] = 0;
-                        }
-
-                        // is_facet
-                        if (isset($values) && in_array('is_facet', $values)) {
-                            $options['is_facet'] = 1;
-                        } else {
-                            $options['is_facet'] = 0;
-                        }
-
-                        $data = array(
-                            'id'           => $split[1],
-                            'is_displayed' => $options['is_displayed'],
-                            'is_facet'     => $options['is_facet']
+                foreach ($uploadedData['facets'] as $group) {
+                    foreach ($group['facets'] as $group) {
+                        $options = array(
+                            'is_displayed' => 0,
+                            'is_facet'     => 0
                         );
-
-                        try {
-                            $db->insert('solr_search_facets', $data); 
-                        } catch (Exception $err) {
-                            $this->flashError($err->getMessage());
-                            return;
+                        foreach ($group['options'] as $opt) {
+                            $options[$opt] = 1;
                         }
 
+                        $db->insert('solr_search_facets', array(
+                            'id'           => $group['facetid'],
+                            'label'        => $group['label'],
+                            'is_displayed' => $options['is_displayed'],
+                            'is_facet'     => $options['is_facet'],
+                        ));
                     }
-
                 }
 
                 $this->flashSuccess('Solr configuration updated. Be sure to reindex.');

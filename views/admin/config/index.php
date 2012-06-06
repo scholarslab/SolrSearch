@@ -2,6 +2,17 @@
   queue_js('accordion');
 ?>
 
+<script type='text/javascript'>
+function tip(el, form_name, revert_to) {
+    jQuery(function() {
+        jQuery(el).textinplace({
+            form_name: form_name,
+            revert_to: revert_to
+        });
+    });
+}
+</script>
+
 <?php head(array(
   'title' => 'Solr Search Configuration',
   'bodyclass' => 'primary',
@@ -30,7 +41,7 @@
 
     <form id="facets-form" method="post">
 
-        <?php foreach ($form->getDisplayGroups() as $group): ?>
+        <?php foreach ($form->getSubForms() as $group): ?>
 
           <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
           <div>
@@ -45,14 +56,9 @@
         </tr>
       </thead>
       <tbody>
-          <?php foreach ($group->getElements() as $element): ?>
-            <tr>
-              <td class="element"><?php echo $element->getLabel(); ?></td>
-              <?php foreach ($element->getMultiOptions() as $name => $label): ?>
-                <td><input type="checkbox" name="<?php echo $element->getName(); ?>[]" value="<?php echo $name; ?>" <?php if (in_array($name, $form->getValue($element->getName()))) { echo 'checked="checked"'; } ?>/></td>
-              <?php endforeach; ?>
-            </tr>
-          <?php endforeach; ?>
+        <?php foreach ($group->getSubForms() as $eform): ?>
+          <?php echo SolrSearch_ViewHelpers::createFacetSubForm($eform); ?>
+        <?php endforeach; ?>
       </tbody>
           </table>
           </div>
