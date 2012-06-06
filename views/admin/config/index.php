@@ -2,6 +2,17 @@
   queue_js('accordion');
 ?>
 
+<script type='text/javascript'>
+function tip(el, form_name, revert_to) {
+    jQuery(function() {
+        jQuery(el).textinplace({
+            form_name: form_name,
+            revert_to: revert_to
+        });
+    });
+}
+</script>
+
 <?php head(array(
   'title' => 'Solr Search Configuration',
   'bodyclass' => 'primary',
