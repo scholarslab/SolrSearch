@@ -2,8 +2,8 @@
 
   $.widget 'solrsearch.textinplace',
     options: {
-      form_name: null
-      revert_to: null
+      form_name : null
+      revert_to : null
     }
 
     _create: ->
@@ -13,11 +13,11 @@
       revert_to  = @options.revert_to
       revert_to ?= text
 
-      @element.html('')
+      @element.html ''
 
       @hidden = $("""
         <input type='hidden' name='#{form_name}' value='#{text}'
-               data-value='#{text}'
+               data-revertto='#{revert_to}'
                />
         """)
       @div    = $("""
@@ -37,8 +37,8 @@
       this._bindEvents()
 
     _setOption: (key, val) ->
-      # switch key
-      #   when 'form_name' then
+      switch key
+        when 'revert_to' then @hidden.attr 'data-revertto', val
 
       # for jQuery UI <= 1.8
       $.Widget.prototype._setOption.apply this, arguments
@@ -77,7 +77,7 @@
       @text.focus()
 
     _revert: ->
-      value = @hidden.attr 'data-value'
+      value = @hidden.attr 'data-revertto'
       this._setValue value
 
     _createTextInput: ->

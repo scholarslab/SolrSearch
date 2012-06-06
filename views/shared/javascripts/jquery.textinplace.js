@@ -16,7 +16,7 @@
           revert_to = text;
         }
         this.element.html('');
-        this.hidden = $("<input type='hidden' name='" + form_name + "' value='" + text + "'\n       data-value='" + text + "'\n       />");
+        this.hidden = $("<input type='hidden' name='" + form_name + "' value='" + text + "'\n       data-revertto='" + revert_to + "'\n       />");
         this.div = $("<div class='valuewrap'>\n  <span class='value'>" + text + "</span>\n  <span class='icons'>\n    <i class='icon-pencil'></i>\n    <i class='icon-repeat'></i>\n  </span>\n</div>");
         this.text = null;
         this.element.append(this.hidden);
@@ -24,6 +24,10 @@
         return this._bindEvents();
       },
       _setOption: function(key, val) {
+        switch (key) {
+          case 'revert_to':
+            this.hidden.attr('data-revertto', val);
+        }
         return $.Widget.prototype._setOption.apply(this, arguments);
       },
       destroy: function() {
@@ -57,7 +61,7 @@
       },
       _revert: function() {
         var value;
-        value = this.hidden.attr('data-value');
+        value = this.hidden.attr('data-revertto');
         return this._setValue(value);
       },
       _createTextInput: function() {
