@@ -399,12 +399,18 @@ class SolrSearch_ViewHelpers
         $facetId = $subform->getElement('facetid');
         $label   = $subform->getElement('label');
         $options = $subform->getElement('options');
+        $id      = preg_replace('/\W+/', '_', $label->getFullyQualifiedName());
 
         $output .= '<tr>';
 
         $output .= '<td class="element">';
-        $output .= "<input name={$facetId->getFullyQualifiedName()} type='hidden' value='{$facetId->getValue()}' />";
-        $output .= "<div id='{$label->getFullyQualifiedName()}' class='facetlabel'>{$label->getValue()}</div>";
+        $output .= "<input name='{$facetId->getFullyQualifiedName()}' type='hidden' value='{$facetId->getValue()}' />";
+        $output .= "<div id='{$id}' class='facetlabel'>{$label->getValue()}</div>";
+        $output .= '<script type="text/javascript">';
+        $output .= "jQuery(function() { jQuery('#{$id}')";
+        $output .= ".textinplace({revert_to: '{$label->getAttrib('revertto')}', ";
+        $output .= "form_name: '{$label->getFullyQualifiedName()}'}); });";
+        $output .= '</script>';
         $output .= '</td>';
 
         foreach ($options->getMultiOptions() as $name => $label) {

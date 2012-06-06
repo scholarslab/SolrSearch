@@ -64,7 +64,8 @@ class FacetForm extends Omeka_Form
                 }
 
                 $ssf->addElement('text', 'label', array(
-                    'value' => $facet->label
+                    'value'    => $facet->label,
+                    'revertto' => $facet->getOriginalValue()
                 ));
                 $ssf->addElement('MultiCheckbox', 'options', array(
                     'multiOptions' => array(

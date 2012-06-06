@@ -57,10 +57,5 @@
     </table>
     <?php echo $form->getElement('submit'); ?>
     </form></div>
-<script type='text/javascript'>
-jQuery(function() {
-    var fl = jQuery('.facetlabel').textinplace();
-    });
-</script>
 
 <?php foot(); ?>
