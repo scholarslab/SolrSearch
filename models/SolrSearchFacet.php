@@ -70,4 +70,31 @@ class SolrSearchFacet extends Omeka_Record
         return $_elementSetTable->find($this->element_set_id);
     }
 
+    /**
+     * This returns the original value for this facet, if it can be determined.
+     *
+     * @return string|null
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function getOriginalValue()
+    {
+        $original = null;
+
+        switch ($this->name) {
+            case 'tag'        : $original = 'Tag';         break;
+            case 'collection' : $original = 'Collection';  break;
+            case 'itemtype'   : $original = 'Item Type';   break;
+            case 'resulttype' : $original = 'Result Type'; break;
+            
+            default:
+                $etable   = $this->getTable('Element');
+                $e        = $etable->find($this->element_id);
+                $original = $e->name;
+                // code...
+                break;
+        }
+
+        return $original;
+    }
+
 }
