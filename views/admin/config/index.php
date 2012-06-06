@@ -48,16 +48,21 @@ function tip(el, form_name, revert_to) {
           <table class="facet-fields">
       <thead>
         <tr>
-        <?php browse_headings(array(
-          'Field'         => null,
-          'Is Searchable' => null,
-          'Is Facet'      => null
-        )); ?>
+<?php
+$n             = $group->getName();
+$is_searchable = SolrSearch_ViewHelpers::createSelectAll('Is Searchable', $n);
+$is_facet      = SolrSearch_ViewHelpers::createSelectAll('Is Facet', $n);
+browse_headings(array(
+    'Field'        => null,
+    $is_searchable => null,
+    $is_facet      => null
+));
+?>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($group->getSubForms() as $eform): ?>
-          <?php echo SolrSearch_ViewHelpers::createFacetSubForm($eform); ?>
+          <?php echo SolrSearch_ViewHelpers::createFacetSubForm($n, $eform); ?>
         <?php endforeach; ?>
       </tbody>
           </table>
@@ -67,6 +72,15 @@ function tip(el, form_name, revert_to) {
 
     </table>
     <?php echo $form->getElement('submit'); ?>
+<script type='text/javascript'>
+jQuery(function () {
+    jQuery('.group-sel-all').change(function (event) {
+        var obj = jQuery(this);
+        var val = obj.attr('checked') === 'checked' ? 'checked' : null;
+        jQuery(obj.attr('data-target')).attr('checked', val);
+    });
+});
+</script>
     </form></div>
 
 <?php foot(); ?>

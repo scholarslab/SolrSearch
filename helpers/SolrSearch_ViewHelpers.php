@@ -388,12 +388,13 @@ class SolrSearch_ViewHelpers
      *
      * This should really use decorators to display them the way we want.
      *
+     * @param string    $group   The name of the group for the class.
      * @param Zend_Form $subform The subform to populate.
      *
      * @return string
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function createFacetSubForm($subform)
+    public static function createFacetSubForm($group, $subform)
     {
         $output  = '';
         $facetId = $subform->getElement('facetid');
@@ -407,17 +408,40 @@ class SolrSearch_ViewHelpers
             'label'   => $label
         ));
 
-        foreach ($options->getMultiOptions() as $name => $label) {
-            $output .= '<td>';
-            $output .= "<input type='checkbox' name='{$options->getFullyQualifiedName()}' value='$name' ";
+        foreach ($options->getMultiOptions() as $name => $optlabel) {
+            $shortlab = explode(' ', $optlabel);
+            $column   = strtolower($shortlab[1][0]);
+            $output  .= '<td>';
+            $output  .= "<input type='checkbox' name='{$options->getFullyQualifiedName()}' value='$name' ";
             if (in_array($name, $options->getValue())) {
                 $output .= ' checked="checked"';
             }
-            $output .= '/>';
+            $output .= " class='g{$group}{$column}'/>";
             $output .= '</td>';
         }
 
         $output .= '</tr>';
+
+        return $output;
+    }
+
+    /**
+     * This creates the checkbox to select all children checkboxes.
+     *
+     * @param string $label The label for the checkbox.
+     * @param string $group The group label.
+     *
+     * @return string
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function createSelectAll($label, $group)
+    {
+        $shortlab = explode(' ', $label);
+        $column   = strtolower($shortlab[1][0]);
+
+        $output   = "$label <input form='' type='checkbox'";
+        $output  .= " class='group-sel-all'";
+        $output  .= " data-target='.g{$group}{$column}' />";
 
         return $output;
     }
