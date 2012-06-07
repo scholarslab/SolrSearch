@@ -52,16 +52,16 @@
           <h2><?php echo SolrSearch_ViewHelpers::createResultLink($doc); ?></h2>
         </div>
 
-        <?php if($results->responseHeader->params->hl == true): ?>
-        <div class="solr_highlight">
-          <p><?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?></p>
-        </div>
-        <?php endif; ?>
-
         <?php $image = $doc->__get('image');?>
         <?php if($image): ?>
         <div class="image">
           <?php echo SolrSearch_ViewHelpers::createResultImgHtml($image, SolrSearch_ViewHelpers::getDocTitle($doc)); ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if($results->responseHeader->params->hl == true): ?>
+        <div class="solr_highlight">
+          <p><?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?></p>
         </div>
         <?php endif; ?>
 
