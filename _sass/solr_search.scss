@@ -316,14 +316,26 @@ ul.facets, ul.facets ul {
 
 }
 
-.solr-result-model {
-    &:before {
-        content: '(';
+#solr_results {
+    .solr-result-model {
+        &:before {
+            content: '(';
+        }
+        &:after {
+            content: ')';
+        }
+        font-style: italic;
+        font-size: 0.75em;
     }
-    &:after {
-        content: ')';
+
+    .resultbody {
+        .image {
+            float: left;
+        }
+        .textfields {
+            float: left;
+            margin-left: 0.5em;
+        }
     }
-    font-style: italic;
-    font-size: 0.75em;
 }
 

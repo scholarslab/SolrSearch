@@ -52,26 +52,30 @@
           <h2><?php echo SolrSearch_ViewHelpers::createResultLink($doc); ?></h2>
         </div>
 
-        <?php $image = $doc->__get('image');?>
-        <?php if($image): ?>
-        <div class="image">
-          <?php echo SolrSearch_ViewHelpers::createResultImgHtml($image, SolrSearch_ViewHelpers::getDocTitle($doc)); ?>
-        </div>
-        <?php endif; ?>
-
-        <?php if($results->responseHeader->params->hl == true): ?>
-        <div class="solr_highlight">
-          <p><?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?></p>
-        </div>
-        <?php endif; ?>
-
-        <?php $tags = $doc->__get('tag'); ?>
-        <?php if($tags): ?>
-          <div class="tags">
-            <strong>Tags:</strong>
-            <?php echo SolrSearch_ViewHelpers::tagsToStrings($tags); ?>
+        <div class='resultbody'>
+          <?php $image = $doc->__get('image');?>
+          <?php if($image): ?>
+          <div class="image">
+            <?php echo SolrSearch_ViewHelpers::createResultImgHtml($image, SolrSearch_ViewHelpers::getDocTitle($doc)); ?>
           </div>
-        <?php endif; ?>
+          <?php endif; ?>
+  
+          <div class='textfields'>
+            <?php if($results->responseHeader->params->hl == true): ?>
+            <div class="solr_highlight">
+              <p><?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?></p>
+            </div>
+            <?php endif; ?>
+  
+            <?php $tags = $doc->__get('tag'); ?>
+            <?php if($tags): ?>
+              <div class="tags">
+                <strong>Tags:</strong>
+                <?php echo SolrSearch_ViewHelpers::tagsToStrings($tags); ?>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
       </div>
     </div>
     <?php endforeach; ?>
