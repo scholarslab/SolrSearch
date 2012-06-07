@@ -190,20 +190,32 @@ class SolrSearch_ViewHelpers
      */
     public static function displaySnippets($id, $highlighting)
     {
-      if($highlighting == null) { return; }
+        if ($highlighting == null) { return; }
 
-      foreach ($highlighting as $k=>$v){
+        $display = array();
+
+        foreach ($highlighting as $k=>$v){
             if ($k == $id){
-                foreach($v as $k=>$snippets){
+                foreach ($v as $k=>$snippets){
                     foreach ($snippets as $snippet){
-                        echo $snippet;
+                        $display[] = $snippet;
 
                         if ($snippet != end($snippets)){
-                            echo ' <strong>...</strong> ';
+                            $display[] = ' <strong>...</strong> ';
                         }
                     }
                 }
             }
+        }
+
+        if (count($display) == 1) {
+            echo $display[0];
+        } else {
+            echo "<ul class='hit-snippets'>";
+            foreach ($display as $d) {
+                echo "<li>$d</li>";
+            }
+            echo "</ul>";
         }
     }
 
