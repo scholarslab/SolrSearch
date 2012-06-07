@@ -250,18 +250,16 @@ class SolrSearch_ResultsController extends Omeka_Controller_Action
             array('1')
         );
 
-        $fields .= 'title,id';
+        $fields = array(
+            'id',
+            'title'
+        );
         foreach ($displayFields as $k => $displayField) {
             //pass field accordingly, depending on whether it is an element or
             //collection/tag
-            if ($displayField['element_id'] != null) {
-                $fields .= ',' . $displayField['element_id'] . '_s';
-            } else {
-                $fields .= ',' . strtolower($displayField['name']);
-            }
-
+            $fields[] = $displayField['name'];
         }
-        return $fields;
+        return implode(',', $fields);
     }
 
     /**

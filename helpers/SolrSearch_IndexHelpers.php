@@ -58,7 +58,7 @@ class SolrSearch_IndexHelpers
             ->findBySql('record_id = ?', array($item['id']));
         foreach ($elementTexts as $elementText) {
             if (array_key_exists($elementText['element_id'], $indexSet)) {
-                $fieldName = $elementText['element_id'] . '_s';
+                $fieldName = $indexSet[$elementText['element_id']];
                 $doc->setMultiValue($fieldName, $elementText['text']);
 
                 if ($elementText['element_id'] == 50) {
@@ -198,10 +198,8 @@ class SolrSearch_IndexHelpers
 
         foreach ($facets as $facet) {
             if ($facet->is_displayed || $facet->is_facet) {
-                $key = $facet->element_id
-                    ? $facet->element_id
-                    : strtolower($facet->name);
-                $fieldSet[$key] = 1;
+                $key = $facet->element_id ? $facet->element_id : $facet->name;
+                $fieldSet[$key] = $facet->name;
             }
         }
 
