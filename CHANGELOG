@@ -1,0 +1,576 @@
+[Thu, 7 Jun 2012 10:00:41 -0400] Display the result type in the
+search results. Fixes #60.
+
+[Wed, 6 Jun 2012 16:20:46 -0400] Check that db tables exist before
+trying to index their data. Fixes #63.
+
+[Wed, 6 Jun 2012 15:10:07 -0400] Added a select-all checkbox at the
+head of each group/column. Fixes #57.
+
+[Wed, 6 Jun 2012 10:41:59 -0400] Merge branch 'feature/rename-facet'
+into develop. Fixes #55.
+
+[Tue, 5 Jun 2012 15:48:33 -0400] Merge branch 'feature/highlighting'
+into develop
+
+[Mon, 4 Jun 2012 15:50:32 -0400] Merge branch 'feature/reindex'
+into develop
+
+[Wed, 30 May 2012 09:48:54 -0400] minor formatting change
+
+[Wed, 30 May 2012 09:47:17 -0400] Hides the configuration option
+to set the number of search results in the Solr response object.
+This will be inferred from the global Omeka results per page option
+in the admin settings, and asynchronously send to the client with
+infiniate scroll. Closes #54
+
+[Wed, 30 May 2012 09:37:38 -0400] Adds a check if the admin theme
+is in place, and doesn't override the simple-search uri. Since
+SolrSearch only indexes items marked 'public,' this effectively
+broke the searching mechanism in the admin panel for items. Closes
+#58
+
+[Wed, 30 May 2012 09:16:03 -0400] Updates the labels to be more
+descriptive of the elements in defining hit highlighting, including
+field descriptions in plain terms; closes 56
+
+[Thu, 17 May 2012 13:56:46 -0400] Updates the configuration error
+to inform user that the plugin cannot ping the Solr server.
+
+[Thu, 17 May 2012 13:09:03 -0400] Added a facet label field to the
+facet table and include spaces in the standard facet labels. Fixes
+#51.
+
+[Thu, 17 May 2012 10:51:24 -0400] Create an absolute URL from what's
+stored in Solr. Fixes #50.
+
+[Thu, 17 May 2012 09:58:40 -0400] Make sure to retrieve all hidden
+fields and have something for untitled docs. Fixes #49.
+
+[Wed, 16 May 2012 16:56:44 -0400] minifies changes to the scroll
+js
+
+[Wed, 16 May 2012 16:54:01 -0400] remove link to previous page from
+pagination; wraps msgText and finishedMsg for infinite scroll;
+closes #47
+
+[Wed, 16 May 2012 16:17:43 -0400] Improved tests for null queries.
+
+[Tue, 15 May 2012 15:32:37 -0400] Merge branch 'feature/search-addons'
+into develop. Fixes #8.
+
+[Mon, 14 May 2012 13:54:16 -0300] Remove errant A in file.
+
+[Mon, 14 May 2012 12:10:05 -0400] ignore the build directory
+
+[Mon, 14 May 2012 12:08:19 -0400] Update the test runners to use a
+bootstrap
+
+[Sun, 13 May 2012 08:07:22 -0400] Adds a field lookup to
+SolrSearch_ViewHelpers::lookupElement until this is stored in the
+index
+
+[Thu, 10 May 2012 11:41:03 -0400] Updates markup and styles for
+results page.
+
+[Thu, 10 May 2012 11:41:03 -0400] Hides #solr-nav div.
+
+[Thu, 10 May 2012 11:41:03 -0400] Moves all markup surrounding
+pagination to the partial.
+
+[Thu, 10 May 2012 10:50:18 -0400] coffee-script provides cake
+
+[Thu, 10 May 2012 10:48:33 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Thu, 10 May 2012 10:48:24 -0400] Updates node dependencies for
+uglify and cake
+
+[Thu, 10 May 2012 08:21:08 -0400] Renames Solr Index admin tab to
+Solr Search; cloases #41
+
+[Thu, 10 May 2012 07:33:44 -0400] Merge branch 'feature/infinitescroll'
+into develop
+
+[Sun, 6 May 2012 09:16:01 -0300] Fixes typo in compass config file
+to the images directory
+
+[Thu, 3 May 2012 10:11:35 -0400] Pulls guards out of the frontend
+group
+
+[Thu, 3 May 2012 09:27:39 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Thu, 3 May 2012 09:27:21 -0400] Updates the labels in the admin
+section; closes #43
+
+[Wed, 2 May 2012 15:01:07 -0400] Centers headings and checkboxes
+for index config form.
+
+[Wed, 2 May 2012 14:44:14 -0400] Merge branch 'feature/sort-removal'
+into develop. Fixes #25.
+
+[Wed, 2 May 2012 14:26:18 -0400] Bedazzles indexing configuration
+tables in admin.
+
+[Wed, 2 May 2012 11:05:17 -0400] Adds zebrastripe to make checkbox
+a bit easier to find; #42
+
+[Wed, 2 May 2012 10:53:07 -0400] Updates the Readme for the new
+version of the plugin
+
+[Tue, 1 May 2012 20:14:29 -0400] Clean up deprecated elements from
+the Solr schema
+
+[Tue, 1 May 2012 20:12:03 -0400] Updates the solrconfig to work in
+solr 3.3+ for the admin ping (referenced #36); adds the default
+field in to the search and select request handlers (closes #40);
+adds the default operator of AND for the query op (closes #39);
+fixes ping and browse excpetions (closes #26)
+
+[Tue, 1 May 2012 17:00:00 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Tue, 1 May 2012 16:58:40 -0400] Always include the image in the
+list of fields requested of Solr. Fixes #28.
+
+[Tue, 1 May 2012 16:57:23 -0400] Always index the image IDs so they
+can be included in the output.
+
+[Tue, 1 May 2012 16:57:01 -0400] Move the image above the tags in
+the output.
+
+[Tue, 1 May 2012 16:24:44 -0400] By default, also index dc:title
+and dc:description. Fixes #37.
+
+[Tue, 1 May 2012 15:49:04 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Tue, 1 May 2012 15:48:56 -0400] Properly look up field names from
+the database in the public view; temporarily fixes #35, but this
+should really be taken care of when the element is indexed, not
+re-rended to the view
+
+[Thu, 26 Apr 2012 21:28:27 -0400] Don't display facet categories
+that don't have any hits displayed.
+
+[Thu, 26 Apr 2012 15:08:52 -0400] Actually index tags.
+
+[Thu, 26 Apr 2012 14:57:25 -0400] Sort the facet listing.
+
+[Thu, 26 Apr 2012 14:53:39 -0400] Use a hand pointer cursor over
+the facet category labels.
+
+[Thu, 26 Apr 2012 14:50:56 -0400] Use lower-case facet value labels
+so they get connected with what Solr uses.
+
+[Thu, 26 Apr 2012 14:32:49 -0400] Make sure to save all results.
+Fixes #33.
+
+[Thu, 26 Apr 2012 14:06:46 -0400] Removed FedoraConnector special
+handling. Fixes #34.
+
+[Thu, 26 Apr 2012 14:01:16 -0400] Only index fields that need to
+be indexed.
+
+[Thu, 26 Apr 2012 12:35:10 -0400] Clarified facet configuration
+form labels. Fixes #30.
+
+[Thu, 26 Apr 2012 11:14:45 -0400] Merge branch 'feature/config-form'
+into develop.
+
+[Thu, 26 Apr 2012 09:58:01 -0400] Fixed guard for compass.
+
+[Thu, 26 Apr 2012 09:56:01 -0400] Fixed type in compass configuration.
+
+[Wed, 25 Apr 2012 16:34:00 -0400] gets rid of unneeded /update
+action
+
+[Wed, 25 Apr 2012 16:14:13 -0400] gets rid of old facet form builder
+method on config controller
+
+[Wed, 25 Apr 2012 15:55:28 -0400] new form done
+
+[Wed, 25 Apr 2012 14:28:11 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Wed, 25 Apr 2012 14:28:04 -0400] progress on form layout
+
+[Wed, 25 Apr 2012 12:31:34 -0400] accordion functional, needs styling
+
+[Wed, 25 Apr 2012 11:21:46 -0400] more form logic
+
+[Wed, 25 Apr 2012 11:06:16 -0400] starts to block in form builder
+
+[Wed, 25 Apr 2012 10:50:55 -0400] tests for groupByElementSet()
+
+[Wed, 25 Apr 2012 10:23:48 -0400] fixes can't-access-plugin-model-methods
+problem in tests
+
+[Wed, 25 Apr 2012 09:46:58 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Wed, 25 Apr 2012 09:46:49 -0400] test for getElementSet when
+element_set_id is nll
+
+[Wed, 25 Apr 2012 09:37:44 -0400] changes getElementSetName ->
+getElementSet
+
+[Wed, 25 Apr 2012 09:11:40 -0400] getByElementSet() code in, needs
+tests
+
+[Wed, 25 Apr 2012 08:57:32 -0400] test for getElementSetName()
+
+[Tue, 24 Apr 2012 17:59:48 -0400] sets up plugin installation in
+test runner
+
+[Tue, 24 Apr 2012 17:29:51 -0400] exposes cols on SolrSearchFacet,
+getElementSetName() [untested]
+
+[Tue, 24 Apr 2012 17:04:21 -0400] gets rid of unneeded require in
+facetForm()
+
+[Tue, 24 Apr 2012 16:59:49 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Tue, 24 Apr 2012 16:59:38 -0400] runner code for accordion
+
+[Tue, 24 Apr 2012 13:13:25 -0400] gets rid of the get_db() calls
+in facetForm()
+
+[Tue, 24 Apr 2012 13:08:50 -0400] reformats the facetForm() builder
+private on ConfigController
+
+[Tue, 24 Apr 2012 12:09:03 -0400] starts to block in normal model
+class structure
+
+[Tue, 24 Apr 2012 11:37:46 -0400] cleans up formatting in index.php
+template
+
+[Tue, 24 Apr 2012 11:31:26 -0400] reformats the update() method on
+ConfigController
+
+[Tue, 24 Apr 2012 11:10:29 -0400] starts to clean up the config
+controller
+
+[Tue, 24 Apr 2012 11:00:57 -0400] retabs ConfigController
+
+[Tue, 24 Apr 2012 10:39:15 -0400] remove automagic bundle exec guard
+
+[Mon, 23 Apr 2012 10:03:26 -0400] Adds livereload to the mix
+
+[Sun, 22 Apr 2012 18:39:19 -0400] Fixes issue retrieving square_thumbnail
+with the createResultImgHtml view helper
+
+[Sun, 22 Apr 2012 19:17:28 -0300] Update _sass/solr_search.scss
+
+[Sat, 21 Apr 2012 17:32:04 -0400] Updates the results controller
+to get rid of the empty solrfacet; closes #23
+
+[Thu, 19 Apr 2012 21:09:15 -0400] Adds vim command, removes
+copy-n-paste stuff with customized Falmouth project code
+
+[Thu, 19 Apr 2012 16:53:04 -0400] Suppress warnings.
+
+[Thu, 19 Apr 2012 16:42:10 -0400] Merge branch 'feature/error-messages'
+into develop. Fixes #7.
+
+[Thu, 19 Apr 2012 15:17:22 -0400] Removed unused config_form.php.
+
+[Thu, 19 Apr 2012 15:14:01 -0400] Merge branch 'feature/results-per-page'
+into develop. Fixes #3.
+
+[Thu, 19 Apr 2012 15:03:35 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Thu, 19 Apr 2012 15:03:24 -0400] Properly escapes single and double
+quotes in facets; closes #17
+
+[Thu, 19 Apr 2012 14:44:37 -0400] Adds an exit point for snippets
+that aren't enabled; closees #18
+
+[Thu, 19 Apr 2012 14:28:22 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Thu, 19 Apr 2012 14:27:55 -0400] keeps the search term in the
+search box
+
+[Thu, 19 Apr 2012 14:12:31 -0400] Fixes call to tagsToStrings method
+to properly generate tag links
+
+[Thu, 19 Apr 2012 13:56:33 -0400] removed crap from the gitignore
+file that should be in a developer's global gitignore
+
+[Thu, 19 Apr 2012 12:29:51 -0400] Adds Eclipse, vim, and DS_Store
+files to gitignore
+
+[Thu, 19 Apr 2012 10:54:28 -0400] puts the facets.js file back in;
+this is a quick jquery plugin that just toggles the expansion of
+the divs; may be better to use the jquery-ui accordion method
+
+[Thu, 19 Apr 2012 10:53:40 -0400] Fixes typo in Cakefile to properly
+include the inireader; regenerates the alpha version of the software
+
+[Thu, 19 Apr 2012 10:44:13 -0400] Constructs the javascript queue
+for the plugin the same way the cakefile compiles it from the
+plugin.ini file to ensure that the versions are the same
+
+[Thu, 19 Apr 2012 10:38:41 -0400] Refactors the facets removal to
+get rid of the hard coded x
+
+[Wed, 18 Apr 2012 13:36:43 -0400] Added missing semicolon.
+
+[Wed, 18 Apr 2012 13:12:25 -0400] Merge branch 'feature/refactor-helpers'
+into develop.
+
+[Mon, 16 Apr 2012 11:49:38 -0400] Merge branch 'search_form' into
+develop
+
+[Thu, 12 Apr 2012 14:22:58 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Wed, 11 Apr 2012 18:15:21 -0400] Merge branch 'develop' of
+github.com:scholarslab/SolrSearch into develop
+
+[Mon, 9 Apr 2012 20:26:21 -0400] Merge branch 'master' of
+github.com:scholarslab/SolrSearch into develop
+
+[Mon, 9 Apr 2012 14:47:46 -0400] fixes mistyped unicode quote
+character
+
+[Sun, 8 Apr 2012 17:12:13 -0400] fixes typo in SolrSearch helper
+
+[Fri, 6 Apr 2012 10:17:50 -0400] Start refactor of SolrPlugin
+
+[Thu, 5 Apr 2012 21:41:32 -0300] Fences code blocks.
+
+[Mon, 29 Aug 2011 21:56:35 -0300] Edited README.md via GitHub
+
+[Mon, 29 Aug 2011 15:50:49 -0400] Updated package task to build
+clean zipfile in projectname-version.zip format
+
+[Mon, 29 Aug 2011 15:07:11 -0400] Merge branch 'master' of
+github.com:scholarslab/SolrSearch
+
+[Mon, 29 Aug 2011 15:06:48 -0400] Changes version number to 0.8
+
+[Mon, 29 Aug 2011 15:01:22 -0400] Updates ini with new fields.
+
+[Mon, 22 Aug 2011 09:02:18 -0400] jenkins defines fixes
+
+[Wed, 20 Jul 2011 11:48:43 -0400] Changed the Solr field type for
+the image field to sort on image numbers.
+
+[Wed, 20 Jul 2011 11:48:00 -0400] Changed the search parameters
+used to push image-less items to the bottom.
+
+[Tue, 19 Jul 2011 17:00:15 -0400] Moved schema file to its proper
+place.
+
+[Tue, 19 Jul 2011 16:57:59 -0400] Merge branch 'master' of
+git://github.com/scholarslab/SolrSearch
+
+[Tue, 19 Jul 2011 16:57:21 -0400] Removed hack to push items without
+images down and added the schema file for Solr.
+
+[Tue, 19 Jul 2011 13:41:59 -0400] Added require to load
+Apache_Solr_Exception.
+
+[Tue, 19 Jul 2011 13:17:10 -0400] updated solr-php-client to r60
+
+[Mon, 6 Jun 2011 12:05:30 -0400] Added new README.md file scraped
+from old wikis
+
+[Wed, 18 May 2011 17:58:41 +0000] Added parens when building the
+search so we can handle more complex hand-crafted searches.
+
+[Fri, 13 May 2011 15:36:01 +0000] Removed debugging helper method.
+
+[Fri, 13 May 2011 15:34:09 +0000] Added AJAX handling to return the
+entire search result set.
+
+[Mon, 9 May 2011 16:37:04 +0000] Added the ability to pull other
+GET parameters with the query parameters, and removed #item_view
+URL fragment.
+
+[Thu, 5 May 2011 18:17:24 +0000] Added QueryManager class for working
+with the Solr query parameters.
+
+[Tue, 3 May 2011 20:25:07 +0000] Added a nasty hack to float items
+with images to the top of search results. TAKE THIS OUT WHEN THE
+IMAGES HAVE BEEN ADDED.
+
+[Mon, 2 May 2011 18:41:55 +0000] Added caching for looking up element
+names.
+
+[Mon, 2 May 2011 17:57:04 +0000] Added more information about an
+TODO.
+
+[Mon, 2 May 2011 16:09:09 +0000] Fixed empty keyword searches.
+
+[Mon, 2 May 2011 15:39:23 +0000] Changed HTTP interface to use two
+parameters: solrq for the plain query and solrfacet for the for the
+faceted query.
+
+[Mon, 25 Apr 2011 19:23:16 +0000] Added URL fragment to force item
+view after facet operations.
+
+[Mon, 25 Apr 2011 19:10:20 +0000] Cleaned up search results facets
+list style types.
+
+[Mon, 28 Mar 2011 18:46:42 +0000] Fixed bug 164
+(https://addons.omeka.org/trac/ticket/164) for hard-coded number
+in SolrSearch ResultsController
+
+[Wed, 23 Feb 2011 21:13:34 +0000] Fixed issue in configuration form
+with nested forms from Zend_Form decorator
+
+[Wed, 23 Feb 2011 02:32:08 +0000] Refactored data population by
+using default values
+
+[Wed, 23 Feb 2011 01:57:38 +0000] Updated SolrSearch tabs to be
+clearer of their function; added vim stubs for folding
+
+[Tue, 18 Jan 2011 21:45:59 +0000] Refactored installation procedure;
+removing repeated blocks for adding fields
+
+[Fri, 14 Jan 2011 20:10:14 +0000] updated for testing
+
+[Fri, 14 Jan 2011 19:55:32 +0000] Refactored helpers out of the
+plugin setup file; added logging
+
+[Fri, 14 Jan 2011 14:31:31 +0000] Refactored helper functions to
+appropriate file; added logging to a StreamWriter
+
+[Thu, 13 Jan 2011 22:04:25 +0000] Refactored solr form to be contained
+within config_form
+
+[Thu, 13 Jan 2011 20:50:47 +0000] Reformatted code; produced HEREDOC
+where appropriate with notes on what needs to be refactored
+
+[Thu, 13 Jan 2011 20:10:06 +0000] Add indexes to solr_search_facets
+table to improve performance
+
+[Thu, 13 Jan 2011 19:28:26 +0000] Add build script to automate tasks
+
+[Fri, 7 Jan 2011 15:29:13 +0000] noted in SolrSearch plugin.ini
+that it has been tested up to 1.3
+
+[Fri, 7 Jan 2011 15:01:02 +0000] fixed bug with adddocs in IndexAll.
+each doc added individually now.  putting all docs into a single
+<add> was causing the script to choke
+
+[Thu, 6 Jan 2011 20:48:01 +0000] fixed typo in indexall model
+
+[Thu, 6 Jan 2011 16:04:20 +0000] added reindex all items functionality
+from Configure Solr tab
+
+[Mon, 13 Dec 2010 14:18:00 +0000] updated to 1.0
+
+[Wed, 6 Oct 2010 15:48:53 +0000] updated SolrSearch plugin.ini with
+new version
+
+[Wed, 6 Oct 2010 15:41:53 +0000] added facet sort parameter
+
+[Tue, 21 Sep 2010 19:52:24 +0000] removed overzealout validation
+on solr server
+
+[Tue, 14 Sep 2010 15:15:48 +0000] removed unused highlight functions
+from configcontroller
+
+[Tue, 14 Sep 2010 15:15:05 +0000] integrated hit highlighting
+features into SolrSearch config tab
+
+[Wed, 8 Sep 2010 15:16:57 +0000] changed solrsearch plugin version
+to 0.9
+
+[Wed, 8 Sep 2010 14:54:45 +0000] item types ingested into solr index
+for facets, sorting, and display. xml text nodes ingested for full
+text searching.
+
+[Mon, 2 Aug 2010 19:20:13 +0000] updated to 0.8.1, using getWebPath
+for image URLs
+
+[Thu, 29 Jul 2010 14:59:29 +0000] moved to global variable based
+image paths
+
+[Mon, 19 Jul 2010 18:53:54 +0000] shifted solr images to bottom of
+displayable fields by reiterating through fields.
+
+[Thu, 15 Jul 2010 19:09:08 +0000] altered SolrSearch so only items
+declared as public are indexed into Solr.  If an item is then saved
+as not public, the solr doc will also be removed
+
+[Thu, 15 Jul 2010 18:00:18 +0000] changing solr core from multicore
+/solr/omeka to default /solr/
+
+[Thu, 15 Jul 2010 15:59:43 +0000] added images to index and created
+an option to make them displayable. moved solr server configuration
+options to options table and out of plugin.ini
+
+[Wed, 14 Jul 2010 20:59:13 +0000] added tags and collections as
+facet,display,sort fields, integrated sorting functionality. moved
+display checkboxes to table in config tab
+
+[Tue, 13 Jul 2010 20:43:12 +0000] added sortable column to table.
+reorganized controller and views for 'config' instead of 'facets'
+since a single form will allow the user to record facets and sortable
+fields. sorting feature coming soon
+
+[Mon, 12 Jul 2010 20:30:47 +0000] retweaked controller to make the
+search results in the index rather than the page action, this creates
+a cleaner URL in Zend pagination.
+
+[Mon, 12 Jul 2010 20:12:36 +0000] moved filtering of displayable
+fields from conditional in the view to parameters passed to solr.
+added faceting
+
+[Wed, 30 Jun 2010 15:25:40 +0000] added is_displayed column to
+table. implemented user-selected displayable fields selected in
+config form and displayed in public views. added solr-home
+
+[Tue, 29 Jun 2010 21:04:19 +0000] removed old search view from
+SolrSearch
+
+[Tue, 29 Jun 2010 21:02:34 +0000] added titles to Solr documents,
+began work on theme views
+
+[Mon, 28 Jun 2010 20:43:29 +0000] updating/deleting Solr documents
+on Item add/remove
+
+[Thu, 24 Jun 2010 20:31:52 +0000] adding and deleting records to
+and from solr now possible on plugin install/uninstall
+
+[Wed, 23 Jun 2010 20:33:19 +0000] created SolrSearch facets table
+to keep track of what fields should be considered facets. created
+form to update the table.
+
+[Tue, 3 Nov 2009 15:34:18 +0000] developed display for multivalued
+fields in SolrSearch
+
+[Mon, 2 Nov 2009 22:20:41 +0000] adjusted SolrSearch routes to get
+zend/omeka paging working correctly
+
+[Thu, 29 Oct 2009 13:40:59 +0000] adapted zend pagination for
+solrsearch, consolidating functions into controller
+
+[Tue, 27 Oct 2009 19:48:46 +0000] minor reorganization of solr code.
+put static solr configuration into plugin.ini
+
+[Thu, 8 Oct 2009 15:15:03 +0000] renamed SolrSearchController.php
+to SearchController.php
+
+[Thu, 8 Oct 2009 15:11:12 +0000] rearranged data for SolrSearch
+
+[Wed, 7 Oct 2009 15:08:01 +0000] abstracted SolrClient libraries
+into lib folder
+
+[Wed, 7 Oct 2009 14:57:02 +0000] Unit test stub
+
+[Wed, 7 Oct 2009 14:47:37 +0000] commiting current code to trunk
+
+[Tue, 6 Oct 2009 18:22:53 +0000] First checkin for the license
+
+[Tue, 29 Sep 2009 13:07:01 +0000] Adds empty folders for the
+SolrSearch plugin to the addons repository.
+
