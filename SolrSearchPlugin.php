@@ -282,7 +282,8 @@ class SolrSearchPlugin
     // {{{protected
 
     /**
-     * Populates the facet table with human readable mappings of Omeka Element ids
+     * Populates the facet table with human readable mappings of Omeka Element
+     * ids
      *
      * There are special cases for sorting <tt>tags</tt>,
      * <tt>collection</tt>, and <tt>itemType</tt>
@@ -299,7 +300,8 @@ class SolrSearchPlugin
         $elements = $this->_db->getTable('Element')->findAll();
         $sql = <<<SQL
             INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (element_id, name, label, element_set_id, is_facet, is_displayed)
+                (element_id, name, label, element_set_id, is_facet,
+                is_displayed)
                 VALUES (?, ?, ?, ?, ?, ?);
 SQL;
         $stmt = $this->_db->prepare($sql);
@@ -316,7 +318,8 @@ SQL;
             $name = $element['name'];
 
             if ($element['element_set_id'] == $dc->id
-                && array_key_exists(strtolower($name), $defaults)) {
+                && array_key_exists(strtolower($name), $defaults)
+            ) {
 
                 $v = 1;
             }

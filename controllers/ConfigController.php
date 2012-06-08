@@ -41,12 +41,15 @@ class SolrSearch_ConfigController extends Omeka_Controller_Action
                             $options[$opt] = 1;
                         }
 
-                        $db->insert('solr_search_facets', array(
-                            'id'           => $group['facetid'],
-                            'label'        => $group['label'],
-                            'is_displayed' => $options['is_displayed'],
-                            'is_facet'     => $options['is_facet'],
-                        ));
+                        $db->insert(
+                            'solr_search_facets',
+                            array(
+                                'id'           => $group['facetid'],
+                                'label'        => $group['label'],
+                                'is_displayed' => $options['is_displayed'],
+                                'is_facet'     => $options['is_facet'],
+                            )
+                        );
                     }
                 }
 

@@ -2,31 +2,6 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * SolrSearch Omeka Plugin helpers.
- *
- * Default helpers for the SolrSearch plugin
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
- * applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
- * OF ANY KIND, either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
- *
- * @package    omeka
- * @subpackage SolrSearch
- * @author     "Scholars Lab"
- * @copyright  2010 The Board and Visitors of the University of Virginia
- * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
- * @version    $Id$
- * @link       http://www.scholarslab.org
- *
- * PHP version 5
- *
- */
-
-/**
  * This is a collection of utilities to make displaying results and generating 
  * URLs easier.
  **/
@@ -46,9 +21,9 @@ class SolrSearch_ViewHelpers
     /**
      * This creates the default search form.
      *
-     * @param string $buttonText      The text to use on the button.
-     * @param array  $formProperties  Extra HTML attributes to add to the
-     *                                form element.
+     * @param string $buttonText     The text to use on the button.
+     * @param array  $formProperties Extra HTML attributes to add to the
+     *                               form element.
      *
      * @return string
      * @author Eric Rochester <erochest@virginia.edu>
@@ -131,8 +106,9 @@ class SolrSearch_ViewHelpers
     /**
      * Generate a Results link for SolrSearch
      *
-     * @param type $doc
-     * @return type
+     * @param SolrDoc $doc Document to generate link for
+     *
+     * @return string Link to the model
      */
     public static function createResultLink($doc)
     {
@@ -146,7 +122,8 @@ class SolrSearch_ViewHelpers
      *
      * TODO: limit DB lookups
      *
-     * @param type $doc
+     * @param SolrDoc $doc Document to get title for
+     *
      * @return string Title of the item
      */
     public static function getDocTitle($doc)
@@ -171,9 +148,10 @@ class SolrSearch_ViewHelpers
     /**
      * Return the path for an image
      *
-     * @param type $type
-     * @param type $fileId
-     * @return type
+     * @param string $type   Omeka File type (size)
+     * @param int    $fileId Id of the file to look up
+     *
+     * @return string Link to file
      */
     public static function getImagePath($type='fullsize', $fileId)
     {
@@ -185,22 +163,26 @@ class SolrSearch_ViewHelpers
     /**
      * Display a search snippet if enabled
      *
-     * @param type $id
-     * @param type $highlighting
+     * @param int  $id           SolrDocument ID
+     * @param bool $highlighting If the plugin should display highlights
+     *
+     * @return void
      */
     public static function displaySnippets($id, $highlighting)
     {
-        if ($highlighting == null) { return; }
+        if ($highlighting == null) {
+            return;
+        }
 
         $display = array();
 
-        foreach ($highlighting as $k=>$v){
-            if ($k == $id){
-                foreach ($v as $k=>$snippets){
-                    foreach ($snippets as $snippet){
+        foreach ($highlighting as $k=>$v) {
+            if ($k == $id) {
+                foreach ($v as $k=>$snippets) {
+                    foreach ($snippets as $snippet) {
                         $display[] = $snippet;
 
-                        if ($snippet != end($snippets)){
+                        if ($snippet != end($snippets)) {
                             $display[] = ' <strong>...</strong> ';
                         }
                     }
@@ -224,6 +206,7 @@ class SolrSearch_ViewHelpers
      *
      * @param int    $image_id Image to look up
      * @param string $alt      Alt text for image
+     *
      * @return string $html link to image
      * @author Wayne Graham <wsg4w@virginia.edu>
      **/
@@ -247,7 +230,7 @@ class SolrSearch_ViewHelpers
     /**
      * Output a tag string for a given Solr search result
      *
-     * @param array $tags An array of tags to display from a Solr result
+     * @param array  $tags      An array of tags to display from a Solr result
      * @param string $delimiter ', ' (comma and whitespace) by default
      *
      * @return string tagString Facet link for given tag
@@ -258,17 +241,17 @@ class SolrSearch_ViewHelpers
         $uri = SolrSearch_ViewHelpers::getBaseUrl();
         $current = SolrSearch_QueryHelpers::getParams();
 
-        if(is_null($delimiter)) {
+        if (is_null($delimiter)) {
             $delimiter = get_option('tag_delimiter') . ' ';
         }
 
         $tagString = '';
 
-        if(!empty($tags)) {
+        if (!empty($tags)) {
             $tagStrings = array();
 
             if (is_array($tags)) {
-                foreach($tags as $key => $tag) {
+                foreach ($tags as $key => $tag) {
                     $tagStrings[$key] = SolrSearch_ViewHelpers::tagToString(
                         $uri, $current, $tag
                     );
@@ -299,7 +282,7 @@ class SolrSearch_ViewHelpers
      *
      * @return string $a The A tag.
      * @author Eric Rochester <erochest@virginia.edu>
-     **/
+     */
     private static function tagToString($uri, $params, $tag)
     {
         $label = html_escape($tag);
@@ -322,7 +305,8 @@ class SolrSearch_ViewHelpers
      * @return Zend_Form
      * @author Eric Rochester <erochest@virginia.edu>
      */
-    public static function makeConfigForm() {
+    public static function makeConfigForm()
+    {
         $form = new Zend_Form();
         SolrSearch_ViewHelpers::makeConfigFields($form);
         return $form;
@@ -347,34 +331,46 @@ class SolrSearch_ViewHelpers
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_port', 'Server Port:', true
         )
-            ->addValidator(new Zend_Validate_Digits());
+        ->addValidator(new Zend_Validate_Digits());
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_core', 'Solr Core Name:', true
         )
-            ->addValidator('regex', true, array('/\/.*\//i'));
+        ->addValidator('regex', true, array('/\/.*\//i'));
 
         //$fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            //$form, 'solr_search_rows', "Results Per Page:",
-            //false, "Defaults to Omeka's paging settings."
+        //$form, 'solr_search_rows', "Results Per Page:",
+        //false, "Defaults to Omeka's paging settings."
         //)
-            //->addValidator(new Zend_Validate_Digits())
-            //->addErrorMessage('Results count must be numeric');
+        //->addValidator(new Zend_Validate_Digits())
+        //->addErrorMessage('Results count must be numeric');
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_facet_sort', 'Facet Field Constraint Order:', false,
             null, 'Zend_Form_Element_Select'
         )
-            ->addMultiOption('index', 'Alphabetical')
-            ->addMultiOption('count', 'Occurrences');
+        ->addMultiOption('index', 'Alphabetical')
+        ->addMultiOption('count', 'Occurrences');
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_facet_limit', 'Maximum Facet Count:', true
         )
-            ->addValidator(new Zend_Validate_Digits());
+        ->addValidator(new Zend_Validate_Digits());
 
         return $fields;
     }
 
+    /**
+     * Create an option field
+     *
+     * @param Zend_Form              $form     Zend form to process
+     * @param string                 $name     Name of the option field
+     * @param string                 $label    Option field label
+     * @param boolean                $required If the field is required
+     * @param string                 $descr    Description for the field
+     * @param Zend_Form_Element_Text $cls      Form element
+     *
+     * @return Zend_Form_Element_Text Form element
+     */
     public static function makeOptionField(
         $form, $name, $label, $required, $descr=null,
         $cls='Zend_Form_Element_Text'
@@ -414,11 +410,14 @@ class SolrSearch_ViewHelpers
         $options = $subform->getElement('options');
         $id      = preg_replace('/\W+/', '_', $label->getFullyQualifiedName());
 
-        $output .= __v()->partial('config/_subform.php', array(
-            'id'      => $id,
-            'facetId' => $facetId,
-            'label'   => $label
-        ));
+        $output .= __v()->partial(
+            'config/_subform.php',
+            array(
+                'id'      => $id,
+                'facetId' => $facetId,
+                'label'   => $label
+            )
+        );
 
         foreach ($options->getMultiOptions() as $name => $optlabel) {
             $shortlab = explode(' ', $optlabel);

@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4; */
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
   $pageTitle = __('Browse Items'); //TODO: Should this be browse items?
   head(array('title' => $pageTitle, 'id' => 'items', 'bodyclass' => 'browse'));
