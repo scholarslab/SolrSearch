@@ -175,23 +175,19 @@ class SolrSearch_ViewHelpers
         }
 
         $display = array();
-
         foreach ($highlighting as $k=>$v) {
             if ($k == $id) {
                 foreach ($v as $k=>$snippets) {
-                    foreach ($snippets as $snippet) {
-                        $display[] = $snippet;
-
-                        if ($snippet != end($snippets)) {
-                            $display[] = ' <strong>...</strong> ';
-                        }
-                    }
+                    $snippet = implode(' <strong>...</strong> ', $snippets);
+                    $display[$snippet] = 1;
                 }
             }
         }
+        $display = array_keys($display);
+        natcasesort($display);
 
         if (count($display) == 1) {
-            echo $display[0];
+            echo "<p>{$display[0]}</p>";
         } else {
             echo "<ul class='hit-snippets'>";
             foreach ($display as $d) {
