@@ -227,7 +227,7 @@ We hope that you will consider contributing to SolrSearch. Please read this shor
 [phpmd]: http://phpmd.org/
 [phpcs]: http://pear.php.net/package/PHP_CodeSniffer/
 [phpunit]: http://www.phpunit.de/manual/current/en/index.html
-
+[phpcpd]: https://github.com/sebastianbergmann/phpcpd
 
 [1]: http://scholarslab.org/ "http://scholarslab.org/"
 [2]: http://lucene.apache.org/solr/#getstarted "http://lucene.apache.org/solr/#getstarted"
