@@ -51,9 +51,13 @@ class FacetForm extends Omeka_Form
             foreach ($group as $facet) {
                 $ssf = new Zend_Form_SubForm();
                 $sf->addSubForm($ssf, "$n");
-                $ssf->addElement('hidden', 'facetid', array(
-                    'value' => $facet->id
-                ));
+                $ssf->addElement(
+                    'hidden',
+                    'facetid',
+                    array(
+                        'value' => $facet->id
+                    )
+                );
                 $ssf->setElementsBelongTo("facets[$n]");
 
                 $values = array();
@@ -63,26 +67,38 @@ class FacetForm extends Omeka_Form
                     }
                 }
 
-                $ssf->addElement('text', 'label', array(
-                    'value'    => $facet->label,
-                    'revertto' => $facet->getOriginalValue()
-                ));
-                $ssf->addElement('MultiCheckbox', 'options', array(
-                    'multiOptions' => array(
-                        'is_displayed' => 'Is Searchable',
-                        'is_facet'     => 'Is Facet'
-                    ),
-                    'value' => $values
-                ));
+                $ssf->addElement(
+                    'text',
+                    'label',
+                    array(
+                        'value'    => $facet->label,
+                        'revertto' => $facet->getOriginalValue()
+                    )
+                );
+                $ssf->addElement(
+                    'MultiCheckbox',
+                    'options',
+                    array(
+                        'multiOptions' => array(
+                            'is_displayed' => 'Is Searchable',
+                            'is_facet'     => 'Is Facet'
+                        ),
+                        'value' => $values
+                    )
+                );
 
                 $n++;
             }
             $g++;
         }
 
-        $this->addElement('submit', 'submit', array(
-            'label' => 'Update Search Fields'
-        ));
+        $this->addElement(
+            'submit',
+            'submit',
+            array(
+                'label' => 'Update Search Fields'
+            )
+        );
 
     }
 

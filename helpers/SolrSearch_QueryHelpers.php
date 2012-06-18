@@ -13,10 +13,10 @@ class SolrSearch_QueryHelpers
      * This defaults to null, which then gets set to $_REQUEST.
      * @param string $qParam     The name of the q parameter. This defaults to
      * 'solrq'.
-     * @param string $facetParam The name of the facet parameter. This defaults to
-     * 'solrfacet'.
-     * @param array  $other      A list of other parameters to pull and include in
-     * the output.
+     * @param string $facetParam The name of the facet parameter. This defaults
+     * to 'solrfacet'.
+     * @param array  $other      A list of other parameters to pull and include
+     * in the output.
      *
      * @return array This array is keyed on 'q' and 'facet'.
      */
@@ -71,7 +71,11 @@ class SolrSearch_QueryHelpers
             && strpos($current['q'], "$facet:\"$label\"") !== false
         ) {
             //generate remove facet link
-            $removeFacetLink = SolrSearch_QueryHelpers::removeFacet($facet, $label);
+            $removeFacetLink = SolrSearch_QueryHelpers::removeFacet(
+                $facet,
+                $label
+            );
+
             $html .= "<div class='fn'><b>$label</b></div> "
                 . "<div class='fc'>$removeFacetLink</div>";
         } else {
@@ -218,7 +222,10 @@ class SolrSearch_QueryHelpers
                 }
             }
             if (!empty($facetQuery)) {
-                array_push($query, 'solrfacet=' . implode('+AND+', $facetQuery));
+                array_push(
+                    $query,
+                    'solrfacet=' . implode('+AND+', $facetQuery)
+                );
             }
         }
 
@@ -230,16 +237,15 @@ class SolrSearch_QueryHelpers
             . $uri . '?' . implode('&', $query) . '" rel="tag">'
             . str_replace("\\", "", $label)
             . '</a>';
-        //$removeFacetLink = "[<a href='$uri?" . implode('&', $query) . '\'>X</a>]';
         return $removeFacetLink;
     }
 
     /**
-     * This takes a keyed array of query parameters and returns an array with the
-     * values to pass to Solr.
+     * This takes a keyed array of query parameters and returns an array with
+     * the values to pass to Solr.
      *
-     * @param array  $query   This is the array of parameters passed as GET or POST
-     * parameters.
+     * @param array  $query   This is the array of parameters passed as GET or
+     * POST parameters.
      * @param string $default This is the value of 'q' to use if one isn't
      * provided. This defaults to '*:*'.
      *
@@ -296,7 +302,7 @@ class SolrSearch_QueryHelpers
      * This Solr-escapes this facet value.
      *
      * The regex comes from
-     * http://fragmentsofcode.wordpress.com/2010/03/10/escape-special-characters-for-solrlucene-query/.
+     * @link http://fragmentsofcode.wordpress.com/2010/03/10/escape-special-characters-for-solrlucene-query/
      *
      * @param string $facet The facet value to clean up.
      *

@@ -27,9 +27,22 @@ class SolrSearch_HighlightController extends Omeka_Controller_Action
             if ($form->isValid($this->_request->getPost())) {
                 //get posted values		
                 $uploadedData = $form->getValues();
-                set_option('solr_search_hl', $uploadedData['solr_search_hl']);
-                set_option('solr_search_snippets', $uploadedData['solr_search_snippets']);
-                set_option('solr_search_fragsize', $uploadedData['solr_search_fragsize']);
+
+                set_option(
+                    'solr_search_hl',
+                    $uploadedData['solr_search_hl']
+                );
+
+                set_option(
+                    'solr_search_snippets',
+                    $uploadedData['solr_search_snippets']
+                );
+
+                set_option(
+                    'solr_search_fragsize',
+                    $uploadedData['solr_search_fragsize']
+                );
+
                 $this->flashSuccess('Hit highlighting features modified.');
             } else {
                 $this->flashError('Failed to gather posted data.');
