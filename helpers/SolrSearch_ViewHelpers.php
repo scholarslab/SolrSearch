@@ -38,7 +38,17 @@ class SolrSearch_ViewHelpers
         $formProperties['method'] = 'get';
         $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
         $html .= '<fieldset>' . "\n\n";
-        $html .= __v()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
+        $html .= __v()->formText(
+            'solrq',
+            $searchQuery,
+            array(
+                'name'=>'solrq',
+                'value' => $searchQuery,
+                'class'=>'textinput',
+                'onwebkitspeechchange' => 'this.form.submit();',
+                'x-webkit-speech' => 'x-webkit-speech'
+            )
+        );
         //$html .= __v()->formHidden('solrfacet', '');
         $html .= __v()->formSubmit('submit_search', $buttonText);
         $html .= '</fieldset>' . "\n\n";
