@@ -49,7 +49,7 @@ function solr_search_form($buttonText = "Search", $formProperties=array('id'=>'s
     $formProperties['method'] = 'get';
     $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
     $html .= '<fieldset>' . "\n\n";
-    $html .= __v()->formText('solrq', '', array('name'=>'textinput','class'=>'textinput'));
+    $html .= __v()->formText('solrq', '', array('name'=>'solrq','class'=>'textinput'));
     $html .= __v()->formHidden('solrfacet', '');
     $html .= __v()->formSubmit('submit_search', $buttonText);
     $html .= '</fieldset>' . "\n\n";
