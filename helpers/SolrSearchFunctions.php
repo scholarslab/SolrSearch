@@ -312,7 +312,7 @@ function solr_search_remove_facet($facet, $label)
             }
         }
         if (!empty($facetQuery)) {
-            array_push($query, implode('+AND+', $facetQuery));
+            array_push($query, 'solrfacet=' . implode('+AND+', $facetQuery));
         }
     }
 
