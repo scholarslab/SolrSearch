@@ -213,7 +213,7 @@ function solr_search_facet_link($current, $facet, $label, $count)
         } else {
             $q = '';
         }
-        if (isset($current['facet'])) {
+        if (isset($current['facet']) && $current['facet'] != '') { // if a empty solrfacet was included in the url (&solrfacet=) facet would be set but should not be used
             $facetq = "{$current['facet']}+AND+$facet:&#x022;$label&#x022;";
         } else {
             $facetq = "$facet:&#x022;$label&#x022;";
@@ -302,7 +302,7 @@ function solr_search_remove_facet($facet, $label)
         array_push($query, "solrq={$queryParams['q']}");
     }
 
-	$queryParams = explode(' AND ', $_REQUEST['q']);
+	//	$queryParams = explode(' AND ', $_REQUEST['q']); this line was probably added in error
     if (isset($queryParams['facet'])) {
         $facetKey = "$facet:\"$label\"";
         $facetQuery = array();
@@ -482,7 +482,7 @@ function solr_search_assemble_query($query, $default='*:*')
     }
 
     // XXX: Remove this once the images for Falmouth have been added.
-    $q .= ' AND (image:* OR *:*)';
+    // $q .= ' AND (image:* OR *:*)';
 
     return $q;
 }
@@ -494,4 +494,3 @@ function solr_search_assemble_query($query, $default='*:*')
  * c-hanging-comment-ender-p: nil
  * End:
  */
-?>
