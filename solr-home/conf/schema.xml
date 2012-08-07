@@ -699,13 +699,15 @@
     </fieldType>
 
      <!-- Hebrew -->
-     <fieldType name="text_iw" class="solr.textFields" positionIncrementGap="100">
-       <analyzer>
-          <tokenizer class="solr.ICUTokenizerFactory" />
+     <fieldType name="text_iw" class="solr.TextField" positionIncrementGap="100">
+      <analyzer> 
+        <tokenizer class="solr.ICUTokenizerFactory"/>
+        <!-- for any non-arabic -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_iw.txt" enablePositionIncrements="true"/>
+      </analyzer>
+    </fieldType>
 
-          <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_iw.txt" enablePositionIncrements="true" />
-       </analyzer>
-     </fieldType>
     
     <!-- Japanese using morphological analysis (see text_cjk for a configuration using bigramming)
 
