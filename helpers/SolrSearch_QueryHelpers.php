@@ -29,7 +29,7 @@ class SolrSearch_QueryHelpers
         $params = array();
 
         if (isset($req[$qParam])) {
-            $params['q'] = $req[$qParam];
+            $params['q'] = preg_replace('/:/', ' ', $req[$qParam]);
         }
 
         if (isset($req[$facetParam])) {
