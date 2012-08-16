@@ -28,6 +28,7 @@ class SolrSearchPlugin
     private static $_hooks = array(
         'install',
         'uninstall',
+        'initialize',
         'before_delete_item',
         'after_save_item',
         'before_delete_record',
@@ -94,6 +95,11 @@ class SolrSearchPlugin
 
         self::_deleteOptions();
         self::_deleteAcl();
+    }
+
+    public function initialize()
+    {
+        add_translation_source(dirname(__FILE__) . '/languages');
     }
 
     public function beforeDeleteItem($item)
