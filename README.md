@@ -217,6 +217,12 @@ If you discover a problem with SolrSearch, we would like to know about it. Howev
 
 We hope that you will consider contributing to SolrSearch. Please read this short overview for some information about to to get started: [Contributing][contributing].
 
+## Translations
+
+We'd welcome any help we can get translating text in the SolrSearch plugin.
+We're using [Transifex][transifex] to manage translations. For more information
+about using this, see [Jeremy's excellent blog post][i18nblog] about it.
+
 [bugs]: https://github.com/scholarslab/SolrSearch/wiki/Bug-Reports
 [contributing]: https://github.com/scholarslab/SolrSearch/wiki/Contributing
 
@@ -254,3 +260,6 @@ We hope that you will consider contributing to SolrSearch. Please read this shor
 [sass]: http://sass-lang.com/
 [compass]: http://compass-style.org/
 [rvm]: https://rvm.io/
+
+[transifex]: http://www.transifex.com/
+[i18nblog]: http://www.scholarslab.org/slab-code/translating-neatline/
