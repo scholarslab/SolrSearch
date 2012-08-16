@@ -29,8 +29,9 @@ class SolrSearch_ViewHelpers
      * @author Eric Rochester <erochest@virginia.edu>
      **/
     public static function createSearchForm(
-        $buttonText='Search', $formProperties=array( 'id' => 'simple-search' )
+        $buttonText=null, $formProperties=array( 'id' => 'simple-search' )
     ) {
+        $buttonText  = (is_null($buttonText) ? __('Search') : $buttonText);
         $searchQuery = array_key_exists('solrq', $_GET) ? $_GET['solrq'] : '';
 
         $uri = SolrSearch_ViewHelpers::getBaseUrl();
@@ -139,7 +140,7 @@ class SolrSearch_ViewHelpers
         }
 
         if (is_null($title) || $title === '') {
-            $title = '[Untitled]';
+            $title = '[' . __('Untitled') . ']';
         }
 
         return $title;
@@ -322,33 +323,33 @@ class SolrSearch_ViewHelpers
         $fields = array();
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_server', 'Server Host:', true
+            $form, 'solr_search_server', __('Server Host:'), true
         );
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_port', 'Server Port:', true
+            $form, 'solr_search_port', __('Server Port:'), true
         )
         ->addValidator(new Zend_Validate_Digits());
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_core', 'Solr Core Name:', true
+            $form, 'solr_search_core', __('Solr Core Name:'), true
         )
         ->addValidator('regex', true, array('/\/.*\//i'));
 
         //$fields[] = SolrSearch_ViewHelpers::makeOptionField(
-        //$form, 'solr_search_rows', "Results Per Page:",
-        //false, "Defaults to Omeka's paging settings."
+        //$form, 'solr_search_rows', __("Results Per Page:"),
+        //false, __("Defaults to Omeka's paging settings.")
         //)
         //->addValidator(new Zend_Validate_Digits())
-        //->addErrorMessage('Results count must be numeric');
+        //->addErrorMessage(__('Results count must be numeric'));
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_facet_sort', 'Facet Field Constraint Order:', false,
+            $form, 'solr_search_facet_sort', __('Facet Field Constraint Order:'), false,
             null, 'Zend_Form_Element_Select'
         )
-        ->addMultiOption('index', 'Alphabetical')
-        ->addMultiOption('count', 'Occurrences');
+        ->addMultiOption('index', __('Alphabetical'))
+        ->addMultiOption('count', __('Occurrences'));
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_facet_limit', 'Maximum Facet Count:', true
+            $form, 'solr_search_facet_limit', __('Maximum Facet Count:'), true
         )
         ->addValidator(new Zend_Validate_Digits());
 
@@ -441,11 +442,8 @@ class SolrSearch_ViewHelpers
      * @return string
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function createSelectAll($label, $group)
+    public static function createSelectAll($label, $group, $column)
     {
-        $shortlab = explode(' ', $label);
-        $column   = strtolower($shortlab[1][0]);
-
         $output   = "$label <input form='' type='checkbox'";
         $output  .= " class='group-sel-all'";
         $output  .= " data-target='.g{$group}{$column}' />";

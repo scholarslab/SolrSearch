@@ -1,7 +1,7 @@
 <?php
-    head(array('title' => 'Solr Search Facets', 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+    head(array('title' => __('Solr Search Facets'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
-<h1>Manage Solr Search Facets</h1>
+<h1><?php echo __('Manage Solr Search Facets') ?></h1>
 
 <div id="primary">
 	<?php echo flash(); ?>
@@ -10,7 +10,7 @@
                 echo '<p class="error">' . html_escape($err) . '</p>';
             }
         ?>
-       <a href="index">Return to form.</a>
+        <a href="index"><?php echo __('Return to form.') ?></a>
 </div>
 
 <?php 
