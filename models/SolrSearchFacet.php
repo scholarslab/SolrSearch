@@ -81,10 +81,10 @@ class SolrSearchFacet extends Omeka_Record
         $original = null;
 
         switch ($this->name) {
-            case 'tag'        : $original = 'Tag';         break;
-            case 'collection' : $original = 'Collection';  break;
-            case 'itemtype'   : $original = 'Item Type';   break;
-            case 'resulttype' : $original = 'Result Type'; break;
+            case 'tag'        : $original = __('Tag');         break;
+            case 'collection' : $original = __('Collection');  break;
+            case 'itemtype'   : $original = __('Item Type');   break;
+            case 'resulttype' : $original = __('Result Type'); break;
             
             default:
                 $etable   = $this->getTable('Element');

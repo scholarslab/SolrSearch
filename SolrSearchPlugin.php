@@ -28,6 +28,7 @@ class SolrSearchPlugin
     private static $_hooks = array(
         'install',
         'uninstall',
+        'initialize',
         'before_delete_item',
         'after_save_item',
         'before_delete_record',
@@ -94,6 +95,11 @@ class SolrSearchPlugin
 
         self::_deleteOptions();
         self::_deleteAcl();
+    }
+
+    public function initialize()
+    {
+        add_translation_source(dirname(__FILE__) . '/languages');
     }
 
     public function beforeDeleteItem($item)
@@ -213,10 +219,11 @@ class SolrSearchPlugin
 
     public function configForm()
     {
+        $string = __('Solr Options');
         $fields = SolrSearch_ViewHelpers::makeConfigFields();
         $buffer = array();
 
-        $buffer[] = '<div class="field solrsearch config"><h3>Solr Options</h3>';
+        $buffer[] = "<div class='field solrsearch config'><h3>$string</h3>";
         foreach ($fields as $field) {
             $buffer[] = $field->render();
         }
@@ -234,7 +241,7 @@ class SolrSearchPlugin
 
             if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
                 throw new Omeka_Validator_Exception(
-                    "Cannot connect to Solr with the given configuration. Please check your server host, port, and core."
+                    __("Cannot connect to Solr with the given configuration. Please check your server host, port, and core.")
                 );
             }
 
@@ -307,10 +314,10 @@ SQL;
         $stmt = $this->_db->prepare($sql);
 
         // $stmt->execute(array(null, 'Image',      null, 1, 1));
-        $stmt->execute(array(null, 'tag',        'Tag',         null, 1, 1));
-        $stmt->execute(array(null, 'collection', 'Collection',  null, 1, 1));
-        $stmt->execute(array(null, 'itemtype',   'Item Type',   null, 1, 1));
-        $stmt->execute(array(null, 'resulttype', 'Result Type', null, 1, 1));
+        $stmt->execute(array(null, 'tag',        __('Tag'),         null, 1, 1));
+        $stmt->execute(array(null, 'collection', __('Collection'),  null, 1, 1));
+        $stmt->execute(array(null, 'itemtype',   __('Item Type'),   null, 1, 1));
+        $stmt->execute(array(null, 'resulttype', __('Result Type'), null, 1, 1));
 
         foreach ($elements as $element) {
             $v = 0;
@@ -366,7 +373,7 @@ SQL;
     {
         $acl = Omeka_Context::getInstance()->getAcl();
         if (!$acl) {
-            throw new RuntimeException('ACL not available');
+            throw new RuntimeException(__('ACL not available'));
         }
         $acl->remove('SolrSearch_Config');
     }

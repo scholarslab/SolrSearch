@@ -14,28 +14,28 @@ function tip(el, form_name, revert_to) {
 </script>
 
 <?php head(array(
-  'title' => 'Solr Search Configuration',
+  'title' => __('Solr Search Configuration'),
   'bodyclass' => 'primary',
   'content_class' => 'horizontal-nav')
 ); ?>
 
-<h1>Configure SolrSearch Indexing</h1>
+<h1><?php echo __('Configure SolrSearch Indexing') ?></h1>
 
 <ul id="section-nav" class="navigation">
     <li class="current">
-        <a href="<?php echo html_escape(uri('solr-search/config/')); ?>">Field Configuration</a>
+        <a href="<?php echo html_escape(uri('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/highlight/')); ?>">Hit Highlighting Options</a>
+        <a href="<?php echo html_escape(uri('solr-search/highlight/')); ?>"><?php echo __('Hit Highlighting Options') ?></a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/reindex/')); ?>">Index Items</a>
+        <a href="<?php echo html_escape(uri('solr-search/reindex/')); ?>"><?php echo __('Index Items') ?></a>
     </li>
 </ul>
 
 <div id="primary">
 
-    <h2>Configure Search Fields</h2>
+<h2><?php echo __('Configure Search Fields') ?></h2>
     <?php echo flash(); ?>
     <?php if (!empty($err)) { echo '<p class="error">' . html_escape($err) . '</p>'; } ?>
 
@@ -50,10 +50,10 @@ function tip(el, form_name, revert_to) {
         <tr>
 <?php
 $n             = $group->getName();
-$is_searchable = SolrSearch_ViewHelpers::createSelectAll('Is Searchable', $n);
-$is_facet      = SolrSearch_ViewHelpers::createSelectAll('Is Facet', $n);
+$is_searchable = SolrSearch_ViewHelpers::createSelectAll(__('Is Searchable'), $n, 's');
+$is_facet      = SolrSearch_ViewHelpers::createSelectAll(__('Is Facet'), $n, 'f');
 browse_headings(array(
-    'Field'        => null,
+    __('Field')    => null,
     $is_searchable => null,
     $is_facet      => null
 ));

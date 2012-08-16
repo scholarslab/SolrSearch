@@ -29,7 +29,7 @@ class SolrSearch_ReindexController extends Omeka_Controller_Action
                         $args
                     );
 
-                    $this->flashSuccess('Reindex process started.');
+                    $this->flashSuccess(__('Reindex process started.'));
 
                 } catch (Exception $err) {
                     $this->flashError($err->getMessage());
@@ -49,7 +49,7 @@ class SolrSearch_ReindexController extends Omeka_Controller_Action
         //Submit button
         $form->addElement('submit', 'submit');
         $submitElement=$form->getElement('submit');
-        $submitElement->setLabel('Clear & Reindex');
+        $submitElement->setLabel(__('Clear & Reindex'));
         $submitElement->setAttrib('class', 'btn btn-danger btn-large');
 
         return $form;

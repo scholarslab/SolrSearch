@@ -118,7 +118,7 @@ class SolrSearch_QueryHelpers
 
         if (SolrSearch_QueryHelpers::isNullQuery($queryParams)) {
             $html .= '<span class="appliedFilter constraint query">';
-            $html .= '<span class="filterValue">ALL TERMS</span>';
+            $html .= '<span class="filterValue">' . __('ALL TERMS') . '</span>';
             $html .= '</span>';
 
         } else {
@@ -129,7 +129,7 @@ class SolrSearch_QueryHelpers
                 $html .= '<span class="appliedFilter constraint query">';
                 $html .= '<span class="filterValue">' . $queryParams['q'] . '</span>';
                 $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet={$queryParams['facet']}'>";
-                $html .= 'Remove constraint ' . $queryParams['q'];
+                $html .= __('Remove constraint %s', $queryParams['q']);
                 $html .= '</a>';
                 $html .= '</span>';
             }

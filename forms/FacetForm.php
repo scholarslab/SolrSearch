@@ -96,7 +96,7 @@ class FacetForm extends Omeka_Form
             'submit',
             'submit',
             array(
-                'label' => 'Update Search Fields'
+                'label' => __('Update Search Fields')
             )
         );
 
