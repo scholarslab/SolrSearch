@@ -1,7 +1,8 @@
 <phpunit bootstrap="bootstrap.php"
   verbose="true"
   convertErrorsToExceptions="true"
-  convertWarningsToExceptions="true">
+  convertWarningsToExceptions="true"
+  colors="true">
   <php>
     <includePath>..</includePath>
     <includePath>../../..</includePath>
@@ -10,6 +11,7 @@
     <directory>cases</directory>
     <directory>unit</directory>
   </testsuite>
+  <!--
   <logging>
     <log type="coverage-html"
       target="build/coverage"
@@ -17,5 +19,5 @@
       highlight="true"
       lowUpperBound="35"
       highLowerBound="70" />
-  </logging>
+  </logging>-->
 </phpunit>

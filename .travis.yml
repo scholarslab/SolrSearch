@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - 5.2
+  - 5.3
+  #- 5.4
+
+env:
+  - OMEKA_BRANCH=stable-1.5
+  #- OMEKA_BRANCH=master
+
+before_script:
+  - ./travis_setup.sh
+  - export OMEKA_DIR=/home/vagrant/builds/scholarslab/NeatlineTime/omeka
+
+script: ./travis_tests.sh
+
+
+notifications:
+  irc: "irc.freenode.org#slab"

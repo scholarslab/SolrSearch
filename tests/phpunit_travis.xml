@@ -1,14 +1,8 @@
 <phpunit bootstrap="bootstrap.php"
-  colors="true"
   verbose="true"
   convertErrorsToExceptions="true"
-  convertWarningsToExceptions="true">
-
-  <php>
-    <includePath>..</includePath>
-    <includePath>../../..</includePath>
-    <var name="OMEKA_DIR" value="./omeka" />
-  </php>
+  convertWarningsToExceptions="true"
+  colors="true">
 
   <testsuites>
     <testsuite name="SolrSearchTests">
