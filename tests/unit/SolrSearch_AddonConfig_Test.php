@@ -12,7 +12,7 @@
 
 class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
 {
-    private static $config_json = <<<'EOF'
+    private static $config_json = <<<EOF
 {
     "exhibits": {
         "id_column": "eid",
