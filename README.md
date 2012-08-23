@@ -1,6 +1,8 @@
 About SolrSearch 
 ----------
 
+[![Build Status](https://secure.travis-ci.org/scholarslab/SolrSearch.png)](http://travis-ci.org/scholarslab/SolrSearch)
+
 **SolrSearch** is an Omeka plugin that allows you to leverage the powerful
 [Solr][solr] search engine within Omeka. Not only does Solr provide robust,
 configurable, full-text indexing, it also allows you a flexible
