@@ -40,6 +40,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         $facet->element_id = 1;
         $facet->element_set_id = 2;
         $facet->name = 'name';
+        $facet->label = 'name';
         $facet->is_facet = 1;
         $facet->is_displayed = 1;
         $facet->save();
@@ -74,6 +75,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         $facet->element_id = $element->id;
         $facet->element_set_id = $elementSet->id;
         $facet->name = 'facet';
+        $facet->label = 'facet';
         $facet->save();
 
         // Get element set name.
@@ -95,6 +97,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         // Create a facet.
         $facet = new SolrSearchFacet;
         $facet->name = 'facet';
+        $facet->label = 'facet';
         $facet->save();
 
         // Get element set name.

@@ -54,7 +54,9 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->_title = $this->elementTable
             ->findByElementSetNameAndElementName('Dublin Core', 'Title');
         $this->_subject = $this->elementTable
-            ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
+          ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
+
+        set_option('solr_search_port', '8983');
     }
 
     protected function _setUpNamedPlugin($name, $table=null)

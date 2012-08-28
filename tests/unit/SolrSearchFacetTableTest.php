@@ -55,16 +55,19 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         // Create facet without element_set_id.
         $noElementSetFacet = new SolrSearchFacet;
         $noElementSetFacet->name = 'No Element Set';
+        $noElementSetFacet->label = 'No Element Set';
         $noElementSetFacet->save();
 
         // Create facets with element_set_id.
         $elementSetFacet1 = new SolrSearchFacet;
         $elementSetFacet1->name = 'Element Set 1';
+        $elementSetFacet1->label = 'Element Set 1';
         $elementSetFacet1->element_id = $element->id;
         $elementSetFacet1->element_set_id = $elementSet->id;
         $elementSetFacet1->save();
         $elementSetFacet2 = new SolrSearchFacet;
         $elementSetFacet2->name = 'Element Set 2';
+        $elementSetFacet2->label = 'Element Set 2';
         $elementSetFacet2->element_id = $element->id;;
         $elementSetFacet2->element_set_id = $elementSet->id;
         $elementSetFacet2->save();
