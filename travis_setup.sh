@@ -36,12 +36,10 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 #sed -i  's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
 #cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar &
 
-
-echo `aptitude search jdk`
-sudo apt-get install -qq java7-jdk solr-tomcat
-
-export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=$PLUGIN_DIR/solr-home"
-sudo /etc/init.d/tomcat6 restart
+sudo apt-get install -qq solr-tomcat
+sudo sed -i 's/\usr\/share\/solr/$PLUGIN_DIR\/solr-home/' /etc/tomcat6/Catalina/localhost/solr.xml
+#export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=$PLUGIN_DIR/solr-home"
+sudo service tomcat6 restart
 
 # symlink the plugin
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
