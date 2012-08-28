@@ -14,7 +14,7 @@ mysql -e "create database IF NOT EXISTS omeka_test;" -uroot;
 git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
 
 # check out the correct branch
-cd $OMEKA_DIR && git checkout $OMEKA_BRANCH
+cd $OMEKA_DIR && git checkout $OMEKA_BRANCH && git submodule init
 cd $PLUGIN_DIR
 
 # move configuration files
