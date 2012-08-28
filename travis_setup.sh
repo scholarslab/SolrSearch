@@ -32,9 +32,11 @@ sed -i 's/paths.imagemagick = ""/paths.imagemagick = "\/usr\/bin\/"/' $OMEKA_DIR
 sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 
 # Solr set up -- ZOMG
-cd $PLUGIN_DIR && wget http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz && tar xvf apache-solr-$SOLR_VERSION.tgz
-sed -i  's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
-cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar &
+#cd $PLUGIN_DIR && wget http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz && tar xvf apache-solr-$SOLR_VERSION.tgz
+#sed -i  's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
+#cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar &
+
+apt-get install solr-tomcat
 
 # symlink the plugin
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
