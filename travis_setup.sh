@@ -38,7 +38,7 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 
 sudo apt-get install -qq openjdk-7-jdk solr-tomcat
 
-sudo cat 'export PATH=$PATH:/usr/bin/java' >> /etc/profile
+sudo cat 'export JAVA_HOME=$PATH:/usr/lib/jvm/java-7-openjdk-i186/bin' >> /etc/profile
 sudo source /etc/profile
 #sudo sed -i 's/\usr\/share\/solr/$PLUGIN_DIR\/solr-home/' /etc/tomcat6/Catalina/localhost/solr.xml
 #export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=$PLUGIN_DIR/solr-home"
