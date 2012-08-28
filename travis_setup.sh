@@ -7,7 +7,7 @@ fi
 export PLUGIN_DIR=`pwd`
 export OMEKA_DIR=`pwd`/omeka
 
-SOLR_VERSION=3.6.1
+#SOLR_VERSION=3.6.1
 
 
 mysql -e "create database IF NOT EXISTS omeka_test;" -uroot;
@@ -36,7 +36,7 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 #sed -i  's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
 #cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar &
 
-apt-get install solr-tomcat
+sudo apt-get install -qq solr-tomcat
 
 # symlink the plugin
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
