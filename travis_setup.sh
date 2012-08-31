@@ -7,6 +7,7 @@ fi
 PLUGIN_DIR=`pwd`
 OMEKA_DIR=`pwd`/omeka
 SOLR_VERSION="3.6.1"
+SOLR_DOWNLOAD="http://www.apache.org/dyn/closer.cgi?path=lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz"
 
 mysql -e "create database IF NOT EXISTS omeka_test;" -uroot;
 git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
@@ -33,10 +34,10 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
 
 # Solr set up -- ZOMG
-cd $PLUGIN_DIR && wget http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz
+cd $PLUGIN_DIR && wget $SOLR_DOWNLOAD
 tar -xvf $PLUGIN_DIR/apache-solr-$SOLR_VERSION.tgz > /dev/null 2>&1
 sed -i 's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
-cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar > /dev/null 2>&1
+cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -Dsolr.solr.home=$PLUGIN_DIR/solr-home -jar start.jar > /dev/null 2>&1
 
 #sudo apt-get install -qq openjdk-7-jdk solr-tomcat
 
