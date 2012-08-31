@@ -33,7 +33,8 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
 
 # Solr set up -- ZOMG
-cd $PLUGIN_DIR && wget http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz && tar xvf apache-solr-$SOLR_VERSION.tgz
+cd $PLUGIN_DIR && wget http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz
+tar -xvf $PLUGIN_DIR/apache-solr-$SOLR_VERSION.tgz > /dev/null 2>&1
 sed -i 's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
 cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar > /dev/null 2>&1
 
