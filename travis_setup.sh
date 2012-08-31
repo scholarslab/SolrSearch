@@ -6,7 +6,7 @@ fi
 
 PLUGIN_DIR=`pwd`
 OMEKA_DIR=`pwd`/omeka
-
+SOLR_VERSION="3.6.1"
 
 mysql -e "create database IF NOT EXISTS omeka_test;" -uroot;
 git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
