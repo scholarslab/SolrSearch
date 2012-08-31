@@ -39,7 +39,7 @@ cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
 cd $PLUGIN_DIR && wget $SOLR_DOWNLOAD
 tar -xvf $PLUGIN_DIR/apache-solr-$SOLR_VERSION.tgz > /dev/null 2>&1
 sed -i 's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
-cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -Dsolr.solr.home=$PLUGIN_DIR/solr-home -jar start.jar > /dev/null 2>&1
+cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -Dsolr.solr.home=$PLUGIN_DIR/solr-home -jar start.jar & > /dev/null 2>&1
 
 #sudo apt-get install -qq openjdk-7-jdk solr-tomcat
 
