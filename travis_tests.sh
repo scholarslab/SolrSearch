@@ -15,7 +15,7 @@ echo "Plugin Directory: $PLUGIN_DIR"
 echo "Omeka Directory: $OMEKA_DIR"
 
 echo "\n Starting up Solr..."
-cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -Djetty.logs=/tmp/jetty.log -Dsolr.solr.home=$PLUGIN_DIR/solr-home -jar start.jar &
+cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -Djetty.logs=/tmp/jetty.log -Dsolr.solr.home=$PLUGIN_DIR/solr-home -jar start.jar >> /dev/null 2>&1 & 
 
 echo "\n dumping jetty.xml"
 cat $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
