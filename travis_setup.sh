@@ -7,7 +7,9 @@ fi
 PLUGIN_DIR=`pwd`
 OMEKA_DIR=`pwd`/omeka
 SOLR_VERSION="3.6.1"
-SOLR_DOWNLOAD="http://www.apache.org/dyn/closer.cgi?path=lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz"
+#SOLR_DOWNLOAD="http://www.apache.org/dyn/closer.cgi?path=lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz"
+SOLR_DOWNLOAD="http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz"
+SOLR_PATH=""
 
 mysql -e "create database IF NOT EXISTS omeka_test;" -uroot;
 git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
