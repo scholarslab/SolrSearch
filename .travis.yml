@@ -16,4 +16,4 @@ script: ./travis_tests.sh
 
 
 notifications:
-  irc: "irc.freenode.org#slab"
+  #irc: "irc.freenode.org#slab"
