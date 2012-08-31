@@ -35,7 +35,7 @@ cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
 # Solr set up -- ZOMG
 cd $PLUGIN_DIR && wget http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz && tar xvf apache-solr-$SOLR_VERSION.tgz
 sed -i 's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
-cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar &
+cd $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example && java -jar -Dsolr.solr.home=$PLUGIN_DIR/solr-home start.jar > /dev/null 2>&1
 
 #sudo apt-get install -qq openjdk-7-jdk solr-tomcat
 
