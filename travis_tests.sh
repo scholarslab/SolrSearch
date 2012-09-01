@@ -20,8 +20,8 @@ RUN_CMD="cd $JETTY_HOME && java $JAVA_OPTIONS -jar start.jar $JETTY_ARGS"
 
 function startJetty {
   echo $RUN_CMD
-  #`$RUN_CMD &`
-  nohup sh -c "exec $RUN_CMD >>$JETTY_CONSOLE 2>&1" >/dev/null &
+  `$RUN_CMD &`
+  #nohup sh -c "exec $RUN_CMD >>$JETTY_CONSOLE 2>&1" >/dev/null &
 }
 
 echo "Plugin Directory: $PLUGIN_DIR"
@@ -34,4 +34,4 @@ startJetty
 
 echo "Starting tests..."
 #curl "http://localhost:8080/solr/admin/ping"
-cd tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
+cd $PLUGIN_DIR/tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
