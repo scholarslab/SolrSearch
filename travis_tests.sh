@@ -19,6 +19,7 @@ JAVA_OPTIONS="-Djetty.port=8080 -Dsolr.solr.home=$PLUGIN_DIR/solr-home"
 RUN_CMD="cd $JETTY_HOME && java $JAVA_OPTIONS -jar $JETTY_HOME/start.jar $JETTY_ARGS"
 
 function startJetty {
+  echo $RUN_CMD
   nohup sh -c "exec $RUN_CMD &" 
   #nohup sh -c "exec $RUN_CMD >>$JETTY_CONSOLE 2>&1" >/dev/null &
 }
