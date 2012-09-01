@@ -31,4 +31,5 @@ function startJetty {
 startJetty
 
 echo "Starting tests..."
-cd tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
+curl "http://localhost:8080/solr/admin/ping"
+#cd tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
