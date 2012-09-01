@@ -27,9 +27,8 @@ echo "\n Starting up Solr..."
 function startJetty {
   nohup sh -c "exec $RUN_CMD >>$JETTY_CONSOLE 2>&1" >/dev/null &
 }
-#cat $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
 
 startJetty
-echo $RUN_CMD
+
 echo "Starting tests..."
-#cd tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
+cd tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
