@@ -4,5 +4,8 @@ Gemfile.lock
 dist/
 node_modules/
 solr-home/data
+nohup.out
+apache-solr-3.6.1*
+omeka/
 
 
