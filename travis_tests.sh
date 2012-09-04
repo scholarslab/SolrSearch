@@ -35,5 +35,5 @@ startJetty
 cat nohup.out
 
 echo "Starting tests..."
-#curl "http://localhost:8080/solr/admin/ping"
+curl "http://localhost:8080/solr/admin/ping"
 cd $PLUGIN_DIR/tests/ && phpunit --configuration phpunit_travis.xml --coverage-text

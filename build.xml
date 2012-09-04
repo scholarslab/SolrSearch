@@ -29,6 +29,7 @@
 
   <property name="build" location="build" />
   <property name="dist" location="${build}/dist" />
+
   <tstamp />
   <property name="now" value="${DSTAMP}-${TSTAMP}" />
   <property name="tar" value="${project}-${now}.tar" />
