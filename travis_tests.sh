@@ -28,7 +28,7 @@ function start_solr {
     bundle exec sunspot-solr stop || true; 
   fi
 
-  bundle exec sunspot-solr start -p 8080 -d $PLUGIN_DIR/solr-home
+  bundle exec sunspot-solr start -p 8080 -s $PLUGIN_DIR/solr-home
 
 }
 
