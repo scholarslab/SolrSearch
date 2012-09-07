@@ -12,10 +12,10 @@ SOLR_VERSION="3.6.1"
 JETTY_HOME="$PLUGIN_DIR/apache-solr-$SOLR_VERSION/example"
 JETTY_CONSOLE="/dev/null"
 JETTY_ARGS=""
-JETTY_PORT="8080"
 JAVA_OPTIONS="-Djetty.port=8080 -Dsolr.solr.home=$PLUGIN_DIR/solr-home"
-
 RUN_CMD="cd $JETTY_HOME && java $JAVA_OPTIONS -jar start.jar $JETTY_ARGS"
+
+SOLR_PORT="8080"
 #RUN_CMD="java $JAVA_OPTIONS -jar $JETTY_HOME/start.jar $JETTY_ARGS"
 
 function startJetty {
@@ -25,7 +25,7 @@ nohup sh -c "$RUN_CMD" &
 }
 
 function solr_responding {
-curl -o /dev/null "http://localhost:$JETTY_PORT/solr/admin/ping" > /dev/null 2>&1
+  curl -o /dev/null "http://localhost:$SOLR_PORT/solr/admin/ping" > /dev/null 2>&1
 }
 
 function wait_until_solr_responds {
@@ -45,7 +45,7 @@ function main {
     bundle exec sunspot-solr stop || true; 
   fi
 
-  bundle exec sunpot-solr start -p 8080 -d $PLUGIN_DIR/solr-home
+  bundle exec sunspot-solr start -p 8080 -d $PLUGIN_DIR/solr-home
 
   wait_until_solr_responds
   echo "solr is running..."
