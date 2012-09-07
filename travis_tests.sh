@@ -48,14 +48,14 @@ function main {
   bundle exec sunspot-solr start -p 8080 -d $PLUGIN_DIR/solr-home
 
   wait_until_solr_responds
+  echo ""
   echo "solr is running..."
+
+  cd $PLUGIN_DIR/tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
 
   echo "Stopping Solr..."
   bundle exec sunspot-solr stop
   echo "done."
-
-  returnvalue=?
-  exit $returnvalue
 
 }
 
@@ -75,4 +75,4 @@ echo "solr is up."
 
 echo "Starting tests..."
 #curl "http://localhost:8080/solr/admin/ping"
-#cd $PLUGIN_DIR/tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
+#
