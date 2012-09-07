@@ -5,7 +5,7 @@ if [ -z $PLUGIN_DIR ]; then
 fi
 
 if [ -z $OMEKA_DIR ]; then
-  OMEKA_DIR=`pwd`/omeka
+  export OMEKA_DIR=`pwd`/omeka
 fi
 
 SOLR_PORT="8080"
