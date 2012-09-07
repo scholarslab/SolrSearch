@@ -18,6 +18,8 @@ git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
 cd $OMEKA_DIR && git checkout $OMEKA_BRANCH && git submodule init && git submodule update
 cd $PLUGIN_DIR
 
+bundle install
+
 # move configuration files
 mv $OMEKA_DIR/application/config/config.ini.changeme $OMEKA_DIR/application/config/config.ini
 mv $OMEKA_DIR/application/tests/config.ini.changeme $OMEKA_DIR/application/tests/config.ini
@@ -36,8 +38,8 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
 
 # Solr set up -- ZOMG
-cd $PLUGIN_DIR && wget $SOLR_DOWNLOAD
-tar -xf $PLUGIN_DIR/apache-solr-$SOLR_VERSION.tgz
+#cd $PLUGIN_DIR && wget $SOLR_DOWNLOAD
+#tar -xf $PLUGIN_DIR/apache-solr-$SOLR_VERSION.tgz
 
 #sed -i 's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
 

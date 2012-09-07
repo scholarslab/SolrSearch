@@ -18,3 +18,6 @@ gem "guard-livereload"
 gem "guard-coffeescript"
 gem "yajl-ruby"
 gem "jasmine"
+
+gem "sunspot"
+gem "sunspot_solr"
