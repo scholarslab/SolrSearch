@@ -6,10 +6,6 @@ fi
 
 PLUGIN_DIR=`pwd`
 OMEKA_DIR=`pwd`/omeka
-SOLR_VERSION="3.6.1"
-#SOLR_DOWNLOAD="http://www.apache.org/dyn/closer.cgi?path=lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz"
-SOLR_DOWNLOAD="http://apache.cs.utah.edu/lucene/solr/$SOLR_VERSION/apache-solr-$SOLR_VERSION.tgz"
-SOLR_PATH=""
 
 mysql -e "create database IF NOT EXISTS omeka_test;" -uroot;
 git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
@@ -17,8 +13,6 @@ git clone https://github.com/omeka/Omeka.git $OMEKA_DIR
 # check out the correct branch
 cd $OMEKA_DIR && git checkout $OMEKA_BRANCH && git submodule init && git submodule update
 cd $PLUGIN_DIR
-
-bundle install
 
 # move configuration files
 mv $OMEKA_DIR/application/config/config.ini.changeme $OMEKA_DIR/application/config/config.ini
@@ -37,19 +31,8 @@ sed -i 's/256M/512M/' $OMEKA_DIR/application/tests/bootstrap.php
 # symlink the plugin
 cd $OMEKA_DIR/plugins && ln -s $PLUGIN_DIR
 
-# Solr set up -- ZOMG
-#cd $PLUGIN_DIR && wget $SOLR_DOWNLOAD
-#tar -xf $PLUGIN_DIR/apache-solr-$SOLR_VERSION.tgz
-
-#sed -i 's/8983/8080/g' $PLUGIN_DIR/apache-solr-$SOLR_VERSION/example/etc/jetty.xml
+cd $PLUGIN_DIR && bundle install --quiet
 
 
-#sudo apt-get install -qq openjdk-7-jdk solr-tomcat
-
-#sudo cat 'export JAVA_HOME=$PATH:/usr/lib/jvm/java-7-openjdk-i186/bin' >> /etc/profile 
-#sudo sed -i 's/\usr\/share\/solr/$PLUGIN_DIR\/solr-home/' /etc/tomcat6/Catalina/localhost/solr.xml
-#export JAVA_HOME=$PATH:/usr/lib/jvm/java-7-openjdk-i186/bin
-#export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=$PLUGIN_DIR/solr-home"
-#sudo service tomcat6 restart
 
 
