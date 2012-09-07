@@ -32,7 +32,7 @@ function start_solr {
 
 }
 
-function start_tests {
+function run_tests {
   echo ""
   echo "Running tests..."
 
@@ -51,6 +51,8 @@ function main {
 
   start_solr
   wait_until_solr_responds
+
+  run_tests
 
   echo ""
   echo "solr is running..."
