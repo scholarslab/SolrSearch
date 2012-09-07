@@ -52,7 +52,10 @@ function main {
   start_solr
   wait_until_solr_responds
 
-  run_tests
+ echo ""
+  echo "Running tests..."
+
+  cd $PLUGIN_DIR/tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
 
   echo ""
   echo "solr is running..."
