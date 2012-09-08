@@ -56,11 +56,14 @@ function main {
   echo "Running tests..."
 
   cd $PLUGIN_DIR/tests/ && phpunit --configuration phpunit_travis.xml --coverage-text
+  rv=$?
 
   echo ""
   echo "solr is running..."
 
   stop_solr
+
+  exit $rv
 
 }
 

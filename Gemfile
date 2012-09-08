@@ -20,6 +20,7 @@ gem "yajl-ruby"
 gem "jasmine"
 
 gem "sunspot"
+
 git "git://github.com/waynegraham/sunspot.git" do
   gem "sunspot_solr"
 end
