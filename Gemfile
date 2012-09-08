@@ -20,4 +20,6 @@ gem "yajl-ruby"
 gem "jasmine"
 
 gem "sunspot"
-gem "sunspot_solr"
+git "git@github.com:waynegraham/sunspot.git" do
+  gem "sunspot_solr"
+end
