@@ -1,0 +1,9 @@
+{
+  "name": "SolrSearch",
+  "version": "1.0.0",
+  "dependencies" : {
+    "inireader" : "0.2.4",
+    "uglify-js" : "1.2.6",
+    "coffee-script" : "1.3.1"
+  }
+}

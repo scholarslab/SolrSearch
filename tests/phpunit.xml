@@ -1,7 +1,21 @@
-<phpunit bootstrap="../../../application/tests/bootstrap.php"
-         convertErrorsToExceptions="true"
-         convertWarningsToExceptions="true">
-    <testsuite name="SolrSearch Tests">
-        <file>AllTests.php</file>
-    </testsuite>
+<phpunit bootstrap="bootstrap.php"
+  verbose="true"
+  convertErrorsToExceptions="true"
+  convertWarningsToExceptions="true">
+  <php>
+    <includePath>..</includePath>
+    <includePath>../../..</includePath>
+  </php>
+  <testsuite name="SolrSearchTests">
+    <directory>cases</directory>
+    <directory>unit</directory>
+  </testsuite>
+  <logging>
+    <log type="coverage-html"
+      target="build/coverage"
+      charset="UTF-8" yui="true"
+      highlight="true"
+      lowUpperBound="35"
+      highLowerBound="70" />
+  </logging>
 </phpunit>

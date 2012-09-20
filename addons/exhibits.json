@@ -1,0 +1,45 @@
+{
+    "exhibits": {
+        "table"       : "Exhibit",
+        "result_type" : "Exhibits",
+        "tagged"      : true,
+        "flag"        : "public",
+
+        "fields": [
+            "title",
+            "description"
+        ],
+        "children": {
+            "sections": {
+                "table"       : "ExhibitSection",
+                "result_type" : "Sections",
+                "parent_key"  : "exhibit_id",
+
+                "fields": [
+                    "title",
+                    "description"
+                ],
+                "children": {
+                    "section_pages": {
+                        "table"       : "ExhibitPage",
+                        "result_type" : "Exhibit Pages",
+                        "parent_key"  : "section_id",
+                        "fields"      : [
+                            "title",
+                            {
+                                "field"    : "text",
+                                "label"    : "Page Text",
+                                "facet"    : false,
+                                "is_title" : false,
+                                "remote"   : {
+                                    "table" : "ExhibitPageEntry",
+                                    "key"   : "page_id"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
