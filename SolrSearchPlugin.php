@@ -205,7 +205,7 @@ class SolrSearchPlugin
             queue_css('solr_search');
             queue_css('textinplace');
             queue_js('jquery.textinplace');
-            $js = 'solrsearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
+            $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
             queue_js($js);
         }
     }
@@ -213,7 +213,7 @@ class SolrSearchPlugin
     public function publicThemeHeader()
     {
         queue_css('solr_search');
-        $js = 'solrsearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
+        $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
         queue_js($js);
     }
 

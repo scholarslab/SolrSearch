@@ -16,7 +16,7 @@
 
   <!-- properties for the ini file -->
   <property name="project" value="SolrSearch" />
-  <property name="version" value="1.0" />
+  <property name="version" value="1.0.0" />
   <property name="Author" value="Scholars' Lab" />
   <property name="description" value="Integrate Apache Solr into Omeka for primary searching." />
   <property name="link" value="http://scholarslab.github.com/SolrSearch/" />
