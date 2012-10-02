@@ -24,7 +24,7 @@ It's easiest to start with a fresh repository, so the instructions start there.
 1. `ant package`
 1. quick check the zip
 1. test the zip
-1. `git flow release finish 1.0.0`
+1. `git flow release finish $VERSION`
 1. `git push`
 1. upload the zip to http://omeka.org/add-ons/plugins/.
 
