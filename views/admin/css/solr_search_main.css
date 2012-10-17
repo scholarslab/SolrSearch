@@ -1,7 +1,17 @@
-.zend_form > dd {
-	margin-bottom: 20px;
-}
-
-.solrsearch.config > dd {
+.solrsearch dd {
     margin-bottom: 20px;
 }
+
+.solrsearch dd input,
+.solrsearch dd select {
+    width: 200px;
+}
+
+.solrsearch dt {
+    margin-top: 2em;
+    height: 2em;
+}
+.solrsearch dt label {
+    width: 500px;
+}
+
