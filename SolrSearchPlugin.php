@@ -200,21 +200,32 @@ class SolrSearchPlugin
 
     public function adminThemeHeader($request)
     {
+        // Let's figure out where we are.
         $module = $request->getModuleName();
-        if ($module == 'solr-search' || $module == 'default') {
-            queue_css('solr_search');
+        $controller = $request->getControllerName();
+        $action = $request->getActionName();
+
+        // If we're on any page using the SolrSearch module.
+        if ($module == 'solr-search') {
             queue_css('textinplace');
             queue_js('jquery.textinplace');
-            $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
-            queue_js($js);
+            queue_css('solr_search_main');
+        }
+
+        // If we're on the plugin config page.
+        if ($controller == 'plugins' && $action == 'config') {
+            queue_css('solr_search_main');
         }
     }
 
-    public function publicThemeHeader()
+    public function publicThemeHeader($request)
     {
-        queue_css('solr_search');
-        $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
-        queue_js($js);
+        $module = $request->getModuleName();
+        if ($module == 'solr-search') {
+            queue_css('solr_search');
+            $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
+            queue_js($js);
+        }
     }
 
     public function configForm()
