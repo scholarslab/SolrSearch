@@ -1,222 +1,222 @@
 # Translation for the SolrSearch Omeka plugin.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: SolrSearch\n"
+"Project-Id-Version: ScholarsLab\n"
 "Report-Msgid-Bugs-To: http://github.com/scholarslab/SolrSearch/issues\n"
 "POT-Creation-Date: 2012-05-24 14:30-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-08-16 17:32+0000\n"
+"Last-Translator: Eric Rochester <erochest@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: SolrSearchPlugin.php:233
+#: SolrSearchPlugin.php:222
 msgid "Solr Options"
-msgstr ""
+msgstr "Solr Options"
 
-#: SolrSearchPlugin.php:255
+#: SolrSearchPlugin.php:244
 msgid ""
 "Cannot connect to Solr with the given configuration. Please check your "
 "server host, port, and core."
-msgstr ""
+msgstr "Cannot connect to Solr with the given configuration. Please check your server host, port, and core."
 
-#: SolrSearchPlugin.php:328 models/SolrSearchFacet.php:84
+#: SolrSearchPlugin.php:317 models/SolrSearchFacet.php:84
 msgid "Tag"
-msgstr ""
+msgstr "Tag"
 
-#: SolrSearchPlugin.php:331 models/SolrSearchFacet.php:87
+#: SolrSearchPlugin.php:320 models/SolrSearchFacet.php:87
 msgid "Result Type"
-msgstr ""
+msgstr "Result Type"
 
-#: SolrSearchPlugin.php:387
+#: SolrSearchPlugin.php:376
 msgid "ACL not available"
-msgstr ""
+msgstr "ACL not available"
 
 #: controllers/ConfigController.php:56
 msgid "Solr configuration updated. Be sure to reindex."
-msgstr ""
+msgstr "Solr configuration updated. Be sure to reindex."
 
 #: controllers/HighlightController.php:46
 msgid "Hit highlighting features modified."
-msgstr ""
+msgstr "Hit highlighting features modified."
 
 #: controllers/HighlightController.php:48
 msgid "Failed to gather posted data."
-msgstr ""
+msgstr "Failed to gather posted data."
 
 #: controllers/HighlightController.php:69
 msgid "Highlighting:"
-msgstr ""
+msgstr "Highlighting:"
 
 #: controllers/HighlightController.php:70
 msgid "Enable/Disable highlighting matches in Solr fields"
-msgstr ""
+msgstr "Enable/Disable highlighting matches in Solr fields"
 
 #: controllers/HighlightController.php:71
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: controllers/HighlightController.php:72
 msgid "False"
-msgstr ""
+msgstr "False"
 
 #: controllers/HighlightController.php:78
 msgid "Snippets:"
-msgstr ""
+msgstr "Snippets:"
 
 #: controllers/HighlightController.php:79
 msgid "The maximum number of highlighted snippets to generate"
-msgstr ""
+msgstr "The maximum number of highlighted snippets to generate"
 
 #: controllers/HighlightController.php:87
 msgid "Snippet Size:"
-msgstr ""
+msgstr "Snippet Size:"
 
 #: controllers/HighlightController.php:88
 msgid "The maximum number of characters to display in a snippet"
-msgstr ""
+msgstr "The maximum number of characters to display in a snippet"
 
 #: controllers/ReindexController.php:32
 msgid "Reindex process started."
-msgstr ""
+msgstr "Reindex process started."
 
 #: controllers/ReindexController.php:52
 msgid "Clear & Reindex"
-msgstr ""
+msgstr "Clear & Reindex"
 
 #: forms/FacetForm.php:99
 msgid "Update Search Fields"
-msgstr ""
+msgstr "Update Search Fields"
 
 #: helpers/SolrSearch_QueryHelpers.php:121
 msgid "ALL TERMS"
-msgstr ""
+msgstr "ALL TERMS"
 
 #: helpers/SolrSearch_QueryHelpers.php:132
 #, php-format
 msgid "Remove constraint %s"
-msgstr ""
+msgstr "Remove constraint %s"
 
 #: helpers/SolrSearch_ViewHelpers.php:143
 msgid "Untitled"
-msgstr ""
+msgstr "Untitled"
 
 #: helpers/SolrSearch_ViewHelpers.php:326
 msgid "Server Host:"
-msgstr ""
+msgstr "Server Host:"
 
 #: helpers/SolrSearch_ViewHelpers.php:329
 msgid "Server Port:"
-msgstr ""
+msgstr "Server Port:"
 
 #: helpers/SolrSearch_ViewHelpers.php:333
 msgid "Solr Core Name:"
-msgstr ""
+msgstr "Solr Core Name:"
 
 #: helpers/SolrSearch_ViewHelpers.php:345
 msgid "Facet Field Constraint Order:"
-msgstr ""
+msgstr "Facet Field Constraint Order:"
 
 #: helpers/SolrSearch_ViewHelpers.php:349
 msgid "Occurrences"
-msgstr ""
+msgstr "Occurrences"
 
 #: helpers/SolrSearch_ViewHelpers.php:352
 msgid "Maximum Facet Count:"
-msgstr ""
+msgstr "Maximum Facet Count:"
 
 #: models/SolrSearchFacetTable.php:29
 msgid "Omeka Categories"
-msgstr ""
+msgstr "Omeka Categories"
 
 #: views/admin/config/index.php:17
 msgid "Solr Search Configuration"
-msgstr ""
+msgstr "Solr Search Configuration"
 
 #: views/admin/config/index.php:22
 msgid "Configure SolrSearch Indexing"
-msgstr ""
+msgstr "Configure SolrSearch Indexing"
 
 #: views/admin/config/index.php:26 views/admin/highlight/index.php:8
 #: views/admin/reindex/index.php:9
 msgid "Field Configuration"
-msgstr ""
+msgstr "Field Configuration"
 
 #: views/admin/config/index.php:29 views/admin/highlight/index.php:11
 #: views/admin/reindex/index.php:12
 msgid "Hit Highlighting Options"
-msgstr ""
+msgstr "Hit Highlighting Options"
 
 #: views/admin/config/index.php:32 views/admin/highlight/index.php:14
 #: views/admin/reindex/index.php:15
 msgid "Index Items"
-msgstr ""
+msgstr "Index Items"
 
 #: views/admin/config/index.php:38
 msgid "Configure Search Fields"
-msgstr ""
+msgstr "Configure Search Fields"
 
 #: views/admin/config/index.php:53
 msgid "Is Searchable"
-msgstr ""
+msgstr "Is Searchable"
 
 #: views/admin/config/index.php:54
 msgid "Is Facet"
-msgstr ""
+msgstr "Is Facet"
 
 #: views/admin/config/index.php:56
 msgid "Field"
-msgstr ""
+msgstr "Field"
 
 #: views/admin/config/update.php:2 views/admin/reindex/update.php:2
 msgid "Solr Search Facets"
-msgstr ""
+msgstr "Solr Search Facets"
 
 #: views/admin/config/update.php:4 views/admin/reindex/update.php:4
 msgid "Manage Solr Search Facets"
-msgstr ""
+msgstr "Manage Solr Search Facets"
 
 #: views/admin/config/update.php:13 views/admin/highlight/update.php:13
 #: views/admin/reindex/update.php:13
 msgid "Return to form."
-msgstr ""
+msgstr "Return to form."
 
 #: views/admin/highlight/index.php:2 views/admin/highlight/update.php:2
 msgid "Solr Search Hit Highlighting Options"
-msgstr ""
+msgstr "Solr Search Hit Highlighting Options"
 
 #: views/admin/highlight/index.php:4 views/admin/reindex/index.php:5
 msgid "Configure Solr"
-msgstr ""
+msgstr "Configure Solr"
 
 #: views/admin/highlight/index.php:18 views/admin/highlight/update.php:4
 msgid "Hit Highlighting"
-msgstr ""
+msgstr "Hit Highlighting"
 
 #: views/admin/highlight/index.php:24
 msgid "Select hit highlighting options from available fields below."
-msgstr ""
+msgstr "Select hit highlighting options from available fields below."
 
 #: views/admin/reindex/index.php:2
 msgid "Reindex Items in Solr"
-msgstr ""
+msgstr "Reindex Items in Solr"
 
 #: views/admin/reindex/index.php:19
 msgid "Reindex All Items"
-msgstr ""
+msgstr "Reindex All Items"
 
 #: views/admin/reindex/index.php:27
 msgid ""
 "Click the button below to reindex all of your public items into the Solr "
 "index."
-msgstr ""
+msgstr "Click the button below to reindex all of your public items into the Solr index."
 
 #: views/shared/results/index.php:46
 #, php-format
 msgid "%s results"
-msgstr ""
+msgstr "%s results"

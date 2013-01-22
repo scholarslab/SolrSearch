@@ -1,45 +1,46 @@
 # Translation for the SolrSearch Omeka plugin.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Sam Alloing <>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: SolrSearch\n"
+"Project-Id-Version: ScholarsLab\n"
 "Report-Msgid-Bugs-To: http://github.com/scholarslab/SolrSearch/issues\n"
 "POT-Creation-Date: 2012-05-24 14:30-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2012-12-22 10:44+0000\n"
+"Last-Translator: Sam Alloing <>\n"
+"Language-Team: Dutch (Belgium) (http://www.transifex.com/projects/p/scholarslab/language/nl_BE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl_BE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: SolrSearchPlugin.php:233
+#: SolrSearchPlugin.php:222
 msgid "Solr Options"
-msgstr ""
+msgstr "Solr opties"
 
-#: SolrSearchPlugin.php:255
+#: SolrSearchPlugin.php:244
 msgid ""
 "Cannot connect to Solr with the given configuration. Please check your "
 "server host, port, and core."
-msgstr ""
+msgstr "Er kan geen verbinding gemaakt worden met Solr met de huidige configuratie. Gelieve uw server host, poort en core na te kijken"
 
-#: SolrSearchPlugin.php:328 models/SolrSearchFacet.php:84
+#: SolrSearchPlugin.php:317 models/SolrSearchFacet.php:84
 msgid "Tag"
-msgstr ""
+msgstr "Trefwoorden"
 
-#: SolrSearchPlugin.php:331 models/SolrSearchFacet.php:87
+#: SolrSearchPlugin.php:320 models/SolrSearchFacet.php:87
 msgid "Result Type"
-msgstr ""
+msgstr "Resultaatstype"
 
-#: SolrSearchPlugin.php:387
+#: SolrSearchPlugin.php:376
 msgid "ACL not available"
-msgstr ""
+msgstr "ACL niet beschikbaar"
 
 #: controllers/ConfigController.php:56
 msgid "Solr configuration updated. Be sure to reindex."
-msgstr ""
+msgstr "Solr configuratie werd geüpdatet. Gelieve te herindexeren"
 
 #: controllers/HighlightController.php:46
 msgid "Hit highlighting features modified."
@@ -59,11 +60,11 @@ msgstr ""
 
 #: controllers/HighlightController.php:71
 msgid "True"
-msgstr ""
+msgstr "Waar"
 
 #: controllers/HighlightController.php:72
 msgid "False"
-msgstr ""
+msgstr "Onwaar"
 
 #: controllers/HighlightController.php:78
 msgid "Snippets:"
@@ -95,7 +96,7 @@ msgstr ""
 
 #: helpers/SolrSearch_QueryHelpers.php:121
 msgid "ALL TERMS"
-msgstr ""
+msgstr "ALLE TERMEN"
 
 #: helpers/SolrSearch_QueryHelpers.php:132
 #, php-format
@@ -104,19 +105,19 @@ msgstr ""
 
 #: helpers/SolrSearch_ViewHelpers.php:143
 msgid "Untitled"
-msgstr ""
+msgstr "Geen titel"
 
 #: helpers/SolrSearch_ViewHelpers.php:326
 msgid "Server Host:"
-msgstr ""
+msgstr "Server host:"
 
 #: helpers/SolrSearch_ViewHelpers.php:329
 msgid "Server Port:"
-msgstr ""
+msgstr "Server poort:"
 
 #: helpers/SolrSearch_ViewHelpers.php:333
 msgid "Solr Core Name:"
-msgstr ""
+msgstr "Solr Core naam:"
 
 #: helpers/SolrSearch_ViewHelpers.php:345
 msgid "Facet Field Constraint Order:"
@@ -155,36 +156,36 @@ msgstr ""
 #: views/admin/config/index.php:32 views/admin/highlight/index.php:14
 #: views/admin/reindex/index.php:15
 msgid "Index Items"
-msgstr ""
+msgstr "Indexeer items"
 
 #: views/admin/config/index.php:38
 msgid "Configure Search Fields"
-msgstr ""
+msgstr "Configureer zoekvelden"
 
 #: views/admin/config/index.php:53
 msgid "Is Searchable"
-msgstr ""
+msgstr "Is doorzoekbaar"
 
 #: views/admin/config/index.php:54
 msgid "Is Facet"
-msgstr ""
+msgstr "Is een facet"
 
 #: views/admin/config/index.php:56
 msgid "Field"
-msgstr ""
+msgstr "Veld"
 
 #: views/admin/config/update.php:2 views/admin/reindex/update.php:2
 msgid "Solr Search Facets"
-msgstr ""
+msgstr "Solr zoekfacetten"
 
 #: views/admin/config/update.php:4 views/admin/reindex/update.php:4
 msgid "Manage Solr Search Facets"
-msgstr ""
+msgstr "Beheer Solr zoekfacetten"
 
 #: views/admin/config/update.php:13 views/admin/highlight/update.php:13
 #: views/admin/reindex/update.php:13
 msgid "Return to form."
-msgstr ""
+msgstr "Ga terug naar formulier"
 
 #: views/admin/highlight/index.php:2 views/admin/highlight/update.php:2
 msgid "Solr Search Hit Highlighting Options"
@@ -192,7 +193,7 @@ msgstr ""
 
 #: views/admin/highlight/index.php:4 views/admin/reindex/index.php:5
 msgid "Configure Solr"
-msgstr ""
+msgstr "Configureer Solr"
 
 #: views/admin/highlight/index.php:18 views/admin/highlight/update.php:4
 msgid "Hit Highlighting"
@@ -204,19 +205,19 @@ msgstr ""
 
 #: views/admin/reindex/index.php:2
 msgid "Reindex Items in Solr"
-msgstr ""
+msgstr "Herindexeer items in Solr"
 
 #: views/admin/reindex/index.php:19
 msgid "Reindex All Items"
-msgstr ""
+msgstr "Herindexeer alle items"
 
 #: views/admin/reindex/index.php:27
 msgid ""
 "Click the button below to reindex all of your public items into the Solr "
 "index."
-msgstr ""
+msgstr "Klik op de onderstaande knop om alle publieke items te herindexeren in de Solr index."
 
 #: views/shared/results/index.php:46
 #, php-format
 msgid "%s results"
-msgstr ""
+msgstr "%s resultaten"
