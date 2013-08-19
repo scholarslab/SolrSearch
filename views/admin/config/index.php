@@ -17,8 +17,7 @@ function tip(el, form_name, revert_to) {
 }
 </script>
 
-<h1><?php echo __('Configure SolrSearch Indexing') ?></h1>
-
+<div id="solr_config">
 <ul id="section-nav" class="navigation">
     <li class="current">
         <a href="<?php echo html_escape(url('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
@@ -50,12 +49,11 @@ function tip(el, form_name, revert_to) {
 $n             = $group->getName();
 $is_searchable = SolrSearch_ViewHelpers::createSelectAll(__('Is Searchable'), $n, 's');
 $is_facet      = SolrSearch_ViewHelpers::createSelectAll(__('Is Facet'), $n, 'f');
-browse_sort_links(array(
-    __('Field')    => null,
-    $is_searchable => null,
-    $is_facet      => null
-));
 ?>
+    <th><?php echo __('Field');    ?></th>
+    <th><?php echo $is_searchable; ?></th>
+    <th><?php echo $is_facet;      ?></th>
+
         </tr>
       </thead>
       <tbody>
@@ -80,5 +78,6 @@ jQuery(function () {
 });
 </script>
     </form></div>
+</div>
 
 <?php echo foot(); ?>

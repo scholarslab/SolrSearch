@@ -25,6 +25,7 @@ jQuery(document).ready(function($) {
     $('#facets-form').accordion({
         header: 'h3.fieldset',
         autoHeight: false,
-        collapsible: true
+        collapsible: true,
+        heightStyle: "content"
     });
 });

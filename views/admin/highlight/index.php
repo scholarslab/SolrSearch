@@ -1,7 +1,6 @@
 <?php
     echo head(array('title' => __('Solr Search Hit Highlighting Options'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
-<h1><?php echo __('Configure Solr') ?></h1>
 
 <ul id="section-nav" class="navigation">
     <li class="">

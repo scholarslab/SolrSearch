@@ -2,8 +2,6 @@
 echo head(array('title' => __('Reindex Items in Solr'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
 
-<h1><?php echo __('Configure Solr') ?></h1>
-
 <ul id="section-nav" class="navigation">
     <li class="">
         <a href="<?php echo html_escape(url('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
