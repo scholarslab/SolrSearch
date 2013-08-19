@@ -60,7 +60,7 @@ class SolrSearch_QueryManager
             $query = $_REQUEST;
         }
         if ($baseUrl === null) {
-            $baseUrl = uri('/solr-search/results/');
+            $baseUrl = url('/solr-search/results/');
         }
         if ($extra === null) {
             $extra = array();

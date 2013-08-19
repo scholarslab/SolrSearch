@@ -15,7 +15,7 @@ class SolrSearch_ViewHelpers
      **/
     public static function getBaseUrl()
     {
-        return uri('/solr-search/results/');
+        return url('/solr-search/results/');
     }
 
     /**
@@ -39,9 +39,9 @@ class SolrSearch_ViewHelpers
         $formProperties['method'] = 'get';
         $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
         $html .= '<fieldset>' . "\n\n";
-        $html .= __v()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
-        //$html .= __v()->formHidden('solrfacet', '');
-        $html .= __v()->formSubmit('submit_search', $buttonText);
+        $html .= get_view()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
+        //$html .= get_view()->formHidden('solrfacet', '');
+        $html .= get_view()->formSubmit('submit_search', $buttonText);
         $html .= '</fieldset>' . "\n\n";
         $html .= '</form>';
         return $html;
@@ -407,7 +407,7 @@ class SolrSearch_ViewHelpers
         $options = $subform->getElement('options');
         $id      = preg_replace('/\W+/', '_', $label->getFullyQualifiedName());
 
-        $output .= __v()->partial(
+        $output .= get_view()->partial(
             'config/_subform.php',
             array(
                 'id'      => $id,

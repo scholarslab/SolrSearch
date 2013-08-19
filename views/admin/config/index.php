@@ -1,6 +1,10 @@
 <?php
-  queue_js('accordion');
-?>
+queue_js_file('accordion');
+echo head(array(
+  'title' => __('Solr Search Configuration'),
+  'bodyclass' => 'primary',
+  'content_class' => 'horizontal-nav')
+); ?>
 
 <script type='text/javascript'>
 function tip(el, form_name, revert_to) {
@@ -13,23 +17,17 @@ function tip(el, form_name, revert_to) {
 }
 </script>
 
-<?php head(array(
-  'title' => __('Solr Search Configuration'),
-  'bodyclass' => 'primary',
-  'content_class' => 'horizontal-nav')
-); ?>
-
 <h1><?php echo __('Configure SolrSearch Indexing') ?></h1>
 
 <ul id="section-nav" class="navigation">
     <li class="current">
-        <a href="<?php echo html_escape(uri('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
+        <a href="<?php echo html_escape(url('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/highlight/')); ?>"><?php echo __('Hit Highlighting Options') ?></a>
+        <a href="<?php echo html_escape(url('solr-search/highlight/')); ?>"><?php echo __('Hit Highlighting Options') ?></a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/reindex/')); ?>"><?php echo __('Index Items') ?></a>
+        <a href="<?php echo html_escape(url('solr-search/reindex/')); ?>"><?php echo __('Index Items') ?></a>
     </li>
 </ul>
 
@@ -52,7 +50,7 @@ function tip(el, form_name, revert_to) {
 $n             = $group->getName();
 $is_searchable = SolrSearch_ViewHelpers::createSelectAll(__('Is Searchable'), $n, 's');
 $is_facet      = SolrSearch_ViewHelpers::createSelectAll(__('Is Facet'), $n, 'f');
-browse_headings(array(
+browse_sort_links(array(
     __('Field')    => null,
     $is_searchable => null,
     $is_facet      => null
@@ -83,4 +81,4 @@ jQuery(function () {
 </script>
     </form></div>
 
-<?php foot(); ?>
+<?php echo foot(); ?>

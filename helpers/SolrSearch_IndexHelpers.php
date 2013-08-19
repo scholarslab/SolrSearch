@@ -1,7 +1,8 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-require_once HELPER_DIR . '/UrlFunctions.php';
+// TODO: Remove
+// require_once HELPER_DIR . '/UrlFunctions.php';
 
 /**
  * This contains some helpers for indexing items.
@@ -100,7 +101,7 @@ class SolrSearch_IndexHelpers
             if (simple_pages_is_home_page($record)) {
                 $uri = abs_uri('');
             } else {
-                $uri = uri($record->slug);
+                $uri = url($record->slug);
             }
 
         } else if ($rc === 'ExhibitSection') {
@@ -118,7 +119,7 @@ class SolrSearch_IndexHelpers
             $uri = SolrSearch_IndexHelpers::getSlugUri($record, $action);
 
         } else {
-            $uri = record_uri($record, $action);
+            $uri = record_url($record, $action);
         }
 
         // These should never be under /admin/, so remove that if it's there.
@@ -149,7 +150,7 @@ class SolrSearch_IndexHelpers
             'action'     => $action,
             'id'         => $record->slug
         );
-        $uri = uri($options, 'id');
+        $uri = url($options, 'id');
 
         return $uri;
     }

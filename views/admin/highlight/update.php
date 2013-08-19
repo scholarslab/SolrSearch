@@ -1,5 +1,5 @@
 <?php
-    head(array('title' => __('Solr Search Hit Highlighting Options'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+    echo head(array('title' => __('Solr Search Hit Highlighting Options'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
 <h1><?php echo __('Hit Highlighting') ?></h1>
 
@@ -14,5 +14,5 @@
 </div>
 
 <?php 
-    foot(); 
+    echo foot(); 
 ?>

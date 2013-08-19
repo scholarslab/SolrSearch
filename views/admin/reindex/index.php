@@ -1,18 +1,18 @@
 <?php
-head(array('title' => __('Reindex Items in Solr'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+echo head(array('title' => __('Reindex Items in Solr'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
 ?>
 
 <h1><?php echo __('Configure Solr') ?></h1>
 
 <ul id="section-nav" class="navigation">
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
+        <a href="<?php echo html_escape(url('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(uri('solr-search/highlight/')); ?>"><?php echo __('Hit Highlighting Options') ?></a>
+        <a href="<?php echo html_escape(url('solr-search/highlight/')); ?>"><?php echo __('Hit Highlighting Options') ?></a>
     </li>
     <li class="current">
-        <a href="<?php echo html_escape(uri('solr-search/reindex/')); ?>"><?php echo __('Index Items') ?></a>
+        <a href="<?php echo html_escape(url('solr-search/reindex/')); ?>"><?php echo __('Index Items') ?></a>
     </li>
 </ul>
 <div id="primary">
@@ -29,4 +29,4 @@ if (!empty($err)) {
 </div>
 
 <?php
-foot();
+echo foot();
