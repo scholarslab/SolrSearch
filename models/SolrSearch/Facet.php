@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-class SolrSearch_Facet extends Omeka_Record {
+class SolrSearch_Facet extends Omeka_Record_AbstractRecord {
 
 
     /**

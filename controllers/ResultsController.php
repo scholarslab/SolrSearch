@@ -3,7 +3,7 @@
 
 require_once 'Omeka/Controller/Action.php';
 
-class SolrSearch_ResultsController extends Omeka_Controller_Action
+class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionController
 {
 
     /**

@@ -22,7 +22,7 @@
  * PHP version 5
  */
 
-class SolrSearchFacet extends Omeka_Record
+class SolrSearchFacet extends Omeka_Record_AbstractRecord
 {
 
 

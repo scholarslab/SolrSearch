@@ -5,7 +5,7 @@
  * Table class for facets.
  */
 
-class SolrSearchFacetTable extends Omeka_Db_Table
+class Table_SolrSearchFacet extends Omeka_Db_Table
 {
 
 

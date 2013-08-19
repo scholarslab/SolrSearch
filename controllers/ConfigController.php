@@ -8,7 +8,7 @@
 
 require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
 
-class SolrSearch_ConfigController extends Omeka_Controller_Action
+class SolrSearch_ConfigController extends Omeka_Controller_AbstractActionController
 {
 
     /**
