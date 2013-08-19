@@ -22,10 +22,10 @@
  * PHP version 5
  */
 
-class SolrSearchPlugin
+class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 {
     // {{{ hooks
-    private static $_hooks = array(
+    protected $_hooks = array(
         'install',
         'uninstall',
         'initialize',
@@ -35,40 +35,27 @@ class SolrSearchPlugin
         'after_save_record',
         'define_routes',
         'define_acl',
-        'admin_theme_header',
-        'public_theme_header',
+        'admin_head',
+        'public_head',
         'config_form',
         'config'
     );
     //}}}
 
     //{{{ filters
-    private static $_filters = array(
+    protected $_filters = array(
         'admin_navigation_main',
         'simple_search_default_uri'
     );
     //}}}
 
-    public function __construct()
+    function __construct()
     {
-        $this->_db = get_db();
-        self::addHooksAndFilters();
+        parent::__construct();
+        $this->setUp();
     }
 
-    public function addHooksAndFilters()
-    {
-        foreach (self::$_hooks as $hookName) {
-            $functionName = Inflector::variablize($hookName);
-            add_plugin_hook($hookName, array($this, $functionName));
-        }
-
-        foreach (self::$_filters as $filterName) {
-            $functionName = Inflector::variablize($filterName);
-            add_filter($filterName, array($this, $functionName));
-        }
-    }
-
-    public function install()
+    public function hookInstall()
     {
         self::_createSolrTable();
         self::_addFacetMappings();
@@ -76,7 +63,7 @@ class SolrSearchPlugin
     }
 
 
-    public function uninstall()
+    public function hookUninstall()
     {
         $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
         $this->_db->query($sql);
@@ -97,13 +84,14 @@ class SolrSearchPlugin
         self::_deleteAcl();
     }
 
-    public function initialize()
+    public function hookInitialize()
     {
         add_translation_source(dirname(__FILE__) . '/languages');
     }
 
-    public function beforeDeleteItem($item)
+    public function hookBeforeDeleteItem($args)
     {
+        $item = $args['item'];
         $solr = new Apache_Solr_Service(
             get_option('solr_search_server'),
             get_option('solr_search_port'),
@@ -115,8 +103,9 @@ class SolrSearchPlugin
         $solr->optimize();
     }
 
-    public function afterSaveItem($item)
+    public function hookAfterSaveItem($args)
     {
+        $item = $args['item'];
         $solr = new Apache_Solr_Service(
             get_option('solr_search_server'),
             get_option('solr_search_port'),
@@ -139,8 +128,9 @@ class SolrSearchPlugin
         }
     }
 
-    public function beforeDeleteRecord($record)
+    public function hookBeforeDeleteRecord($args)
     {
+        $record = $args['record'];
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $id = $mgr->getId($record);
 
@@ -156,8 +146,9 @@ class SolrSearchPlugin
         }
     }
 
-    public function afterSaveRecord($record)
+    public function hookAfterSaveRecord($args)
     {
+        $record = $args['record'];
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);
 
@@ -173,8 +164,9 @@ class SolrSearchPlugin
         }
     }
 
-    public function defineRoutes($router)
+    public function hookDefineRoutes($args)
     {
+        $router = $args['router'];
         $searchResultsRoute = new Zend_Controller_Router_Route(
             'results',
             array(
@@ -187,48 +179,49 @@ class SolrSearchPlugin
         $router->addRoute('solr_search_results_route', $searchResultsRoute);
     }
 
-    public function defineAcl($acl)
+    public function hookDefineAcl($args)
     {
+        $acl = $args['acl'];
         if (!$acl->has('SolrSearch_Config')) {
-            $acl->loadResourceList(
-                array(
-                    'SolrSearch_Config' => array('index', 'status')
-                )
-            );
+            $acl->addResource('SolrSearch_Config');
+            $acl->allow(null, 'SolrSearch_Config', array('index', 'status'));
         }
     }
 
-    public function adminThemeHeader($request)
+    public function hookAdminHead($args)
     {
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+
         // Let's figure out where we are.
-        $module = $request->getModuleName();
+        $module     = $request->getModuleName();
         $controller = $request->getControllerName();
-        $action = $request->getActionName();
+        $action     = $request->getActionName();
 
         // If we're on any page using the SolrSearch module.
         if ($module == 'solr-search') {
-            queue_css('textinplace');
-            queue_js('jquery.textinplace');
-            queue_css('solr_search_main');
+            queue_css_file('textinplace');
+            queue_js_file('jquery.textinplace');
+            queue_css_file('solr_search_main');
         }
 
         // If we're on the plugin config page.
         if ($controller == 'plugins' && $action == 'config') {
-            queue_css('solr_search_main');
+            queue_css_file('solr_search_main');
         }
     }
 
-    public function publicThemeHeader($request)
+    public function hookPublicHead($args)
     {
-        $module = $request->getModuleName();
+        $request = $args['request'];
+        $module  = $request->getModuleName();
         if ($module == 'solr-search') {
-            queue_css('solr_search');
+            queue_css_file('solr_search');
             $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
-            queue_js($js);
+            queue_js_file($js);
         }
     }
 
-    public function configForm()
+    public function hookConfigForm()
     {
         $string = __('Solr Options');
         $fields = SolrSearch_ViewHelpers::makeConfigFields();
@@ -243,7 +236,7 @@ class SolrSearchPlugin
         echo join($buffer);
     }
 
-    public function config()
+    public function hookConfig()
     {
         $form = SolrSearch_ViewHelpers::makeConfigForm();
 
@@ -260,7 +253,7 @@ class SolrSearchPlugin
                 set_option($option, $value);
             }
 
-            ProcessDispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+            Omeka_Job_Process_Dispatcher::startProcess('SolrSearch_IndexAll', null, $args);
         } else {
             $output = '';
             foreach ($form->getMessages() as $code => $msgs) {
@@ -272,12 +265,15 @@ class SolrSearchPlugin
         }
     }
 
-    public function adminNavigationMain($tabs)
+    public function filterAdminNavigationMain($nav)
     {
-        if (get_acl()->checkUserPermission('SolrSearch_Config', 'index')) {
-            $tabs['SolrSearch'] = uri('solr-search/config/');
+        if (is_allowed('SolrSearch_Config', 'index')) {
+            $nav[] = array(
+                'label' => __('SolrSearch'),
+                'uri' => url('solr-search/config/')
+            );
         }
-        return $tabs;
+        return $nav;
     }
 
     /**
@@ -288,10 +284,10 @@ class SolrSearchPlugin
      *
      * @return string URI;
      */
-    public function simpleSearchDefaultUri($uri)
+    public function filterSimpleSearchDefaultUri($uri)
     {
         if (! is_admin_theme()) {
-            $uri = uri('solr-search/results/interceptor');
+            $uri = url('solr-search/results/interceptor');
         }
 
         return $uri;
@@ -405,7 +401,7 @@ SQL;
        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL;
 
-        $this->_db->exec($sql);
+        $this->_db->query($sql);
 
     }
 
