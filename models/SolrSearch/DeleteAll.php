@@ -6,15 +6,7 @@ class SolrSearch_DeleteAll extends Omeka_Job_Process_AbstractProcess
     public function run($args)
     {
         try {
-            $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
-                get_option('solr_search_port'),
-                get_option('solr_search_core')
-            );
-
-            $solr->deleteByQuery('*:*');
-            $solr->commit();
-            $solr->optimize();
+            SolrSearch_IndexAll::deleteAll(array());
         } catch ( Exception $e ) {
             $this->_log($e->getMessage());
             echo $e->getMessage();

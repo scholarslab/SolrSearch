@@ -53,7 +53,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_AbstractActionControl
                     }
                 }
 
-                $this->flashSuccess(__('Solr configuration updated. Be sure to reindex.'));
+                $this->_helper->flashMessenger(__('Solr configuration updated. Be sure to reindex.'), 'success');
                 $this->_redirect('solr-search/config');
             }
 

@@ -98,14 +98,19 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             get_option('solr_search_core')
         );
 
-        $solr->deleteByQuery('id:' . $item['id']);
-        $solr->commit();
-        $solr->optimize();
+        try {
+            $solr->deleteByQuery('id:' . $item['id']);
+            $solr->commit();
+            $solr->optimize();
+        } catch (Exception $e) {
+        }
     }
 
     public function hookAfterSaveItem($args)
     {
-        $item = $args['item'];
+        SolrSearch_Utils::ensureView();
+
+        $item = $args['record'];
         $solr = new Apache_Solr_Service(
             get_option('solr_search_server'),
             get_option('solr_search_port'),
@@ -140,14 +145,19 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
                 get_option('solr_search_port'),
                 get_option('solr_search_core')
             );
-            $solr->deleteByQuery("id:$id");
-            $solr->commit();
-            $solr->optimize();
+            try {
+                $solr->deleteByQuery("id:$id");
+                $solr->commit();
+                $solr->optimize();
+            } catch (Exception $e) {
+            }
         }
     }
 
     public function hookAfterSaveRecord($args)
     {
+        SolrSearch_Utils::ensureView();
+
         $record = $args['record'];
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);

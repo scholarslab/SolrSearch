@@ -43,9 +43,9 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
                     $uploadedData['solr_search_fragsize']
                 );
 
-                $this->flashSuccess(__('Hit highlighting features modified.'));
+                $this->_helper->flashMessenger(__('Hit highlighting features modified.'), 'success');
             } else {
-                $this->flashError(__('Failed to gather posted data.'));
+                $this->_helper->flashMessenger(__('Failed to gather posted data.'), 'error');
                 $this->view->form = $form;
             }
         }	

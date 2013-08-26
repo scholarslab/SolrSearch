@@ -1,8 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-// TODO: Remove
-// require_once HELPER_DIR . '/UrlFunctions.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
 
 /**
  * This contains some helpers for indexing items.
@@ -221,11 +220,89 @@ class SolrSearch_IndexHelpers
      */
     public static function pingSolrServer($options)
     {
-        $server = $options['solr_search_server'] or get_option('solr_search_server');
-        $port   = $options['solr_search_port']   or get_option('solr_search_port');
-        $core   = $options['solr_search_core']   or get_option('solr_search_core');
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
+        $port   = array_key_exists('solr_search_port', $options)
+            ? $options['solr_search_port']
+            : get_option('solr_search_port');
+        $core   = array_key_exists('solr_search_core', $options)
+            ? $options['solr_search_core']
+            : get_option('solr_search_core');
         $solr   = new Apache_Solr_Service($server, $port, $core);
         return $solr->ping();
+    }
+
+
+    /**
+     * This deletes everything in the Solr index.
+     *
+     * @return void
+     * @author Eric Rochester
+     **/
+    public static function deleteAll($options)
+    {
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
+        $port   = array_key_exists('solr_search_port', $options)
+            ? $options['solr_search_port']
+            : get_option('solr_search_port');
+        $core   = array_key_exists('solr_search_core', $options)
+            ? $options['solr_search_core']
+            : get_option('solr_search_core');
+        $solr   = new Apache_Solr_Service($server, $port, $core);
+
+        $solr->deleteByQuery('*:*');
+        $solr->commit();
+        $solr->optimize();
+    }
+
+    /**
+     * This re-indexes everything in the Omeka DB.
+     *
+     * @return void
+     * @author Eric Rochester
+     **/
+    public static function indexAll($options)
+    {
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
+        $port   = array_key_exists('solr_search_port', $options)
+            ? $options['solr_search_port']
+            : get_option('solr_search_port');
+        $core   = array_key_exists('solr_search_core', $options)
+            ? $options['solr_search_core']
+            : get_option('solr_search_core');
+        $solr   = new Apache_Solr_Service($server, $port, $core);
+
+        $db     = get_db();
+        $table  = $db->getTable('Item');
+        $select = $table->getSelect();
+
+        $table->filterByPublic($select, true);
+        $table->applySorting($select, 'id', 'ASC');
+
+        // First get the items.
+        $pager = new SolrSearch_DbPager($db, $table, $select);
+        while ($items = $pager->next()) {
+            foreach ($items as $item) {
+                $docs = array();
+                $doc = SolrSearch_IndexHelpers::itemToDocument($db, $item);
+                $docs[] = $doc;
+                $solr->addDocuments($docs);
+            }
+            $solr->commit();
+        }
+
+        // Now the other addon stuff.
+        $mgr  = new SolrSearch_Addon_Manager($db);
+        $docs = $mgr->reindexAddons();
+        $solr->addDocuments($docs);
+        $solr->commit();
+
+        $solr->optimize();
     }
 
 }

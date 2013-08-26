@@ -16,23 +16,32 @@ class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionContro
         if ($_POST) {
             if ($form->isValid($this->_request->getPost())) {
                 try{
+                    SolrSearch_IndexHelpers::deleteAll(array());
+                    SolrSearch_IndexHelpers::indexAll(array());
 
-                    ProcessDispatcher::startProcess(
-                        'SolrSearch_DeleteAll',
-                        null,
-                        $args
+                    // TODO: add throbber
+
+/*
+ *                     Omeka_Job_Process_Dispatcher::startProcess(
+ *                         'SolrSearch_DeleteAll',
+ *                         null,
+ *                         array()
+ *                     );
+ * 
+ *                     Omeka_Job_Process_Dispatcher::startProcess(
+ *                         'SolrSearch_IndexAll',
+ *                         null,
+ *                         array()
+ *                     );
+ */
+
+                    $this->_helper->flashMessenger(
+                        __('Reindexing finished.'),
+                        'success'
                     );
-
-                    ProcessDispatcher::startProcess(
-                        'SolrSearch_IndexAll',
-                        null,
-                        $args
-                    );
-
-                    $this->flashSuccess(__('Reindex process started.'));
 
                 } catch (Exception $err) {
-                    $this->flashError($err->getMessage());
+                    $this->_helper->flashMessenger($err->getMessage(), 'error');
                 }
             }
         }	
