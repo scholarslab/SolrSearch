@@ -37,7 +37,7 @@ class SolrSearch_ViewHelpers
         $uri = SolrSearch_ViewHelpers::getBaseUrl();
         $formProperties['action'] = $uri;
         $formProperties['method'] = 'get';
-        $html  = '<form ' . _tag_attributes($formProperties) . '>' . "\n";
+        $html  = '<form ' . tag_attributes($formProperties) . '>' . "\n";
         $html .= '<fieldset>' . "\n\n";
         $html .= get_view()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
         //$html .= get_view()->formHidden('solrfacet', '');

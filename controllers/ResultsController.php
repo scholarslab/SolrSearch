@@ -1,8 +1,6 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-require_once 'Omeka/Controller/Action.php';
-
 class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionController
 {
 
