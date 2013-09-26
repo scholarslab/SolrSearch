@@ -45,7 +45,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     //{{{ filters
     protected $_filters = array(
         'admin_navigation_main',
-        'simple_search_default_uri'
+        'search_form_default_action'
     );
     //}}}
 
@@ -222,7 +222,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookPublicHead($args)
     {
-        $request = $args['request'];
+        $request = Zend_Controller_Front::getInstance()->getRequest();
         $module  = $request->getModuleName();
         if ($module == 'solr-search') {
             queue_css_file('solr_search');
@@ -294,7 +294,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      *
      * @return string URI;
      */
-    public function filterSimpleSearchDefaultUri($uri)
+    public function filterSearchFormDefaultAction($uri)
     {
         if (! is_admin_theme()) {
             $uri = url('solr-search/results/interceptor');
