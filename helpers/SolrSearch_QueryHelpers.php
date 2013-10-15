@@ -23,7 +23,7 @@ class SolrSearch_QueryHelpers
     public static function getParams(
         $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
     ) {
-        if ($req === null) {
+        if (is_null($req)) {
             $req = $_REQUEST;
         }
         $params = array();
@@ -126,9 +126,10 @@ class SolrSearch_QueryHelpers
             // links.
 
             if (!empty($queryParams['q']) && $queryParams['q'] !== '*:*') {
+                $facet = array_key_exists('facet', $queryParams) ? $queryParams['facet'] : '';
                 $html .= '<span class="appliedFilter constraint query">';
                 $html .= '<span class="filterValue">' . $queryParams['q'] . '</span>';
-                $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet={$queryParams['facet']}'>";
+                $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet=$facet'>";
                 $html .= __('Remove constraint %s', $queryParams['q']);
                 $html .= '</a>';
                 $html .= '</span>';
@@ -317,7 +318,6 @@ class SolrSearch_QueryHelpers
             $facet
         );
     }
-
 }
 
 /*
