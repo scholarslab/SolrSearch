@@ -17,7 +17,6 @@ require_once '../SolrSearchPlugin.php';
 class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 {
 
-    private $_dbHelper;
     private $_todel;
 
     /**
@@ -39,9 +38,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->_addHooksAndFilters($plugin_broker, 'SolrSearch');
         $plugin_helper = new Omeka_Test_Helper_Plugin;
         $plugin_helper->setUp('SolrSearch');
-
-        // Get database helper.
-        $this->_dbHelper = Omeka_Test_Helper_Db::factory($this->core);
 
         // Get tables.
         $this->facetsTable     = $this->db->getTable('SolrSearchFacet');
@@ -85,7 +81,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     {
         $dbLoaded = $this->_setUpNamedPlugin('ExhibitBuilder', 'ExhibitSection');
         try {
-            exhibit_builder_setup_acl(Omeka_Context::getInstance()->acl);
+            exhibit_builder_define_acl(Omeka_Context::getInstance()->acl);
         } catch (Exception $e) {
         }
         if (!$dbLoaded) {
