@@ -85,7 +85,7 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
             case 'collection' : $original = __('Collection');  break;
             case 'itemtype'   : $original = __('Item Type');   break;
             case 'resulttype' : $original = __('Result Type'); break;
-            
+
             default:
                 $etable   = $this->getTable('Element');
                 $e        = $etable->find($this->element_id);
