@@ -79,14 +79,17 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
     protected function setUpExhibitBuilder()
     {
-        $dbLoaded = $this->_setUpNamedPlugin('ExhibitBuilder', 'ExhibitSection');
         try {
-            exhibit_builder_define_acl(Omeka_Context::getInstance()->acl);
-        } catch (Exception $e) {
-        }
-        if (!$dbLoaded) {
-            exhibit_builder_install();
-        }
+
+            $dbLoaded = $this->_setUpNamedPlugin('ExhibitBuilder', 'ExhibitSection');
+            if (!$dbLoaded) exhibit_builder_install();
+
+            // TODO|migrate?
+            //exhibit_builder_define_acl(array(
+                //'acl' => Zend_Registry::get('bootstrap')->getResource('Acl')
+            //));
+
+        } catch (Exception $e) {}
     }
 
     protected function setUpSimplePages()

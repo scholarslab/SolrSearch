@@ -97,11 +97,8 @@ class SolrSearch_IndexHelpers
         $rc     = get_class($record);
 
         if ($rc === 'SimplePagesPage') {
-            if (simple_pages_is_home_page($record)) {
-                $uri = abs_uri('');
-            } else {
-                $uri = url($record->slug);
-            }
+            // TODO: If page is the home page, point to root URL.
+            $uri = url($record->slug);
 
         } else if ($rc === 'ExhibitSection') {
             $exhibit = $record->getExhibit();
