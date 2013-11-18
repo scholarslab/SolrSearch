@@ -48,5 +48,3 @@ task 'build:browser', 'Compile and minify for use in browser', ->
 
 task 'build', 'Compile', ->
   invoke 'build:browser'
-
-

@@ -24,6 +24,7 @@
 
 class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 {
+
     // {{{ hooks
     protected $_hooks = array(
         'install',
@@ -61,7 +62,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         self::_addFacetMappings();
         self::_setOptions();
     }
-
 
     public function hookUninstall()
     {

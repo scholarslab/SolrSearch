@@ -1,15 +1,13 @@
 <phpunit bootstrap="bootstrap.php"
-  verbose="true"
   convertErrorsToExceptions="true"
-  convertWarningsToExceptions="true">
-  <!--<php>-->
-    <!--<includePath>..</includePath>-->
-    <!--<includePath>../../..</includePath>-->
-  <!--</php>-->
+  convertWarningsToExceptions="true"
+  verbose="true">
+
   <testsuite name="SolrSearchTests">
     <directory>cases</directory>
     <directory>unit</directory>
   </testsuite>
+
   <logging>
     <log type="coverage-html"
       target="build/coverage"
@@ -18,4 +16,5 @@
       lowUpperBound="35"
       highLowerBound="70" />
   </logging>
+
 </phpunit>
