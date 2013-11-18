@@ -698,7 +698,7 @@
       </analyzer>
     </fieldType>
 
-     <!-- Hebrew -->
+    <!-- Hebrew -->
      <fieldType name="text_iw" class="solr.TextField" positionIncrementGap="100">
       <analyzer> 
         <tokenizer class="solr.ICUTokenizerFactory"/>

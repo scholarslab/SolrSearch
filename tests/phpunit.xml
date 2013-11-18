@@ -2,10 +2,10 @@
   verbose="true"
   convertErrorsToExceptions="true"
   convertWarningsToExceptions="true">
-  <php>
-    <includePath>..</includePath>
-    <includePath>../../..</includePath>
-  </php>
+  <!--<php>-->
+    <!--<includePath>..</includePath>-->
+    <!--<includePath>../../..</includePath>-->
+  <!--</php>-->
   <testsuite name="SolrSearchTests">
     <directory>cases</directory>
     <directory>unit</directory>
