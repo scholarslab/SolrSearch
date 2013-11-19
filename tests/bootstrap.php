@@ -5,4 +5,4 @@ if (!($omekaDir = getenv('OMEKA_DIR'))) {
 }
 
 require_once $omekaDir . '/application/tests/bootstrap.php';
-require_once 'SolrSearch_Test_AppTestCase.php';
+require_once 'cases/SolrSearch_Test_AppTestCase.php';

@@ -17,7 +17,7 @@ if (!defined('SOLR_SEARCH_PLUGIN_DIR')) {
 }
 require_once APP_DIR . '/models/Plugin.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/tests/SolrSearch_Test_AppTestCase.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/tests/cases/SolrSearch_Test_AppTestCase.php';
 
 class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
 {
