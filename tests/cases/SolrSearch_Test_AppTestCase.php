@@ -12,8 +12,6 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html Apache 2 License
  */
 
-require_once '../SolrSearchPlugin.php';
-
 class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 {
 
@@ -33,11 +31,14 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->user = $this->db->getTable('User')->find(1);
         $this->_authenticateUser($this->user);
 
-        // Set up SolrSearch.
-        $plugin_broker = get_plugin_broker();
-        $this->_addHooksAndFilters($plugin_broker, 'SolrSearch');
-        $plugin_helper = new Omeka_Test_Helper_Plugin;
-        $plugin_helper->setUp('SolrSearch');
+        // Install up SolrSearch.
+        $this->helper = new Omeka_Test_Helper_Plugin;
+        $this->helper->setUp('SolrSearch');
+
+        //$plugin_broker = get_plugin_broker();
+        //$this->_addHooksAndFilters($plugin_broker, 'SolrSearch');
+        //$plugin_helper = new Omeka_Test_Helper_Plugin;
+        //$plugin_helper->setUp('SolrSearch');
 
         // Get tables.
         $this->facetsTable     = $this->db->getTable('SolrSearchFacet');

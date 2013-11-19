@@ -11,7 +11,6 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html Apache 2 License
  */
 
-
 class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 {
 

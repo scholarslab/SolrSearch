@@ -4,7 +4,6 @@
   verbose="true">
 
   <testsuite name="SolrSearchTests">
-    <directory>cases</directory>
     <directory>integration</directory>
     <directory>unit</directory>
   </testsuite>

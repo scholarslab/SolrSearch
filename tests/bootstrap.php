@@ -1,8 +1,11 @@
 <?php
 
-if (!($omekaDir = getenv('OMEKA_DIR'))) {
-    $omekaDir = dirname(dirname(dirname(dirname(__FILE__))));
-}
+define('SOLR_DIR', dirname(dirname(__FILE__)));
+define('SOLR_TEST_DIR', SOLR_DIR.'/tests/phpunit');
+define('OMEKA_DIR', dirname(dirname(SOLR_DIR)));
 
-require_once $omekaDir . '/application/tests/bootstrap.php';
+// Bootstrap Omeka.
+require_once OMEKA_DIR.'/application/tests/bootstrap.php';
+
+// Base test case.
 require_once 'cases/SolrSearch_Test_AppTestCase.php';

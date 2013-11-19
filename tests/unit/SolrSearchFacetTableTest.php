@@ -12,13 +12,6 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html Apache 2 License
  */
 
-if (!defined('SOLR_SEARCH_PLUGIN_DIR')) {
-    define('SOLR_SEARCH_PLUGIN_DIR', dirname(__FILE__) . '/../..');
-}
-require_once APP_DIR . '/models/Plugin.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/tests/cases/SolrSearch_Test_AppTestCase.php';
-
 class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
 {
 
