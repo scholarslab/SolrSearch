@@ -330,7 +330,7 @@ class SolrSearch_ViewHelpers
         )
         ->addValidator(new Zend_Validate_Digits());
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
-            $form, 'solr_search_core', __('Solr Core Name:'), true
+            $form, 'solr_search_core', __('Solr URL:'), true
         )
         ->addValidator('regex', true, array('/\/.*\//i'));
 
