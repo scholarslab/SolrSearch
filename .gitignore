@@ -3,4 +3,4 @@ build/
 Gemfile.lock
 dist/
 node_modules/
-solr-home/data
+solr-core/data
