@@ -394,7 +394,7 @@ SQL;
 
     protected function _deleteAcl()
     {
-        $acl = Omeka_Context::getInstance()->getAcl();
+        $acl = Zend_Registry::get('bootstrap')->getResource('Acl');
         if (!$acl) {
             throw new RuntimeException(__('ACL not available'));
         }
