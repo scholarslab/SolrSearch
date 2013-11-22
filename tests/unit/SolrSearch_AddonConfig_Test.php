@@ -59,7 +59,7 @@ EOF;
     }
 
     private function assertAddon(
-        $addon, $name, $resultType, $table, $idCol, $parent, $parentKey,
+        $addon, $name, $resultType, $table, $idCol, $parent, $parentKey, 
         $tagged, $flag, $fieldCount, $childCount
 
     ) {

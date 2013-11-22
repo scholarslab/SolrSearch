@@ -16,10 +16,6 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
 
     public function setUp()
     {
-
-        // TODO|dev
-        $this->markTestSkipped();
-
         $this->setUpPlugin();
         $this->setUpExhibitBuilder();
         $this->setUpSimplePages();
