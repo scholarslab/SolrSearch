@@ -18,16 +18,16 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
     {
 
         // TODO|dev
-        //$this->markTestSkipped();
+        $this->markTestSkipped();
 
         $this->setUpPlugin();
         $this->setUpExhibitBuilder();
         $this->setUpSimplePages();
-
         try {
             // This blows up for some strange reason the first time it's run.
             $this->loadModels();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
 
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $addons = $this->mgr->parseAll();

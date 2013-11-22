@@ -92,7 +92,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $e->title       = property_exists($exhibit, 'title') ? $exhibit->title : null;
         $e->description = property_exists($exhibit, 'description') ? $exhibit->description : null;
         $e->public      = property_exists($exhibit, 'public') ? $exhibit->public : true;
-        $e->public      = $e->public ? 1 : 0; // OK
+        $e->public      = $e->public ? 1 : 0;
         $e->save();
 
         if (property_exists($exhibit, 'tags')) {
@@ -100,37 +100,48 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             $e->save();
         }
 
-        // TODO: Finish migrating to respect ExhibitBuilder 2.x data model.
+        $i = 1;
+        foreach ($exhibit->sections as $section) {
+            $s = new ExhibitSection();
+            $s->title       = property_exists($section, 'title') ? $section->title : null;
+            $s->description = property_exists($section, 'description') ? $section->description : null;
+            $s->exhibit_id  = $e->id;
+            $s->order       = $i;
+            $s->save();
 
-        $j = 1;
-        foreach ($exhibit->pages as $page) {
-            $p = new ExhibitPage();
-            $p->title      = property_exists($page, 'title') ? $page->title : null;
-            $p->slug       = "exhibit-page-$j";
-            $p->order      = $j;
-            $p->save();
+            $j = 1;
+            foreach ($section->pages as $page) {
+                $p = new ExhibitPage();
+                $p->title      = property_exists($page, 'title') ? $page->title : null;
+                $p->slug       = "exhibit-page-$j";
+                $p->section_id = $s->id;
+                $p->order      = $j;
+                $p->layout     = 'horizontal';
+                $p->save();
 
-            $blocks = property_exists($page, 'entries') ? $page->blocks : array();
-            $k = 1;
-            foreach ($blocks as $block) {
+                $entries = property_exists($page, 'entries') ? $page->entries : array();
+                $k = 1;
+                foreach ($entries as $entry) {
+                    $item = $this->__item(
+                        property_exists($entry, 'title') ? $entry->title : null,
+                        property_exists($entry, 'subject') ? $entry->subject : null
+                    );
 
-                $item = $this->__item(
-                    property_exists($block, 'title') ? $entry->title : null,
-                    property_exists($block, 'subject') ? $entry->subject : null
-                );
+                    $pe = new ExhibitPageEntry();
+                    $pe->item_id = $item->id;
+                    $pe->page_id = $p->id;
+                    $pe->order   = $k;
+                    $pe->text    = property_exists($entry, 'text') ? $entry->text : null;
+                    $pe->caption = property_exists($entry, 'caption') ? $entry->caption : null;
+                    $pe->save();
 
-                $pe = new ExhibitPageEntry();
-                $pe->item_id = $item->id;
-                $pe->page_id = $p->id;
-                $pe->order   = $k;
-                $pe->text    = property_exists($entry, 'text') ? $entry->text : null;
-                $pe->caption = property_exists($entry, 'caption') ? $entry->caption : null;
-                $pe->save();
+                    $k++;
+                }
 
-                $k++;
+                $j++;
             }
 
-            $j++;
+            $i++;
         }
 
         return $e;
