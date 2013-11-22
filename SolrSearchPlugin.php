@@ -254,18 +254,17 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         if ($form->isValid($_POST)) {
             $options = $form->getValues();
 
-            // TODO: Omeka_Validator_Exception not in Omeka 2?
-            //if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
-                //throw new Omeka_Validator_Exception(
-                    //__("Cannot connect to Solr with the given configuration. Please check your server host, port, and core.")
-                //);
-            //}
+            if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
+                throw new Omeka_Validate_Exception(
+                    __("Cannot connect to Solr with the given configuration. Please check your server host, port, and core.")
+                );
+            }
 
             foreach ($options as $option => $value) {
                 set_option($option, $value);
             }
 
-            //Omeka_Job_Process_Dispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+            Omeka_Job_Process_Dispatcher::startProcess('SolrSearch_IndexAll', null, $args);
 
         } else {
             $output = '';
@@ -275,8 +274,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
 
-            // TODO: Omeka_Validator_Exception not in Omeka 2?
-            //throw new Omeka_Validator_Exception($output);
+            throw new Omeka_Validate_Exception($output);
 
         }
     }
