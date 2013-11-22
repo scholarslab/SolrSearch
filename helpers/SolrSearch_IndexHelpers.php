@@ -100,16 +100,10 @@ class SolrSearch_IndexHelpers
             // TODO: If page is the home page, point to root URL.
             $uri = url($record->slug);
 
-        } else if ($rc === 'ExhibitSection') {
+        } else if ($rc === 'ExhibitPage') {
             $exhibit = $record->getExhibit();
             $exUri   = SolrSearch_IndexHelpers::getSlugUri($exhibit, $action);
-            $uri     = "$exUri/{$record->slug}";
-
-        } else if ($rc === 'ExhibitPage') {
-            $section = $record->getSection();
-            $exhibit = $section->getExhibit();
-            $exUri   = SolrSearch_IndexHelpers::getSlugUri($exhibit, $action);
-            $uri     = "$exUri/{$section->slug}/{$record->slug}";
+            $uri     = "$exUri/{$exhibit->slug}/{$record->slug}";
 
         } else if (property_exists($record, 'slug')) {
             $uri = SolrSearch_IndexHelpers::getSlugUri($record, $action);
