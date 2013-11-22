@@ -368,7 +368,7 @@ SQL;
     {
         set_option('solr_search_server', 'localhost');
         set_option('solr_search_port', '8080');
-        set_option('solr_search_core', '/solr/omeka/'); // TODO|debug
+        set_option('solr_search_core', '/solr/');
         set_option('solr_search_rows', '');
         set_option('solr_search_facet_limit', '25');
         set_option('solr_search_hl', 'true');
@@ -392,7 +392,7 @@ SQL;
 
     protected function _deleteAcl()
     {
-        $acl = Omeka_Context::getInstance()->getAcl();
+        $acl = Zend_Registry::get('bootstrap')->getResource('Acl');;
         if (!$acl) {
             throw new RuntimeException(__('ACL not available'));
         }
