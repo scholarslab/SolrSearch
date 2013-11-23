@@ -18,7 +18,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
     {
 
         // TODO|dev
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         $this->setUpPlugin();
         $this->setUpExhibitBuilder();

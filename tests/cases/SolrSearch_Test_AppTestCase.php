@@ -100,48 +100,37 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             $e->save();
         }
 
-        $i = 1;
-        foreach ($exhibit->sections as $section) {
-            $s = new ExhibitSection();
-            $s->title       = property_exists($section, 'title') ? $section->title : null;
-            $s->description = property_exists($section, 'description') ? $section->description : null;
-            $s->exhibit_id  = $e->id;
-            $s->order       = $i;
-            $s->save();
+        $j = 1;
+        foreach ($section->pages as $page) {
+            $p = new ExhibitPage();
+            $p->title      = property_exists($page, 'title') ? $page->title : null;
+            $p->slug       = "exhibit-page-$j";
+            $p->exhibit_id = $e->id;
+            $p->order      = $j;
+            $p->layout     = 'horizontal';
+            $p->save();
 
-            $j = 1;
-            foreach ($section->pages as $page) {
-                $p = new ExhibitPage();
-                $p->title      = property_exists($page, 'title') ? $page->title : null;
-                $p->slug       = "exhibit-page-$j";
-                $p->section_id = $s->id;
-                $p->order      = $j;
-                $p->layout     = 'horizontal';
-                $p->save();
+            $entries = property_exists($page, 'entries') ? $page->entries : array();
+            $k = 1;
+            foreach ($entries as $entry) {
 
-                $entries = property_exists($page, 'entries') ? $page->entries : array();
-                $k = 1;
-                foreach ($entries as $entry) {
-                    $item = $this->__item(
-                        property_exists($entry, 'title') ? $entry->title : null,
-                        property_exists($entry, 'subject') ? $entry->subject : null
-                    );
+                $item = $this->__item(
+                    property_exists($entry, 'title') ? $entry->title : null,
+                    property_exists($entry, 'subject') ? $entry->subject : null
+                );
 
-                    $pe = new ExhibitPageEntry();
-                    $pe->item_id = $item->id;
-                    $pe->page_id = $p->id;
-                    $pe->order   = $k;
-                    $pe->text    = property_exists($entry, 'text') ? $entry->text : null;
-                    $pe->caption = property_exists($entry, 'caption') ? $entry->caption : null;
-                    $pe->save();
+                $pe = new ExhibitPageEntry();
+                $pe->item_id = $item->id;
+                $pe->page_id = $p->id;
+                $pe->order   = $k;
+                $pe->text    = property_exists($entry, 'text') ? $entry->text : null;
+                $pe->caption = property_exists($entry, 'caption') ? $entry->caption : null;
+                $pe->save();
 
-                    $k++;
-                }
-
-                $j++;
+                $k++;
             }
 
-            $i++;
+            $j++;
         }
 
         return $e;
