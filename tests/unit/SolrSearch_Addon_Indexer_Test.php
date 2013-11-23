@@ -20,7 +20,7 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         parent::setUp();
 
         $this->setUpExhibitBuilder();
-        $this->setUpSimplePages();
+        //$this->setUpSimplePages();
 
         try {
             // This blows up for some strange reason the first time it's run.

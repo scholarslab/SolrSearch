@@ -101,7 +101,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         }
 
         $j = 1;
-        foreach ($section->pages as $page) {
+        foreach ($exhibit->pages as $page) {
             $p = new ExhibitPage();
             $p->title      = property_exists($page, 'title') ? $page->title : null;
             $p->slug       = "exhibit-page-$j";
@@ -193,10 +193,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $etext = new ElementText;
 
         $etext->setText($text);
-        $etext->html           = $html;
-        $etext->element_id     = $element->id;
-        $etext->record_id      = $item->id;
-        $etext->record_type_id = 2;
+        $etext->html        = $html;
+        $etext->element_id  = $element->id;
+        $etext->record_id   = $item->id;
+        $etext->record_type = 'Item';
         $etext->save();
 
         $item[$element->name] = $etext;

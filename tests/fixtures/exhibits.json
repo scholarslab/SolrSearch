@@ -4,27 +4,17 @@
         "description": "Like Alice in Wonderland",
         "public": true,
         "tags": ["test", "exhibit", "tagged"],
-        "sections": [
+        "pages": [
             {
-                "title": "White Rabbit's House",
-                "pages": [
-                    {
-                        "title": "White Rabbit",
-                        "entries": [
-                        ]
-                    }
+                "title": "White Rabbit",
+                "entries": [
                 ]
             },
             {
-                "title": "Mad Hatter's Tea Party",
-                "pages": [
-                    {
-                        "title": "Dormouse",
-                        "entries": [
-                            { "title": "Dormouse", "subject": "Sleepy", "text": "Yawwwn" },
-                            { "title": "Country Mouse", "subject": "Bumpkin", "text": "Traveling far and wide" }
-                        ]
-                    }
+                "title": "Dormouse",
+                "entries": [
+                    { "title": "Dormouse", "subject": "Sleepy", "text": "Yawwwn" },
+                    { "title": "Country Mouse", "subject": "Bumpkin", "text": "Traveling far and wide" }
                 ]
             }
         ]
@@ -33,14 +23,9 @@
         "title": "Private Exhibit",
         "description": "Down the Rabbit Hole",
         "public": false,
-        "sections": [
-            {
-                "title": "Mud",
-                "pages": [
-                    { "title": "Earthworms" },
-                    { "title": "Centipedes" }
-                ]
-            }
+        "pages": [
+            { "title": "Earthworms" },
+            { "title": "Centipedes" }
         ]
     }
 ]
