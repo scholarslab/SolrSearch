@@ -18,11 +18,11 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     private $_todel;
 
     /**
-     * Spin up the plugins and prepare the database.
+     * Install SolrSearch and prepare the database.
      *
      * @return void.
      */
-    public function setUpPlugin()
+    public function setUp()
     {
 
         parent::setUp();

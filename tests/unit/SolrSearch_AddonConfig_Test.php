@@ -53,15 +53,9 @@ class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
 }
 EOF;
 
-    public function setUp()
-    {
-        $this->setUpPlugin();
-    }
-
     private function assertAddon(
-        $addon, $name, $resultType, $table, $idCol, $parent, $parentKey, 
+        $addon, $name, $resultType, $table, $idCol, $parent, $parentKey,
         $tagged, $flag, $fieldCount, $childCount
-
     ) {
         $this->assertEquals($name, $addon->name);
         $this->assertEquals($resultType, $addon->resultType);

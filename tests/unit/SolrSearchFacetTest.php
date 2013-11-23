@@ -16,16 +16,6 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
 {
 
     /**
-     * Install the plugin.
-     *
-     * @return void.
-     */
-    public function setUp()
-    {
-        $this->setUpPlugin();
-    }
-
-    /**
      * Test get and set on columns.
      *
      * @return void.
@@ -80,8 +70,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
 
         // Get element set name.
         $this->assertEquals(
-            $facet->getElementSet()->id,
-            $elementSet->id
+            $facet->getElementSet()->id, $elementSet->id
         );
 
     }

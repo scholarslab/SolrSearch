@@ -16,21 +16,17 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
 {
 
     /**
-     * Install the plugin.
+     * Empty out the facets table.
+     * TODO: Why is this necessary?
      *
      * @return void.
      */
     public function setUp()
     {
-
-        // Install plugin.
-        $this->setUpPlugin();
-
-        // Empty facets table.
+        parent::setUp();
         foreach ($this->facetsTable->findAll() as $facet) {
             $facet->delete();
         }
-
     }
 
     /**

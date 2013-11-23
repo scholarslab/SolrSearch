@@ -16,7 +16,7 @@ class SolrSearch_Addon_Addon_Test extends SolrSearch_Test_AppTestCase
 
     public function setUp()
     {
-        $this->setUpPlugin();
+        parent::setUp();
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $this->mgr->parseAll();
     }

@@ -16,11 +16,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
 
     public function setUp()
     {
-
-        // TODO|dev
-        //$this->markTestSkipped();
-
-        $this->setUpPlugin();
+        parent::setUp();
         $this->setUpExhibitBuilder();
         $this->setUpSimplePages();
         $this->loadModels();
