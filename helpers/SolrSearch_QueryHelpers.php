@@ -202,7 +202,6 @@ class SolrSearch_QueryHelpers
         // Deconstruct current query and remove particular facet.
         $queryParams = SolrSearch_QueryHelpers::getParams();
         $newParams = array();
-        //$removeFacetLink = "<a href='$uri?";
         $query = array();
 
         if (isset($queryParams['q'])) {

@@ -103,7 +103,7 @@ class SolrSearch_IndexHelpers
         } else if ($rc === 'ExhibitPage') {
             $exhibit = $record->getExhibit();
             $exUri   = SolrSearch_IndexHelpers::getSlugUri($exhibit, $action);
-            $uri     = "$exUri/{$exhibit->slug}/{$record->slug}";
+            $uri     = "$exUri/$record->slug";
 
         } else if (property_exists($record, 'slug')) {
             $uri = SolrSearch_IndexHelpers::getSlugUri($record, $action);
@@ -112,8 +112,8 @@ class SolrSearch_IndexHelpers
             $uri = record_url($record, $action);
         }
 
-        // These should never be under /admin/, so remove that if it's there.
-        $uri = preg_replace('|^/admin/|', '/', $uri, 1);
+        // Always index public URLs.
+        $uri = preg_replace('|/admin/|', '/', $uri, 1);
 
         return $uri;
     }
