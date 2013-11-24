@@ -40,28 +40,24 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->elementSetTable = $this->db->getTable('ElementSet');
         $this->elementTable    = $this->db->getTable('Element');
 
-        // Retrieve the element for some DC fields.
-        $this->_title = $this->elementTable
-            ->findByElementSetNameAndElementName('Dublin Core', 'Title');
-        $this->_subject = $this->elementTable
-            ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
+        // Apply `solr.ini` values.
+        $this->_applyTestingOptions();
 
-        // TODO|dev
-        // Set `solr.ini` connection parameters.
-        //if (file_exists(SOLR_TEST_DIR.'/solr.ini')) {
-            //$config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
-            //set_option('solr_search_server',    $config->host);
-            //set_option('solr_search_port',      $config->port);
-            //set_option('solr_search_core',      $config->url);
-        //}
+    }
 
+    protected function _applyTestingOptions()
+    {
+        if (file_exists(SOLR_TEST_DIR.'/solr.ini')) {
+            $config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
+            set_option('solr_search_server',    $config->host);
+            set_option('solr_search_port',      $config->port);
+            set_option('solr_search_core',      $config->url);
+        }
     }
 
     protected function _setUpNamedPlugin($plugin)
     {
-        try {
-            $this->helper->setUp($plugin);
-        } catch (Exception $e) {}
+        try { $this->helper->setUp($plugin); } catch (Exception $e) {}
     }
 
     protected function setUpExhibitBuilder()
@@ -181,13 +177,16 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     {
         $item = new Item;
         $item->save();
-        $this->_todel[] = $item;
 
         if (!is_null($title)) {
-            $this->addElementText($item, $this->_title, $title);
+            $titleElement = $this->elementTable
+                ->findByElementSetNameAndElementName('Dublin Core', 'Title');
+            $this->addElementText($item, $titleElement, $title);
         }
         if (!is_null($subject)) {
-            $this->addElementText($item, $this->_subject, $subject);
+            $subjectElement = $this->elementTable
+                ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
+            $this->addElementText($item, $subjectElement, $subject);
         }
 
         return $item;
