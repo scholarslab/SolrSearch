@@ -156,6 +156,7 @@
   .solr_facets_container {
     float: left;
     width:30%;
+
     li {
       list-style: none;
     }
@@ -164,6 +165,7 @@
       cursor: pointer;
       position:relative;
       padding-left: 12px;
+      margin-bottom: 0.5em;
       &:before {
           position:absolute;
           top: 50%;
@@ -180,6 +182,10 @@
       &.active:before {
           @include rotate(90deg);
       }
+    }
+
+    ul.facet-list {
+      margin: 0 0 3em;
     }
 
   }

@@ -91,7 +91,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookBeforeDeleteItem($args)
     {
-        $item = $args['item'];
+        $item = $args['record'];
         $solr = new Apache_Solr_Service(
             get_option('solr_search_server'),
             get_option('solr_search_port'),
@@ -99,11 +99,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         );
 
         try {
-            $solr->deleteByQuery('id:' . $item['id']);
+            $solr->deleteByQuery('modelid:' . $item['id']);
             $solr->commit();
             $solr->optimize();
-        } catch (Exception $e) {
-        }
+        } catch (Exception $e) {}
     }
 
     public function hookAfterSaveItem($args)

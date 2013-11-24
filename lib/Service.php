@@ -690,7 +690,7 @@ class Apache_Solr_Service
 		$commitWithin = (int) $commitWithin;
 		$commitWithinString = $commitWithin > 0 ? " commitWithin=\"{$commitWithin}\"" : '';
 		
-        // TODO|debug
+        // TODO|solr4
 		//$rawPost = "<add allowDups=\"{$dupValue}\" overwritePending=\"{$pendingValue}\" overwriteCommitted=\"{$committedValue}\"{$commitWithinString}>";
         $rawPost = "<add>";
 		$rawPost .= $this->_documentToXmlFragment($document);
@@ -720,8 +720,8 @@ class Apache_Solr_Service
 		$commitWithin = (int) $commitWithin;
 		$commitWithinString = $commitWithin > 0 ? " commitWithin=\"{$commitWithin}\"" : '';
 
-        // TODO|debug
-		$rawPost = "<add allowDups=\"{$dupValue}\" overwritePending=\"{$pendingValue}\" overwriteCommitted=\"{$committedValue}\"{$commitWithinString}>";
+        // TODO|solr4
+		//$rawPost = "<add allowDups=\"{$dupValue}\" overwritePending=\"{$pendingValue}\" overwriteCommitted=\"{$committedValue}\"{$commitWithinString}>";
         $rawPost = "<add>";
 
 		foreach ($documents as $document)
@@ -865,7 +865,9 @@ class Apache_Solr_Service
 		//escape special xml characters
 		$id = htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8');
 
-		$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '"><id>' . $id . '</id></delete>';
+        // TODO|solr4
+		//$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '"><id>' . $id . '</id></delete>';
+		$rawPost = '<delete><id>' . $id . '</id></delete>';
 
 		return $this->delete($rawPost, $timeout);
 	}
@@ -886,7 +888,9 @@ class Apache_Solr_Service
 		$pendingValue = $fromPending ? 'true' : 'false';
 		$committedValue = $fromCommitted ? 'true' : 'false';
 
-		$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '">';
+        // TODO|solr4
+		//$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '">';
+		$rawPost = '<delete>';
 
 		foreach ($ids as $id)
 		{
@@ -920,7 +924,9 @@ class Apache_Solr_Service
 		// escape special xml characters
 		$rawQuery = htmlspecialchars($rawQuery, ENT_NOQUOTES, 'UTF-8');
 
-		$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '"><query>' . $rawQuery . '</query></delete>';
+        // TODO|solr4
+		//$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '"><query>' . $rawQuery . '</query></delete>';
+		$rawPost = '<delete><query>' . $rawQuery . '</query></delete>';
 
 		return $this->delete($rawPost, $timeout);
 	}

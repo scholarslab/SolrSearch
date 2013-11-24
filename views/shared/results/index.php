@@ -30,11 +30,11 @@
             <?php $props = get_object_vars($values); ?>
             <?php if (!empty($props)): ?>
                 <h4 class="facet"><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h4>
-                    <ul>
-					<?php foreach($values as $label => $count): ?>
+                <ul class="facet-list">
+                    <?php foreach($values as $label => $count): ?>
                         <li><?php echo SolrSearch_QueryHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
-					<?php endforeach; ?>
-                    </ul>
+                    <?php endforeach; ?>
+                </ul>
             <?php endif; ?>
         <?php endforeach; ?>
         </div>
