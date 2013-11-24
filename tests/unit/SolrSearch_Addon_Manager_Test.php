@@ -52,20 +52,6 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $this->assertEquals('exhibits', $addon->name);
     }
 
-    public function testFindAddonForRecordSection()
-    {
-        $mgr   = new SolrSearch_Addon_Manager($this->db);
-        $table = $this->db->getTable('ExhibitSection');
-        $rows  = $table->fetchObjects($table->getSelect());
-
-        $mgr->parseAll();
-
-        $this->assertNotEmpty($rows);
-        $addon = $mgr->findAddonForRecord($rows[0]);
-        $this->assertNotNull($addon);
-        $this->assertEquals('sections', $addon->name);
-    }
-
     public function testFindAddonForRecordExhibitPage()
     {
         $mgr   = new SolrSearch_Addon_Manager($this->db);

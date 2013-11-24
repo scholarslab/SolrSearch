@@ -170,8 +170,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             foreach ($this->_todel as $todel) {
                 try {
                     $todel->delete();
-                } catch (Exception $e) {
-                }
+                } catch (Exception $e) {}
             }
             $this->_todel = array();
         }

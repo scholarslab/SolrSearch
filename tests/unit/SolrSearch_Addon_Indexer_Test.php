@@ -34,11 +34,6 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         $this->idxr = new SolrSearch_Addon_Indexer($this->db);
     }
 
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     public function testExhibitBuilderInstalled()
     {
         $table = $this->db->getTable('Exhibit');
@@ -79,8 +74,8 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
             $indexer->makeSolrName($this->exhibits, 'description')
         );
         $this->assertEquals(
-            'section_pages_title_s',
-            $indexer->makeSolrName($this->mgr->addons['section_pages'], 'title')
+            'pages_title_s',
+            $indexer->makeSolrName($this->mgr->addons['pages'], 'title')
         );
     }
 
