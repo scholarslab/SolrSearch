@@ -23,10 +23,9 @@ class SolrSearch_QueryHelpers
     public static function getParams(
         $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
     ) {
-        if (is_null($req)) {
-            $req = $_REQUEST;
-        }
-        $params = array();
+
+        if (is_null($req)) $req = $_REQUEST;
+        $params = array('q' => '*:*');
 
         if (isset($req[$qParam])) {
             $params['q'] = preg_replace('/:/', ' ', $req[$qParam]);

@@ -269,7 +269,7 @@ class SolrSearch_ViewHelpers
     }
 
     /**
-     * This takes atag and returns a string containing the tab label wrapped in 
+     * This takes a tag and returns a string containing the tab label wrapped in 
      * an A.
      *
      * @param string $uri    The base URI for the links
@@ -289,7 +289,7 @@ class SolrSearch_ViewHelpers
             $facetq = 'tag:"' . $label .'"';
         }
 
-        $searchpath = $uri . '?sorlq=' . $params['q'] . '&solrfacet=' . htmlspecialchars($facetq, ENT_QUOTES);
+        $searchpath = $uri . '?solrq=' . $params['q'] . '&solrfacet=' . htmlspecialchars($facetq, ENT_QUOTES);
         $a = '<a href="' . $searchpath .'" reg="tag">' . $label . '</a>';
 
         return $a;
@@ -332,13 +332,6 @@ class SolrSearch_ViewHelpers
             $form, 'solr_search_core', __('Solr URL:'), true
         )
         ->addValidator('regex', true, array('/\/.*\//i'));
-
-        //$fields[] = SolrSearch_ViewHelpers::makeOptionField(
-        //$form, 'solr_search_rows', __("Results Per Page:"),
-        //false, __("Defaults to Omeka's paging settings.")
-        //)
-        //->addValidator(new Zend_Validate_Digits())
-        //->addErrorMessage(__('Results count must be numeric'));
 
         $fields[] = SolrSearch_ViewHelpers::makeOptionField(
             $form, 'solr_search_facet_sort', __('Facet Field Constraint Order:'), false,
