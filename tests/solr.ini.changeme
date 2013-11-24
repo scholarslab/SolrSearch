@@ -1,0 +1,5 @@
+; Rename this file to `solr.ini` to provide custom Solr connection parameters.
+
+host="localhost"
+port="8080"
+url="/solr/omeka/"

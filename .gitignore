@@ -3,4 +3,5 @@ build/
 Gemfile.lock
 dist/
 node_modules/
+tests/solr.ini
 solr-core/data

@@ -46,45 +46,32 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->_subject = $this->elementTable
             ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
 
+        // TODO|dev
+        // Set `solr.ini` connection parameters.
+        //if (file_exists(SOLR_TEST_DIR.'/solr.ini')) {
+            //$config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
+            //set_option('solr_search_server',    $config->host);
+            //set_option('solr_search_port',      $config->port);
+            //set_option('solr_search_core',      $config->url);
+        //}
+
     }
 
-    protected function _setUpNamedPlugin($name, $table=null)
+    protected function _setUpNamedPlugin($plugin)
     {
-        $dbLoaded = false;
-
-        $broker = get_plugin_broker();
-        $this->_addHooksAndFilters($broker, $name);
-
-        $helper = new Omeka_Test_Helper_Plugin();
-        $helper->setUp($name);
-
-        if (!is_null($table)) {
-            $tname   = $this->db->getTable($table)->getTableName();
-            $results = $this->db->fetchAll('SHOW TABLES;', array(), Zend_Db::FETCH_NUM);
-            foreach ($results as $row) {
-                if ($row[0] == $tname) {
-                    $dbLoaded = true;
-                    break;
-                }
-            }
-        }
-
-        return $dbLoaded;
+        try {
+            $this->helper->setUp($plugin);
+        } catch (Exception $e) {}
     }
 
     protected function setUpExhibitBuilder()
     {
-        try {
-            $dbLoaded = $this->_setUpNamedPlugin('ExhibitBuilder', 'ExhibitSection');
-            //if (!$dbLoaded) exhibit_builder_install();
-        } catch (Exception $e) {}
+        $this->_setUpNamedPlugin('ExhibitBuilder');
     }
 
     protected function setUpSimplePages()
     {
-        try {
-            $this->_setUpNamedPlugin('SimplePages', 'SimplePagesPage');
-        } catch (Exception $e) {}
+        $this->_setUpNamedPlugin('SimplePages');
     }
 
     protected function createExhibit($exhibit)

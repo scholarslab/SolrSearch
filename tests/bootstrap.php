@@ -1,7 +1,7 @@
 <?php
 
 define('SOLR_DIR', dirname(dirname(__FILE__)));
-define('SOLR_TEST_DIR', SOLR_DIR.'/tests/phpunit');
+define('SOLR_TEST_DIR', SOLR_DIR.'/tests');
 define('OMEKA_DIR', dirname(dirname(SOLR_DIR)));
 
 // Bootstrap Omeka.
