@@ -48,15 +48,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
     }
 
-    /**
-     * Delete testing records.
-     */
-    public function tearDown()
-    {
-        parent::tearDown();
-        // TODO
-    }
-
     protected function _setUpNamedPlugin($name, $table=null)
     {
         $dbLoaded = false;
@@ -85,13 +76,15 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     {
         try {
             $dbLoaded = $this->_setUpNamedPlugin('ExhibitBuilder', 'ExhibitSection');
-            if (!$dbLoaded) exhibit_builder_install();
+            //if (!$dbLoaded) exhibit_builder_install();
         } catch (Exception $e) {}
     }
 
     protected function setUpSimplePages()
     {
-        $this->_setUpNamedPlugin('SimplePages', 'SimplePagesPage');
+        try {
+            $this->_setUpNamedPlugin('SimplePages', 'SimplePagesPage');
+        } catch (Exception $e) {}
     }
 
     protected function createExhibit($exhibit)

@@ -18,7 +18,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
     {
         parent::setUp();
         $this->setUpExhibitBuilder();
-        //$this->setUpSimplePages();
+        $this->setUpSimplePages();
         $this->loadModels();
     }
 
@@ -35,7 +35,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
     {
         $mgr = new SolrSearch_Addon_Manager($this->db);
         $mgr->parseAll();
-        $this->assertCount(4, $mgr->addons);
+        $this->assertCount(3, $mgr->addons);
     }
 
     public function testFindAddonForRecordExhibit()
@@ -71,7 +71,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $mgr  = new SolrSearch_Addon_Manager($this->db);
         $docs = $mgr->reindexAddons();
 
-        $this->assertCount(5, $docs);
+        $this->assertCount(4, $docs);
         $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
 
