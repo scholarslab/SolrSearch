@@ -31,25 +31,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     public function indexAction()
     {
         $this->handleHtml();
-
-        //if ($this->isAjax()) {
-        //$this->handleJson();
-        //} else {
-        //$this->handleHtml();
-        //}
-    }
-
-    /**
-     * Parse request to determine if it is an AJAX request
-     *
-     * @return bool
-     */
-    private function _isAjax()
-    {
-        return false;
-        //TODO: clean this up
-        //return ($this->getRequest()->isXmlHttpRequest() ||
-        //(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
     }
 
     /**
@@ -251,8 +232,8 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
             'title'
         );
         foreach ($displayFields as $k => $displayField) {
-            //pass field accordingly, depending on whether it is an element or
-            //collection/tag
+            // Pass field accordingly, depending on whether it is an element
+            // or collection/tag.
             $fields[] = $displayField['name'];
         }
         return implode(',', $fields);
