@@ -92,7 +92,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
                 $titleField = 'sections_title_s';
                 break;
             case 'Exhibit Pages':
-                $titleField = 'section_pages_title_s';
+                $titleField = 'pages_title_s';
                 break;
             }
 
@@ -113,14 +113,9 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
             $doc = $mgr->indexRecord($ex);
             $this->_testSolrDoc($ex, $doc, $ex->public);
 
-            foreach ($ex->getSections() as $section) {
-                $doc = $mgr->indexRecord($section);
-                $this->_testSolrDoc($section, $doc, $ex->public);
-
-                foreach ($section->getPages() as $page) {
-                    $doc = $mgr->indexRecord($page);
-                    $this->_testSolrDoc($page, $doc, $ex->public);
-                }
+            foreach ($ex->getPages() as $page) {
+                $doc = $mgr->indexRecord($page);
+                $this->_testSolrDoc($page, $doc, $ex->public);
             }
         }
     }
