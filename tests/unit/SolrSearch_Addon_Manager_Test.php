@@ -63,7 +63,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $this->assertNotEmpty($rows);
         $addon = $mgr->findAddonForRecord($rows[0]);
         $this->assertNotNull($addon);
-        $this->assertEquals('section_pages', $addon->name);
+        $this->assertEquals('pages', $addon->name);
     }
 
     public function testReindexAddons()
@@ -126,4 +126,3 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
     }
 
 }
-
