@@ -30,10 +30,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'install',
         'uninstall',
         'initialize',
-        'before_delete_item',
+        'after_save_record',
         'after_save_item',
         'before_delete_record',
-        'after_save_record',
+        'before_delete_item',
         'define_routes',
         'define_acl',
         'admin_head',
@@ -89,20 +89,24 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         add_translation_source(dirname(__FILE__) . '/languages');
     }
 
-    public function hookBeforeDeleteItem($args)
+    public function hookAfterSaveRecord($args)
     {
-        $item = $args['record'];
-        $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
-            get_option('solr_search_port'),
-            get_option('solr_search_core')
-        );
+        SolrSearch_Utils::ensureView();
 
-        try {
-            $solr->deleteByQuery('modelid:' . $item['id']);
+        $record = $args['record'];
+        $mgr = new SolrSearch_Addon_Manager($this->_db);
+        $doc = $mgr->indexRecord($record);
+
+        if (!is_null($doc)) {
+            $solr = new Apache_Solr_Service(
+                get_option('solr_search_server'),
+                get_option('solr_search_port'),
+                get_option('solr_search_core')
+            );
+            $solr->addDocuments(array($doc));
             $solr->commit();
             $solr->optimize();
-        } catch (Exception $e) {}
+        }
     }
 
     public function hookAfterSaveItem($args)
@@ -153,24 +157,20 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
-    public function hookAfterSaveRecord($args)
+    public function hookBeforeDeleteItem($args)
     {
-        SolrSearch_Utils::ensureView();
+        $item = $args['record'];
+        $solr = new Apache_Solr_Service(
+            get_option('solr_search_server'),
+            get_option('solr_search_port'),
+            get_option('solr_search_core')
+        );
 
-        $record = $args['record'];
-        $mgr = new SolrSearch_Addon_Manager($this->_db);
-        $doc = $mgr->indexRecord($record);
-
-        if (!is_null($doc)) {
-            $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
-                get_option('solr_search_port'),
-                get_option('solr_search_core')
-            );
-            $solr->addDocuments(array($doc));
+        try {
+            $solr->deleteByQuery('modelid:' . $item['id']);
             $solr->commit();
             $solr->optimize();
-        }
+        } catch (Exception $e) {}
     }
 
     public function hookDefineRoutes($args)
