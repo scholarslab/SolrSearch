@@ -55,7 +55,7 @@ class SolrSearch_Addon_Manager
 
     // }}}
     // {{{Methods
-    
+
     /**
      * This instantiates a SolrSearch_Addon_Manager
      *
@@ -191,7 +191,7 @@ class SolrSearch_Addon_Manager
      **/
     public function getId($record, $config=null)
     {
-        $id  = null;
+        $id   = null;
         $idxr = new SolrSearch_Addon_Indexer($this->db);
 
         if (is_null($this->addons) || !is_null($config)) {
@@ -200,7 +200,7 @@ class SolrSearch_Addon_Manager
 
         $addon = $this->findAddonForRecord($record);
         if (!is_null($addon)) {
-            $id = $record->id;
+            $id = "{$addon->table}_{$record->id}";
         }
 
         return $id;

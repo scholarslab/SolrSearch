@@ -130,7 +130,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $solr->optimize();
         } else {
             // If the item's no longer public, remove it from the index.
-            $solr->deleteByQuery('id:' . $item['id']);
+            $solr->deleteById('Item_' . $item['id']);
             $solr->commit();
             $solr->optimize();
         }
@@ -149,11 +149,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
                 get_option('solr_search_core')
             );
             try {
-                $solr->deleteByQuery("id:$id");
+                $solr->deleteById($id);
                 $solr->commit();
                 $solr->optimize();
-            } catch (Exception $e) {
-            }
+            } catch (Exception $e) {}
         }
     }
 
@@ -167,7 +166,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         );
 
         try {
-            $solr->deleteByQuery('modelid:' . $item['id']);
+            $solr->deleteById('Item_' . $item['id']);
             $solr->commit();
             $solr->optimize();
         } catch (Exception $e) {}
