@@ -40,13 +40,21 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->elementSetTable = $this->db->getTable('ElementSet');
         $this->elementTable    = $this->db->getTable('Element');
 
-        $this->_todel = array();
-
         // Retrieve the element for some DC fields.
         $this->_title = $this->elementTable
             ->findByElementSetNameAndElementName('Dublin Core', 'Title');
         $this->_subject = $this->elementTable
             ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
+
+    }
+
+    /**
+     * Delete testing records.
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+        // TODO
     }
 
     protected function _setUpNamedPlugin($name, $table=null)
@@ -155,25 +163,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     {
         $plugin_broker->setCurrentPluginDirName($plugin_name);
         new SolrSearchPlugin;
-    }
-
-
-    /**
-     * Test helpers.
-     */
-
-    public function tearDown()
-    {
-        parent::tearDown();
-
-        if (is_array($this->_todel)) {
-            foreach ($this->_todel as $todel) {
-                try {
-                    $todel->delete();
-                } catch (Exception $e) {}
-            }
-            $this->_todel = array();
-        }
     }
 
     /**
