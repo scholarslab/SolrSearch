@@ -14,13 +14,11 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     {
 
         // Construct the query parameters.
-        $query = http_build_query(
-            array(
-                'solrq' => $this->_request->getParam('search')
-            )
-        );
+        $query = http_build_query(array(
+            'solrq' => $this->_request->getParam('query')
+        ));
 
-        // Redirect.
+        // Redirect to the Solr results action.
         $this->_redirect('solr-search/results?' . $query);
 
     }
