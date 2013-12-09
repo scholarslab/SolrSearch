@@ -293,7 +293,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      * to the theme; leaves admin section alone for default search.
      *
      * @param string $uri URI for Simple Search
-     *
      * @return string URI;
      */
     public function filterSearchFormDefaultAction($uri)
@@ -309,11 +308,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
     /**
      * Populates the facet table with human readable mappings of Omeka Element
-     * ids
+     * ids.
      *
      * There are special cases for sorting <tt>tags</tt>,
      * <tt>collection</tt>, and <tt>itemType</tt>
-     *
      */
     protected function _addFacetMappings()
     {
