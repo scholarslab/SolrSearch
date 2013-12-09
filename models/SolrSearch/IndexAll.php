@@ -10,8 +10,6 @@
  */
 
 
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
-
 class SolrSearch_IndexAll extends Omeka_Job_Process_AbstractProcess
 {
     public function run($args)

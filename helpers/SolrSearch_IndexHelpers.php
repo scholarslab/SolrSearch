@@ -10,8 +10,6 @@
  */
 
 
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
-
 /**
  * This contains some helpers for indexing items.
  */

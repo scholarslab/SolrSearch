@@ -22,26 +22,26 @@ if (!defined('SOLR_SEARCH_PLUGIN_DIR')) {
 
 // }}}
 
-// Solr PHP Client library
-require_once 'lib/Document.php';
-require_once 'lib/Exception.php';
-require_once 'lib/Response.php';
-require_once 'lib/Service.php';
+// Plugin manager:
+require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
 
-// SolrSearch utility classes
-require_once 'lib/SolrSearch/QueryManager.php';
-require_once 'lib/SolrSearch/Addon.php';
-require_once 'lib/SolrSearch/Utils.php';
+// Solr PHP Client library:
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Document.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Exception.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Response.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Service.php';
 
-/*
- * Custom Theme Helpers. They're imported from the helpers file, which appears 
- * to get more love.
- */
+// SolrSearch utility classes:
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/QueryManager.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Utils.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
 
+// Theme helpers:
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_ViewHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_QueryHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_IndexHelpers.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
 
 new SolrSearchPlugin();
 
