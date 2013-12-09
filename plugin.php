@@ -44,11 +44,3 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_IndexHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
 
 new SolrSearchPlugin();
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */

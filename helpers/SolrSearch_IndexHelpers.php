@@ -10,9 +10,6 @@
  */
 
 
-/**
- * This contains some helpers for indexing items.
- */
 class SolrSearch_IndexHelpers
 {
     /**
@@ -304,12 +301,3 @@ class SolrSearch_IndexHelpers
     }
 
 }
-
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */

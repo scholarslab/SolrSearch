@@ -1,28 +1,14 @@
 <?php
+
+/* vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80; */
+
 /**
- * SolrSearch Omeka Plugin helpers.
- *
- * Default helpers for the SolrSearch plugin
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
- * applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
- * OF ANY KIND, either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
- *
- * @package    omeka
- * @subpackage SolrSearch
- * @author     "Scholars Lab"
- * @copyright  2010 The Board and Visitors of the University of Virginia
- * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
- * @version    $Id$
- * @link       http://www.scholarslab.org
- *
- * PHP version 5
- *
+ * @package     omeka
+ * @subpackage  fedora-connector
+ * @copyright   2012 Rector and Board of Visitors, University of Virginia
+ * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
+
 
 /**
  * This handles indexes data from the addons.
@@ -315,11 +301,3 @@ class SolrSearch_Addon_Indexer
     }
 
 }
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */

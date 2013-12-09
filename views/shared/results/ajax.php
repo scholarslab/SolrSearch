@@ -29,11 +29,3 @@ echo json_encode(
         'count' => $results->response->numFound
     )
 );
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */
