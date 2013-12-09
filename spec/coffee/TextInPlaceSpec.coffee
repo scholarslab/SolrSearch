@@ -1,4 +1,3 @@
-
 describe 'In the TextInPlace widget,', ->
   n     = 0
   todel = []
@@ -121,6 +120,3 @@ describe 'In the TextInPlace widget,', ->
       triggerEditing div
       editBlur div, "updated text #{n}"
       expect(div.find('div.value').is(':visible')).toBeTruthy()
-
-
-
