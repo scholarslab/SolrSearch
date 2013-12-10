@@ -388,18 +388,19 @@ SQL;
     {
 
         $sql = <<<SQL
-
         CREATE TABLE IF NOT EXISTS `{$this->_db->prefix}solr_search_facets` (
-        `id` int(10) unsigned NOT NULL auto_increment,
-            `element_id` int(10) unsigned,
-            `name` tinytext collate utf8_unicode_ci NOT NULL,
-            `label` tinytext collate utf8_unicode_ci NOT NULL,
-            `element_set_id` int(10) unsigned,
-            `is_facet` tinyint unsigned DEFAULT 0,
-            `is_displayed` tinyint unsigned DEFAULT 0,
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+            `id`                int(10) unsigned NOT NULL auto_increment,
+            `element_id`        int(10) unsigned,
+            `name`              tinytext collate utf8_unicode_ci NOT NULL,
+            `label`             tinytext collate utf8_unicode_ci NOT NULL,
+            `element_set_id`    int(10) unsigned,
+            `is_facet`          tinyint unsigned DEFAULT 0,
+            `is_displayed`      tinyint unsigned DEFAULT 0,
+
+            PRIMARY KEY (`id`)
+
+        ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL;
 
         $this->_db->query($sql);

@@ -5,6 +5,7 @@
 
   <testsuite name="SolrSearchTests">
     <directory>unit</directory>
+    <directory>integration</directory>
   </testsuite>
 
 </phpunit>
