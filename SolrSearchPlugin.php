@@ -328,9 +328,7 @@ SQL;
             $name = $element['name'];
 
             if ($element['element_set_id'] == $dc->id
-                && array_key_exists(strtolower($name), $defaults)
-            ) {
-
+                && array_key_exists(strtolower($name), $defaults)) {
                 $v = 1;
             }
 

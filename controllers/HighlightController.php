@@ -12,10 +12,9 @@
 
 class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionController
 {
+
     /**
      * Index Action
-     *
-     * @return void
      */
     public function indexAction()
     {
@@ -25,8 +24,6 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
 
     /**
      * Update Action
-     *
-     * @return void
      */
     public function updateAction()
     {
@@ -106,6 +103,5 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
         $submitElement->setLabel(__('Submit'));
         return $form;
     }
+
 }
-
-
