@@ -12,7 +12,7 @@
 
 class SolrSearch_IndexAll extends Omeka_Job_Process_AbstractProcess
 {
-    public function run($args)
+    public function run()
     {
         try {
             SolrSearch_IndexHelpers::indexAll(array());

@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class NeatlinePluginTest_HookAfterSaveItem extends SolrSearch_Test_AppTestCase
+class SolrSearchPluginTest_HookConfigForm extends SolrSearch_Test_AppTestCase
 {
 
 

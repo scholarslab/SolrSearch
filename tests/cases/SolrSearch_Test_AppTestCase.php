@@ -46,10 +46,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     protected function _applyTestingOptions()
     {
         if (file_exists(SOLR_TEST_DIR.'/solr.ini')) {
-            $config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
-            set_option('solr_search_server',    $config->host);
-            set_option('solr_search_port',      $config->port);
-            set_option('solr_search_core',      $config->url);
+            $this->config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
+            set_option('solr_search_server',    $this->config->host);
+            set_option('solr_search_port',      $this->config->port);
+            set_option('solr_search_core',      $this->config->url);
         }
     }
 

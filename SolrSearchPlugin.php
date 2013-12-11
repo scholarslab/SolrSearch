@@ -250,7 +250,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
                 set_option($option, $value);
             }
 
-            Omeka_Job_Process_Dispatcher::startProcess('SolrSearch_IndexAll', null, $args);
+            Omeka_Job_Process_Dispatcher::startProcess('SolrSearch_IndexAll');
 
         } else {
             $output = '';
