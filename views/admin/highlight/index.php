@@ -12,31 +12,33 @@
 ?>
 
 <?php
-    echo head(array('title' => __('Solr Search Hit Highlighting Options'), 'bodyclass' => 'primary', 'content_class' => 'horizontal-nav'));
+  echo head(array(
+    'title' => __('Solr Search Hit Highlighting Options')
+  ));
 ?>
 
 <ul id="section-nav" class="navigation">
     <li class="">
-        <a href="<?php echo html_escape(url('solr-search/config/')); ?>"><?php echo __('Field Configuration') ?></a>
+      <a href="<?php echo html_escape(url('solr-search/config/')); ?>">
+        <?php echo __('Field Configuration') ?>
+      </a>
     </li>
     <li class="current">
-        <a href="<?php echo html_escape(url('solr-search/highlight/')); ?>"><?php echo __('Hit Highlighting Options') ?></a>
+      <a href="<?php echo html_escape(url('solr-search/highlight/')); ?>">
+        <?php echo __('Hit Highlighting Options') ?>
+      </a>
     </li>
     <li class="">
-        <a href="<?php echo html_escape(url('solr-search/reindex/')); ?>"><?php echo __('Index Items') ?></a>
+      <a href="<?php echo html_escape(url('solr-search/reindex/')); ?>">
+        <?php echo __('Index Items') ?>
+      </a>
     </li>
 </ul>
+
 <div id="primary">
-    <h2><?php echo __('Hit Highlighting') ?></h2>
-   <?php echo flash(); 
-            if (!empty($err)) {
-                echo '<p class="error">' . html_escape($err) . '</p>';
-            }
-        ?>
-    <p><?php echo __('Select hit highlighting options from available fields below.') ?></p>
-	<?php echo $form ?>
+  <h2><?php echo __('Hit Highlighting Options') ?></h2>
+	<?php echo flash(); ?>
+	<?php echo $form; ?>
 </div>
 
-<?php 
-    echo foot(); 
-?>
+<?php echo foot(); ?>

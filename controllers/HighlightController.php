@@ -19,83 +19,36 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
     public function indexAction()
     {
 
-        $form = $this->_getHighlightForm();
+        $form = new HighlightForm();
 
         if ($this->_request->isPost()) {
             if ($form->isValid($this->_request->getPost())) {
 
-                $uploadedData = $form->getValues();
+                $values = $form->getValues();
 
                 set_option(
                     'solr_search_hl',
-                    $uploadedData['solr_search_hl']
+                    $values['solr_search_hl']
                 );
 
                 set_option(
                     'solr_search_snippets',
-                    $uploadedData['solr_search_snippets']
+                    $values['solr_search_snippets']
                 );
 
                 set_option(
                     'solr_search_fragsize',
-                    $uploadedData['solr_search_fragsize']
+                    $values['solr_search_fragsize']
                 );
 
-                $this->_helper->flashMessenger(__('Hit highlighting features modified.'), 'success');
-            } else {
-                $this->_helper->flashMessenger(__('Failed to gather posted data.'), 'error');
-                $this->view->form = $form;
+                $this->_helper->flashMessenger(
+                    __('Highlighting options successfully saved!'), 'success'
+                );
             }
         }	
 
         $this->view->form = $form;
 
-    }
-
-    /**
-     * Construct the form.
-     *
-     * @return Zend_Form
-     */
-    protected function _getHighlightForm()
-    {
-        include "Zend/Form/Element.php";
-        $form = new Zend_Form();
-        $form->setMethod('post');
-        $form->setAttrib('enctype', 'multipart/form-data');
-
-        //set true or false
-        $hl = new Zend_Form_Element_Select('solr_search_hl');
-        $hl->setLabel(__('Highlighting:'));
-        $hl->setDescription(__('Enable/Disable highlighting matches in Solr fields'));
-        $hl->addMultiOption('true', __('True'));
-        $hl->addMultiOption('false', __('False')); 
-        $hl->setValue(get_option('solr_search_hl'));
-        $form->addElement($hl);
-
-        //number of snippets
-        $snippets = new Zend_Form_Element_Text('solr_search_snippets');
-        $snippets->setLabel(__('Snippets:'));
-        $snippets->setDescription(__('The maximum number of highlighted snippets to generate'));
-        $snippets->setValue(get_option('solr_search_snippets'));
-        $snippets->setRequired('true');
-        $snippets->addValidator(new Zend_Validate_Int());
-        $form->addElement($snippets);
-
-        //fragment size
-        $fragsize = new Zend_Form_Element_Text('solr_search_fragsize');
-        $fragsize->setLabel(__('Snippet Size:'));
-        $fragsize->setDescription(__('The maximum number of characters to display in a snippet'));
-        $fragsize->setValue(get_option('solr_search_fragsize'));
-        $fragsize->setRequired('true');
-        $fragsize->addValidator(new Zend_Validate_Int());
-        $form->addElement($fragsize);
-
-        //Submit button
-        $form->addElement('submit', 'submit');
-        $submitElement=$form->getElement('submit');
-        $submitElement->setLabel(__('Submit'));
-        return $form;
     }
 
 }
