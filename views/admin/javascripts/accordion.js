@@ -10,12 +10,10 @@
 
 
 jQuery(document).ready(function($) {
-
-    // Instantiate accordion
-    $('#facets-form').accordion({
-        header: 'h3.fieldset',
-        autoHeight: false,
-        collapsible: true,
-        heightStyle: "content"
-    });
+  $('#facets-form').accordion({
+    header: 'h3.fieldset',
+    autoHeight: false,
+    collapsible: true,
+    heightStyle: "content"
+  });
 });

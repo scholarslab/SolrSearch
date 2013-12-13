@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class HighlightControllerTest_Index extends SolrSearch_Test_AppTestCase
+class AdminControllerTest_Highlighting extends SolrSearch_Test_AppTestCase
 {
 
 
@@ -19,7 +19,7 @@ class HighlightControllerTest_Index extends SolrSearch_Test_AppTestCase
     public function testIndex()
     {
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/highlighting');
 
         // Highlighting:
         $this->assertXpath(

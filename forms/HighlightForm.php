@@ -9,16 +9,15 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
+
 class HighlightForm extends Omeka_Form
 {
-
 
     public function init()
     {
         parent::init();
         $this->_registerElements();
     }
-
 
     /**
      * Construct the form elements.
@@ -86,6 +85,5 @@ class HighlightForm extends Omeka_Form
         ), 'submit_button');
 
     }
-
 
 }

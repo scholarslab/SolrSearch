@@ -10,7 +10,8 @@
  */
 
 
-class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionController
+class SolrSearch_ResultsController
+    extends Omeka_Controller_AbstractActionController
 {
 
     /**

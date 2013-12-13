@@ -19,17 +19,17 @@
 
 <ul id="section-nav" class="navigation">
     <li>
-      <a href="<?php echo html_escape(url('solr-search/config/')); ?>">
+      <a href="<?php echo html_escape(url('solr-search/fields')); ?>">
         <?php echo __('Field Configuration') ?>
       </a>
     </li>
     <li>
-      <a href="<?php echo html_escape(url('solr-search/highlight/')); ?>">
+      <a href="<?php echo html_escape(url('solr-search/highlighting')); ?>">
         <?php echo __('Hit Highlighting Options') ?>
       </a>
     </li>
     <li class="current">
-      <a href="<?php echo html_escape(url('solr-search/reindex/')); ?>">
+      <a href="<?php echo html_escape(url('solr-search/reindex')); ?>">
         <?php echo __('Index Items') ?>
       </a>
     </li>

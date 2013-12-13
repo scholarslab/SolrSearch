@@ -18,11 +18,11 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'install',
         'uninstall',
         'initialize',
+        'define_routes',
         'after_save_record',
         'after_save_item',
         'before_delete_record',
         'before_delete_item',
-        'define_routes',
         'define_acl',
         'admin_head',
         'public_head',
@@ -75,6 +75,13 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookInitialize()
     {
         add_translation_source(dirname(__FILE__) . '/languages');
+    }
+
+    public function hookDefineRoutes($args)
+    {
+        $args['router']->addConfig(new Zend_Config_Ini(
+            SOLR_SEARCH_PLUGIN_DIR.'/routes.ini'
+        ));
     }
 
     public function hookAfterSaveRecord($args)
@@ -158,21 +165,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $solr->commit();
             $solr->optimize();
         } catch (Exception $e) {}
-    }
-
-    public function hookDefineRoutes($args)
-    {
-        $router = $args['router'];
-        $searchResultsRoute = new Zend_Controller_Router_Route(
-            'results',
-            array(
-                'controller' => 'search',
-                'action'     => 'results',
-                'module'     => 'solr-search'
-            )
-        );
-
-        $router->addRoute('solr_search_results_route', $searchResultsRoute);
     }
 
     public function hookDefineAcl($args)
@@ -267,8 +259,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     {
         if (is_allowed('SolrSearch_Config', 'index')) {
             $nav[] = array(
-                'label' => __('SolrSearch'),
-                'uri' => url('solr-search/config/')
+                'label' => __('SolrSearch'), 'uri' => url('solr-search')
             );
         }
         return $nav;
