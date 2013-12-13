@@ -14,9 +14,7 @@ class FacetForm extends Omeka_Form
 {
 
     /**
-     * Construct the exhibit add/edit form.
-     *
-     * @return void.
+     * Construct the field indexing configuration form.
      */
     public function init()
     {

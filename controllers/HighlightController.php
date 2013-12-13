@@ -14,20 +14,21 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
 {
 
     /**
-     * Index Action
+     * Display the "Hit Highlighting Options" form.
      */
     public function indexAction()
     {
-        $form = $this->highlightForm();
+        $form = $this->_getHighlightForm();
         $this->view->form = $form;
     }
 
     /**
-     * Update Action
+     * Process the form.
+     * TODO: Fold this into the index action.
      */
     public function updateAction()
     {
-        $form = $this->highlightForm();
+        $form = $this->_getHighlightForm();
 
         if ($_POST) {
             if ($form->isValid($this->_request->getPost())) {
@@ -58,11 +59,11 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
     }
 
     /**
-     * Highlight form
+     * Construct the form.
      *
-     * @return void
+     * @return Zend_Form
      */
-    protected function highlightForm()
+    protected function _getHighlightForm()
     {
         include "Zend/Form/Element.php";
         $form = new Zend_Form();

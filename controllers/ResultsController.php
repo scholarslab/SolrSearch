@@ -16,8 +16,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     /**
      * Intercept search queries from simple search and redirect with
      * a well-formed SolrSearch request.
-     *
-     * @return void
      */
     public function interceptorAction()
     {
@@ -33,9 +31,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     }
 
     /**
-     * Default index action
-     *
-     * @return void
+     * Default index action.
      */
     public function indexAction()
     {
@@ -43,9 +39,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     }
 
     /**
-     * Display results using HTML handler
-     *
-     * @return void
+     * Display results using HTML handler.
      */
     protected function handleHtml()
     {
@@ -71,8 +65,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
 
     /**
      * Display result set using JSON handler
-     *
-     * @return void
      */
     protected function handleJson()
     {
@@ -115,7 +107,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
      * Retrieve search fields
      *
      * @param array $facets Array containing facet fields
-     *
      * @return array Array of fields to pass to Solr
      */
     private function _getSearchParameters($facets)
@@ -153,7 +144,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
      * Retrieve pagination settings from the database
      *
      * @param int $numFound Number of results
-     *
      * @return int Pagination settings
      */
     private function _getPagination($numFound=0)
@@ -184,7 +174,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
      *
      * @param int $pagination Number of results per page
      * @param int $numFound   Total number of results in query
-     *
      * @return int Pagination setting
      */
     private function _updatePagination($pagination, $numFound)
@@ -200,7 +189,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
      * @param array $facets Facet fields
      * @param int   $offset Results offset
      * @param int   $limit  Limit per page
-     *
      * @return SolrResultDoc Solr results
      */
     private function _search($facets, $offset=0, $limit=10)
@@ -253,7 +241,6 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
      * but aren't displayed.
      *
      * @return string $fields A comma-delimited list of fields.
-     * @author Eric Rochester <erochest@virginia.edu>
      */
     private function _getHiddenFields()
     {

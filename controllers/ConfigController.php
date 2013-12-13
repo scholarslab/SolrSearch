@@ -14,17 +14,14 @@ class SolrSearch_ConfigController extends Omeka_Controller_AbstractActionControl
 {
 
     /**
-     * Show the facets form.
-     *
-     * @return void
+     * Display the "Field Configuration" form.
      */
     public function indexAction()
     {
 
-        // Construct facet form.
         $form = new FacetForm;
 
-        // If the form has been posted.
+        // If the form is being submitted.
         if ($this->_request->isPost()) {
 
             // Validate form.

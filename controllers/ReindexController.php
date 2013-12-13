@@ -12,37 +12,29 @@
 
 class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionController
 {
+
+    /**
+     * Display the "Index Items" form.
+     */
     public function indexAction()
     {
-        $form = $this->facetForm();
+        $form = $this->_getReindexForm();
         $this->view->form = $form;
     }
 
+    /**
+     * Reindex items when form is submitted.
+     */
     public function updateAction()
     {
-        $form = $this->facetForm();
+        $form = $this->_getReindexForm();
 
         if ($_POST) {
             if ($form->isValid($this->_request->getPost())) {
                 try{
+
                     SolrSearch_IndexHelpers::deleteAll(array());
                     SolrSearch_IndexHelpers::indexAll(array());
-
-                    // TODO: add throbber
-
-/*
- *                     Omeka_Job_Process_Dispatcher::startProcess(
- *                         'SolrSearch_DeleteAll',
- *                         null,
- *                         array()
- *                     );
- * 
- *                     Omeka_Job_Process_Dispatcher::startProcess(
- *                         'SolrSearch_IndexAll',
- *                         null,
- *                         array()
- *                     );
- */
 
                     $this->_helper->flashMessenger(
                         __('Reindexing finished.'),
@@ -56,7 +48,12 @@ class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionContro
         }	
     }
 
-    private function facetForm()
+    /**
+     * Construct the form.
+     *
+     * @return Zend_Form
+     */
+    private function _getReindexForm()
     {
         include "Zend/Form/Element.php";
         $form = new Zend_Form();
