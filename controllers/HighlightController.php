@@ -18,21 +18,12 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
      */
     public function indexAction()
     {
-        $form = $this->_getHighlightForm();
-        $this->view->form = $form;
-    }
 
-    /**
-     * Process the form.
-     * TODO: Fold this into the index action.
-     */
-    public function updateAction()
-    {
         $form = $this->_getHighlightForm();
 
-        if ($_POST) {
+        if ($this->_request->isPost()) {
             if ($form->isValid($this->_request->getPost())) {
-                //get posted values		
+
                 $uploadedData = $form->getValues();
 
                 set_option(
@@ -56,6 +47,9 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
                 $this->view->form = $form;
             }
         }	
+
+        $this->view->form = $form;
+
     }
 
     /**
@@ -67,7 +61,6 @@ class SolrSearch_HighlightController extends Omeka_Controller_AbstractActionCont
     {
         include "Zend/Form/Element.php";
         $form = new Zend_Form();
-        $form->setAction('update');
         $form->setMethod('post');
         $form->setAttrib('enctype', 'multipart/form-data');
 

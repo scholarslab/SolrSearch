@@ -64,7 +64,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     }
 
     /**
-     * Display result set using JSON handler
+     * Display result set using JSON handler.
      */
     protected function handleJson()
     {
@@ -82,13 +82,13 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     }
 
     /**
-     * Retrive search facet settings from the database
+     * Retrive search facet settings from the database.
      *
      * @return array Array containing facet fields
      */
     private function _getSearchFacets()
     {
-        //get facets
+
         $facets = array();
 
         $db = get_db();
@@ -104,7 +104,7 @@ class SolrSearch_ResultsController extends Omeka_Controller_AbstractActionContro
     }
 
     /**
-     * Retrieve search fields
+     * Retrieve search fields.
      *
      * @param array $facets Array containing facet fields
      * @return array Array of fields to pass to Solr

@@ -30,6 +30,7 @@ class SolrSearch_ConfigController extends Omeka_Controller_AbstractActionControl
 
                 $uploadedData = $form->getValues();
 
+                // Save the facets.
                 foreach ($uploadedData['facets'] as $group) {
                     foreach ($group['facets'] as $group) {
                         $options = array(
@@ -52,13 +53,20 @@ class SolrSearch_ConfigController extends Omeka_Controller_AbstractActionControl
                     }
                 }
 
-                $this->_helper->flashMessenger(__('Solr configuration updated. Be sure to reindex.'), 'success');
+                // Flash success.
+                $this->_helper->flashMessenger(
+                    __('Solr configuration updated. Be sure to reindex.'),
+                    'success'
+                );
+
+                // Redisplay the form.
                 $this->_redirect('solr-search/config');
+
             }
 
         }
 
-        // Push form to view.
+        // Display the form.
         $this->view->form = $form;
 
     }

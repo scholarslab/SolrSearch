@@ -29,7 +29,7 @@ class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionContro
     {
         $form = $this->_getReindexForm();
 
-        if ($_POST) {
+        if ($this->_request->isPost()) {
             if ($form->isValid($this->_request->getPost())) {
                 try{
 
