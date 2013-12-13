@@ -11,14 +11,12 @@
 
 ?>
 
-<?php
-  echo head(array(
-    'title' => __('Solr Search Hit Highlighting Options')
-  ));
-?>
+<?php echo head(array(
+  'title' => __('Solr Search Hit Highlighting Options')
+)); ?>
 
 <ul id="section-nav" class="navigation">
-    <li class="">
+    <li>
       <a href="<?php echo html_escape(url('solr-search/config/')); ?>">
         <?php echo __('Field Configuration') ?>
       </a>
@@ -28,7 +26,7 @@
         <?php echo __('Hit Highlighting Options') ?>
       </a>
     </li>
-    <li class="">
+    <li>
       <a href="<?php echo html_escape(url('solr-search/reindex/')); ?>">
         <?php echo __('Index Items') ?>
       </a>
