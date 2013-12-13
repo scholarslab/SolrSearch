@@ -56,31 +56,22 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
-     * Install a plugin by name.
+     * Install the passed plugin. If the installation fails, skip the test.
+     *
+     * @param string $pluginName The plugin name.
      */
-    protected function _setUpNamedPlugin($plugin)
+    protected function _installPluginOrSkip($pluginName)
     {
+
+        // Break if plugin is installed.
+        if (plugin_is_active($pluginName)) return;
+
         try {
-            $this->helper->setUp($plugin);
-        } catch (Exception $e) {}
-    }
+            $this->helper->setUp($pluginName);
+        } catch (Exception $e) {
+            $this->markTestSkipped("Plugin $pluginName can't be installed.");
+        }
 
-
-    /**
-     * Install Exhibit Builder.
-     */
-    protected function _setUpExhibitBuilder()
-    {
-        $this->_setUpNamedPlugin('ExhibitBuilder');
-    }
-
-
-    /**
-     * Install Simple Pages.
-     */
-    protected function _setUpSimplePages()
-    {
-        $this->_setUpNamedPlugin('SimplePages');
     }
 
 
@@ -143,7 +134,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      */
     protected function _loadModels()
     {
-        $filename = SOLR_SEARCH_PLUGIN_DIR . '/tests/fixtures/exhibits.json';
+        $filename = SOLR_TEST_DIR . '/fixtures/exhibits.json';
         $exhibits = json_decode(file_get_contents($filename));
 
         foreach ($exhibits as $exhibit) {
