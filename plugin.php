@@ -41,6 +41,9 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_ViewHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_QueryHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_IndexHelpers.php';
+
+// Forms:
 require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/ReindexForm.php';
 
 new SolrSearchPlugin();

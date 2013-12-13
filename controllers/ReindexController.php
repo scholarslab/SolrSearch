@@ -19,7 +19,7 @@ class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionContro
     public function indexAction()
     {
 
-        $form = $this->_getReindexForm();
+        $form = new ReindexForm();
 
         if ($this->_request->isPost()) {
             if ($form->isValid($this->_request->getPost())) {
@@ -29,8 +29,7 @@ class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionContro
                     SolrSearch_IndexHelpers::indexAll(array());
 
                     $this->_helper->flashMessenger(
-                        __('Reindexing finished.'),
-                        'success'
+                        __('Reindexing finished.'), 'success'
                     );
 
                 } catch (Exception $err) {
@@ -43,24 +42,4 @@ class SolrSearch_ReindexController extends Omeka_Controller_AbstractActionContro
 
     }
 
-    /**
-     * Construct the form.
-     *
-     * @return Zend_Form
-     */
-    private function _getReindexForm()
-    {
-        include "Zend/Form/Element.php";
-        $form = new Zend_Form();
-        $form->setMethod('post');
-        $form->setAttrib('enctype', 'multipart/form-data');
-
-        //Submit button
-        $form->addElement('submit', 'submit');
-        $submitElement=$form->getElement('submit');
-        $submitElement->setLabel(__('Clear & Reindex'));
-        $submitElement->setAttrib('class', 'btn btn-large');
-
-        return $form;
-    }
 }
