@@ -409,14 +409,11 @@ class SolrSearch_ViewHelpers
         $options = $subform->getElement('options');
         $id      = preg_replace('/\W+/', '_', $label->getFullyQualifiedName());
 
-        $output .= get_view()->partial(
-            'config/_subform.php',
-            array(
-                'id'      => $id,
-                'facetId' => $facetId,
-                'label'   => $label
-            )
-        );
+        $output .= get_view()->partial('admin/partials/subform.php', array(
+            'id'      => $id,
+            'facetId' => $facetId,
+            'label'   => $label
+        ));
 
         foreach ($options->getMultiOptions() as $name => $optlabel) {
             $shortlab = explode(' ', $optlabel);

@@ -33,23 +33,9 @@
 
 <div id="solr_config">
 
-  <ul id="section-nav" class="navigation">
-    <li class="current">
-      <a href="<?php echo html_escape(url('solr-search/fields')); ?>">
-        <?php echo __('Field Configuration') ?>
-      </a>
-    </li>
-    <li>
-      <a href="<?php echo html_escape(url('solr-search/highlighting')); ?>">
-        <?php echo __('Hit Highlighting Options') ?>
-      </a>
-    </li>
-    <li>
-      <a href="<?php echo html_escape(url('solr-search/reindex')); ?>">
-        <?php echo __('Index Items') ?>
-      </a>
-    </li>
-  </ul>
+  <?php echo $this->partial('admin/partials/navigation.php', array(
+    'tab' => 'fields'
+  )); ?>
 
   <div id="primary">
 
@@ -73,7 +59,6 @@
                 <th><?php echo __('Field');    ?></th>
                 <th><?php echo $is_searchable; ?></th>
                 <th><?php echo $is_facet;      ?></th>
-
               </tr>
             </thead>
 
@@ -82,6 +67,7 @@
                 <?php echo SolrSearch_ViewHelpers::createFacetSubForm($n, $eform); ?>
               <?php endforeach; ?>
             </tbody>
+
           </table>
         </div>
 

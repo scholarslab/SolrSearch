@@ -15,23 +15,9 @@
   'title' => __('Solr Search Hit Highlighting Options')
 )); ?>
 
-<ul id="section-nav" class="navigation">
-    <li>
-      <a href="<?php echo html_escape(url('solr-search/fields')); ?>">
-        <?php echo __('Field Configuration') ?>
-      </a>
-    </li>
-    <li class="current">
-      <a href="<?php echo html_escape(url('solr-search/highlighting')); ?>">
-        <?php echo __('Hit Highlighting Options') ?>
-      </a>
-    </li>
-    <li>
-      <a href="<?php echo html_escape(url('solr-search/reindex')); ?>">
-        <?php echo __('Index Items') ?>
-      </a>
-    </li>
-</ul>
+<?php echo $this->partial('admin/partials/navigation.php', array(
+  'tab' => 'highlighting'
+)); ?>
 
 <div id="primary">
   <h2><?php echo __('Hit Highlighting Options') ?></h2>
