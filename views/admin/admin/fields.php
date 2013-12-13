@@ -22,10 +22,10 @@
 
 <script type='text/javascript'>
   function tip(el, form_name, revert_to) {
-    jQuery(function() {
-      jQuery(el).textinplace({
-          form_name: form_name,
-          revert_to: revert_to
+    jQuery(function($) {
+      $(el).textinplace({
+        form_name: form_name,
+        revert_to: revert_to
       });
     });
   }
@@ -90,11 +90,12 @@
       <?php echo $form->getElement('submit'); ?>
 
       <script type='text/javascript'>
-        jQuery(function () {
-          jQuery('.group-sel-all').change(function (event) {
-            var obj = jQuery(this);
-            var val = obj.attr('checked') === 'checked' ? 'checked' : null;
-            jQuery(obj.attr('data-target')).attr('checked', val);
+        jQuery(function ($) {
+          $('.group-sel-all').change(function(event) {
+            var checkbox = $(this);
+            $(checkbox.attr('data-target')).prop(
+              'checked', checkbox.is(':checked')
+            );
           });
         });
       </script>
