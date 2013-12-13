@@ -13,10 +13,17 @@ class HighlightForm extends Omeka_Form
 {
 
 
-    /**
-     * Construct the highlighting form.
-     */
     public function init()
+    {
+        parent::init();
+        $this->_registerElements();
+    }
+
+
+    /**
+     * Construct the form elements.
+     */
+    protected function _registerElements()
     {
 
         // Enable Highlighting:

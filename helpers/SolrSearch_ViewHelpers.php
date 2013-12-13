@@ -16,6 +16,7 @@
  **/
 class SolrSearch_ViewHelpers
 {
+
     /**
      * This returns the base URL for the results page.
      *
