@@ -17,9 +17,9 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
     {
 
         parent::setUp();
-        $this->setUpExhibitBuilder();
-        $this->setUpSimplePages();
-        $this->loadModels();
+        $this->_setUpExhibitBuilder();
+        $this->_setUpSimplePages();
+        $this->_loadModels();
 
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $addons = $this->mgr->parseAll();

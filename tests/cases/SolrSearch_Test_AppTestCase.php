@@ -13,12 +13,9 @@
 class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 {
 
-    private $_todel;
 
     /**
      * Install SolrSearch and prepare the database.
-     *
-     * @return void.
      */
     public function setUp()
     {
@@ -43,6 +40,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
     }
 
+
+    /**
+     * Apply options defined in the `solr.ini` file.
+     */
     protected function _applyTestingOptions()
     {
         if (file_exists(SOLR_TEST_DIR.'/solr.ini')) {
@@ -53,22 +54,40 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         }
     }
 
+
+    /**
+     * Install a plugin by name.
+     */
     protected function _setUpNamedPlugin($plugin)
     {
-        try { $this->helper->setUp($plugin); } catch (Exception $e) {}
+        try {
+            $this->helper->setUp($plugin);
+        } catch (Exception $e) {}
     }
 
-    protected function setUpExhibitBuilder()
+
+    /**
+     * Install Exhibit Builder.
+     */
+    protected function _setUpExhibitBuilder()
     {
         $this->_setUpNamedPlugin('ExhibitBuilder');
     }
 
-    protected function setUpSimplePages()
+
+    /**
+     * Install Simple Pages.
+     */
+    protected function _setUpSimplePages()
     {
         $this->_setUpNamedPlugin('SimplePages');
     }
 
-    protected function createExhibit($exhibit)
+
+    /**
+     * Create an exhibit with pages and entries.
+     */
+    protected function _createExhibit($exhibit)
     {
         $e = new Exhibit();
         $e->title       = property_exists($exhibit, 'title') ? $exhibit->title : null;
@@ -96,7 +115,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             $k = 1;
             foreach ($entries as $entry) {
 
-                $item = $this->__item(
+                $item = $this->_item(
                     property_exists($entry, 'title') ? $entry->title : null,
                     property_exists($entry, 'subject') ? $entry->subject : null
                 );
@@ -118,26 +137,20 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         return $e;
     }
 
-    protected function loadModels()
+
+    /**
+     * Install Exhibit Buidler fixtures.
+     */
+    protected function _loadModels()
     {
         $filename = SOLR_SEARCH_PLUGIN_DIR . '/tests/fixtures/exhibits.json';
         $exhibits = json_decode(file_get_contents($filename));
 
         foreach ($exhibits as $exhibit) {
-            $this->createExhibit($exhibit);
+            $this->_createExhibit($exhibit);
         }
     }
 
-    /**
-     * Install SolrSearch.
-     *
-     * @return void.
-     */
-    public function _addHooksAndFilters($plugin_broker, $plugin_name)
-    {
-        $plugin_broker->setCurrentPluginDirName($plugin_name);
-        new SolrSearchPlugin;
-    }
 
     /**
      * This cereates and element text and adds it to an item.
@@ -150,7 +163,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      * @return ElementText
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    protected function addElementText($item, $element, $text, $html=0)
+    protected function _addElementText($item, $element, $text, $html=0)
     {
         $etext = new ElementText;
 
@@ -166,28 +179,30 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         return $etext;
     }
 
+
     /**
      * Create an item.
-     *
-     * @return Omeka_record $item The item.
      */
-    public function __item($title=null, $subject=null)
+    public function _item($title=null, $subject=null)
     {
+
         $item = new Item;
         $item->save();
 
         if (!is_null($title)) {
             $titleElement = $this->elementTable
                 ->findByElementSetNameAndElementName('Dublin Core', 'Title');
-            $this->addElementText($item, $titleElement, $title);
+            $this->_addElementText($item, $titleElement, $title);
         }
         if (!is_null($subject)) {
             $subjectElement = $this->elementTable
                 ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
-            $this->addElementText($item, $subjectElement, $subject);
+            $this->_addElementText($item, $subjectElement, $subject);
         }
 
         return $item;
+
     }
+
 
 }
