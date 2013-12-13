@@ -189,12 +189,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         if ($module == 'solr-search') {
             queue_css_file('textinplace');
             queue_js_file('jquery.textinplace');
-            queue_css_file('solr_search_main');
-        }
-
-        // If we're on the plugin config page.
-        if ($controller == 'plugins' && $action == 'config') {
-            queue_css_file('solr_search_main');
         }
     }
 
