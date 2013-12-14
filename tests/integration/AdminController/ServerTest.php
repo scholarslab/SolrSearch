@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
+class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 {
 
 
@@ -28,6 +28,54 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
 
 
     /**
+     * SERVER should display the plugin configuration form.
+     */
+    public function testMarkup()
+    {
+
+        $this->dispatch('solr-search/server');
+
+        // Solr host:
+        $this->assertXpath(
+            '//input
+            [@name="solr_search_server"]
+            [@value="' . get_option('solr_search_server') . '"]'
+        );
+
+        // Solr port:
+        $this->assertXpath(
+            '//input
+            [@name="solr_search_port"]
+            [@value="'. get_option('solr_search_port') . '"]'
+        );
+
+        // Core URL:
+        $this->assertXpath(
+            '//input
+            [@name="solr_search_core"]
+            [@value="'. get_option('solr_search_core') . '"]'
+        );
+
+        // Facet sort:
+        $this->assertXpath(
+            '//select
+            [@name="solr_search_facet_sort"]
+            /option
+            [@value="'. get_option('solr_search_facet_sort') . '"]
+            [@selected="selected"]'
+        );
+
+        // Facet count:
+        $this->assertXpath(
+            '//input
+            [@name="solr_search_facet_limit"]
+            [@value="'. get_option('solr_search_facet_limit') . '"]'
+        );
+
+    }
+
+
+    /**
      * A Solr host is required.
      */
     public function testNoHostError()
@@ -42,13 +90,15 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => '25'
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         // Should not set option.
         $this->assertEquals('server', get_option('solr_search_server'));
 
         // Should flash error.
-        $this->assertXPath('//li[@class="error"]');
+        $this->assertXpath('//input[@name="solr_search_server"]/
+            following-sibling::ul[@class="error"]'
+        );
 
     }
 
@@ -68,13 +118,15 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => '25'
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         // Should not set option.
         $this->assertEquals('port', get_option('solr_search_port'));
 
         // Should flash error.
-        $this->assertXPath('//li[@class="error"]');
+        $this->assertXpath('//input[@name="solr_search_port"]/
+            following-sibling::ul[@class="error"]'
+        );
 
     }
 
@@ -94,13 +146,15 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => '25'
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         // Should not set option.
         $this->assertEquals('/core/', get_option('solr_search_core'));
 
         // Should flash error.
-        $this->assertXPath('//li[@class="error"]');
+        $this->assertXpath('//input[@name="solr_search_core"]/
+            following-sibling::ul[@class="error"]'
+        );
 
     }
 
@@ -120,13 +174,15 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => '25'
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         // Should not set option.
         $this->assertEquals('/core/', get_option('solr_search_core'));
 
         // Should flash error.
-        $this->assertXPath('//li[@class="error"]');
+        $this->assertXpath('//input[@name="solr_search_core"]/
+            following-sibling::ul[@class="error"]'
+        );
 
     }
 
@@ -146,13 +202,15 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => ''
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         // Should not set option.
         $this->assertEquals('25', get_option('solr_search_facet_limit'));
 
         // Should flash error.
-        $this->assertXPath('//li[@class="error"]');
+        $this->assertXpath('//input[@name="solr_search_facet_limit"]/
+            following-sibling::ul[@class="error"]'
+        );
 
     }
 
@@ -172,13 +230,15 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => 'invalid'
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         // Should not set option.
         $this->assertEquals('25', get_option('solr_search_facet_limit'));
 
         // Should flash error.
-        $this->assertXPath('//li[@class="error"]');
+        $this->assertXpath('//input[@name="solr_search_facet_limit"]/
+            following-sibling::ul[@class="error"]'
+        );
 
     }
 
@@ -197,7 +257,7 @@ class SolrSearchPluginTest_HookConfig extends SolrSearch_Test_AppTestCase
             'solr_search_facet_limit'   => '30'
         ));
 
-        $this->dispatch('plugins/config?name=SolrSearch');
+        $this->dispatch('solr-search/server');
 
         $server = get_option('solr_search_server');
         $port   = get_option('solr_search_port');

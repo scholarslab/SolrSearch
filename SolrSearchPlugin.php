@@ -25,9 +25,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'before_delete_item',
         'define_acl',
         'admin_head',
-        'public_head',
-        'config_form',
-        'config'
+        'public_head'
     );
     //}}}
 
