@@ -37,9 +37,9 @@ class HighlightForm extends Omeka_Form
         $this->addElement('text', 'solr_search_snippets', array(
             'label'         => __('Number of Snippets'),
             'description'   => __('The maximum number of highlighted snippets to generate.'),
-            'size'          => 40,
             'value'         => get_option('solr_search_snippets'),
             'required'      => true,
+            'size'          => 40,
             'validators'    => array(
                 array('validator' => 'Int', 'breakChainOnFailure' => true, 'options' =>
                     array(
@@ -55,9 +55,9 @@ class HighlightForm extends Omeka_Form
         $this->addElement('text', 'solr_search_fragsize', array(
             'label'         => __('Snippet Length'),
             'description'   => __('The maximum number of characters to display in a snippet.'),
-            'size'          => 40,
             'value'         => get_option('solr_search_fragsize'),
             'required'      => true,
+            'size'          => 40,
             'validators'    => array(
                 array('validator' => 'Int', 'breakChainOnFailure' => true, 'options' =>
                     array(

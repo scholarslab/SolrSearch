@@ -12,18 +12,23 @@
 ?>
 
 <ul id="section-nav" class="navigation">
+  <li class="<?php if ($tab == 'server') echo 'current'; ?>">
+    <a href="<?php echo url('solr-search/server'); ?>">
+      <?php echo __('Server Configuration') ?>
+    </a>
+  </li>
   <li class="<?php if ($tab == 'fields') echo 'current'; ?>">
-    <a href="<?php echo html_escape(url('solr-search/fields')); ?>">
+    <a href="<?php echo url('solr-search/fields'); ?>">
       <?php echo __('Field Configuration') ?>
     </a>
   </li>
   <li class="<?php if ($tab == 'highlighting') echo 'current'; ?>">
-    <a href="<?php echo html_escape(url('solr-search/highlighting')); ?>">
-      <?php echo __('Hit Highlighting Options') ?>
+    <a href="<?php echo url('solr-search/highlighting'); ?>">
+      <?php echo __('Hit Highlighting') ?>
     </a>
   </li>
   <li class="<?php if ($tab == 'reindex') echo 'current'; ?>">
-    <a href="<?php echo html_escape(url('solr-search/reindex')); ?>">
+    <a href="<?php echo url('solr-search/reindex'); ?>">
       <?php echo __('Index Items') ?>
     </a>
   </li>

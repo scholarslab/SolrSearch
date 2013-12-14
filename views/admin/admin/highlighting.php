@@ -20,7 +20,7 @@
 )); ?>
 
 <div id="primary">
-  <h2><?php echo __('Hit Highlighting Options') ?></h2>
+  <h2><?php echo __('Hit Highlighting') ?></h2>
 	<?php echo flash(); ?>
 	<?php echo $form; ?>
 </div>

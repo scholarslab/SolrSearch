@@ -39,7 +39,7 @@
 
   <div id="primary">
 
-    <h2><?php echo __('Configure Search Fields') ?></h2>
+    <h2><?php echo __('Field Configuration') ?></h2>
     <?php echo flash(); ?>
 
     <form id="facets-form" method="post">

@@ -15,12 +15,53 @@ class SolrSearch_AdminController
 {
 
     /**
+     * Display the "Solr Configuration" form.
+     */
+    public function serverAction()
+    {
+
+        $form = new ServerForm();
+
+        // If a valid form was submitted.
+        if ($this->_request->isPost() && $form->isValid($_POST)) {
+
+            $options = $form->getValues();
+
+            // Validate the connection.
+            if (SolrSearch_IndexHelpers::pingSolrServer($options)) {
+
+                // Apply options.
+                foreach ($options as $option => $value) {
+                    set_option($option, $value);
+                }
+
+                // Flash success.
+                $this->_helper->flashMessenger(
+                    __('Settings successfully updated! Be sure to reindex.'),
+                    'success'
+                );
+
+            }
+
+            // Flash failure.
+            else $this->_helper->flashMessenger(
+                __('Cannot connect to Solr with the given configuration.'),
+                'error'
+            );
+
+        }	
+
+        $this->view->form = $form;
+
+    }
+
+    /**
      * Display the "Field Configuration" form.
      */
     public function fieldsAction()
     {
 
-        $form = new FacetForm;
+        $form = new FacetForm();
 
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
@@ -53,7 +94,7 @@ class SolrSearch_AdminController
 
             // Flash success.
             $this->_helper->flashMessenger(
-                __('Fields configuration updated. Be sure to reindex.'),
+                __('Fields successfully updated! Be sure to reindex.'),
                 'success'
             );
 

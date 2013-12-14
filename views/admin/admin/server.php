@@ -12,19 +12,18 @@
 ?>
 
 <?php echo head(array(
-  'title' => __('Reindex Items in Solr'),
+  'title' => __('Solr Configuration'),
   'bodyclass' => 'primary',
   'content_class' => 'horizontal-nav'
 )); ?>
 
 <?php echo $this->partial('admin/partials/navigation.php', array(
-  'tab' => 'reindex'
+  'tab' => 'server'
 )); ?>
 
 <div id="primary">
-  <h2><?php echo __('Index Items') ?></h2>
+  <h2><?php echo __('Server Configuration') ?></h2>
   <?php echo flash(); ?>
-  <p><?php echo __('Click the button below to (re)index the entire site.') ?></p>
   <?php echo $form ?>
 </div>
 
