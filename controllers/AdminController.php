@@ -31,34 +31,31 @@ class SolrSearch_AdminController
             // Save the facets.
             foreach ($uploadedData['facets'] as $group) {
                 foreach ($group['facets'] as $group) {
+
                     $options = array(
                         'is_displayed' => 0,
                         'is_facet'     => 0
                     );
+
                     foreach ($group['options'] as $opt) {
                         $options[$opt] = 1;
                     }
 
-                    $db->insert(
-                        'solr_search_facets',
-                        array(
-                            'id'           => $group['facetid'],
-                            'label'        => $group['label'],
-                            'is_displayed' => $options['is_displayed'],
-                            'is_facet'     => $options['is_facet'],
-                        )
-                    );
+                    $db->insert( 'solr_search_facets', array(
+                        'id'           => $group['facetid'],
+                        'label'        => $group['label'],
+                        'is_displayed' => $options['is_displayed'],
+                        'is_facet'     => $options['is_facet'],
+                    ));
+
                 }
             }
 
             // Flash success.
             $this->_helper->flashMessenger(
-                __('Solr configuration updated. Be sure to reindex.'),
+                __('Fields configuration updated. Be sure to reindex.'),
                 'success'
             );
-
-            // Redisplay the form.
-            $this->_redirect('solr-search/config');
 
         }
 
