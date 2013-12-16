@@ -85,7 +85,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_server'        => '',
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
+            'solr_search_core'          => $this->config->core,
             'solr_search_facet_sort'    => 'count',
             'solr_search_facet_limit'   => '25'
         ));
@@ -111,9 +111,9 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing port.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_server'        => $this->config->server,
             'solr_search_port'          => '',
-            'solr_search_core'          => $this->config->url,
+            'solr_search_core'          => $this->config->core,
             'solr_search_facet_sort'    => 'count',
             'solr_search_facet_limit'   => '25'
         ));
@@ -139,7 +139,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing core.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_server'        => $this->config->server,
             'solr_search_port'          => $this->config->port,
             'solr_search_core'          => '',
             'solr_search_facet_sort'    => 'count',
@@ -167,7 +167,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Invalid core URL.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_server'        => $this->config->server,
             'solr_search_port'          => $this->config->port,
             'solr_search_core'          => 'invalid',
             'solr_search_facet_sort'    => 'count',
@@ -195,9 +195,9 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing facet length.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_server'        => $this->config->server,
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
+            'solr_search_core'          => $this->config->core,
             'solr_search_facet_sort'    => 'count',
             'solr_search_facet_limit'   => ''
         ));
@@ -223,9 +223,9 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Invalid facet limit.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_server'        => $this->config->server,
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
+            'solr_search_core'          => $this->config->core,
             'solr_search_facet_sort'    => 'count',
             'solr_search_facet_limit'   => 'invalid'
         ));
@@ -250,9 +250,9 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
     {
 
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_server'        => $this->config->server,
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
+            'solr_search_core'          => $this->config->core,
             'solr_search_facet_sort'    => 'index',
             'solr_search_facet_limit'   => '30'
         ));
@@ -266,9 +266,9 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $limit  = get_option('solr_search_facet_limit');
 
         // Should update options.
-        $this->assertEquals($this->config->host, $server);
+        $this->assertEquals($this->config->server, $server);
         $this->assertEquals($this->config->port, $port);
-        $this->assertEquals($this->config->url, $core);
+        $this->assertEquals($this->config->core, $core);
         $this->assertEquals('index', $sort);
         $this->assertEquals('30', $limit);
 
