@@ -29,7 +29,7 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Document.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Exception.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Response.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Service.php';
+//require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Service.php';
 
 // SolrSearch plugin libraries:
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/QueryManager.php';

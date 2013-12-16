@@ -15,6 +15,7 @@
  **/
 class SolrSearch_Addon_Indexer
 {
+
     //{{{ Properties
 
     /**

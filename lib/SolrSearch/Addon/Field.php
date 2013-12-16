@@ -15,6 +15,7 @@
  **/
 class SolrSearch_Addon_Field
 {
+
     //{{{Properties
 
     /**
@@ -64,4 +65,5 @@ class SolrSearch_Addon_Field
         $this->is_title = $is_title;
         $this->remote   = $remote;
     }
+
 }

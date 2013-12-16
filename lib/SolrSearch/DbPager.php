@@ -90,4 +90,5 @@ class SolrSearch_DbPager
         $rows = $this->table->fetchObjects($this->select, $this->params);
         return $rows;
     }
+
 }
