@@ -10,17 +10,17 @@
  */
 
 
-class SolrSearch_DeleteAll extends Omeka_Job_Process_AbstractProcess
+class SolrSearch_IndexAll extends Omeka_Job_Process_AbstractProcess
 {
 
 
     /**
-     * Delete all Solr records.
+     * (Re)index all Solr records.
      */
-    public function run()
+    public function run($args)
     {
         try {
-            SolrSearch_IndexAll::deleteAll(array());
+            SolrSearch_IndexHelpers::indexAll(array());
         } catch ( Exception $e ) {
             $this->_log($e->getMessage());
             echo $e->getMessage();

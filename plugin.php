@@ -48,4 +48,8 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/HighlightForm.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/ReindexForm.php';
 
+// Jobs:
+require_once SOLR_SEARCH_PLUGIN_DIR . '/jobs/IndexAll.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/jobs/DeleteAll.php';
+
 new SolrSearchPlugin();
