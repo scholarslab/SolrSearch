@@ -12,6 +12,7 @@
 
 class SolrSearch_IndexHelpers
 {
+
     /**
      * This takes an Omeka_Record instance and returns a populated 
      * Apache_Solr_Document.

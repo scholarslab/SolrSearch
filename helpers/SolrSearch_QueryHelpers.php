@@ -15,6 +15,7 @@
  **/
 class SolrSearch_QueryHelpers
 {
+
     /**
      * This returns an array containing the Solr GET/POST parameters.
      *
@@ -325,4 +326,5 @@ class SolrSearch_QueryHelpers
             $facet
         );
     }
+
 }

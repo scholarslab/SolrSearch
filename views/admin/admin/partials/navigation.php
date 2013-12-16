@@ -22,8 +22,8 @@
       <?php echo __('Field Configuration') ?>
     </a>
   </li>
-  <li class="<?php if ($tab == 'highlighting') echo 'current'; ?>">
-    <a href="<?php echo url('solr-search/highlighting'); ?>">
+  <li class="<?php if ($tab == 'highlight') echo 'current'; ?>">
+    <a href="<?php echo url('solr-search/highlight'); ?>">
       <?php echo __('Hit Highlighting') ?>
     </a>
   </li>

@@ -9,17 +9,17 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class AdminControllerTest_Highlighting extends SolrSearch_Test_AppTestCase
+class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
 {
 
 
     /**
-     * INDEX should display the hit highlighting form.
+     * HIGHLIGHT should display the hit highlighting form.
      */
     public function testIndex()
     {
 
-        $this->dispatch('solr-search/highlighting');
+        $this->dispatch('solr-search/highlight');
 
         // Highlighting:
         $this->assertXpath(

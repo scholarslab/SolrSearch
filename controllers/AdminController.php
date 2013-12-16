@@ -107,7 +107,7 @@ class SolrSearch_AdminController
     /**
      * Display the "Hit Highlighting Options" form.
      */
-    public function highlightingAction()
+    public function highlightAction()
     {
 
         $form = new HighlightForm();

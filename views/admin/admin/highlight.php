@@ -16,7 +16,7 @@
 )); ?>
 
 <?php echo $this->partial('admin/partials/navigation.php', array(
-  'tab' => 'highlighting'
+  'tab' => 'highlight'
 )); ?>
 
 <div id="primary">
