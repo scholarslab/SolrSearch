@@ -331,15 +331,21 @@ class SolrSearch_Helpers_View
         ));
 
         foreach ($options->getMultiOptions() as $name => $optlabel) {
+
             $shortlab = explode(' ', $optlabel);
             $column   = strtolower($shortlab[1][0]);
             $output  .= '<td>';
             $output  .= "<input type='checkbox' name='{$options->getFullyQualifiedName()}' value='$name' ";
-            if (in_array($name, $options->getValue())) {
+
+            // Flip on checkboxes for activated options.
+            $value = $options->getValue();
+            if (is_array($value) && in_array($name, $value)) {
                 $output .= ' checked="checked"';
             }
+
             $output .= " class='g{$group}{$column}'/>";
             $output .= '</td>';
+
         }
 
         $output .= '</tr>';
