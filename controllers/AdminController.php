@@ -78,10 +78,14 @@ class SolrSearch_AdminController
                         'is_facet'     => 0
                     );
 
-                    foreach ($group['options'] as $opt) {
-                        $options[$opt] = 1;
+                    // Flip on activated options.
+                    if (is_array($group['options'])) {
+                        foreach ($group['options'] as $opt) {
+                            $options[$opt] = 1;
+                        }
                     }
 
+                    // Insert the rows.
                     $db->insert( 'solr_search_facets', array(
                         'id'           => $group['facetid'],
                         'label'        => $group['label'],
