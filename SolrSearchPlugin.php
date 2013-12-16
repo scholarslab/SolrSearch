@@ -115,7 +115,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         if ($item['public'] == true) {
             $docs = array();
-            $doc = SolrSearch_IndexHelpers::itemToDocument($this->_db, $item);
+            $doc = SolrSearch_Helpers_Index::itemToDocument($this->_db, $item);
             $docs[] = $doc;
 
             $solr->addDocuments($docs);
@@ -204,7 +204,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookConfigForm()
     {
         $string = __('Solr Options');
-        $fields = SolrSearch_ViewHelpers::makeConfigFields();
+        $fields = SolrSearch_Helpers_View::makeConfigFields();
         $buffer = array();
 
         $buffer[] = "<div class='field solrsearch config'><h3>$string</h3>";
@@ -219,12 +219,12 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookConfig()
     {
 
-        $form = SolrSearch_ViewHelpers::makeConfigForm();
+        $form = SolrSearch_Helpers_View::makeConfigForm();
 
         if ($form->isValid($_POST)) {
             $options = $form->getValues();
 
-            if (!SolrSearch_IndexHelpers::pingSolrServer($options)) {
+            if (!SolrSearch_Helpers_Index::pingSolrServer($options)) {
                 throw new Omeka_Validate_Exception(
                     __("Cannot connect to Solr with the given configuration. Please check your server host, port, and core.")
                 );

@@ -28,7 +28,7 @@ class SolrSearch_AdminController
             $options = $form->getValues();
 
             // Validate the connection.
-            if (SolrSearch_IndexHelpers::pingSolrServer($options)) {
+            if (SolrSearch_Helpers_Index::pingSolrServer($options)) {
 
                 // Apply options.
                 foreach ($options as $option => $value) {
@@ -144,8 +144,8 @@ class SolrSearch_AdminController
             try {
 
                 // Clear and reindex.
-                SolrSearch_IndexHelpers::deleteAll(array());
-                SolrSearch_IndexHelpers::indexAll(array());
+                SolrSearch_Helpers_Index::deleteAll(array());
+                SolrSearch_Helpers_Index::indexAll(array());
 
                 // Flash success.
                 $this->_helper->flashMessenger(

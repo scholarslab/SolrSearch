@@ -20,7 +20,7 @@ class SolrSearch_IndexAll extends Omeka_Job_Process_AbstractProcess
     public function run($args)
     {
         try {
-            SolrSearch_IndexHelpers::indexAll(array());
+            SolrSearch_Helpers_Index::indexAll(array());
         } catch ( Exception $e ) {
             $this->_log($e->getMessage());
             echo $e->getMessage();

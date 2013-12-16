@@ -200,8 +200,8 @@ class SolrSearch_ResultsController
             get_option('solr_search_core')
         );
 
-        $query = SolrSearch_QueryHelpers::createQuery(
-            SolrSearch_QueryHelpers::getParams()
+        $query = SolrSearch_Helpers_Query::createQuery(
+            SolrSearch_Helpers_Query::getParams()
         );
 
         $params = $this->_getSearchParameters($facets);

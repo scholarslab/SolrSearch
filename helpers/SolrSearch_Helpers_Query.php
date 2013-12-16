@@ -13,7 +13,7 @@
 /**
  * This is a collection of utilities for working with queries, facets, etc.
  **/
-class SolrSearch_QueryHelpers
+class SolrSearch_Helpers_Query
 {
 
     /**
@@ -69,10 +69,10 @@ class SolrSearch_QueryHelpers
     public static function createFacetHtml($current, $facet, $label, $count)
     {
         $html = '';
-        $uri = SolrSearch_ViewHelpers::getBaseUrl();
+        $uri = SolrSearch_Helpers_View::getBaseUrl();
 
         $escaped = htmlspecialchars(
-            SolrSearch_QueryHelpers::escapeFacet($label), ENT_QUOTES
+            SolrSearch_Helpers_Query::escapeFacet($label), ENT_QUOTES
         );
 
         // if the query contains one of the facets in the list
@@ -80,7 +80,7 @@ class SolrSearch_QueryHelpers
             && strpos($current['q'], "$facet:\"$label\"") !== false
         ) {
             //generate remove facet link
-            $removeFacetLink = SolrSearch_QueryHelpers::removeFacet(
+            $removeFacetLink = SolrSearch_Helpers_Query::removeFacet(
                 $facet,
                 $label
             );
@@ -118,14 +118,14 @@ class SolrSearch_QueryHelpers
      */
     public static function removeFacets()
     {
-        $uri = SolrSearch_ViewHelpers::getBaseUrl();
-        $queryParams = SolrSearch_QueryHelpers::getParams();
+        $uri = SolrSearch_Helpers_View::getBaseUrl();
+        $queryParams = SolrSearch_Helpers_Query::getParams();
         $html = '';
 
         // If there is only one tokenized string in the query and that string is
         // *:*, return ALL TERMS text.
 
-        if (SolrSearch_QueryHelpers::isNullQuery($queryParams)) {
+        if (SolrSearch_Helpers_Query::isNullQuery($queryParams)) {
             $html .= '<span class="appliedFilter constraint query">';
             $html .= '<span class="filterValue">' . __('ALL TERMS') . '</span>';
             $html .= '</span>';
@@ -151,13 +151,13 @@ class SolrSearch_QueryHelpers
                     $label = substr($paramSplit[1], 1, -1);
 
                     if (strpos($param, '_') !== false) {
-                        $category = SolrSearch_ViewHelpers::lookupElement($facet);
+                        $category = SolrSearch_Helpers_View::lookupElement($facet);
                     } else {
                         $category = ucwords($facet);
                     }
 
                     if ($facet != '*') {
-                        $link = SolrSearch_QueryHelpers::removeFacet($facet, $label);
+                        $link = SolrSearch_Helpers_Query::removeFacet($facet, $label);
                         $cleaned = str_replace('\\', '', $label);
                         $html .= "<span class='appliedFilter constraint filter filter-subject_topic_facet'>";
                         $html .= "<span class='filterName'>$category</span>";
@@ -209,7 +209,7 @@ class SolrSearch_QueryHelpers
     public static function removeFacet($facet, $label)
     {
         // Deconstruct current query and remove particular facet.
-        $queryParams = SolrSearch_QueryHelpers::getParams();
+        $queryParams = SolrSearch_Helpers_Query::getParams();
         $newParams = array();
         $query = array();
 
@@ -224,7 +224,7 @@ class SolrSearch_QueryHelpers
                 if ($value !== $facetKey) {
                     $valueParts = explode(':', $value, 2);
                     $key        = $valueParts[0];
-                    $cleaned    = SolrSearch_QueryHelpers::escapeFacet(
+                    $cleaned    = SolrSearch_Helpers_Query::escapeFacet(
                         substr($valueParts[1], 1, -1)
                     );
                     $facetQuery[] = html_escape("$key:\"$cleaned\"");

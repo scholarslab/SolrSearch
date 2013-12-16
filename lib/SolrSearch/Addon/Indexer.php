@@ -131,7 +131,7 @@ class SolrSearch_Addon_Indexer
         $doc->id = "{$addon->table}_{$record->id}";
         $doc->addField('model', $addon->table);
         $doc->addField('modelid', $record->id);
-        $doc->addField('url', SolrSearch_IndexHelpers::getUri($record));
+        $doc->addField('url', SolrSearch_Helpers_Index::getUri($record));
 
         $titleField = $addon->getTitleField();
         foreach ($addon->fields as $field) {

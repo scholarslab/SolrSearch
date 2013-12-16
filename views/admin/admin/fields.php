@@ -53,8 +53,8 @@
               <tr>
                 <?php
                   $n             = $group->getName();
-                  $is_searchable = SolrSearch_ViewHelpers::createSelectAll(__('Is Searchable'), $n, 's');
-                  $is_facet      = SolrSearch_ViewHelpers::createSelectAll(__('Is Facet'), $n, 'f');
+                  $is_searchable = SolrSearch_Helpers_View::createSelectAll(__('Is Searchable'), $n, 's');
+                  $is_facet      = SolrSearch_Helpers_View::createSelectAll(__('Is Facet'), $n, 'f');
                 ?>
                 <th><?php echo __('Field');    ?></th>
                 <th><?php echo $is_searchable; ?></th>
@@ -64,7 +64,7 @@
 
             <tbody>
               <?php foreach ($group->getSubForms() as $eform): ?>
-                <?php echo SolrSearch_ViewHelpers::createFacetSubForm($n, $eform); ?>
+                <?php echo SolrSearch_Helpers_View::createFacetSubForm($n, $eform); ?>
               <?php endforeach; ?>
             </tbody>
 

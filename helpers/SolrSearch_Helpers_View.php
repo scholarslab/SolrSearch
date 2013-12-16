@@ -14,7 +14,7 @@
  * This is a collection of utilities to make displaying results and generating 
  * URLs easier.
  **/
-class SolrSearch_ViewHelpers
+class SolrSearch_Helpers_View
 {
 
     /**
@@ -44,7 +44,7 @@ class SolrSearch_ViewHelpers
         $buttonText  = (is_null($buttonText) ? __('Search') : $buttonText);
         $searchQuery = array_key_exists('solrq', $_GET) ? $_GET['solrq'] : '';
 
-        $uri = SolrSearch_ViewHelpers::getBaseUrl();
+        $uri = SolrSearch_Helpers_View::getBaseUrl();
         $formProperties['action'] = $uri;
         $formProperties['method'] = 'get';
         $html  = '<form ' . tag_attributes($formProperties) . '>' . "\n";
@@ -219,10 +219,10 @@ class SolrSearch_ViewHelpers
     public static function createResultImgHtml($image_id, $alt)
     {
         $html = '';
-        $fullsize_path = SolrSearch_ViewHelpers::getImagePath(
+        $fullsize_path = SolrSearch_Helpers_View::getImagePath(
             'fullsize', $image_id
         );
-        $thumb_path = SolrSearch_ViewHelpers::getImagePath(
+        $thumb_path = SolrSearch_Helpers_View::getImagePath(
             'square_thumbnail', $image_id
         );
 
@@ -244,8 +244,8 @@ class SolrSearch_ViewHelpers
      */
     public static function tagsToStrings($tags=array(), $delimiter=null)
     {
-        $uri = SolrSearch_ViewHelpers::getBaseUrl();
-        $current = SolrSearch_QueryHelpers::getParams();
+        $uri = SolrSearch_Helpers_View::getBaseUrl();
+        $current = SolrSearch_Helpers_Query::getParams();
 
         if (is_null($delimiter)) {
             $delimiter = get_option('tag_delimiter') . ' ';
@@ -258,7 +258,7 @@ class SolrSearch_ViewHelpers
 
             if (is_array($tags)) {
                 foreach ($tags as $key => $tag) {
-                    $tagStrings[$key] = SolrSearch_ViewHelpers::tagToString(
+                    $tagStrings[$key] = SolrSearch_Helpers_View::tagToString(
                         $uri, $current, $tag
                     );
                 }
@@ -266,7 +266,7 @@ class SolrSearch_ViewHelpers
             } else {
                 $parts = explode(',', $tags);
                 foreach ($parts as $tag) {
-                    $tagStrings[$tag] = SolrSearch_ViewHelpers::tagToString(
+                    $tagStrings[$tag] = SolrSearch_Helpers_View::tagToString(
                         $uri, $current, trim($tag)
                     );
                 }

@@ -94,40 +94,40 @@ msgstr ""
 msgid "Update Search Fields"
 msgstr ""
 
-#: helpers/SolrSearch_QueryHelpers.php:121
+#: helpers/SolrSearch_Helpers_Query.php:121
 msgid "ALL TERMS"
 msgstr "ALLE TERMEN"
 
-#: helpers/SolrSearch_QueryHelpers.php:132
+#: helpers/SolrSearch_Helpers_Query.php:132
 #, php-format
 msgid "Remove constraint %s"
 msgstr ""
 
-#: helpers/SolrSearch_ViewHelpers.php:143
+#: helpers/SolrSearch_Helpers_View.php:143
 msgid "Untitled"
 msgstr "Geen titel"
 
-#: helpers/SolrSearch_ViewHelpers.php:326
+#: helpers/SolrSearch_Helpers_View.php:326
 msgid "Server Host:"
 msgstr "Server host:"
 
-#: helpers/SolrSearch_ViewHelpers.php:329
+#: helpers/SolrSearch_Helpers_View.php:329
 msgid "Server Port:"
 msgstr "Server poort:"
 
-#: helpers/SolrSearch_ViewHelpers.php:333
+#: helpers/SolrSearch_Helpers_View.php:333
 msgid "Solr Core Name:"
 msgstr "Solr Core naam:"
 
-#: helpers/SolrSearch_ViewHelpers.php:345
+#: helpers/SolrSearch_Helpers_View.php:345
 msgid "Facet Field Constraint Order:"
 msgstr ""
 
-#: helpers/SolrSearch_ViewHelpers.php:349
+#: helpers/SolrSearch_Helpers_View.php:349
 msgid "Occurrences"
 msgstr ""
 
-#: helpers/SolrSearch_ViewHelpers.php:352
+#: helpers/SolrSearch_Helpers_View.php:352
 msgid "Maximum Facet Count:"
 msgstr ""
 

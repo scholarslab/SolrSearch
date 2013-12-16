@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearch_IndexHelpers
+class SolrSearch_Helpers_Index
 {
 
     /**
@@ -29,9 +29,9 @@ class SolrSearch_IndexHelpers
         $doc->id = "Item_{$item['id']}";
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item['id']);
-        $doc->setField('url', SolrSearch_IndexHelpers::getUri($item));
+        $doc->setField('url', SolrSearch_Helpers_Index::getUri($item));
 
-        $indexSet = SolrSearch_IndexHelpers::getIndexSet($db);
+        $indexSet = SolrSearch_Helpers_Index::getIndexSet($db);
 
         $elementTexts = $db
             ->getTable('ElementText')
@@ -107,11 +107,11 @@ class SolrSearch_IndexHelpers
 
         } else if ($rc === 'ExhibitPage') {
             $exhibit = $record->getExhibit();
-            $exUri   = SolrSearch_IndexHelpers::getSlugUri($exhibit, $action);
+            $exUri   = SolrSearch_Helpers_Index::getSlugUri($exhibit, $action);
             $uri     = "$exUri/$record->slug";
 
         } else if (property_exists($record, 'slug')) {
-            $uri = SolrSearch_IndexHelpers::getSlugUri($record, $action);
+            $uri = SolrSearch_Helpers_Index::getSlugUri($record, $action);
 
         } else {
             $uri = record_url($record, $action);
@@ -285,7 +285,7 @@ class SolrSearch_IndexHelpers
         while ($items = $pager->next()) {
             foreach ($items as $item) {
                 $docs = array();
-                $doc = SolrSearch_IndexHelpers::itemToDocument($db, $item);
+                $doc = SolrSearch_Helpers_Index::itemToDocument($db, $item);
                 $docs[] = $doc;
                 $solr->addDocuments($docs);
             }

@@ -22,27 +22,27 @@
   <div id="solr_results" class="item-list">
     <div id="solr_search" class="search solr_remove_facets">
       <?php //TODO: Fix button on this... ?>
-      <?php echo SolrSearch_ViewHelpers::createSearchForm(); ?>
+      <?php echo SolrSearch_Helpers_View::createSearchForm(); ?>
     </div>
     <div id="appliedParams">
       <h3>You searched for:</h3>
-      <?php echo SolrSearch_QueryHelpers::removeFacets(); ?>
+      <?php echo SolrSearch_Helpers_Query::removeFacets(); ?>
     </div>
 
     <?php echo pagination_links(array('partial_file' => 'common/pagination.php')); ?>
 
     <?php if(!empty($facets)): ?>
-      <?php $query = SolrSearch_QueryHelpers::getParams(); ?>
+      <?php $query = SolrSearch_Helpers_Query::getParams(); ?>
       <div class="solr_facets_container">
         <h3>Limit your search</h3>
         <div class="solr_facets">
         <?php foreach ((array)$results->facet_counts->facet_fields as $facet => $values): ?>
             <?php $props = get_object_vars($values); ?>
             <?php if (!empty($props)): ?>
-                <h4 class="facet"><?php echo SolrSearch_QueryHelpers::parseFacet($facet); ?></h4>
+                <h4 class="facet"><?php echo SolrSearch_Helpers_Query::parseFacet($facet); ?></h4>
                 <ul class="facet-list">
                     <?php foreach($values as $label => $count): ?>
-                        <li><?php echo SolrSearch_QueryHelpers::createFacetHtml($query, $facet, $label, $count); ?></li>
+                        <li><?php echo SolrSearch_Helpers_Query::createFacetHtml($query, $facet, $label, $count); ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
@@ -59,21 +59,21 @@
     <div class="item" id="solr_<?php echo $doc->__get('id'); ?>">
       <div class="details">
         <div class="title">
-          <h2><?php echo SolrSearch_ViewHelpers::createResultLink($doc); ?></h2>
+          <h2><?php echo SolrSearch_Helpers_View::createResultLink($doc); ?></h2>
         </div>
 
         <div class='resultbody'>
           <?php $image = $doc->__get('image');?>
           <?php if($image): ?>
           <div class="image">
-            <?php echo SolrSearch_ViewHelpers::createResultImgHtml($image, SolrSearch_ViewHelpers::getDocTitle($doc)); ?>
+            <?php echo SolrSearch_Helpers_View::createResultImgHtml($image, SolrSearch_Helpers_View::getDocTitle($doc)); ?>
           </div>
           <?php endif; ?>
   
           <div class='textfields'>
             <?php if($results->responseHeader->params->hl == true): ?>
             <div class="solr_highlight">
-              <?php echo SolrSearch_ViewHelpers::displaySnippets($doc->id, $results->highlighting); ?>
+              <?php echo SolrSearch_Helpers_View::displaySnippets($doc->id, $results->highlighting); ?>
             </div>
             <?php endif; ?>
   
@@ -81,7 +81,7 @@
             <?php if($tags): ?>
               <div class="tags">
                 <strong>Tags:</strong>
-                <?php echo SolrSearch_ViewHelpers::tagsToStrings($tags); ?>
+                <?php echo SolrSearch_Helpers_View::tagsToStrings($tags); ?>
               </div>
             <?php endif; ?>
           </div>

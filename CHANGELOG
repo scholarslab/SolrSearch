@@ -67,7 +67,7 @@ into develop. Fixes #8.
 bootstrap
 
 [Sun, 13 May 2012 08:07:22 -0400] Adds a field lookup to
-SolrSearch_ViewHelpers::lookupElement until this is stored in the
+SolrSearch_Helpers_View::lookupElement until this is stored in the
 index
 
 [Thu, 10 May 2012 11:41:03 -0400] Updates markup and styles for

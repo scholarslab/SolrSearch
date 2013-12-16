@@ -38,9 +38,9 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Utils.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
 
 // Theme helpers:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_ViewHelpers.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_QueryHelpers.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_IndexHelpers.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_Helpers_View.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_Helpers_Query.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_Helpers_Index.php';
 
 // Forms:
 require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Server.php';
