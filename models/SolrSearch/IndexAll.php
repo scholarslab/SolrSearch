@@ -12,6 +12,11 @@
 
 class SolrSearch_IndexAll extends Omeka_Job_Process_AbstractProcess
 {
+
+
+    /**
+     * (Re)index all Solr records.
+     */
     public function run()
     {
         try {
@@ -21,4 +26,6 @@ class SolrSearch_IndexAll extends Omeka_Job_Process_AbstractProcess
             echo $e->getMessage();
         }
     }
+
+
 }

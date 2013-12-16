@@ -12,7 +12,12 @@
 
 class SolrSearch_DeleteAll extends Omeka_Job_Process_AbstractProcess
 {
-    public function run($args)
+
+
+    /**
+     * Delete all Solr records.
+     */
+    public function run()
     {
         try {
             SolrSearch_IndexAll::deleteAll(array());
@@ -21,4 +26,6 @@ class SolrSearch_DeleteAll extends Omeka_Job_Process_AbstractProcess
             echo $e->getMessage();
         }
     }
+
+
 }
