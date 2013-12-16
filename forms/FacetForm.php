@@ -78,13 +78,9 @@ class FacetForm extends Omeka_Form
             $g++;
         }
 
-        $this->addElement(
-            'submit',
-            'submit',
-            array(
-                'label' => __('Update Search Fields')
-            )
-        );
+        $this->addElement( 'submit', 'submit', array(
+            'label' => __('Update Search Fields')
+        ));
 
     }
 
