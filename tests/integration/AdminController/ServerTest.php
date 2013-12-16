@@ -19,11 +19,11 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
     public function setUp()
     {
         parent::setUp();
-        set_option('solr_search_server', 'server');
+        set_option('solr_search_host', 'server');
         set_option('solr_search_port', 'port');
         set_option('solr_search_core', '/core/');
-        set_option('solr_search_facet_sort', 'count');
-        set_option('solr_search_facet_limit', '25');
+        set_option('solr_search_facet_order', 'count');
+        set_option('solr_search_facet_count', '25');
     }
 
 
@@ -38,8 +38,8 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         // Solr host:
         $this->assertXpath(
             '//input
-            [@name="solr_search_server"]
-            [@value="' . get_option('solr_search_server') . '"]'
+            [@name="solr_search_host"]
+            [@value="' . get_option('solr_search_host') . '"]'
         );
 
         // Solr port:
@@ -59,17 +59,17 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         // Facet sort:
         $this->assertXpath(
             '//select
-            [@name="solr_search_facet_sort"]
+            [@name="solr_search_facet_order"]
             /option
-            [@value="'. get_option('solr_search_facet_sort') . '"]
+            [@value="'. get_option('solr_search_facet_order') . '"]
             [@selected="selected"]'
         );
 
         // Facet count:
         $this->assertXpath(
             '//input
-            [@name="solr_search_facet_limit"]
-            [@value="'. get_option('solr_search_facet_limit') . '"]'
+            [@name="solr_search_facet_count"]
+            [@value="'. get_option('solr_search_facet_count') . '"]'
         );
 
     }
@@ -83,20 +83,20 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing host.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => '',
+            'solr_search_host'          => '',
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
-            'solr_search_facet_sort'    => 'count',
-            'solr_search_facet_limit'   => '25'
+            'solr_search_core'          => $this->config->core,
+            'solr_search_facet_order'   => 'count',
+            'solr_search_facet_count'   => '25'
         ));
 
         $this->dispatch('solr-search/server');
 
         // Should not set option.
-        $this->assertEquals('server', get_option('solr_search_server'));
+        $this->assertEquals('server', get_option('solr_search_host'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_server"]/
+        $this->assertXpath('//input[@name="solr_search_host"]/
             following-sibling::ul[@class="error"]'
         );
 
@@ -111,11 +111,11 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing port.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_host'          => $this->config->host,
             'solr_search_port'          => '',
-            'solr_search_core'          => $this->config->url,
-            'solr_search_facet_sort'    => 'count',
-            'solr_search_facet_limit'   => '25'
+            'solr_search_core'          => $this->config->core,
+            'solr_search_facet_order'   => 'count',
+            'solr_search_facet_count'   => '25'
         ));
 
         $this->dispatch('solr-search/server');
@@ -139,11 +139,11 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing core.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_host'          => $this->config->host,
             'solr_search_port'          => $this->config->port,
             'solr_search_core'          => '',
-            'solr_search_facet_sort'    => 'count',
-            'solr_search_facet_limit'   => '25'
+            'solr_search_facet_order'   => 'count',
+            'solr_search_facet_count'   => '25'
         ));
 
         $this->dispatch('solr-search/server');
@@ -167,11 +167,11 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Invalid core URL.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_host'          => $this->config->host,
             'solr_search_port'          => $this->config->port,
             'solr_search_core'          => 'invalid',
-            'solr_search_facet_sort'    => 'count',
-            'solr_search_facet_limit'   => '25'
+            'solr_search_facet_order'   => 'count',
+            'solr_search_facet_count'   => '25'
         ));
 
         $this->dispatch('solr-search/server');
@@ -195,20 +195,20 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Missing facet length.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_host'          => $this->config->host,
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
-            'solr_search_facet_sort'    => 'count',
-            'solr_search_facet_limit'   => ''
+            'solr_search_core'          => $this->config->core,
+            'solr_search_facet_order'   => 'count',
+            'solr_search_facet_count'   => ''
         ));
 
         $this->dispatch('solr-search/server');
 
         // Should not set option.
-        $this->assertEquals('25', get_option('solr_search_facet_limit'));
+        $this->assertEquals('25', get_option('solr_search_facet_count'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_facet_limit"]/
+        $this->assertXpath('//input[@name="solr_search_facet_count"]/
             following-sibling::ul[@class="error"]'
         );
 
@@ -223,20 +223,20 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
         // Invalid facet limit.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_host'          => $this->config->host,
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
-            'solr_search_facet_sort'    => 'count',
-            'solr_search_facet_limit'   => 'invalid'
+            'solr_search_core'          => $this->config->core,
+            'solr_search_facet_order'   => 'count',
+            'solr_search_facet_count'   => 'invalid'
         ));
 
         $this->dispatch('solr-search/server');
 
         // Should not set option.
-        $this->assertEquals('25', get_option('solr_search_facet_limit'));
+        $this->assertEquals('25', get_option('solr_search_facet_count'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_facet_limit"]/
+        $this->assertXpath('//input[@name="solr_search_facet_count"]/
             following-sibling::ul[@class="error"]'
         );
 
@@ -250,27 +250,27 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
     {
 
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_server'        => $this->config->host,
+            'solr_search_host'          => $this->config->host,
             'solr_search_port'          => $this->config->port,
-            'solr_search_core'          => $this->config->url,
-            'solr_search_facet_sort'    => 'index',
-            'solr_search_facet_limit'   => '30'
+            'solr_search_core'          => $this->config->core,
+            'solr_search_facet_order'   => 'index',
+            'solr_search_facet_count'   => '30'
         ));
 
         $this->dispatch('solr-search/server');
 
-        $server = get_option('solr_search_server');
+        $host   = get_option('solr_search_host');
         $port   = get_option('solr_search_port');
         $core   = get_option('solr_search_core');
-        $sort   = get_option('solr_search_facet_sort');
-        $limit  = get_option('solr_search_facet_limit');
+        $order  = get_option('solr_search_facet_order');
+        $count  = get_option('solr_search_facet_count');
 
         // Should update options.
-        $this->assertEquals($this->config->host, $server);
+        $this->assertEquals($this->config->host, $host);
         $this->assertEquals($this->config->port, $port);
-        $this->assertEquals($this->config->url, $core);
-        $this->assertEquals('index', $sort);
-        $this->assertEquals('30', $limit);
+        $this->assertEquals($this->config->core, $core);
+        $this->assertEquals('index', $order);
+        $this->assertEquals('30', $count);
 
     }
 

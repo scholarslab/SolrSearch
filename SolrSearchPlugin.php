@@ -56,7 +56,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         try {
             $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
+                get_option('solr_search_host'),
                 get_option('solr_search_port'),
                 get_option('solr_search_core')
             );
@@ -92,7 +92,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         if (!is_null($doc)) {
             $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
+                get_option('solr_search_host'),
                 get_option('solr_search_port'),
                 get_option('solr_search_core')
             );
@@ -108,7 +108,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         $item = $args['record'];
         $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
+            get_option('solr_search_host'),
             get_option('solr_search_port'),
             get_option('solr_search_core')
         );
@@ -137,7 +137,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         if (!is_null($id)) {
             $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
+                get_option('solr_search_host'),
                 get_option('solr_search_port'),
                 get_option('solr_search_core')
             );
@@ -153,7 +153,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     {
         $item = $args['record'];
         $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
+            get_option('solr_search_host'),
             get_option('solr_search_port'),
             get_option('solr_search_core')
         );
@@ -329,28 +329,28 @@ SQL;
 
     protected function _setOptions()
     {
-        set_option('solr_search_server', 'localhost');
+        set_option('solr_search_host', 'localhost');
         set_option('solr_search_port', '8080');
         set_option('solr_search_core', '/solr/omeka/');
         set_option('solr_search_rows', '');
-        set_option('solr_search_facet_limit', '25');
+        set_option('solr_search_facet_count', '25');
         set_option('solr_search_hl', 'true');
         set_option('solr_search_snippets', '1');
         set_option('solr_search_fragsize', '250');
-        set_option('solr_search_facet_sort', 'count');
+        set_option('solr_search_facet_order', 'count');
     }
 
     protected function _deleteOptions()
     {
-        delete_option('solr_search_server');
+        delete_option('solr_search_host');
         delete_option('solr_search_port');
         delete_option('solr_search_core');
         delete_option('solr_search_rows');
-        delete_option('solr_search_facet_limit');
+        delete_option('solr_search_facet_count');
         delete_option('solr_search_hl');
         delete_option('solr_search_snippets');
         delete_option('solr_search_fragsize');
-        delete_option('solr_search_facet_sort');
+        delete_option('solr_search_facet_order');
     }
 
     protected function _deleteAcl()

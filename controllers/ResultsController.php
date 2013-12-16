@@ -125,12 +125,12 @@ class SolrSearch_ResultsController
                 'fl'             => $fields,
                 'facet'          => 'true',
                 'facet.mincount' => 1,
-                'facet.limit'    => get_option('solr_search_facet_limit'),
+                'facet.limit'    => get_option('solr_search_facet_count'),
                 'facet.field'    => $facets,
                 'hl'             => get_option('solr_search_hl'),
                 'hl.snippets'    => get_option('solr_search_snippets'),
                 'hl.fragsize'    => get_option('solr_search_fragsize'),
-                'facet.sort'     => get_option('solr_search_facet_sort'),
+                'facet.sort'     => get_option('solr_search_facet_order'),
                 'hl.fl'          => $displayFields
             );
         } else {
@@ -195,7 +195,7 @@ class SolrSearch_ResultsController
     private function _search($facets, $offset=0, $limit=10)
     {
         $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
+            get_option('solr_search_host'),
             get_option('solr_search_port'),
             get_option('solr_search_core')
         );
