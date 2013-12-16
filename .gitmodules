@@ -1,3 +1,0 @@
-[submodule "lib/solr-php-client"]
-	path = lib/solr-php-client
-	url = https://github.com/reprovinci/solr-php-client.git
