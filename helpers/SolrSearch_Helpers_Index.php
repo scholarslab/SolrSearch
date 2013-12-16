@@ -216,9 +216,9 @@ class SolrSearch_Helpers_Index
      */
     public static function pingSolrServer($options)
     {
-        $server = array_key_exists('solr_search_host', $options)
-            ? $options['solr_search_host']
-            : get_option('solr_search_host');
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
         $port   = array_key_exists('solr_search_port', $options)
             ? $options['solr_search_port']
             : get_option('solr_search_port');
@@ -238,9 +238,9 @@ class SolrSearch_Helpers_Index
      **/
     public static function deleteAll($options)
     {
-        $server = array_key_exists('solr_search_host', $options)
-            ? $options['solr_search_host']
-            : get_option('solr_search_host');
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
         $port   = array_key_exists('solr_search_port', $options)
             ? $options['solr_search_port']
             : get_option('solr_search_port');
@@ -262,9 +262,9 @@ class SolrSearch_Helpers_Index
      **/
     public static function indexAll($options)
     {
-        $server = array_key_exists('solr_search_host', $options)
-            ? $options['solr_search_host']
-            : get_option('solr_search_host');
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
         $port   = array_key_exists('solr_search_port', $options)
             ? $options['solr_search_port']
             : get_option('solr_search_port');
