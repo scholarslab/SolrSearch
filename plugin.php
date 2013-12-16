@@ -43,10 +43,10 @@ require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_QueryHelpers.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_IndexHelpers.php';
 
 // Forms:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/ServerForm.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/FacetForm.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/HighlightForm.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/ReindexForm.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Server.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Facet.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Highlight.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Reindex.php';
 
 // Jobs:
 require_once SOLR_SEARCH_PLUGIN_DIR . '/jobs/IndexAll.php';

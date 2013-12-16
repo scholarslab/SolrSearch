@@ -20,7 +20,7 @@ class SolrSearch_AdminController
     public function serverAction()
     {
 
-        $form = new ServerForm();
+        $form = new SolrSearch_Form_Server();
 
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
@@ -61,7 +61,7 @@ class SolrSearch_AdminController
     public function fieldsAction()
     {
 
-        $form = new FacetForm();
+        $form = new SolrSearch_Form_Facet();
 
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
@@ -110,7 +110,7 @@ class SolrSearch_AdminController
     public function highlightAction()
     {
 
-        $form = new HighlightForm();
+        $form = new SolrSearch_Form_Highlight();
 
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
@@ -138,7 +138,7 @@ class SolrSearch_AdminController
     public function reindexAction()
     {
 
-        $form = new ReindexForm();
+        $form = new SolrSearch_Form_Reindex();
 
         if ($this->_request->isPost()) {
             try {

@@ -10,7 +10,7 @@
  */
 
 
-class ServerForm extends Omeka_Form
+class SolrSearch_Form_Server extends Omeka_Form
 {
 
     public function init()

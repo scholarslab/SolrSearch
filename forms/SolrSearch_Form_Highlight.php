@@ -10,7 +10,7 @@
  */
 
 
-class HighlightForm extends Omeka_Form
+class SolrSearch_Form_Highlight extends Omeka_Form
 {
 
     public function init()

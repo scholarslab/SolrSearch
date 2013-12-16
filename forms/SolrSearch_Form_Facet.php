@@ -10,7 +10,7 @@
  */
 
 
-class FacetForm extends Omeka_Form
+class SolrSearch_Form_Facet extends Omeka_Form
 {
 
     /**
