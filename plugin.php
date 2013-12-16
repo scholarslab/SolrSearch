@@ -26,12 +26,12 @@ if (!defined('SOLR_SEARCH_PLUGIN_DIR')) {
 require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
 
 // Solr PHP Client library:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Document.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Exception.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Response.php';
-//require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/solr-php-client/Service.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Document.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Exception.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Response.php';
+require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Service.php';
 
-// SolrSearch plugin libraries:
+// SolrSearch utility classes:
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/QueryManager.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon.php';
 require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Utils.php';

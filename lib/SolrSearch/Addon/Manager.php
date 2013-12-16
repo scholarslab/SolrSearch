@@ -16,7 +16,6 @@
  **/
 class SolrSearch_Addon_Manager
 {
-
     // {{{Properties
 
     /**
