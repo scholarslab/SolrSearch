@@ -92,14 +92,8 @@ From scratch, assuming [homebrew][homebrew] is installed.
 ```bash
 #! /bin/bash
 brew install node solr
-curl http://npmjs.org/install.sh | sh
 rvm gemset create solrsearch
-```
-
-```bash
-brew install solr
-cat >> alias solr='solr path/to/SolrSearch/solr-home'
-solr
+solr path/to/SolrSearch/solr-core
 ```
 
 ## Dependencies
