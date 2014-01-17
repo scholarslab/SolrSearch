@@ -4,5 +4,5 @@ Gemfile.lock
 dist/
 node_modules/
 tests/solr.ini
-solr-core/data
+solr-core/collection1/data
 vendor
