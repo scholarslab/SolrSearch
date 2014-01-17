@@ -144,55 +144,26 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
-     * This cereates and element text and adds it to an item.
-     *
-     * @param Item    $item    The item to add the data to.
-     * @param Element $element The element to add the text to.
-     * @param string  $text    The text data.
-     * @param bool    $html    Is the text really HTML? (Default is FALSE.)
-     *
-     * @return ElementText
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    protected function _addElementText($item, $element, $text, $html=0)
-    {
-        $etext = new ElementText;
-
-        $etext->setText($text);
-        $etext->html        = $html;
-        $etext->element_id  = $element->id;
-        $etext->record_id   = $item->id;
-        $etext->record_type = 'Item';
-        $etext->save();
-
-        $item[$element->name] = $etext;
-
-        return $etext;
-    }
-
-
-    /**
      * Create an item.
+     *
+     * @param string $title     The Dublin Core "Title".
+     * @param string $subject   The Dublin Core "Subject".
      */
     public function _item($title=null, $subject=null)
     {
+        return insert_item(array(), array(
+            'Dublin Core' => array (
 
-        $item = new Item;
-        $item->save();
+                'Title' => array(
+                    array('text' => $title, 'html' => false)
+                ),
 
-        if (!is_null($title)) {
-            $titleElement = $this->elementTable
-                ->findByElementSetNameAndElementName('Dublin Core', 'Title');
-            $this->_addElementText($item, $titleElement, $title);
-        }
-        if (!is_null($subject)) {
-            $subjectElement = $this->elementTable
-                ->findByElementSetNameAndElementName('Dublin Core', 'Subject');
-            $this->_addElementText($item, $subjectElement, $subject);
-        }
+                'Subject' => array(
+                    array('text' => $subject, 'html' => false)
+                )
 
-        return $item;
-
+            )
+        ));
     }
 
 
