@@ -107,25 +107,42 @@ Install start Tomcat:
 $ brew install tomcat
 ```
 
+We're going to need to refer to a directory inside where brew installed
+tomcat, and we'll need to pass it to some of the scripts that we run
+later. Let's find out what it is and save it.
+
+```bash
+$ CATALINA_HOME=$(ls -d /usr/local/Cellar/tomcat/* | head -1)/libexec
+$ export CATALINA_HOME
+$ echo $CATALINA_HOME
+/usr/local/Cellar/tomcat/7.0.50/libexec
+```
+
+The output of the `echo` command on the last line may have a different
+version number, but everything else should look the same.
+
+
 Now enable the manager application. To do this, edit
-`/usr/local/Cellar/[version]/libexec/conf/tomcat-users.xml` with
-something along the following:
+`/usr/local/Cellar/tomcat/[version]/libexec/conf/tomcat-users.xml`.
+The first part of the path should be the same as the output of the `echo`
+command above. Inside the `<tomcat-users>` element, add something along
+the following:
 
 ```xml
 <role rolename="manager-gui"/>
 <user username="tomcat" password="s3cret" roles="manager-gui"/>
 ```
 
-You need to have (Solr)[http://lucene.apache.org/solr/] downloaded somewhere on
+You need to have [Solr](http://lucene.apache.org/solr/) downloaded somewhere on
 your computer.
 
 You need to copy some files that are shipped with Solr to get included
 in your Tomcat `$PATH`. These are the files in the `examples/lib/ext/`
-directory. You will have somthing that looks like this:
+directory. You will have something that looks like this:
 
 
 ```bash
-cp path/to/solr/download/examples/lib/ext/*.jar path/to/tomcat/lib/
+cp path/to/solr/download/examples/lib/ext/*.jar $CATALINA_HOME/lib/
 ```
 
 Now start Tomcat with the catalina shell:
@@ -137,8 +154,8 @@ This will run Tomcat as a background process on port `8080`, which you
 can access at `http://localhost:8080`. 
 
 For Tomcat, it's easiest to pass the various values that Solr needs in
-an XML configuration file, which will look something like this
-(`tomcat-config.xml` in your project directory):
+an XML configuration file. Name it `tomcat-config.xml` in your project
+directory, and have it contain something like this:
 
 ```xml
 <Context path="/solr" docBase="/Users/[username]/Downloads/solr-4.6.0/dist/solr-4.6.0.war" debug="0" crossContext="true">
