@@ -84,17 +84,79 @@ Install the solr keg from [homebrew][homebrew]. You can then start an
 instance of Solr with
 
 ```bash
-solr path/to/SolrSearch/solr-home
+$ solr path/to/SolrSearch/solr-home
 ```
 
 From scratch, assuming [homebrew][homebrew] is installed.
 
 ```bash
 #! /bin/bash
-brew install node solr
-rvm gemset create solrsearch
-solr path/to/SolrSearch/solr-core
+$ brew install node solr
+$ rvm gemset create solrsearch
+$ solr path/to/SolrSearch/solr-core
 ```
+
+## Tomcat
+
+If you want to run this in the Tomcat servlet container, there is a
+slightly different method of configuring the application.
+
+Install start Tomcat:
+
+```bash
+$ brew install tomcat
+```
+
+Now enable the manager application. To do this, edit
+`/usr/local/Cellar/[version]/libexec/conf/tomcat-users.xml` with
+something along the following:
+
+```xml
+<role rolename="manager-gui"/>
+<user username="tomcat" password="s3cret" roles="manager-gui"/>
+```
+
+You need to have (Solr)[http://lucene.apache.org/solr/] downloaded somewhere on your computer.
+
+You need to copy some files that are shipped with Solr to get included
+in your Tomcat `$PATH`. These are the files in the `examples/lib/ext/`
+directory. You will have somthing that looks like this:
+
+
+```bash
+cp path/to/solr/download/examples/lib/ext/*.jar path/to/tomcat/lib/
+```
+
+Now start Tomcat with the catalina shell:
+
+```bash
+$ catalina start
+```
+This will run Tomcat as a background process on port `8080`, which you
+can access at `http://localhost:8080`. 
+
+
+For Tomcat, it's easiest to pass the various values that Solr needs in
+an XML configuration file, which will look something like this
+(`tomcat-config.xml` in your project directory):
+
+```xml
+
+```
+
+Once extracted, you will see a bunch of directories, and you will need
+to make note of the path to `dist/solr-version.war`. I generally use
+this trick in OS X:
+
+```bash
+$ cd path/to/solr/dist
+$ pwd | pbcopy
+```
+
+Which copies the working directory to your paste buffer. You'll need
+this in a second...
+
+Now to access the manager application. Point your browser at 
 
 ## Dependencies
 
