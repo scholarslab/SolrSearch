@@ -28,6 +28,23 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
 
     /**
+     * Confirm that a form error was displayed for an input.
+     *
+     * @param string $name The `name` attribute of the input with the error.
+     * @param string $element The input element type.
+     */
+    protected function assertFormError($name, $element='input')
+    {
+
+        // Should flash error.
+        $this->assertXpath( "//{$element}[@name='$name']
+            /following-sibling::ul[@class='error']"
+        );
+
+    }
+
+
+    /**
      * SERVER should display the plugin configuration form.
      */
     public function testMarkup()
@@ -96,9 +113,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('server', get_option('solr_search_server'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_server"]/
-            following-sibling::ul[@class="error"]'
-        );
+        $this->assertFormError('solr_search_server');
 
     }
 
@@ -124,9 +139,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('port', get_option('solr_search_port'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_port"]/
-            following-sibling::ul[@class="error"]'
-        );
+        $this->assertFormError('solr_search_port');
 
     }
 
@@ -152,9 +165,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('/core/', get_option('solr_search_core'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_core"]/
-            following-sibling::ul[@class="error"]'
-        );
+        $this->assertFormError('solr_search_core');
 
     }
 
@@ -180,9 +191,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('/core/', get_option('solr_search_core'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_core"]/
-            following-sibling::ul[@class="error"]'
-        );
+        $this->assertFormError('solr_search_core');
 
     }
 
@@ -208,9 +217,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('25', get_option('solr_search_facet_limit'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_facet_limit"]/
-            following-sibling::ul[@class="error"]'
-        );
+        $this->assertFormError('solr_search_facet_limit');
 
     }
 
@@ -236,9 +243,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('25', get_option('solr_search_facet_limit'));
 
         // Should flash error.
-        $this->assertXpath('//input[@name="solr_search_facet_limit"]/
-            following-sibling::ul[@class="error"]'
-        );
+        $this->assertFormError('solr_search_facet_limit');
 
     }
 
