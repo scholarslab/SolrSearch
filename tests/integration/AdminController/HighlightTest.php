@@ -16,7 +16,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
     /**
      * HIGHLIGHT should display the hit highlighting form.
      */
-    public function testIndex()
+    public function testMarkup()
     {
 
         $this->dispatch('solr-search/highlight');
