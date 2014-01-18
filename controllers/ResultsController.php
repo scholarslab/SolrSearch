@@ -15,6 +15,14 @@ class SolrSearch_ResultsController
 {
 
     /**
+     * Default index action.
+     */
+    public function indexAction()
+    {
+        $this->handleHtml();
+    }
+
+    /**
      * Intercept search queries from simple search and redirect with
      * a well-formed SolrSearch request.
      */
@@ -29,14 +37,6 @@ class SolrSearch_ResultsController
         // Redirect to the Solr results action.
         $this->_redirect('solr-search/results?' . $query);
 
-    }
-
-    /**
-     * Default index action.
-     */
-    public function indexAction()
-    {
-        $this->handleHtml();
     }
 
     /**

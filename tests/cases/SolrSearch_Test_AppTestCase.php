@@ -166,7 +166,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
-    // ASSERTIONS
+    // CUSTOM ASSERTIONS
     // ------------------------------------------------------------------------
 
 

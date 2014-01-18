@@ -86,7 +86,7 @@ class SolrSearch_AdminController
                     }
 
                     // Insert the rows.
-                    $db->insert( 'solr_search_facets', array(
+                    $db->insert('solr_search_facets', array(
                         'id'           => $group['facetid'],
                         'label'        => $group['label'],
                         'is_displayed' => $options['is_displayed'],

@@ -220,7 +220,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function filterSearchFormDefaultAction($uri)
     {
-        if (! is_admin_theme()) {
+        if (!is_admin_theme()) {
             $uri = url('solr-search/results/interceptor');
         }
 
@@ -247,18 +247,18 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $elements = $this->_db->getTable('Element')->findAll();
         $sql = <<<SQL
             INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (element_id, name, label, element_set_id, is_facet,
-                is_displayed)
+                (element_id, name, label, element_set_id, is_facet, is_displayed)
                 VALUES (?, ?, ?, ?, ?, ?);
 SQL;
         $stmt = $this->_db->prepare($sql);
 
-        // $stmt->execute(array(null, 'Image',      null, 1, 1));
+        // Omeka categories:
         $stmt->execute(array(null, 'tag',        __('Tag'),         null, 1, 1));
         $stmt->execute(array(null, 'collection', __('Collection'),  null, 1, 1));
         $stmt->execute(array(null, 'itemtype',   __('Item Type'),   null, 1, 1));
         $stmt->execute(array(null, 'resulttype', __('Result Type'), null, 1, 1));
 
+        // Elements:
         foreach ($elements as $element) {
             $v = 0;
             $eid  = $element['id'];
@@ -271,7 +271,8 @@ SQL;
 
             $stmt->execute(
                 array(
-                    $eid, "{$eid}_s",
+                    $eid,
+                    "{$eid}_s",
                     $name,
                     $element['element_set_id'],
                     0,
