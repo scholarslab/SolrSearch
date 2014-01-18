@@ -69,14 +69,14 @@
             <?php echo SolrSearch_Helpers_View::createResultImgHtml($image, SolrSearch_Helpers_View::getDocTitle($doc)); ?>
           </div>
           <?php endif; ?>
-  
+
           <div class='textfields'>
             <?php if($results->responseHeader->params->hl == true): ?>
             <div class="solr_highlight">
               <?php echo SolrSearch_Helpers_View::displaySnippets($doc->id, $results->highlighting); ?>
             </div>
             <?php endif; ?>
-  
+
             <?php $tags = $doc->__get('tag'); ?>
             <?php if($tags): ?>
               <div class="tags">

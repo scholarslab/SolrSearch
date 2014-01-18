@@ -94,7 +94,7 @@ class SolrSearch_ResultsController
 
         $db = get_db();
         $facetList = $db
-            ->getTable('SolrSearch_Facet')
+            ->getTable('SolrSearchFacet')
             ->findBySql('is_facet = ?', array('1'));
         foreach ($facetList as $facet) {
             $facets[] = $facet->name;
@@ -220,7 +220,7 @@ class SolrSearch_ResultsController
     private function _getDisplayableFields()
     {
         $db = get_db();
-        $displayFields = $db->getTable('SolrSearch_Facet')->findBySql(
+        $displayFields = $db->getTable('SolrSearchFacet')->findBySql(
             'is_displayed = ?',
             array('1')
         );
