@@ -41,6 +41,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
+    // STATE MANAGEMENT
+    // ------------------------------------------------------------------------
+
+
     /**
      * Apply options defined in the `solr.ini` file.
      */
@@ -73,6 +77,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         }
 
     }
+
+
+    // RECORD MOCKS
+    // ------------------------------------------------------------------------
 
 
     /**
@@ -149,21 +157,30 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      * @param string $title     The Dublin Core "Title".
      * @param string $subject   The Dublin Core "Subject".
      */
-    public function _item($title=null, $subject=null)
+    protected function _item($title=null, $subject=null)
     {
-        return insert_item(array(), array(
-            'Dublin Core' => array (
+        return insert_item(array(), array('Dublin Core' => array(
+            'Title'     => array(array('text' => $title,    'html' => false)),
+            'Subject'   => array(array('text' => $subject,  'html' => false))
+        )));
+    }
 
-                'Title' => array(
-                    array('text' => $title, 'html' => false)
-                ),
 
-                'Subject' => array(
-                    array('text' => $subject, 'html' => false)
-                )
+    // ASSERTIONS
+    // ------------------------------------------------------------------------
 
-            )
-        ));
+
+    /**
+     * Assert that a form error was displayed for an input.
+     *
+     * @param string $name The `name` attribute of the input with the error.
+     * @param string $element The input element type.
+     */
+    protected function _assertFormError($name, $element='input')
+    {
+        $this->assertXpath("//{$element}[@name='$name']
+            /following-sibling::ul[@class='error']"
+        );
     }
 
 

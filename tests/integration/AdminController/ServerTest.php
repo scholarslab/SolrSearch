@@ -28,23 +28,6 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
 
 
     /**
-     * Confirm that a form error was displayed for an input.
-     *
-     * @param string $name The `name` attribute of the input with the error.
-     * @param string $element The input element type.
-     */
-    protected function assertFormError($name, $element='input')
-    {
-
-        // Should flash error.
-        $this->assertXpath( "//{$element}[@name='$name']
-            /following-sibling::ul[@class='error']"
-        );
-
-    }
-
-
-    /**
      * SERVER should display the plugin configuration form.
      */
     public function testMarkup()
@@ -113,7 +96,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('server', get_option('solr_search_server'));
 
         // Should flash error.
-        $this->assertFormError('solr_search_server');
+        $this->_assertFormError('solr_search_server');
 
     }
 
@@ -139,7 +122,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('port', get_option('solr_search_port'));
 
         // Should flash error.
-        $this->assertFormError('solr_search_port');
+        $this->_assertFormError('solr_search_port');
 
     }
 
@@ -165,7 +148,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('/core/', get_option('solr_search_core'));
 
         // Should flash error.
-        $this->assertFormError('solr_search_core');
+        $this->_assertFormError('solr_search_core');
 
     }
 
@@ -191,7 +174,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('/core/', get_option('solr_search_core'));
 
         // Should flash error.
-        $this->assertFormError('solr_search_core');
+        $this->_assertFormError('solr_search_core');
 
     }
 
@@ -217,7 +200,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('25', get_option('solr_search_facet_limit'));
 
         // Should flash error.
-        $this->assertFormError('solr_search_facet_limit');
+        $this->_assertFormError('solr_search_facet_limit');
 
     }
 
@@ -243,7 +226,7 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
         $this->assertEquals('25', get_option('solr_search_facet_limit'));
 
         // Should flash error.
-        $this->assertFormError('solr_search_facet_limit');
+        $this->_assertFormError('solr_search_facet_limit');
 
     }
 
