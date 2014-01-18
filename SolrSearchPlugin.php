@@ -201,52 +201,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
-    public function hookConfigForm()
-    {
-        $string = __('Solr Options');
-        $fields = SolrSearch_Helpers_View::makeConfigFields();
-        $buffer = array();
-
-        $buffer[] = "<div class='field solrsearch config'><h3>$string</h3>";
-        foreach ($fields as $field) {
-            $buffer[] = $field->render();
-        }
-        $buffer[] = '</div>';
-
-        echo join($buffer);
-    }
-
-    public function hookConfig()
-    {
-
-        $form = SolrSearch_Helpers_View::makeConfigForm();
-
-        if ($form->isValid($_POST)) {
-            $options = $form->getValues();
-
-            if (!SolrSearch_Helpers_Index::pingSolrServer($options)) {
-                throw new Omeka_Validate_Exception(
-                    __("Cannot connect to Solr with the given configuration. Please check your server host, port, and core.")
-                );
-            }
-
-            foreach ($options as $option => $value) {
-                set_option($option, $value);
-            }
-
-        } else {
-            $output = '';
-            foreach ($form->getMessages() as $code => $msgs) {
-                foreach ($msgs as $msg) {
-                    $output .= "$msg ($code)\n";
-                }
-            }
-
-            throw new Omeka_Validate_Exception($output);
-
-        }
-    }
-
     public function filterAdminNavigationMain($nav)
     {
         if (is_allowed('SolrSearch_Config', 'index')) {
