@@ -10,6 +10,11 @@
 
 module.exports = function(grunt) {
 
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-phpunit');
 
   grunt.initConfig({
@@ -27,6 +32,14 @@ module.exports = function(grunt) {
         dir: 'tests/'
       }
 
+    },
+
+    concat: {
+
+    },
+
+    uglify: {
+
     }
 
   });
@@ -34,8 +47,7 @@ module.exports = function(grunt) {
   // Run application tests.
   grunt.registerTask('default', 'test');
 
-  // Run application tests.
+  // Run PHPUnit suite.
   grunt.registerTask('test', 'phpunit');
 
 };
-

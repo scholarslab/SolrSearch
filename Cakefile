@@ -27,13 +27,11 @@ task 'build:browser', 'Compile and minify for use in browser', ->
 			fs.readFile file, 'utf8', (err, cnt) ->
 				util.log err if err
 				contents[index] = cnt
-
 				util.log "[#{index + 1}/#{files.length}] #{file}"
-
 				process() if --remaining is 0
+
 	process = ->
 		util.log "Creating #{builddir}/#{targetfile}.js"
-
 		code = contents.join "\n\n"
 		fs.unlink builddir, ->
 			fs.mkdir builddir, 0o0755, ->
