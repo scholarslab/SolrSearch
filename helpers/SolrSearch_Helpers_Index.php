@@ -205,10 +205,10 @@ class SolrSearch_Helpers_Index
     }
 
     /**
-     * This pings the Solr server with the given options and returns true if 
+     * This pings the Solr server with the given options and returns true if
      * it's currently up.
      *
-     * @param array $options The configuration to test. Missing values will be 
+     * @param array $options The configuration to test. Missing values will be
      * pulled from the current set of options.
      *
      * @return bool
@@ -233,6 +233,9 @@ class SolrSearch_Helpers_Index
     /**
      * This deletes everything in the Solr index.
      *
+     * @param array $options The configuration to test. Missing values will be
+     * pulled from the current set of options.
+     *
      * @return void
      * @author Eric Rochester
      **/
@@ -247,7 +250,7 @@ class SolrSearch_Helpers_Index
         $core   = array_key_exists('solr_search_core', $options)
             ? $options['solr_search_core']
             : get_option('solr_search_core');
-        $solr   = new Apache_Solr_Service($server, $port, $core);
+        $solr = new Apache_Solr_Service($server, $port, $core);
 
         $solr->deleteByQuery('*:*');
         $solr->commit();
