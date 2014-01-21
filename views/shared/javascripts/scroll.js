@@ -6,7 +6,6 @@ jQuery(function($) {
   var $container = $('#results');
 
   $container.infinitescroll({
-    //debug: true,
     animate: true,
     nextSelector: '#solr-nav a.next',
     navSelector: '#solr-nav',

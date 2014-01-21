@@ -36,9 +36,23 @@ module.exports = function(grunt) {
 
     concat: {
 
+      results: {
+        src: [
+          'views/shared/javascripts/vendor/jquery.infinitescroll.js',
+          'views/shared/javascripts/facets.js',
+          'views/shared/javascripts/scroll.js'
+        ],
+        dest: 'views/shared/javascripts/payloads/results.js'
+      }
+
     },
 
     uglify: {
+
+      results: {
+        src: '<%= concat.results.src %>',
+        dest: '<%= concat.results.dest %>'
+      }
 
     }
 

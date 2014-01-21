@@ -196,8 +196,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $module  = $request->getModuleName();
         if ($module == 'solr-search') {
             queue_css_file('solr_search');
-            $js = 'SolrSearch-' . SOLR_SEARCH_PLUGIN_VERSION . '-min';
-            queue_js_file($js);
+            queue_js_file('payloads/results');
         }
     }
 
