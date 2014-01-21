@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 
       options: {
         bin: 'vendor/bin/phpunit',
-        bootstrap: 'tests/bootstrap.php',
+        bootstrap: 'tests/phpunit/bootstrap.php',
         followOutput: true,
         colors: true
       },

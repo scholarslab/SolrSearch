@@ -186,7 +186,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         // If we're on any page using the SolrSearch module.
         if ($module == 'solr-search') {
             queue_css_file('textinplace');
-            queue_js_file('jquery.textinplace');
+            queue_js_file('vendor/jquery.textinplace');
         }
     }
 
@@ -310,9 +310,7 @@ SQL;
     protected function _deleteAcl()
     {
         $acl = Zend_Registry::get('bootstrap')->getResource('Acl');;
-        if (!$acl) {
-            throw new RuntimeException(__('ACL not available'));
-        }
+        if (!$acl) throw new RuntimeException(__('ACL not available'));
         $acl->remove('SolrSearch_Config');
     }
 
