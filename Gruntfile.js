@@ -10,6 +10,7 @@
 
 module.exports = function(grunt) {
 
+  grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
@@ -18,6 +19,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-phpunit');
 
   grunt.initConfig({
+
+    bower: {
+      install: {
+        options: { copy: false }
+      }
+    },
 
     phpunit: {
 
