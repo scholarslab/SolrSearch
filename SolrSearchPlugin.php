@@ -36,12 +36,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     );
     //}}}
 
-    function __construct()
-    {
-        parent::__construct();
-        $this->setUp();
-    }
-
     public function hookInstall()
     {
         self::_createSolrTable();

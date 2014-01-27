@@ -3,53 +3,9 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "1006e8eeb8956716e00e435461448c56",
+    "hash": "deb655a03f32c9c2f204185772e3d212",
     "packages": [
-        {
-            "name": "reprovinci/solr-php-client",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/reprovinci/solr-php-client.git",
-                "reference": "3714b0abebe5f47b5f5107d5e7d56a3ad79d72ea"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/reprovinci/solr-php-client/zipball/3714b0abebe5f47b5f5107d5e7d56a3ad79d72ea",
-                "reference": "3714b0abebe5f47b5f5107d5e7d56a3ad79d72ea",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Apache_Solr_": [
-                        "",
-                        "tests"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Reinier Kip",
-                    "email": "github@reinierkip.nl",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Donovan Jiménez",
-                    "email": "donovan.jimenez@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A PHP library for indexing and searching documents within an Apache Solr installation.",
-            "time": "2012-10-08 18:07:18"
-        }
+
     ],
     "packages-dev": [
         {

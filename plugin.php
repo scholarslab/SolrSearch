@@ -42,4 +42,5 @@ require_once SOLR_DIR.'/forms/SolrSearch_Form_Facet.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Highlight.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Reindex.php';
 
-new SolrSearchPlugin();
+$solr = new SolrSearchPlugin();
+$solr->setUp();
