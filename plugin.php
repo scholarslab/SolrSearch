@@ -12,10 +12,6 @@
 
 // {{{ constants
 
-if (!defined('SOLR_SEARCH_PLUGIN_VERSION')) {
-    define('SOLR_SEARCH_PLUGIN_VERSION', get_plugin_ini('SolrSearch', 'version'));
-}
-
 if (!defined('SOLR_SEARCH_PLUGIN_DIR')) {
     define('SOLR_SEARCH_PLUGIN_DIR', dirname(__FILE__));
 }
