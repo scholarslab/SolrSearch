@@ -78,7 +78,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookDefineRoutes($args)
     {
         $args['router']->addConfig(new Zend_Config_Ini(
-            SOLR_SEARCH_PLUGIN_DIR.'/routes.ini'
+            SOLR_DIR.'/routes.ini'
         ));
     }
 

@@ -55,7 +55,7 @@ class SolrSearch_Addon_Manager
         $this->addons   = null;
 
         if ($this->addonDir === null) {
-            $this->addonDir = SOLR_SEARCH_PLUGIN_DIR . '/addons';
+            $this->addonDir = SOLR_DIR . '/addons';
         }
     }
 

@@ -10,38 +10,36 @@
  */
 
 
-// {{{ constants
+if (!defined('SOLR_DIR')) define('SOLR_DIR', dirname(__FILE__));
 
-if (!defined('SOLR_SEARCH_PLUGIN_DIR')) {
-    define('SOLR_SEARCH_PLUGIN_DIR', dirname(__FILE__));
-}
-
-// }}}
-
-// Plugin manager:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/SolrSearchPlugin.php';
+// Plugin manager class:
+require_once SOLR_DIR.'/SolrSearchPlugin.php';
 
 // Solr PHP Client library:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Document.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Exception.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Response.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/Service.php';
+require_once SOLR_DIR.'/lib/Document.php';
+require_once SOLR_DIR.'/lib/Exception.php';
+require_once SOLR_DIR.'/lib/Response.php';
+require_once SOLR_DIR.'/lib/Service.php';
 
 // SolrSearch utility classes:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/QueryManager.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Addon.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/Utils.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/lib/SolrSearch/DbPager.php';
+require_once SOLR_DIR.'/lib/SolrSearch/Addon/Addon.php';
+require_once SOLR_DIR.'/lib/SolrSearch/Addon/Config.php';
+require_once SOLR_DIR.'/lib/SolrSearch/Addon/Field.php';
+require_once SOLR_DIR.'/lib/SolrSearch/Addon/Indexer.php';
+require_once SOLR_DIR.'/lib/SolrSearch/Addon/Manager.php';
+require_once SOLR_DIR.'/lib/SolrSearch/QueryManager.php';
+require_once SOLR_DIR.'/lib/SolrSearch/Utils.php';
+require_once SOLR_DIR.'/lib/SolrSearch/DbPager.php';
 
 // Theme helpers:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_Helpers_View.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_Helpers_Query.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/helpers/SolrSearch_Helpers_Index.php';
+require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_View.php';
+require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Query.php';
+require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Index.php';
 
 // Forms:
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Server.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Facet.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Highlight.php';
-require_once SOLR_SEARCH_PLUGIN_DIR . '/forms/SolrSearch_Form_Reindex.php';
+require_once SOLR_DIR.'/forms/SolrSearch_Form_Server.php';
+require_once SOLR_DIR.'/forms/SolrSearch_Form_Facet.php';
+require_once SOLR_DIR.'/forms/SolrSearch_Form_Highlight.php';
+require_once SOLR_DIR.'/forms/SolrSearch_Form_Reindex.php';
 
 new SolrSearchPlugin();
