@@ -123,7 +123,7 @@ class SolrSearch_Helpers_View
      */
     public static function createResultLink($doc)
     {
-        $title = (is_null($doc->title) || $doc->title === '') ? '[Untitled]' : $doc->title;
+        $title = is_array($doc->title) ? $doc->title[0] : $doc->title;
         return "<a href='{$doc->url}'>{$title}</a> <span class='solr-result-model'>{$doc->resulttype}</span>";
     }
 
