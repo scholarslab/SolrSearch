@@ -16,10 +16,10 @@ if (!defined('SOLR_DIR')) define('SOLR_DIR', dirname(__FILE__));
 require_once SOLR_DIR.'/SolrSearchPlugin.php';
 
 // Solr PHP Client library:
-require_once SOLR_DIR.'/lib/Document.php';
-require_once SOLR_DIR.'/lib/Exception.php';
-require_once SOLR_DIR.'/lib/Response.php';
-require_once SOLR_DIR.'/lib/Service.php';
+require_once SOLR_DIR.'/lib/solr-php-client/Document.php';
+require_once SOLR_DIR.'/lib/solr-php-client/Exception.php';
+require_once SOLR_DIR.'/lib/solr-php-client/Response.php';
+require_once SOLR_DIR.'/lib/solr-php-client/Service.php';
 
 // SolrSearch utility classes:
 require_once SOLR_DIR.'/lib/SolrSearch/Addon/Addon.php';
