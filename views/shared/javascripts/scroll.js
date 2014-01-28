@@ -8,15 +8,13 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-jQuery(document).ready(function() {
-  jQuery('#solr-nav').hide();
+jQuery(document).ready(function($) {
+  $('#solr-nav').hide();
 });
 
 jQuery(function($) {
 
-  var $container = $('#results');
-
-  $container.infinitescroll({
+  $('#results').infinitescroll({
     animate: true,
     nextSelector: '#solr-nav a.next',
     navSelector: '#solr-nav',
