@@ -10,11 +10,11 @@
 
 jQuery(function($) {
 
-  $('#facets-form').accordion({
-    header: 'h3.fieldset',
-    autoHeight: false,
-    collapsible: true,
-    heightStyle: "content"
+  $('.group-sel-all').change(function(event) {
+    var checkbox = $(this);
+    $(checkbox.attr('data-target')).prop('checked',
+      checkbox.is(':checked')
+    );
   });
 
 });

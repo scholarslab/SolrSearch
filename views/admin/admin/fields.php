@@ -13,6 +13,7 @@
 
 <?php
   queue_js_file('accordion');
+  queue_js_file('select');
   echo head(array(
     'title' => __('Solr Search Configuration'),
     'bodyclass' => 'primary',
@@ -74,17 +75,6 @@
         <?php endforeach; ?>
 
       <?php echo $form->getElement('submit'); ?>
-
-      <script type='text/javascript'>
-        jQuery(function ($) {
-          $('.group-sel-all').change(function(event) {
-            var checkbox = $(this);
-            $(checkbox.attr('data-target')).prop(
-              'checked', checkbox.is(':checked')
-            );
-          });
-        });
-      </script>
 
     </form>
 

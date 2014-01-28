@@ -8,7 +8,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-jQuery(document).ready(function($) {
+jQuery(function($) {
 
   $('.solr_facets .facet').addClass('clicker').click(function() {
     jQuery(this).toggleClass('active');
