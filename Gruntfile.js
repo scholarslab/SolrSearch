@@ -53,8 +53,8 @@ module.exports = function(grunt) {
       fields: {
         src: [
           'bower_components/textinplace/dist/jquery.textinplace.js',
-          'views/admin/javascripts/accordion.js',
-          'views/admin/javascripts/select.js'
+          'views/admin/javascripts/select.js',
+          'views/admin/javascripts/accordion.js'
         ],
         dest: 'views/admin/javascripts/payloads/fields.js'
       },
@@ -158,6 +158,12 @@ module.exports = function(grunt) {
 
   // Run application tests.
   grunt.registerTask('default', 'phpunit');
+
+  // Build the application.
+  grunt.registerTask('build', [
+    'bower',
+    'compile:min'
+  ]);
 
   // Compile JS/CSS payloads.
   grunt.registerTask('compile', [
