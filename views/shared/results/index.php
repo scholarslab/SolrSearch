@@ -11,6 +11,9 @@
 
 ?>
 
+<?php queue_js_file('payloads/results'); ?>
+<?php queue_css_file('solr_search'); ?>
+
 <?php echo head(array(
   'title' => __('Browse Items'),
   'bodyclass' => 'browse',

@@ -65,6 +65,11 @@ module.exports = function(grunt) {
 
     uglify: {
 
+      fields: {
+        src: '<%= concat.fields.src %>',
+        dest: '<%= concat.fields.dest %>'
+      },
+
       results: {
         src: '<%= concat.results.src %>',
         dest: '<%= concat.results.dest %>'

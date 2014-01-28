@@ -23,8 +23,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'after_save_item',
         'before_delete_record',
         'before_delete_item',
-        'define_acl',
-        'public_head'
+        'define_acl'
     );
     //}}}
 
@@ -164,16 +163,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         if (!$acl->has('SolrSearch_Config')) {
             $acl->addResource('SolrSearch_Config');
             $acl->allow(null, 'SolrSearch_Config', array('index', 'status'));
-        }
-    }
-
-    public function hookPublicHead($args)
-    {
-        $request = Zend_Controller_Front::getInstance()->getRequest();
-        $module  = $request->getModuleName();
-        if ($module == 'solr-search') {
-            queue_css_file('solr_search');
-            queue_js_file('payloads/results');
         }
     }
 
