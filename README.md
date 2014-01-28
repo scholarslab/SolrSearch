@@ -16,10 +16,10 @@ the [Solr Documentation][2].
 ### Configuration
 Once Solr is up-and-running, you will need to tell Solr about the the
 Omeka SolrSearch configuration. While there are many ways to define the
-```solr/home``` (where the index and configuration files are located),
+`solr/home` (where the index and configuration files are located),
 one of the easiest ways to deal with this is by deploying Solr with a
-Context which defines the path to where the ```SolrSearch``` plugin 
-directory is located (specifically the ```SolrSearch/solr-home```
+Context which defines the path to where the `SolrSearch` plugin 
+directory is located (specifically the `SolrSearch/solr-home`
 directory).
 
 The following is an example of a context file that can be deployed
@@ -32,14 +32,14 @@ easily through the [Tomcat Manager][tomcatmanager]:
 </Context>
 ```
 
-It is worth noting that the ```solr-home``` directory can be placed
+It is worth noting that the `solr-home` directory can be placed
 anywhere on the server that makes sense from a maitenance perspective,
 which is valuable for institutions using the [multicore][multicore]
 feature in Solr.
 
 Installation and Configuration
 ----------
-* Upload the 'SolrSearch' plugin directory to your Omeka installation's ```plugin``` directory. See [Installing a Plugin][plugininstall].
+* Upload the 'SolrSearch' plugin directory to your Omeka installation's `plugin` directory. See [Installing a Plugin][plugininstall].
 * Activate the plugin from the admin → Settings → Plugins page.
 * Configure your connection to the Solr server. We have provided some
   typical default settings, but double check to ensure that these
@@ -63,13 +63,13 @@ Each element has three options:
 * **Is Sortable**: ??? Are we removing this?
 
 After you have configured the fields you want indexed, and how you want
-them indexed, click on the ```Save Facets``` button. 
+them indexed, click on the `Save Facets` button. 
 
 **Note:** SolrSearch indexes any item marked 'public' in Omeka. 
 
 ## Hit Highlighting
 SolrSearch uses 'hit highlighting' to contextualize the query result.
-You can configure this in the ```Hit Highlighting Options``` tab.
+You can configure this in the `Hit Highlighting Options` tab.
 
 ## Reindexing
 
