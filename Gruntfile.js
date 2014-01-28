@@ -14,9 +14,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-phpunit');
+
+  var pkg = grunt.file.readJSON('package.json');
 
   grunt.initConfig({
 
@@ -24,6 +25,10 @@ module.exports = function(grunt) {
       install: {
         options: { copy: false }
       }
+    },
+
+    clean: {
+      pkg: 'pkg'
     },
 
     phpunit: {
@@ -75,14 +80,60 @@ module.exports = function(grunt) {
         dest: '<%= concat.results.dest %>'
       }
 
+    },
+
+    compress: {
+
+      dist: {
+        options: {
+          archive: 'pkg/SolrSearch-'+pkg.version+'.zip'
+        },
+        dest: 'SolrSearch/',
+        src: [
+
+          '**',
+
+          // GIT
+          '!.git/**',
+
+          // BOWER
+          '!bower.json',
+          '!bower_components/**',
+
+          // NPM
+          '!package.json',
+          '!node_modules/**',
+
+          // COMPOSER
+          '!composer.json',
+          '!composer.lock',
+          '!vendor/**',
+
+          // RUBY
+          '!Gemfile',
+          '!Gemfile.lock',
+
+          // GRUNT
+          '!.grunt/**',
+          '!Gruntfile.js',
+
+          // DIST
+          '!pkg/**',
+
+          // TESTS
+          '!tests/**'
+
+        ]
+      }
+
     }
 
   });
 
   // Run application tests.
-  grunt.registerTask('default', 'test');
+  grunt.registerTask('default', 'phpunit');
 
-  // Run PHPUnit suite.
-  grunt.registerTask('test', 'phpunit');
+  // Spawn release package.
+  grunt.registerTask('package', ['clean:pkg', 'uglify', 'compress']);
 
 };

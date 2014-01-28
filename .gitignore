@@ -1,8 +1,9 @@
 .sass-cache
-build/
 Gemfile.lock
 node_modules/
 bower_components/
-tests/solr.ini
-solr-core/collection1/data
 vendor
+pkg
+
+tests/phpunit/solr.ini
+solr-core/collection1/data
