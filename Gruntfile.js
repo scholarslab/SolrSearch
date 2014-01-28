@@ -30,6 +30,7 @@ module.exports = function(grunt) {
     },
 
     clean: {
+      lib: 'lib/solr-php-client',
       pkg: 'pkg'
     },
 
