@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-phpunit');
@@ -78,6 +79,15 @@ module.exports = function(grunt) {
       results: {
         src: '<%= concat.results.src %>',
         dest: '<%= concat.results.dest %>'
+      }
+
+    },
+
+    compass: {
+
+      dist: {
+        sassDir: '_sass',
+        cssDir: 'views/shared/css'
       }
 
     },
