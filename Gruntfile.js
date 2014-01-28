@@ -16,6 +16,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-phpunit');
 
   var pkg = grunt.file.readJSON('package.json');
@@ -86,8 +87,23 @@ module.exports = function(grunt) {
     compass: {
 
       dist: {
-        sassDir: '_sass',
-        cssDir: 'views/shared/css'
+        options: {
+          sassDir: 'views/shared/css/sass',
+          cssDir: 'views/shared/css'
+        }
+      }
+
+    },
+
+    watch: {
+
+      payload: {
+        files: [
+          'views/shared/css/sass/*.scss',
+          '<%= concat.fields.src %>',
+          '<%= concat.results.src %>'
+        ],
+        tasks: 'compile:min'
       }
 
     },
@@ -143,7 +159,23 @@ module.exports = function(grunt) {
   // Run application tests.
   grunt.registerTask('default', 'phpunit');
 
+  // Compile JS/CSS payloads.
+  grunt.registerTask('compile', [
+    'concat',
+    'compass'
+  ]);
+
+  // Minify JS/CSS payloads.
+  grunt.registerTask('compile:min', [
+    'uglify',
+    'compass'
+  ]);
+
   // Spawn release package.
-  grunt.registerTask('package', ['clean:pkg', 'uglify', 'compress']);
+  grunt.registerTask('package', [
+    'clean:pkg',
+    'compile:min',
+    'compress'
+  ]);
 
 };

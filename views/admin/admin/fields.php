@@ -12,7 +12,7 @@
 ?>
 
 <?php queue_js_file('payloads/fields'); ?>
-<?php queue_css_file('textinplace'); ?>
+<?php queue_css_file('fields'); ?>
 
 <?php echo head(array(
   'title' => __('Solr Search Configuration'),
