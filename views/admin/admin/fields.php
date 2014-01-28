@@ -11,17 +11,17 @@
 
 ?>
 
-<?php
-  queue_js_file('accordion');
-  queue_js_file('select');
-  echo head(array(
-    'title' => __('Solr Search Configuration'),
-    'bodyclass' => 'primary',
-    'content_class' => 'horizontal-nav')
-  );
-?>
+<?php queue_js_file('payloads/fields'); ?>
+<?php queue_css_file('textinplace'); ?>
+
+<?php echo head(array(
+  'title' => __('Solr Search Configuration'),
+  'bodyclass' => 'primary',
+  'content_class' => 'horizontal-nav')
+); ?>
 
 <script type='text/javascript'>
+  // TODO: fix
   function tip(el, form_name, revert_to) {
     jQuery(function($) {
       $(el).textinplace({

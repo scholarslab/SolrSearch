@@ -43,6 +43,15 @@ module.exports = function(grunt) {
 
     concat: {
 
+      fields: {
+        src: [
+          'bower_components/textinplace/dist/jquery.textinplace.js',
+          'views/admin/javascripts/accordion.js',
+          'views/admin/javascripts/select.js'
+        ],
+        dest: 'views/admin/javascripts/payloads/fields.js'
+      },
+
       results: {
         src: [
           'bower_components/infinitescroll/jquery.infinitescroll.js',

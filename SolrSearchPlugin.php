@@ -24,7 +24,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'before_delete_record',
         'before_delete_item',
         'define_acl',
-        'admin_head',
         'public_head'
     );
     //}}}
@@ -165,22 +164,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         if (!$acl->has('SolrSearch_Config')) {
             $acl->addResource('SolrSearch_Config');
             $acl->allow(null, 'SolrSearch_Config', array('index', 'status'));
-        }
-    }
-
-    public function hookAdminHead($args)
-    {
-        $request = Zend_Controller_Front::getInstance()->getRequest();
-
-        // Let's figure out where we are.
-        $module     = $request->getModuleName();
-        $controller = $request->getControllerName();
-        $action     = $request->getActionName();
-
-        // If we're on any page using the SolrSearch module.
-        if ($module == 'solr-search') {
-            queue_css_file('textinplace');
-            queue_js_file('vendor/jquery.textinplace');
         }
     }
 
