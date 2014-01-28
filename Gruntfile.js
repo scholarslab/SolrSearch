@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 
       results: {
         src: [
-          'views/shared/javascripts/vendor/jquery.infinitescroll.js',
+          'bower_components/infinitescroll/jquery.infinitescroll.js',
           'views/shared/javascripts/facets.js',
           'views/shared/javascripts/scroll.js'
         ],

@@ -4,6 +4,7 @@
   , "dependencies": {
       "jquery":         ">= 1.8.3"
     , "infinitescroll": "paulirish/infinite-scroll"
+    , "textinplace":    "scholarslab/jquery.textinplace"
   }
 }
 
