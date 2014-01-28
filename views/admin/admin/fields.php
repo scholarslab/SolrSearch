@@ -20,18 +20,6 @@
   'content_class' => 'horizontal-nav')
 ); ?>
 
-<script type='text/javascript'>
-  // TODO: fix
-  function tip(el, form_name, revert_to) {
-    jQuery(function($) {
-      $(el).textinplace({
-        form_name: form_name,
-        revert_to: revert_to
-      });
-    });
-  }
-</script>
-
 <div id="solr_config">
 
   <?php echo $this->partial('admin/partials/navigation.php', array(

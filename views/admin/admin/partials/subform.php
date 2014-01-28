@@ -17,16 +17,20 @@
   <input
     name="<?php echo $facetId->getFullyQualifiedName() ?>"
     value="<?php echo $facetId->getValue() ?>"
-    type="hidden" />
+    type="hidden"
+  />
 
-  <div id="<?php echo $id ?>" class="acetlabel"><?php echo $label->getValue() ?></div>
+  <div id="<?php echo $id ?>" class="facetlabel">
+    <?php echo $label->getValue(); ?>
+  </div>
 
   <script type="text/javascript">
-    tip(
-      '#<?php echo $id ?>',
-      '<?php echo $label->getFullyQualifiedName() ?>',
-      '<?php echo $label->getAttrib('revertto') ?>'
-    );
+    jQuery(function($) {
+      $('#<?php echo $id ?>').textinplace({
+        form_name: '<?php echo $label->getFullyQualifiedName() ?>',
+        revert_to: '<?php echo $label->getAttrib('revertto') ?>'
+      });
+    });
   </script>
 
   </td>
