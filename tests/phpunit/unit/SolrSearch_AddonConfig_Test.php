@@ -12,7 +12,9 @@
 
 class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
 {
+
     private static $config_json = <<<'EOF'
+
 {
     "exhibits": {
         "id_column": "eid",
@@ -51,6 +53,7 @@ class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
         "result_type": "Exhibits"
     }
 }
+
 EOF;
 
     private function assertAddon(
@@ -91,12 +94,10 @@ EOF;
 
     /**
      * This tests parsing a config file to a a SolrSearch_Addon.
-     *
-     * @return void
-     * @author Eric Rochester <erochest@virginia.edu>
      **/
     public function testParse()
     {
+
         $config = new SolrSearch_Addon_Config($this->db);
         $addons = $config->parseString(self::$config_json);
 
@@ -104,33 +105,53 @@ EOF;
         $this->assertArrayHasKey('exhibits', $addons);
         $this->assertArrayHasKey('sections', $addons);
 
+        // EXHIBITS
+        // --------------------------------------------------------------------
+
         $a = $addons['exhibits'];
+
         $this->assertAddon(
-            $a, 'exhibits', 'Exhibits', 'Exhibits', 'eid', null, 
-            null, true, 'public', 3, 1
+            $a, 'exhibits', 'Exhibits', 'Exhibits', 'eid', null, null,
+            true, 'public', 3, 1
         );
-        $this->assertField($a->fields[0], 'title', 'title', false, false);
+
+        $this->assertField(
+            $a->fields[0], 'title', 'title', false, false
+        );
+
         $this->assertField(
             $a->fields[1], 'description', 'description', false, false
         );
+
         $this->assertField(
             $a->fields[2], 'featured', 'Featured Exhibits', true, false
         );
+
         $this->assertEquals('sections', $a->children[0]->name);
 
+        // SECTIONS
+        // --------------------------------------------------------------------
+
         $a = $addons['sections'];
+
         $this->assertAddon(
-            $a, 'sections', null, 'Sections', 'id', 'exhibits',
-            'exhibit_id', false, null, 3, 0
+            $a, 'sections', null, 'Sections', 'id', 'exhibits', 'exhibit_id',
+            false, null, 3, 0
         );
-        $this->assertField($a->fields[0], 'name', 'Name', false, true);
+
+        $this->assertField(
+            $a->fields[0], 'name', 'Name', false, true
+        );
+
         $this->assertField(
             $a->fields[1], 'description', 'description', false, false
         );
+
         $this->assertField(
             $a->fields[2], 'pagetitle', 'Page Title', false, false,
             array( 'table' => 'ExhibitPageEntry', 'key' => 'page_id' )
         );
+
     }
 
 }

@@ -16,8 +16,6 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
     /**
      * Empty out the facets table.
      * TODO: Why is this necessary?
-     *
-     * @return void.
      */
     public function setUp()
     {
@@ -28,9 +26,7 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
     }
 
     /**
-     * groupByElementSet() should return the facets grouped by element set.
-     *
-     * @return void.
+     * `groupByElementSet` should return the facets grouped by element set.
      */
     public function testGroupByElementSet()
     {
@@ -52,6 +48,7 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         $elementSetFacet1->element_id = $element->id;
         $elementSetFacet1->element_set_id = $elementSet->id;
         $elementSetFacet1->save();
+
         $elementSetFacet2 = new SolrSearchFacet;
         $elementSetFacet2->name = 'Element Set 2';
         $elementSetFacet2->label = 'Element Set 2';
@@ -59,7 +56,6 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         $elementSetFacet2->element_set_id = $elementSet->id;
         $elementSetFacet2->save();
 
-        // Group facets and check formation.
         $groups = $this->facetsTable->groupByElementSet();
 
         $this->assertEquals(

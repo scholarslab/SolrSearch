@@ -14,42 +14,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
 {
 
     /**
-     * Test get and set on columns.
-     *
-     * @return void.
-     */
-    public function testAttributeAccess()
-    {
-
-        // Create a record.
-        $facet = new SolrSearchFacet();
-
-        // Set.
-        $facet->element_id = 1;
-        $facet->element_set_id = 2;
-        $facet->label = 'facet';
-        $facet->name = 'name';
-        $facet->is_facet = 1;
-        $facet->is_displayed = 1;
-        $facet->save();
-
-        // Re-get the facet object.
-        $facet = $this->facetsTable->find($facet->id);
-
-        // Get.
-        $this->assertEquals($facet->element_id, 1);
-        $this->assertEquals($facet->element_set_id, 2);
-        $this->assertEquals($facet->name, 'name');
-        $this->assertEquals($facet->is_facet, 1);
-        $this->assertEquals($facet->is_displayed, 1);
-
-    }
-
-    /**
-     * getElementSet() should return the name of the parent element set
-     * when the element_set_id is non-null.
-     *
-     * @return void.
+     * `getElementSet` should return the name of the parent element set.
      */
     public function testGetElementSetWhenKeyExists()
     {
@@ -74,9 +39,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
     }
 
     /**
-     * getElementSet() should return null when the element_set_id is null.
-     *
-     * @return void.
+     * `getElementSet` should return NULL when no element set is defined.
      */
     public function testGetElementSetWhenKeyDoesNotExist()
     {
@@ -87,7 +50,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
         $facet->name = 'facet';
         $facet->save();
 
-        // Get element set name.
+        // Should return NULL.
         $this->assertNull($facet->getElementSet());
 
     }

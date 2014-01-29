@@ -41,10 +41,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
-    // STATE MANAGEMENT
-    // ------------------------------------------------------------------------
-
-
     /**
      * Apply options defined in the `solr.ini` file.
      */
@@ -77,10 +73,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         }
 
     }
-
-
-    // RECORD MOCKS
-    // ------------------------------------------------------------------------
 
 
     /**
@@ -166,10 +158,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
-    // DATA HELPERS
-    // ------------------------------------------------------------------------
-
-
     /**
      * Get a facet mapping row by name.
      *
@@ -182,10 +170,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
             'name=?', array($name), true
         );
     }
-
-
-    // CUSTOM ASSERTIONS
-    // ------------------------------------------------------------------------
 
 
     /**
