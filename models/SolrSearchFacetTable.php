@@ -31,7 +31,8 @@ class SolrSearchFacetTable extends Omeka_Db_Table
 
             // Get element set name.
             $setName = !is_null($facet->element_set_id) ?
-                $facet->getElementSet()->name : __('Omeka Categories');
+                $facet->getElementSet()->name :
+                __('Omeka Categories');
 
             // If the key exists, push.
             if (array_key_exists($setName, $facetGroups)) {

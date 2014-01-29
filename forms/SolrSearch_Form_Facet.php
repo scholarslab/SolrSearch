@@ -30,48 +30,40 @@ class SolrSearch_Form_Facet extends Omeka_Form
         $n = 1000;
         $groups = $_facetsTable->groupByElementSet();
         foreach ($groups as $title => $group) {
+
+            // Sub-form for group:
             $sf = new Zend_Form_SubForm();
             $sf->setLegend($title);
             $this->addSubForm($sf, "$g");
 
             foreach ($group as $facet) {
+
+                // Sub-sub-form for facet:
                 $ssf = new Zend_Form_SubForm();
-                $sf->addSubForm($ssf, "$n");
-                $ssf->addElement(
-                    'hidden',
-                    'facetid',
-                    array(
-                        'value' => $facet->id
-                    )
-                );
                 $ssf->setElementsBelongTo("facets[$n]");
+                $sf->addSubForm($ssf, "$n");
 
                 $values = array();
                 foreach (array('is_displayed', 'is_facet') as $key) {
-                    if ($facet->$key == 1) {
-                        array_push($values, $key);
-                    }
+                    if ($facet->$key == 1) array_push($values, $key);
                 }
 
-                $ssf->addElement(
-                    'text',
-                    'label',
-                    array(
-                        'value'    => $facet->label,
-                        'revertto' => $facet->getOriginalValue()
-                    )
-                );
-                $ssf->addElement(
-                    'MultiCheckbox',
-                    'options',
-                    array(
-                        'multiOptions' => array(
-                            'is_displayed' => 'Is Searchable',
-                            'is_facet'     => 'Is Facet'
-                        ),
-                        'value' => $values
-                    )
-                );
+                $ssf->addElement('hidden', 'facetid', array(
+                    'value' => $facet->id
+                ));
+
+                $ssf->addElement('text', 'label', array(
+                    'value'    => $facet->label,
+                    'revertto' => $facet->getOriginalValue()
+                ));
+
+                $ssf->addElement('MultiCheckbox', 'options', array(
+                    'multiOptions' => array(
+                        'is_displayed' => 'Is Searchable',
+                        'is_facet'     => 'Is Facet'
+                    ),
+                    'value' => $values
+                ));
 
                 $n++;
             }

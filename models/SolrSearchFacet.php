@@ -54,8 +54,7 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
      */
     public function getElementSet()
     {
-        $_elementSetTable = $this->getTable('ElementSet');
-        return $_elementSetTable->find($this->element_set_id);
+        return $this->getTable('ElementSet')->find($this->element_set_id);
     }
 
     /**
