@@ -15,7 +15,7 @@
 <?php queue_css_file('fields'); ?>
 
 <?php echo head(array(
-  'title' => __('Solr Search Configuration'),
+  'title' => __('Solr Search | Field Configuration'),
   'bodyclass' => 'primary',
   'content_class' => 'horizontal-nav')
 ); ?>

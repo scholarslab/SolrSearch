@@ -12,7 +12,7 @@
 ?>
 
 <?php echo head(array(
-  'title' => __('Reindex Items in Solr'),
+  'title' => __('Solr Search | Index Items'),
   'bodyclass' => 'primary',
   'content_class' => 'horizontal-nav'
 )); ?>

@@ -12,7 +12,7 @@
 ?>
 
 <?php echo head(array(
-  'title' => __('Solr Configuration'),
+  'title' => __('Solr Search | Server Configuration'),
   'bodyclass' => 'primary',
   'content_class' => 'horizontal-nav'
 )); ?>

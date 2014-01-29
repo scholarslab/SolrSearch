@@ -12,7 +12,7 @@
 ?>
 
 <?php echo head(array(
-  'title' => __('Solr Search Hit Highlighting Options')
+  'title' => __('Solr Search | Hit Highlighting Options')
 )); ?>
 
 <?php echo $this->partial('admin/partials/navigation.php', array(
