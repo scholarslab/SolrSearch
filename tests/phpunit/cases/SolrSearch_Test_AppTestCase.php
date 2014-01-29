@@ -166,6 +166,24 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
+    // DATA HELPERS
+    // ------------------------------------------------------------------------
+
+
+    /**
+     * Get a facet mapping row by name.
+     *
+     * @param string $name The facet name.
+     * @return SolrSearchFacet
+     */
+    protected function _getFacetByName($name)
+    {
+        return $this->facetsTable->findBySql(
+            'name=?', array($name), true
+        );
+    }
+
+
     // CUSTOM ASSERTIONS
     // ------------------------------------------------------------------------
 

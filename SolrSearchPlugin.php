@@ -195,36 +195,35 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     // {{{protected
 
     /**
-     * Populates the facet table with human readable mappings of Omeka Element
-     * ids.
-     *
-     * There are special cases for sorting <tt>tags</tt>,
-     * <tt>collection</tt>, and <tt>itemType</tt>
+     * Populate the facets table.
      */
     protected function _addFacetMappings()
     {
+
         $dc = $this->_db->getTable('ElementSet')->findByName('Dublin Core');
+
         $defaults = array(
             'title'       => 1,
             'description' => 1
         );
 
-        $elements = $this->_db->getTable('Element')->findAll();
-        $sql = <<<SQL
+        // Prepare the `INSERT` query.
+        $stmt = $this->_db->prepare(<<<SQL
             INSERT INTO `{$this->_db->prefix}solr_search_facets`
-                (element_id, name, label, element_set_id, is_facet, is_displayed)
-                VALUES (?, ?, ?, ?, ?, ?);
-SQL;
-        $stmt = $this->_db->prepare($sql);
+            (element_id, name, label, element_set_id, is_facet, is_displayed)
+            VALUES (?, ?, ?, ?, ?, ?);
+SQL
+);
 
-        // Omeka categories:
+        // Register Omeka categories:
         $stmt->execute(array(null, 'tag',        __('Tag'),         null, 1, 1));
         $stmt->execute(array(null, 'collection', __('Collection'),  null, 1, 1));
         $stmt->execute(array(null, 'itemtype',   __('Item Type'),   null, 1, 1));
         $stmt->execute(array(null, 'resulttype', __('Result Type'), null, 1, 1));
 
-        // Elements:
-        foreach ($elements as $element) {
+        // Register metadata elements:
+        foreach ($this->_db->getTable('Element')->findAll() as $element) {
+
             $v = 0;
             $eid  = $element['id'];
             $name = $element['name'];
@@ -234,17 +233,17 @@ SQL;
                 $v = 1;
             }
 
-            $stmt->execute(
-                array(
-                    $eid,                       // element_id
-                    "{$eid}_s",                 // name
-                    $name,                      // label
-                    $element['element_set_id'], // element_set_id
-                    0,                          // is_facet
-                    $v                          // is_displayed
-                )
-            );
+            $stmt->execute(array(
+                $eid,                       // element_id
+                "{$eid}_s",                 // name
+                $name,                      // label
+                $element['element_set_id'], // element_set_id
+                0,                          // is_facet
+                $v                          // is_displayed
+            ));
+
         }
+
     }
 
     protected function _setOptions()
