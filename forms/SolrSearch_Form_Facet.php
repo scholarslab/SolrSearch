@@ -29,14 +29,14 @@ class SolrSearch_Form_Facet extends Omeka_Form
         $g = 0;
         $n = 1000;
         $groups = $_facetsTable->groupByElementSet();
-        foreach ($groups as $title => $group) {
+        foreach ($groups as $title => $facets) {
 
             // Sub-form for group:
             $sf = new Zend_Form_SubForm();
             $sf->setLegend($title);
             $this->addSubForm($sf, "$g");
 
-            foreach ($group as $facet) {
+            foreach ($facets as $facet) {
 
                 // Sub-sub-form for facet:
                 $ssf = new Zend_Form_SubForm();

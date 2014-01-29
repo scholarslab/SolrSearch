@@ -15,20 +15,20 @@
   <td class="element">
 
   <input
-    name="<?php echo $facetId->getFullyQualifiedName() ?>"
-    value="<?php echo $facetId->getValue() ?>"
+    name="<?php echo $facetId->getFullyQualifiedName(); ?>"
+    value="<?php echo $facetId->getValue(); ?>"
     type="hidden"
   />
 
-  <div id="<?php echo $id ?>" class="facetlabel">
+  <div id="<?php echo $id; ?>" class="facetlabel">
     <?php echo $label->getValue(); ?>
   </div>
 
   <script type="text/javascript">
     jQuery(function($) {
-      $('#<?php echo $id ?>').textinplace({
-        form_name: '<?php echo $label->getFullyQualifiedName() ?>',
-        revert_to: '<?php echo $label->getAttrib('revertto') ?>'
+      $('#<?php echo $id; ?>').textinplace({
+        form_name: '<?php echo $label->getFullyQualifiedName(); ?>',
+        revert_to: '<?php echo $label->getAttrib('revertto'); ?>'
       });
     });
   </script>

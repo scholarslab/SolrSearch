@@ -236,12 +236,12 @@ SQL;
 
             $stmt->execute(
                 array(
-                    $eid,
-                    "{$eid}_s",
-                    $name,
-                    $element['element_set_id'],
-                    0,
-                    $v
+                    $eid,                       // element_id
+                    "{$eid}_s",                 // name
+                    $name,                      // label
+                    $element['element_set_id'], // element_set_id
+                    0,                          // is_facet
+                    $v                          // is_displayed
                 )
             );
         }
