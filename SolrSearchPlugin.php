@@ -13,6 +13,7 @@
 class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 {
 
+
     // {{{ hooks
     protected $_hooks = array(
         'install',
@@ -27,6 +28,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     );
     //}}}
 
+
     //{{{ filters
     protected $_filters = array(
         'admin_navigation_main',
@@ -34,6 +36,11 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     );
     //}}}
 
+
+    /**
+     * Create the database tables, install the starting facets, and set the
+     * default options.
+     */
     public function hookInstall()
     {
         self::_createSolrTable();
@@ -41,6 +48,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         self::_setOptions();
     }
 
+
+    /**
+     * Drop the database tables, flush the Solr index, and delete the options.
+     */
     public function hookUninstall()
     {
 
@@ -63,11 +74,21 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
     }
 
+
+    /**
+     * Register the string translations.
+     */
     public function hookInitialize()
     {
         add_translation_source(dirname(__FILE__) . '/languages');
     }
 
+
+    /**
+     * Register the application routes.
+     *
+     * @param array $args With `router`.
+     */
     public function hookDefineRoutes($args)
     {
         $args['router']->addConfig(new Zend_Config_Ini(
@@ -75,6 +96,12 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         ));
     }
 
+
+    /**
+     * When a record is saved, try to extract and intex a Solr document.
+     *
+     * @param array $args With `record`.
+     */
     public function hookAfterSaveRecord($args)
     {
         SolrSearch_Utils::ensureView();
@@ -95,6 +122,13 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
+
+    /**
+     * When an item is saved, index the record if the item is set public, and
+     * clear an existing record if it is set private.
+     *
+     * @param array $args With `record`.
+     */
     public function hookAfterSaveItem($args)
     {
         SolrSearch_Utils::ensureView();
@@ -122,6 +156,12 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
+
+    /**
+     * When a record is deleted, clear its Solr record.
+     *
+     * @param array $args With `record`.
+     */
     public function hookBeforeDeleteRecord($args)
     {
         $record = $args['record'];
@@ -142,6 +182,12 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
+
+    /**
+     * When an item is deleted, clear its Solr record.
+     *
+     * @param array $args With `record`.
+     */
     public function hookBeforeDeleteItem($args)
     {
         $item = $args['record'];
@@ -158,6 +204,12 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         } catch (Exception $e) {}
     }
 
+
+    /**
+     * Register the ACL.
+     *
+     * @param array $args With `acl`.
+     */
     public function hookDefineAcl($args)
     {
         $acl = $args['acl'];
@@ -167,6 +219,13 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
+
+    /**
+     * Add a link to the administrative navigation bar.
+     *
+     * @param string $nav The array of label/URI pairs.
+     * @return array
+     */
     public function filterAdminNavigationMain($nav)
     {
         if (is_allowed('SolrSearch_Config', 'index')) {
@@ -177,26 +236,26 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
+
     /**
-     * Overrides the default simple-search URI to automagically integrate in
-     * to the theme; leaves admin section alone for default search.
+     * Override the default simple-search URI to automagically integrate into
+     * the theme; leaves admin section alone for default search.
      *
-     * @param string $uri URI for Simple Search
-     * @return string URI;
+     * @param string $uri URI for Simple Search.
+     * @return string
      */
     public function filterSearchFormDefaultAction($uri)
     {
-        if (!is_admin_theme()) {
-            $uri = url('solr-search/results/interceptor');
-        }
-
+        if (!is_admin_theme()) $uri = url('solr-search/results/interceptor');
         return $uri;
     }
 
+
     // {{{protected
 
+
     /**
-     * Populate the facets table.
+     * Install the default facet mappings.
      */
     protected function _addFacetMappings()
     {
@@ -246,6 +305,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
     }
 
+
+    /**
+     * Set the default global options.
+     */
     protected function _setOptions()
     {
         set_option('solr_search_server', 'localhost');
@@ -259,6 +322,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         set_option('solr_search_facet_sort', 'count');
     }
 
+
+    /**
+     * Delete the default global options.
+     */
     protected function _deleteOptions()
     {
         delete_option('solr_search_server');
@@ -272,6 +339,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         delete_option('solr_search_facet_sort');
     }
 
+
+    /**
+     * Install the facets table.
+     */
     protected function _createSolrTable()
     {
         $this->_db->query(<<<SQL
@@ -293,6 +364,8 @@ SQL
 );
     }
 
+
     //}}}
+
 
 }
