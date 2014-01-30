@@ -14,11 +14,30 @@ class SolrSearchPluginTest_HookInstall extends SolrSearch_Test_AppTestCase
 
 
     /**
-     * The `install` hook should insert default facet registrations.
+     * The `install` hook should add facet mappings for the generic Omeka
+     * categories that are unaffiliated with items.
      */
-    public function testAddFacetMappings()
+    public function testAddOmekaCategoriesFacetMappings()
     {
-        // TODO
+
+        $facets = array(
+            $this->_getFacetByName('tag'),
+            $this->_getFacetByName('collection'),
+            $this->_getFacetByName('itemtype'),
+            $this->_getFacetByName('resulttype')
+        );
+
+        foreach ($facets as $facet) {
+
+            // Should create facets.
+            $this->assertNotNull($facet);
+
+            // Should make viewable / searchable.
+            $this->assertEquals(1, $facet->is_displayed);
+            $this->assertEquals(1, $facet->is_facet);
+
+        }
+
     }
 
 

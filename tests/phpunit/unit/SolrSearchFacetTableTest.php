@@ -112,6 +112,8 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         // Get the facet groups.
         $groups = $this->facetsTable->groupByElementSet();
 
+        // Should group element-unaffiliated facets:
+
         $this->assertEquals(
             $noElementSetFacet1->id,
             $groups['Omeka Categories'][0]['id']
@@ -122,6 +124,8 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
             $groups['Omeka Categories'][1]['id']
         );
 
+        // Should group Dublin Core facets:
+
         $this->assertEquals(
             $dublinCoreFacet1->id,
             $groups['Dublin Core'][0]['id']
@@ -131,6 +135,8 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
             $dublinCoreFacet2->id,
             $groups['Dublin Core'][1]['id']
         );
+
+        // Should group Item Type Metadata facets:
 
         $this->assertEquals(
             $itemTypeMetadataFacet1->id,
