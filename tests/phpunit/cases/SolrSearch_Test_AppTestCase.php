@@ -167,34 +167,6 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
-     * Get a facet mapping row by parent element.
-     *
-     * @param Element $element The element.
-     * @return SolrSearchFacet
-     */
-    protected function _getFacetByElement($element)
-    {
-        return $this->facetTable->findBySql(
-            'element_id=?', array($element->id), true
-        );
-    }
-
-
-    /**
-     * Get a facet mapping row by name.
-     *
-     * @param string $name The facet name.
-     * @return SolrSearchFacet
-     */
-    protected function _getFacetByName($name)
-    {
-        return $this->facetTable->findBySql(
-            'name=?', array($name), true
-        );
-    }
-
-
-    /**
      * Assert that a form error was displayed for an input.
      *
      * @param string $name The `name` attribute of the input with the error.

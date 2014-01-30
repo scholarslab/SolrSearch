@@ -19,7 +19,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
      *
      * @return array $facets The ElementSet-grouped facets.
      */
-    public function getFacetsGroupedBySet()
+    public function groupByElementSet()
     {
 
         $groups = array();
@@ -41,6 +41,28 @@ class SolrSearchFacetTable extends Omeka_Db_Table
 
 
     /**
+     * Find the facet associated with a given element.
+     *
+     * @return Element $element The element name.
+     */
+    public function findByElement($element)
+    {
+        return $this->findBySql('element_id=?', array($element->id), true);
+    }
+
+
+    /**
+     * Find the facet with a given name.
+     *
+     * @return Element $element The element name.
+     */
+    public function findByName($name)
+    {
+        return $this->findBySql('name=?', array($name), true);
+    }
+
+
+    /**
      * Flag a metadata element to be indexed in Solr.
      *
      * @return string $set The element set name.
@@ -49,6 +71,9 @@ class SolrSearchFacetTable extends Omeka_Db_Table
     public function setElementSearchable($set, $element)
     {
         // TODO
+        // get element
+        // get facet by element
+        // update
     }
 
 

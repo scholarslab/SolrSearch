@@ -26,7 +26,7 @@ class SolrSearchFacetTableTest_GroupByElementSet
 
 
     /**
-     * `getFacetsGroupedBySet` should return the facets grouped by element set.
+     * `groupByElementSet` should return the facets grouped by element set.
      */
     public function testGroupByElementSet()
     {
@@ -98,7 +98,7 @@ class SolrSearchFacetTableTest_GroupByElementSet
         $itemTypeMetadataFacet2->save();
 
         // Get the facet groups.
-        $groups = $this->facetTable->getFacetsGroupedBySet();
+        $groups = $this->facetTable->groupByElementSet();
 
         // Should group Omeka category facets:
 
