@@ -48,7 +48,7 @@ class SolrSearchPluginTest_HookInstall extends SolrSearch_Test_AppTestCase
     public function testAddElementFacets()
     {
 
-        foreach ($this->elementSetTable->findAll() as $element) {
+        foreach ($this->elementTable->findAll() as $element) {
 
             // Try to find a facet.
             $facet = $this->_getFacetByElement($element);

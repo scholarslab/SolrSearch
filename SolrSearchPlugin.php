@@ -44,7 +44,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookInstall()
     {
         self::_createSolrTable();
-        self::_addFacetMappings();
+        self::_installFacetMappings();
         self::_setOptions();
     }
 
@@ -255,54 +255,65 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
 
     /**
+     * Install the facets table.
+     */
+    protected function _createSolrTable()
+    {
+        $this->_db->query(<<<SQL
+
+        CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_facets (
+
+            id              int(10) unsigned NOT NULL auto_increment,
+            element_id      int(10) unsigned,
+            name            tinytext collate utf8_unicode_ci NOT NULL,
+            label           tinytext collate utf8_unicode_ci NOT NULL,
+            is_displayed    tinyint unsigned DEFAULT 0,
+            is_facet        tinyint unsigned DEFAULT 0,
+
+            PRIMARY KEY (id)
+
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+SQL
+);
+    }
+
+
+    /**
      * Install the default facet mappings.
      */
-    protected function _addFacetMappings()
+    protected function _installFacetMappings()
     {
 
-        $tag = new SolrSearchFacet();
-        $tag->name                  = 'tag';
-        $tag->label                 = __('Tag');
-        $tag->is_displayed          = 1;
-        $tag->is_facet              = 1;
-        $tag->save();
+        // Generic facets:
+        $this->_installGenericFacet('tag', __('Tag'));
+        $this->_installGenericFacet('collection', __('Collection'));
+        $this->_installGenericFacet('itemtype', __('Item Type'));
+        $this->_installGenericFacet('resulttype', __('Result Type'));
 
-        $collection = new SolrSearchFacet();
-        $collection->name           = 'collection';
-        $collection->label          = __('Collection');
-        $collection->is_displayed   = 1;
-        $collection->is_facet       = 1;
-        $collection->save();
-
-        $itemType = new SolrSearchFacet();
-        $itemType->name             = 'itemtype';
-        $itemType->label            = __('Item Type');
-        $itemType->is_displayed     = 1;
-        $itemType->is_facet         = 1;
-        $itemType->save();
-
-        $resultType = new SolrSearchFacet();
-        $resultType->name           = 'resulttype';
-        $resultType->label          = __('Result Type');
-        $resultType->is_displayed   = 1;
-        $resultType->is_facet       = 1;
-        $resultType->save();
-
+        // Element-backed facets:
         foreach ($this->_db->getTable('Element')->findAll() as $element) {
-
             $facet = new SolrSearchFacet($element);
-            $facet->is_facet = 0;
-
-            // By default, make "Title" and "Decription" elements searchable.
-
-            $facet->is_displayed =
-                in_array($element->name, array('Title', 'Description')) ?
-                1 : 0;
-
             $facet->save();
-
         }
 
+    }
+
+
+    /**
+     * Install the default facet mappings.
+     *
+     * @param string $name The facet `name`.
+     * @param string $label The facet `label`.
+     */
+    protected function _installGenericFacet($name, $label)
+    {
+        $facet = new SolrSearchFacet();
+        $facet->name            = $name;
+        $facet->label           = $label;
+        $facet->is_displayed    = 1;
+        $facet->is_facet        = 1;
+        $facet->save();
     }
 
 
@@ -337,31 +348,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         delete_option('solr_search_snippets');
         delete_option('solr_search_fragsize');
         delete_option('solr_search_facet_sort');
-    }
-
-
-    /**
-     * Install the facets table.
-     */
-    protected function _createSolrTable()
-    {
-        $this->_db->query(<<<SQL
-
-        CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_facets (
-
-            id              int(10) unsigned NOT NULL auto_increment,
-            element_id      int(10) unsigned,
-            name            tinytext collate utf8_unicode_ci NOT NULL,
-            label           tinytext collate utf8_unicode_ci NOT NULL,
-            is_displayed    tinyint unsigned DEFAULT 0,
-            is_facet        tinyint unsigned DEFAULT 0,
-
-            PRIMARY KEY (id)
-
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-SQL
-);
     }
 
 

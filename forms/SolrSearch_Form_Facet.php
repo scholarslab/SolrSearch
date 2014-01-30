@@ -28,7 +28,7 @@ class SolrSearch_Form_Facet extends Omeka_Form
 
         $g = 0;
         $n = 1000;
-        $groups = $_facetsTable->groupByElementSet();
+        $groups = $_facetsTable->getFacetsGroupedBySet();
         foreach ($groups as $title => $facets) {
 
             // Sub-form for group:
