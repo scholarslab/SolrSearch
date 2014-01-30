@@ -59,11 +59,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_db->query($sql);
 
         try {
-            $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
-                get_option('solr_search_port'),
-                get_option('solr_search_core')
-            );
+            $solr = SolrSearch_Helpers_Index::connect();
             $solr->deleteByQuery('*:*');
             $solr->commit();
             $solr->optimize();
@@ -111,11 +107,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $doc = $mgr->indexRecord($record);
 
         if (!is_null($doc)) {
-            $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
-                get_option('solr_search_port'),
-                get_option('solr_search_core')
-            );
+            $solr = SolrSearch_Helpers_Index::connect();
             $solr->addDocuments(array($doc));
             $solr->commit();
             $solr->optimize();
@@ -134,11 +126,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         SolrSearch_Utils::ensureView();
 
         $item = $args['record'];
-        $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
-            get_option('solr_search_port'),
-            get_option('solr_search_core')
-        );
+        $solr = SolrSearch_Helpers_Index::connect();
 
         if ($item['public'] == true) {
             $docs = array();
@@ -169,11 +157,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $id = $mgr->getId($record);
 
         if (!is_null($id)) {
-            $solr = new Apache_Solr_Service(
-                get_option('solr_search_server'),
-                get_option('solr_search_port'),
-                get_option('solr_search_core')
-            );
+            $solr = SolrSearch_Helpers_Index::connect();
             try {
                 $solr->deleteById($id);
                 $solr->commit();
@@ -191,11 +175,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookBeforeDeleteItem($args)
     {
         $item = $args['record'];
-        $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
-            get_option('solr_search_port'),
-            get_option('solr_search_core')
-        );
+        $solr = SolrSearch_Helpers_Index::connect();
 
         try {
             $solr->deleteById('Item_' . $item['id']);

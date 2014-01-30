@@ -14,6 +14,33 @@ class SolrSearch_Helpers_Index
 {
 
     /**
+     * Connect to Solr.
+     *
+     * @param array $options An array of connection parameters.
+     *
+     * @return Apache_Solr_Service
+     * @author David McClure <david.mcclure@virginia.edu>
+     **/
+    public static function connect($options=array())
+    {
+
+        $server = array_key_exists('solr_search_server', $options)
+            ? $options['solr_search_server']
+            : get_option('solr_search_server');
+
+        $port = array_key_exists('solr_search_port', $options)
+            ? $options['solr_search_port']
+            : get_option('solr_search_port');
+
+        $core = array_key_exists('solr_search_core', $options)
+            ? $options['solr_search_core']
+            : get_option('solr_search_core');
+
+        return new Apache_Solr_Service($server, $port, $core);
+
+    }
+
+    /**
      * This takes an Omeka_Record instance and returns a populated 
      * Apache_Solr_Document.
      *
@@ -216,17 +243,7 @@ class SolrSearch_Helpers_Index
      */
     public static function pingSolrServer($options=array())
     {
-        $server = array_key_exists('solr_search_server', $options)
-            ? $options['solr_search_server']
-            : get_option('solr_search_server');
-        $port   = array_key_exists('solr_search_port', $options)
-            ? $options['solr_search_port']
-            : get_option('solr_search_port');
-        $core   = array_key_exists('solr_search_core', $options)
-            ? $options['solr_search_core']
-            : get_option('solr_search_core');
-        $solr   = new Apache_Solr_Service($server, $port, $core);
-        return $solr->ping();
+        return self::connect($options)->ping();
     }
 
 
@@ -241,20 +258,13 @@ class SolrSearch_Helpers_Index
      **/
     public static function deleteAll($options=array())
     {
-        $server = array_key_exists('solr_search_server', $options)
-            ? $options['solr_search_server']
-            : get_option('solr_search_server');
-        $port   = array_key_exists('solr_search_port', $options)
-            ? $options['solr_search_port']
-            : get_option('solr_search_port');
-        $core   = array_key_exists('solr_search_core', $options)
-            ? $options['solr_search_core']
-            : get_option('solr_search_core');
-        $solr = new Apache_Solr_Service($server, $port, $core);
+
+        $solr = self::connect($options);
 
         $solr->deleteByQuery('*:*');
         $solr->commit();
         $solr->optimize();
+
     }
 
     /**
@@ -265,16 +275,8 @@ class SolrSearch_Helpers_Index
      **/
     public static function indexAll($options=array())
     {
-        $server = array_key_exists('solr_search_server', $options)
-            ? $options['solr_search_server']
-            : get_option('solr_search_server');
-        $port   = array_key_exists('solr_search_port', $options)
-            ? $options['solr_search_port']
-            : get_option('solr_search_port');
-        $core   = array_key_exists('solr_search_core', $options)
-            ? $options['solr_search_core']
-            : get_option('solr_search_core');
-        $solr   = new Apache_Solr_Service($server, $port, $core);
+
+        $solr = self::connect($options);
 
         $db     = get_db();
         $table  = $db->getTable('Item');
