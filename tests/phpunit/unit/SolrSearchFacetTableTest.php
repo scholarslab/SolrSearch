@@ -14,15 +14,12 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
 {
 
     /**
-     * Empty out the facets table.
-     * TODO: Why is this necessary?
+     * Delete any facet mappings registered when the plugin is installed.
      */
     public function setUp()
     {
         parent::setUp();
-        foreach ($this->facetsTable->findAll() as $facet) {
-            $facet->delete();
-        }
+        $this->_clearFacetMappings();
     }
 
     /**
@@ -31,46 +28,118 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
     public function testGroupByElementSet()
     {
 
-        // Get element and element set.
-        $element = $this->elementTable->find(1);
-        $elementSet = $this->elementSetTable->find(1);
+        // Get the "Dublin Core" element set. 
+        $dublinCore = $this->elementSetTable->findByName(
+            'Dublin Core'
+        );
 
-        // Create facet without element_set_id.
-        $noElementSetFacet = new SolrSearchFacet;
-        $noElementSetFacet->name = 'No Element Set';
-        $noElementSetFacet->label = 'No Element Set';
-        $noElementSetFacet->save();
+        // Get the "Item Type Metadata" element set.
+        $itemTypeMetadata = $this->elementSetTable->findByName(
+            'Item Type Metadata'
+        );
 
-        // Create facets with element_set_id.
-        $elementSetFacet1 = new SolrSearchFacet;
-        $elementSetFacet1->name = 'Element Set 1';
-        $elementSetFacet1->label = 'Element Set 1';
-        $elementSetFacet1->element_id = $element->id;
-        $elementSetFacet1->element_set_id = $elementSet->id;
-        $elementSetFacet1->save();
+        // Get the Dublin Core "Date" field.
+        $date = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Date'
+        );
 
-        $elementSetFacet2 = new SolrSearchFacet;
-        $elementSetFacet2->name = 'Element Set 2';
-        $elementSetFacet2->label = 'Element Set 2';
-        $elementSetFacet2->element_id = $element->id;;
-        $elementSetFacet2->element_set_id = $elementSet->id;
-        $elementSetFacet2->save();
+        // Get the Dublin Core "Coverage" field.
+        $coverage = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Coverage'
+        );
 
+        // Get the Item Type Metadata "To" field.
+        $to = $this->elementTable->findByElementSetNameAndElementName(
+            'Item Type Metadata', 'To'
+        );
+
+        // Get the Item Type Metadata "From" field.
+        $from = $this->elementTable->findByElementSetNameAndElementName(
+            'Item Type Metadata', 'From'
+        );
+
+        $facet1 = new SolrSearchFacet();
+        $facet2 = new SolrSearchFacet();
+        $facet3 = new SolrSearchFacet();
+        $facet4 = new SolrSearchFacet();
+        $facet5 = new SolrSearchFacet();
+        $facet6 = new SolrSearchFacet();
+
+        // Facet with no element:
+        $noElementSetFacet1 = new SolrSearchFacet();
+        $noElementSetFacet1->name   = 'no_element_set_1';
+        $noElementSetFacet1->label  = 'No Element Set 1';
+        $noElementSetFacet1->save();
+
+        // Facet with no element:
+        $noElementSetFacet2 = new SolrSearchFacet();
+        $noElementSetFacet2->name   = 'no_element_set_2';
+        $noElementSetFacet2->label  = 'No Element Set 2';
+        $noElementSetFacet2->save();
+
+        // Facet for Dublin Core element:
+        $dublinCoreFacet1 = new SolrSearchFacet();
+        $dublinCoreFacet1->name             = 'dublin_core_1';
+        $dublinCoreFacet1->label            = 'Dublin Core 1';
+        $dublinCoreFacet1->element_set_id   = $dublinCore->id;
+        $dublinCoreFacet1->element_id       = $date->id;
+        $dublinCoreFacet1->save();
+
+        // Facet for Dublin Core element:
+        $dublinCoreFacet2 = new SolrSearchFacet();
+        $dublinCoreFacet2->name             = 'dublin_core_2';
+        $dublinCoreFacet2->label            = 'Dublin Core 2';
+        $dublinCoreFacet2->element_set_id   = $dublinCore->id;
+        $dublinCoreFacet2->element_id       = $coverage->id;
+        $dublinCoreFacet2->save();
+
+        // Facet for Item Type Metadata element:
+        $itemTypeMetadataFacet1 = new SolrSearchFacet();
+        $itemTypeMetadataFacet1->name           = 'item_type_metadata_1';
+        $itemTypeMetadataFacet1->label          = 'Item Type Metadata 1';
+        $itemTypeMetadataFacet1->element_set_id = $itemTypeMetadata->id;
+        $itemTypeMetadataFacet1->element_id     = $to->id;
+        $itemTypeMetadataFacet1->save();
+
+        // Facet for Item Type Metadata element:
+        $itemTypeMetadataFacet2 = new SolrSearchFacet();
+        $itemTypeMetadataFacet2->name           = 'item_type_metadata_2';
+        $itemTypeMetadataFacet2->label          = 'Item Type Metadata 2';
+        $itemTypeMetadataFacet2->element_set_id = $itemTypeMetadata->id;
+        $itemTypeMetadataFacet2->element_id     = $from->id;
+        $itemTypeMetadataFacet2->save();
+
+        // Get the facet groups.
         $groups = $this->facetsTable->groupByElementSet();
 
         $this->assertEquals(
-            $groups[$elementSet->name][1]->id,
-            $elementSetFacet1->id
+            $noElementSetFacet1->id,
+            $groups['Omeka Categories'][0]['id']
         );
 
         $this->assertEquals(
-            $groups[$elementSet->name][0]->id,
-            $elementSetFacet2->id
+            $noElementSetFacet2->id,
+            $groups['Omeka Categories'][1]['id']
         );
 
         $this->assertEquals(
-            $groups['Omeka Categories'][0]->id,
-            $noElementSetFacet->id
+            $dublinCoreFacet1->id,
+            $groups['Dublin Core'][0]['id']
+        );
+
+        $this->assertEquals(
+            $dublinCoreFacet2->id,
+            $groups['Dublin Core'][1]['id']
+        );
+
+        $this->assertEquals(
+            $itemTypeMetadataFacet1->id,
+            $groups['Item Type Metadata'][0]['id']
+        );
+
+        $this->assertEquals(
+            $itemTypeMetadataFacet2->id,
+            $groups['Item Type Metadata'][1]['id']
         );
 
     }

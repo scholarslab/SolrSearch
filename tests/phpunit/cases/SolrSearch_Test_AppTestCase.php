@@ -194,4 +194,16 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
+    /**
+     * Delete all existing facet mappings.
+     */
+    protected function _clearFacetMappings()
+    {
+        $this->db->query(<<<SQL
+        DELETE FROM {$this->db->prefix}solr_search_facets WHERE 1=1
+SQL
+);
+    }
+
+
 }
