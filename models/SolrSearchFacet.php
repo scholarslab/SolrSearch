@@ -45,6 +45,18 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
 
 
     /**
+     * Set the parent element reference.
+     *
+     * @param Element $element The parent element.
+     */
+    public function __construct($element=null)
+    {
+        parent::__construct();
+        if (!is_null($element)) $this->element_id = $element->id;
+    }
+
+
+    /**
      * Does the facet have a parent element?
      *
      * @return boolean True if an element is defined.
