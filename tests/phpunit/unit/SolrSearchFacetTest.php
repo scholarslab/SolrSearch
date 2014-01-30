@@ -16,7 +16,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
     /**
      * `getElementSet` should return the name of the parent element set.
      */
-    public function testGetElementSetWhenOneExists()
+    public function testParentElement()
     {
         // TODO
     }
@@ -24,7 +24,7 @@ class SolrSearch_SolrSearchFacetTest extends SolrSearch_Test_AppTestCase
     /**
      * `getElementSet` should return NULL when no element is defined.
      */
-    public function testGetElementSetWhenNoneExists()
+    public function testNoParentElement()
     {
         // TODO
     }
