@@ -234,7 +234,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $facet = new SolrSearchFacet();
             $facet->name            = "{$element->id}_s";
             $facet->label           = $element->name;
-            $facet->element_set_id  = $element->element_set_id;
             $facet->element_id      = $element->id;
             $facet->is_facet        = 0;
 
@@ -286,9 +285,8 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             element_id      int(10) unsigned,
             name            tinytext collate utf8_unicode_ci NOT NULL,
             label           tinytext collate utf8_unicode_ci NOT NULL,
-            element_set_id  int(10) unsigned,
-            is_facet        tinyint unsigned DEFAULT 0,
             is_displayed    tinyint unsigned DEFAULT 0,
+            is_facet        tinyint unsigned DEFAULT 0,
 
             PRIMARY KEY (id)
 

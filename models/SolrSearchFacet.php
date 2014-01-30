@@ -19,32 +19,40 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
      */
     public $element_id;
 
+
     /**
      * The name of the element [string].
      */
     public $name;
 
+
     /**
      * The label of the element.
-     *
-     * @var string
      **/
     public $label;
 
+
     /**
-     * The id of the parent element set [integer].
+     * Displayed status [boolean/tinyint].
      */
-    public $element_set_id;
+    public $is_displayed;
+
 
     /**
      * Facet status [boolean/tinyint].
      */
     public $is_facet;
 
+
     /**
-     * Displayed status [boolean/tinyint].
+     * Does the facet have a parent element?
+     *
+     * @return boolean True if an element is defined.
      */
-    public $is_displayed;
+    public function hasElement()
+    {
+        return !is_null($this->element_id);
+    }
 
 
     /**
@@ -54,7 +62,8 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
      */
     public function getElement()
     {
-        return $this->getTable('Element')->find($this->element_id);
+        if (!$this->hasElement()) return null;
+        else return $this->getTable('Element')->find($this->element_id);
     }
 
 
@@ -65,15 +74,15 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
      */
     public function getElementSet()
     {
-        $element = $this->getElement();
-        if ($element) return $element->getElementSet();
+        if (!$this->hasElement()) return null;
+        else return $this->getElement()->getElementSet();
     }
+
 
     /**
      * This returns the original value for this facet, if it can be determined.
      *
      * @return string|null
-     * @author Eric Rochester <erochest@virginia.edu>
      **/
     public function getOriginalValue()
     {
@@ -88,5 +97,6 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
 
         }
     }
+
 
 }
