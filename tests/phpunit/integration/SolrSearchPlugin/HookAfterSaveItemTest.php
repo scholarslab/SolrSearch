@@ -19,7 +19,21 @@ class SolrSearchPluginTest_HookAfterSaveItem
      */
     public function testIndexNewPublicItem()
     {
-        // TODO
+
+        // Connect to Solr, insert public item.
+        $solr = SolrSearch_Helpers_Index::connect();
+        $item = insert_item(array('public' => true));
+
+        // Get a Solr document for the item.
+        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
+        $id = $doc->getField('id');
+
+        // Query for the document.
+        $result = $solr->search("id:{$id['value']}");
+
+        // Should add a Solr document.
+        $this->assertEquals(1, $result->response->numFound);
+
     }
 
 
@@ -29,7 +43,24 @@ class SolrSearchPluginTest_HookAfterSaveItem
      */
     public function testIndexItemWhenSetPublic()
     {
-        // TODO
+
+        // Connect to Solr, insert private item.
+        $solr = SolrSearch_Helpers_Index::connect();
+        $item = insert_item(array('public' => false));
+
+        // Set the item public.
+        update_item($item, array('public' => true));
+
+        // Get a Solr document for the item.
+        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
+        $id = $doc->getField('id');
+
+        // Query for the document.
+        $result = $solr->search("id:{$id['value']}");
+
+        // Should add a Solr document.
+        $this->assertEquals(1, $result->response->numFound);
+
     }
 
 
@@ -38,7 +69,21 @@ class SolrSearchPluginTest_HookAfterSaveItem
      */
     public function testDontIndexNewPrivateItem()
     {
-        // TODO
+
+        // Connect to Solr, insert private item.
+        $solr = SolrSearch_Helpers_Index::connect();
+        $item = insert_item(array('public' => false));
+
+        // Get a Solr document for the item.
+        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
+        $id = $doc->getField('id');
+
+        // Query for the document.
+        $result = $solr->search("id:{$id['value']}");
+
+        // Should _not_ add a Solr document.
+        $this->assertEquals(0, $result->response->numFound);
+
     }
 
 
@@ -48,7 +93,24 @@ class SolrSearchPluginTest_HookAfterSaveItem
      */
     public function testRemoveItemWhenSetPrivate()
     {
-        // TODO
+
+        // Connect to Solr, insert public item.
+        $solr = SolrSearch_Helpers_Index::connect();
+        $item = insert_item(array('public' => true));
+
+        // Set the item private.
+        update_item($item, array('public' => false));
+
+        // Get a Solr document for the item.
+        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
+        $id = $doc->getField('id');
+
+        // Query for the document.
+        $result = $solr->search("id:{$id['value']}");
+
+        // Should add a Solr document.
+        $this->assertEquals(0, $result->response->numFound);
+
     }
 
 

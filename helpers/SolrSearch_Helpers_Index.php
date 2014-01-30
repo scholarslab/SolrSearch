@@ -52,6 +52,7 @@ class SolrSearch_Helpers_Index
      **/
     public static function itemToDocument($db, $item)
     {
+    
         $doc = new Apache_Solr_Document();
         $doc->id = "Item_{$item['id']}";
         $doc->setField('model', 'Item');

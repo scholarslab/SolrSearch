@@ -194,18 +194,19 @@ class SolrSearch_ResultsController
      */
     private function _search($facets, $offset=0, $limit=10)
     {
-        $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
-            get_option('solr_search_port'),
-            get_option('solr_search_core')
-        );
 
+        // Connec to Solr.
+        $solr = SolrSearch_Helpers_Index::connect();
+
+        // Form the query.
         $query = SolrSearch_Helpers_Query::createQuery(
             SolrSearch_Helpers_Query::getParams()
         );
 
+        // Get the parameters.
         $params = $this->_getSearchParameters($facets);
 
+        // Execute the query.
         $results = $solr->search($query, $offset, $limit, $params);
 
         return $results;
