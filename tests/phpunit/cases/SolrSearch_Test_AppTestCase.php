@@ -154,8 +154,8 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     /**
      * Create an item.
      *
-     * @param string $title     The Dublin Core "Title".
-     * @param string $subject   The Dublin Core "Subject".
+     * @param string $title The Dublin Core "Title".
+     * @param string $subject The Dublin Core "Subject".
      */
     protected function _item($title=null, $subject=null)
     {

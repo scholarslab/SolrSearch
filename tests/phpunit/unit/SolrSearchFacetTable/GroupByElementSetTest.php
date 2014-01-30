@@ -10,7 +10,8 @@
  */
 
 
-class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
+class SolrSearchFacetTableTest_GroupByElementSet
+    extends SolrSearch_Test_AppTestCase
 {
 
     /**
