@@ -58,13 +58,6 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
             'Item Type Metadata', 'From'
         );
 
-        $facet1 = new SolrSearchFacet();
-        $facet2 = new SolrSearchFacet();
-        $facet3 = new SolrSearchFacet();
-        $facet4 = new SolrSearchFacet();
-        $facet5 = new SolrSearchFacet();
-        $facet6 = new SolrSearchFacet();
-
         // Facet with no element:
         $noElementSetFacet1 = new SolrSearchFacet();
         $noElementSetFacet1->name   = 'no_element_set_1';
@@ -108,7 +101,7 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         // Get the facet groups.
         $groups = $this->facetTable->groupByElementSet();
 
-        // Should group element-unaffiliated facets:
+        // Should group Omeka category facets:
 
         $this->assertEquals(
             $noElementSetFacet1->id,
