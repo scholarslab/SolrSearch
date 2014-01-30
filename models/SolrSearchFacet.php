@@ -106,6 +106,18 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
 
 
     /**
+     * Get the name of the parent element set.
+     *
+     * @return string The element set name.
+     */
+    public function getElementSetName()
+    {
+        if (!$this->hasElement()) return __('Omeka Categories');
+        else return $this->getElementSet()->name;
+    }
+
+
+    /**
      * Return the original label for this facet, if it can be determined.
      *
      * @return string|null

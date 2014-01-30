@@ -27,9 +27,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
         foreach ($this->findAll() as $facet) {
 
             // Get element set name.
-            $set = $facet->hasElement() ?
-                $facet->getElementSet()->name :
-                __('Omeka Categories');
+            $set = $facet->getElementSetName();
 
             // Add the facet to its element set group (or create it).
             if (array_key_exists($set, $groups)) $groups[$set][] = $facet;
