@@ -214,7 +214,7 @@ class SolrSearch_Helpers_Index
      * @return bool
      * @author Eric Rochester <erochest@virginia.edu>
      */
-    public static function pingSolrServer($options)
+    public static function pingSolrServer($options=array())
     {
         $server = array_key_exists('solr_search_server', $options)
             ? $options['solr_search_server']
@@ -239,7 +239,7 @@ class SolrSearch_Helpers_Index
      * @return void
      * @author Eric Rochester
      **/
-    public static function deleteAll($options)
+    public static function deleteAll($options=array())
     {
         $server = array_key_exists('solr_search_server', $options)
             ? $options['solr_search_server']
@@ -263,7 +263,7 @@ class SolrSearch_Helpers_Index
      * @return void
      * @author Eric Rochester
      **/
-    public static function indexAll($options)
+    public static function indexAll($options=array())
     {
         $server = array_key_exists('solr_search_server', $options)
             ? $options['solr_search_server']

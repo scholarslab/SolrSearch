@@ -148,8 +148,8 @@ class SolrSearch_AdminController
             try {
 
                 // Clear and reindex.
-                SolrSearch_Helpers_Index::deleteAll(array());
-                SolrSearch_Helpers_Index::indexAll(array());
+                SolrSearch_Helpers_Index::deleteAll();
+                SolrSearch_Helpers_Index::indexAll();
 
                 // Flash success.
                 $this->_helper->flashMessenger(
