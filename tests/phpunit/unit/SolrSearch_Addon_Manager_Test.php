@@ -18,7 +18,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         parent::setUp();
         $this->_installPluginOrSkip('ExhibitBuilder');
         $this->_installPluginOrSkip('SimplePages');
-        $this->_loadModels();
+        $this->_loadExhibits();
     }
 
     public function testAddonDir()

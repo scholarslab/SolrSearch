@@ -135,7 +135,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     /**
      * Install Exhibit Buidler fixtures.
      */
-    protected function _loadModels()
+    protected function _loadExhibits()
     {
 
         // Parse the JSON file.
