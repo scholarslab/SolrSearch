@@ -10,19 +10,15 @@
  */
 
 
-class SolrSearchFacetTest_GetElementSet extends SolrSearch_Test_AppTestCase
+class SolrSearchFacetTest_GetElement extends SolrSearch_Test_AppTestCase
 {
 
 
     /**
-     * `getElementSet` should return the parent element set.
+     * `getElement` should return the parent element.
      */
     public function testParentElement()
     {
-
-        $dublinCore = $this->elementSetTable->findByName(
-            'Dublin Core'
-        );
 
         $title = $this->elementTable->findByElementSetNameAndElementName(
             'Dublin Core', 'Title'
@@ -30,14 +26,14 @@ class SolrSearchFacetTest_GetElementSet extends SolrSearch_Test_AppTestCase
 
         $facet = new SolrSearchFacet($title);
 
-        // Should return the parent element set.
-        $this->assertEquals($dublinCore->id, $facet->getElementSet()->id);
+        // Should return the parent element.
+        $this->assertEquals($title->id, $facet->getElement()->id);
 
     }
 
 
     /**
-     * `getElementSet` should return NULL when no element is defined.
+     * `getElement` should return NULL when no element is defined.
      */
     public function testNoParentElement()
     {
