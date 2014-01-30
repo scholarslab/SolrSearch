@@ -32,11 +32,11 @@ class SolrSearchFacetTable extends Omeka_Db_Table
                 $facet->getElementSet()->name :
                 __('Omeka Categories');
 
-            // If the key exists, push.
             if (array_key_exists($setName, $groups)) {
+                // If the key already exists, push.
                 array_push($groups[$setName], $facet);
             } else {
-                // If not, create and push.
+                // Otherwise, create the key.
                 $groups[$setName] = array($facet);
             }
 

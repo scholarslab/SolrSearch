@@ -231,10 +231,9 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         foreach ($this->_db->getTable('Element')->findAll() as $element) {
 
-            $facet = new SolrSearchFacet();
+            $facet = new SolrSearchFacet($element);
             $facet->name            = "{$element->id}_s";
             $facet->label           = $element->name;
-            $facet->element_id      = $element->id;
             $facet->is_facet        = 0;
 
             // By default, make "Title" and "Decription" elements searchable.
