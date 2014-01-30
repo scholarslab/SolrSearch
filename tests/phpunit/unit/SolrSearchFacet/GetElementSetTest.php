@@ -13,6 +13,7 @@
 class SolrSearchFacetTest_GetElementSet extends SolrSearch_Test_AppTestCase
 {
 
+
     /**
      * `getElementSet` should return the name of the parent element set.
      */
@@ -21,6 +22,7 @@ class SolrSearchFacetTest_GetElementSet extends SolrSearch_Test_AppTestCase
         // TODO
     }
 
+
     /**
      * `getElementSet` should return NULL when no element is defined.
      */
@@ -28,5 +30,6 @@ class SolrSearchFacetTest_GetElementSet extends SolrSearch_Test_AppTestCase
     {
         // TODO
     }
+
 
 }

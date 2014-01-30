@@ -14,6 +14,7 @@ class SolrSearchFacetTableTest_GroupByElementSet
     extends SolrSearch_Test_AppTestCase
 {
 
+
     /**
      * Delete any facet mappings registered when the plugin is installed.
      */
@@ -22,6 +23,7 @@ class SolrSearchFacetTableTest_GroupByElementSet
         parent::setUp();
         $this->_clearFacetMappings();
     }
+
 
     /**
      * `groupByElementSet` should return the facets grouped by element set.
@@ -135,5 +137,6 @@ class SolrSearchFacetTableTest_GroupByElementSet
         );
 
     }
+
 
 }

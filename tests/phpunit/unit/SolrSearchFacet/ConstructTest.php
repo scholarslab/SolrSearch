@@ -13,8 +13,10 @@
 class SolrSearchFacetTest_Construct extends SolrSearch_Test_AppTestCase
 {
 
+
     /**
-     * `__construct` should set the parent element, if one is provided.
+     * If a parent element is passed, `__construct` set the element reference
+     * and the name/label fields.
      */
     public function testElementPassed()
     {
@@ -25,17 +27,28 @@ class SolrSearchFacetTest_Construct extends SolrSearch_Test_AppTestCase
 
         $facet = new SolrSearchFacet($title);
 
-        // Should set `element_id`.
+        // Should set `element_id`, `name`, and `label`.
         $this->assertEquals($title->id, $facet->element_id);
+        $this->assertEquals("{$title->id}_s", $facet->name);
+        $this->assertEquals('Title', $facet->label);
 
     }
 
+
     /**
-     * The `element_id` field should be left blank if no element is passed.
+     * The element-derived fields should be empty if no element is passed.
      */
     public function testNoElementPassed()
     {
-        // TODO
+
+        $facet = new SolrSearchFacet();
+
+        // Should not set `element_id`, `name`, or `label`.
+        $this->assertNull($facet->element_id);
+        $this->assertNull($facet->name);
+        $this->assertNull($facet->label);
+
     }
+
 
 }

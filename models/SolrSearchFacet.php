@@ -51,8 +51,22 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
      */
     public function __construct($element=null)
     {
+
         parent::__construct();
-        if (!is_null($element)) $this->element_id = $element->id;
+
+        if (!is_null($element)) {
+
+            // Element reference.
+            $this->element_id = $element->id;
+
+            // Element identifier.
+            $this->name = "{$element->id}_s";
+
+            // Pubilc-facing label.
+            $this->label = $element->name;
+
+        }
+
     }
 
 
