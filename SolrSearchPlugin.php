@@ -43,6 +43,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookUninstall()
     {
+
         $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
         $this->_db->query($sql);
 
@@ -59,7 +60,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         self::_deleteOptions();
-        self::_deleteAcl();
+
     }
 
     public function hookInitialize()
@@ -237,9 +238,9 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $facet->element_id      = $element->id;
             $facet->is_facet        = 0;
 
-            $facet->is_displayed =
+            // By default, make "Title" and "Decription" elements searchable.
 
-                // DC "Title" and "Description" should be searchable.
+            $facet->is_displayed =
                 in_array($element->name, array('Title', 'Description')) ?
                 1 : 0;
 
@@ -273,13 +274,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         delete_option('solr_search_snippets');
         delete_option('solr_search_fragsize');
         delete_option('solr_search_facet_sort');
-    }
-
-    protected function _deleteAcl()
-    {
-        $acl = Zend_Registry::get('bootstrap')->getResource('Acl');;
-        if (!$acl) throw new RuntimeException(__('ACL not available'));
-        $acl->remove('SolrSearch_Config');
     }
 
     protected function _createSolrTable()
