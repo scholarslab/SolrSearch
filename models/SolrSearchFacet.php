@@ -80,11 +80,11 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
 
 
     /**
-     * This returns the original value for this facet, if it can be determined.
+     * Return the original label for this facet, if it can be determined.
      *
      * @return string|null
      **/
-    public function getOriginalValue()
+    public function getOriginalLabel()
     {
         switch ($this->name) {
 

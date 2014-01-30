@@ -54,7 +54,7 @@ class SolrSearch_Form_Facet extends Omeka_Form
 
                 $ssf->addElement('text', 'label', array(
                     'value'    => $facet->label,
-                    'revertto' => $facet->getOriginalValue()
+                    'revertto' => $facet->getOriginalLabel()
                 ));
 
                 $ssf->addElement('MultiCheckbox', 'options', array(
