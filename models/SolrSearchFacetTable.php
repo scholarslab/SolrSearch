@@ -65,15 +65,25 @@ class SolrSearchFacetTable extends Omeka_Db_Table
     /**
      * Flag a metadata element to be indexed in Solr.
      *
-     * @return string $set The element set name.
-     * @return string $element The element name.
+     * @return string $setName The element set name.
+     * @return string $elementName The element name.
      */
-    public function setElementSearchable($set, $element)
+    public function setElementSearchable($elementSetName, $elementName)
     {
-        // TODO
-        // get element
-        // get facet by element
-        // update
+
+        // Get the element table.
+        $elementTable = $this->getTable('Element');
+
+        // Get the parent element.
+        $element = $elementTable->findByElementSetNameAndElementName(
+            $elementSetName, $elementName
+        );
+
+        // Get the facet, set searchable.
+        $facet = $this->findByElement($element);
+        $facet->is_displayed = 1;
+        $facet->save();
+
     }
 
 

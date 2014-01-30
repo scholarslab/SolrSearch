@@ -285,6 +285,9 @@ SQL
     protected function _installFacetMappings()
     {
 
+        $facets    = $this->_db->getTable('SolrSearchFacet');
+        $elements  = $this->_db->getTable('Element');
+
         // Generic facets:
         $this->_installGenericFacet('tag', __('Tag'));
         $this->_installGenericFacet('collection', __('Collection'));
@@ -292,10 +295,14 @@ SQL
         $this->_installGenericFacet('resulttype', __('Result Type'));
 
         // Element-backed facets:
-        foreach ($this->_db->getTable('Element')->findAll() as $element) {
+        foreach ($elements->findAll() as $element) {
             $facet = new SolrSearchFacet($element);
             $facet->save();
         }
+
+        // By default, index DC Title/Description.
+        $facets->setElementSearchable('Dublin Core', 'Title');
+        $facets->setElementSearchable('Dublin Core', 'Description');
 
     }
 
