@@ -22,11 +22,9 @@ class SolrSearchFacetTable extends Omeka_Db_Table
     public function groupByElementSet()
     {
 
-        // Get all facets.
         $facets = $this->findAll();
-        $facetGroups = array();
+        $groups = array();
 
-        // Group by element set.
         foreach ($facets as $facet) {
 
             // Get element set name.
@@ -35,16 +33,16 @@ class SolrSearchFacetTable extends Omeka_Db_Table
                 __('Omeka Categories');
 
             // If the key exists, push.
-            if (array_key_exists($setName, $facetGroups)) {
-                array_push($facetGroups[$setName], $facet);
+            if (array_key_exists($setName, $groups)) {
+                array_push($groups[$setName], $facet);
             } else {
                 // If not, create and push.
-                $facetGroups[$setName] = array($facet);
+                $groups[$setName] = array($facet);
             }
 
         }
 
-        return $facetGroups;
+        return $groups;
 
     }
 

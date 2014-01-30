@@ -48,13 +48,25 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
 
 
     /**
+     * Get the parent element.
+     *
+     * @return Element|null The element.
+     */
+    public function getElement()
+    {
+        return $this->getTable('Element')->find($this->element_id);
+    }
+
+
+    /**
      * Get the parent element set.
      *
-     * @return Omeka_Record The element set.
+     * @return ElementSet|null The element set.
      */
     public function getElementSet()
     {
-        return $this->getTable('ElementSet')->find($this->element_set_id);
+        $element = $this->getElement();
+        if ($element) return $element->getElementSet();
     }
 
     /**
@@ -65,23 +77,16 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
      **/
     public function getOriginalValue()
     {
-        $original = null;
-
         switch ($this->name) {
-            case 'tag'        : $original = __('Tag');         break;
-            case 'collection' : $original = __('Collection');  break;
-            case 'itemtype'   : $original = __('Item Type');   break;
-            case 'resulttype' : $original = __('Result Type'); break;
 
-            default:
-                $etable   = $this->getTable('Element');
-                $e        = $etable->find($this->element_id);
-                $original = $e->name;
-                // code...
-                break;
+            case 'tag':         return __('Tag');
+            case 'collection':  return __('Collection');
+            case 'itemtype':    return __('Item Type');
+            case 'resulttype':  return __('Result Type');
+
+            default: return $this->getElement()->name;
+
         }
-
-        return $original;
     }
 
 }
