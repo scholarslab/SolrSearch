@@ -258,4 +258,3 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
     }
 
 }
-

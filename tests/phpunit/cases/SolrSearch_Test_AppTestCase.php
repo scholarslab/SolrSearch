@@ -63,7 +63,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     protected function _installPluginOrSkip($pluginName)
     {
 
-        // Break if plugin is installed.
+        // Break if plugin is already installed.
         if (plugin_is_active($pluginName)) return;
 
         try {
@@ -77,46 +77,48 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
     /**
      * Create an exhibit with pages and entries.
+     *
+     * @param array $exhibit The raw exhibit fixture array.
      */
     protected function _createExhibit($exhibit)
     {
         $e = new Exhibit();
-        $e->title       = property_exists($exhibit, 'title') ? $exhibit->title : null;
-        $e->description = property_exists($exhibit, 'description') ? $exhibit->description : null;
-        $e->public      = property_exists($exhibit, 'public') ? $exhibit->public : true;
+        $e->title       = array_key_exists('title', $exhibit) ? $exhibit['title'] : null;
+        $e->description = array_key_exists('description', $exhibit) ? $exhibit['description'] : null;
+        $e->public      = array_key_exists('public', $exhibit) ? $exhibit['public'] : true;
         $e->public      = $e->public ? 1 : 0;
         $e->save();
 
-        if (property_exists($exhibit, 'tags')) {
-            $e->addTags($exhibit->tags, $this->user);
+        if (array_key_exists('tags', $exhibit)) {
+            $e->addTags($exhibit['tags'], $this->user);
             $e->save();
         }
 
         $j = 1;
-        foreach ($exhibit->pages as $page) {
+        foreach ($exhibit['pages'] as $page) {
             $p = new ExhibitPage();
-            $p->title      = property_exists($page, 'title') ? $page->title : null;
+            $p->title      = array_key_exists('title', $page) ? $page['title'] : null;
             $p->slug       = "exhibit-page-$j";
             $p->exhibit_id = $e->id;
             $p->order      = $j;
             $p->layout     = 'horizontal';
             $p->save();
 
-            $entries = property_exists($page, 'entries') ? $page->entries : array();
+            $entries = array_key_exists('entries', $page) ? $page['entries'] : array();
             $k = 1;
             foreach ($entries as $entry) {
 
                 $item = $this->_item(
-                    property_exists($entry, 'title') ? $entry->title : null,
-                    property_exists($entry, 'subject') ? $entry->subject : null
+                    array_key_exists('title', $entry) ? $entry['title'] : null,
+                    array_key_exists('subject', $entry) ? $entry['subject'] : null
                 );
 
                 $pe = new ExhibitPageEntry();
                 $pe->item_id = $item->id;
                 $pe->page_id = $p->id;
                 $pe->order   = $k;
-                $pe->text    = property_exists($entry, 'text') ? $entry->text : null;
-                $pe->caption = property_exists($entry, 'caption') ? $entry->caption : null;
+                $pe->text    = array_key_exists('text', $entry) ? $entry['text'] : null;
+                $pe->caption = array_key_exists('caption', $entry) ? $entry['caption'] : null;
                 $pe->save();
 
                 $k++;
@@ -126,6 +128,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         }
 
         return $e;
+
     }
 
 
@@ -134,12 +137,17 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      */
     protected function _loadModels()
     {
-        $filename = SOLR_TEST_DIR . '/fixtures/exhibits.json';
-        $exhibits = json_decode(file_get_contents($filename));
 
-        foreach ($exhibits as $exhibit) {
+        // Parse the JSON file.
+        $fixture = Zend_Json::decode(file_get_contents(
+            SOLR_TEST_DIR . '/fixtures/exhibits.json'
+        ));
+
+        // Install each of the exhibits.
+        foreach ($fixture['exhibits'] as $exhibit) {
             $this->_createExhibit($exhibit);
         }
+
     }
 
 

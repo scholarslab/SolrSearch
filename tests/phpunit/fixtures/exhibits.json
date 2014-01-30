@@ -1,31 +1,38 @@
-[
-    {
-        "title": "Test Exhibit",
-        "description": "Like Alice in Wonderland",
-        "public": true,
-        "tags": ["test", "exhibit", "tagged"],
-        "pages": [
-            {
-                "title": "White Rabbit",
-                "entries": [
-                ]
-            },
-            {
-                "title": "Dormouse",
-                "entries": [
-                    { "title": "Dormouse", "subject": "Sleepy", "text": "Yawwwn" },
-                    { "title": "Country Mouse", "subject": "Bumpkin", "text": "Traveling far and wide" }
-                ]
-            }
-        ]
-    },
-    {
-        "title": "Private Exhibit",
-        "description": "Down the Rabbit Hole",
-        "public": false,
-        "pages": [
-            { "title": "Earthworms" },
-            { "title": "Centipedes" }
-        ]
-    }
-]
+{
+
+    "exhibits": [
+
+        {
+            "title": "Test Exhibit",
+            "description": "Like Alice in Wonderland",
+            "public": true,
+            "tags": ["test", "exhibit", "tagged"],
+            "pages": [
+                {
+                    "title": "White Rabbit",
+                    "entries": [
+                    ]
+                },
+                {
+                    "title": "Dormouse",
+                    "entries": [
+                        { "title": "Dormouse", "subject": "Sleepy", "text": "Yawwwn" },
+                        { "title": "Country Mouse", "subject": "Bumpkin", "text": "Traveling far and wide" }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "title": "Private Exhibit",
+            "description": "Down the Rabbit Hole",
+            "public": false,
+            "pages": [
+                { "title": "Earthworms" },
+                { "title": "Centipedes" }
+            ]
+        }
+
+    ]
+
+}

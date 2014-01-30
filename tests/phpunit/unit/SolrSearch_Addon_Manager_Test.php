@@ -65,15 +65,14 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $this->assertEquals('pages', $addon->name);
     }
 
-    // TODO: What is the meaning of this test?
-    //public function testReindexAddons()
-    //{
-        //$mgr  = new SolrSearch_Addon_Manager($this->db);
-        //$docs = $mgr->reindexAddons();
+    public function testReindexAddons()
+    {
+        $mgr  = new SolrSearch_Addon_Manager($this->db);
+        $docs = $mgr->reindexAddons();
 
-        //$this->assertCount(4, $docs);
-        //$this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
-    //}
+        $this->assertCount(3, $docs);
+        $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
+    }
 
     private function _testSolrDoc($record, $doc, $public)
     {
