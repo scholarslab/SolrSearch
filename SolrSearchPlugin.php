@@ -200,47 +200,50 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     protected function _addFacetMappings()
     {
 
-        $dc = $this->_db->getTable('ElementSet')->findByName('Dublin Core');
+        $tag = new SolrSearchFacet();
+        $tag->name                  = 'tag';
+        $tag->label                 = __('Tag');
+        $tag->is_displayed          = 1;
+        $tag->is_facet              = 1;
+        $tag->save();
 
-        $defaults = array(
-            'title'       => 1,
-            'description' => 1
-        );
+        $collection = new SolrSearchFacet();
+        $collection->name           = 'collection';
+        $collection->label          = __('Collection');
+        $collection->is_displayed   = 1;
+        $collection->is_facet       = 1;
+        $collection->save();
 
-        // Prepare the `INSERT` query.
-        $stmt = $this->_db->prepare(<<<SQL
-            INSERT INTO `{$this->_db->prefix}solr_search_facets`
-            (element_id, name, label, element_set_id, is_facet, is_displayed)
-            VALUES (?, ?, ?, ?, ?, ?);
-SQL
-);
+        $itemType = new SolrSearchFacet();
+        $itemType->name             = 'itemtype';
+        $itemType->label            = __('Item Type');
+        $itemType->is_displayed     = 1;
+        $itemType->is_facet         = 1;
+        $itemType->save();
 
-        // Register Omeka categories:
-        $stmt->execute(array(null, 'tag',        __('Tag'),         null, 1, 1));
-        $stmt->execute(array(null, 'collection', __('Collection'),  null, 1, 1));
-        $stmt->execute(array(null, 'itemtype',   __('Item Type'),   null, 1, 1));
-        $stmt->execute(array(null, 'resulttype', __('Result Type'), null, 1, 1));
+        $resultType = new SolrSearchFacet();
+        $resultType->name           = 'resulttype';
+        $resultType->label          = __('Result Type');
+        $resultType->is_displayed   = 1;
+        $resultType->is_facet       = 1;
+        $resultType->save();
 
-        // Register metadata elements:
         foreach ($this->_db->getTable('Element')->findAll() as $element) {
 
-            $v = 0;
-            $eid  = $element['id'];
-            $name = $element['name'];
+            $facet = new SolrSearchFacet();
+            $facet->name            = "{$element->id}_s";
+            $facet->label           = $element->name;
+            $facet->element_set_id  = $element->element_set_id;
+            $facet->element_id      = $element->id;
+            $facet->is_facet        = 0;
 
-            if ($element['element_set_id'] == $dc->id
-                && array_key_exists(strtolower($name), $defaults)) {
-                $v = 1;
-            }
+            $facet->is_displayed =
 
-            $stmt->execute(array(
-                $eid,                       // element_id
-                "{$eid}_s",                 // name
-                $name,                      // label
-                $element['element_set_id'], // element_set_id
-                0,                          // is_facet
-                $v                          // is_displayed
-            ));
+                // DC "Title" and "Description" should be searchable.
+                in_array($element->name, array('Title', 'Description')) ?
+                1 : 0;
+
+            $facet->save();
 
         }
 

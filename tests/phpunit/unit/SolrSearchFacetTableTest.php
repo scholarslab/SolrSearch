@@ -110,7 +110,7 @@ class SolrSearch_SolrSearchFacetTableTest extends SolrSearch_Test_AppTestCase
         $itemTypeMetadataFacet2->save();
 
         // Get the facet groups.
-        $groups = $this->facetsTable->groupByElementSet();
+        $groups = $this->facetTable->groupByElementSet();
 
         // Should group element-unaffiliated facets:
 

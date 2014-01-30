@@ -17,7 +17,7 @@ class SolrSearchPluginTest_HookInstall extends SolrSearch_Test_AppTestCase
      * The `install` hook should add facet mappings for the generic Omeka
      * categories that are unaffiliated with items.
      */
-    public function testAddOmekaCategoriesFacetMappings()
+    public function testAddOmekaCategoriesFacets()
     {
 
         $facets = array(
@@ -29,12 +29,43 @@ class SolrSearchPluginTest_HookInstall extends SolrSearch_Test_AppTestCase
 
         foreach ($facets as $facet) {
 
-            // Should create facets.
+            // Facet should exist.
             $this->assertNotNull($facet);
 
             // Should make viewable / searchable.
             $this->assertEquals(1, $facet->is_displayed);
             $this->assertEquals(1, $facet->is_facet);
+
+        }
+
+    }
+
+
+    /**
+     * The `install` hook should add facet mappings for each of the individual
+     * elements, with "Title" and "Description" displayed by default.
+     */
+    public function testAddElementFacets()
+    {
+
+        foreach ($this->elementSetTable->findAll() as $element) {
+
+            // Try to find a facet.
+            $facet = $this->_getFacetByElement($element);
+
+            // Facet should exist.
+            $this->assertNotNull($facet);
+
+            // Elements should not be used as facets.
+            $this->assertEquals(0, $facet->is_facet);
+
+            // DC "Title" and "Description" should be searchable.
+            if (in_array($element->name, array('Title', 'Description'))) {
+                $this->assertEquals(1, $facet->is_displayed);
+            }
+
+            // But other elements should not be searchable.
+            else $this->assertEquals(0, $facet->is_displayed);
 
         }
 

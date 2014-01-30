@@ -31,9 +31,9 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->helper->setUp('SolrSearch');
 
         // Get tables.
-        $this->facetsTable     = $this->db->getTable('SolrSearchFacet');
-        $this->elementSetTable = $this->db->getTable('ElementSet');
-        $this->elementTable    = $this->db->getTable('Element');
+        $this->facetTable       = $this->db->getTable('SolrSearchFacet');
+        $this->elementSetTable  = $this->db->getTable('ElementSet');
+        $this->elementTable     = $this->db->getTable('Element');
 
         // Apply `solr.ini` values.
         $this->_applyTestingOptions();
@@ -167,6 +167,20 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
+     * Get a facet mapping row by parent element.
+     *
+     * @param Element $element The element.
+     * @return SolrSearchFacet
+     */
+    protected function _getFacetByElement($element)
+    {
+        return $this->facetTable->findBySql(
+            'element_id=?', array($element->id), true
+        );
+    }
+
+
+    /**
      * Get a facet mapping row by name.
      *
      * @param string $name The facet name.
@@ -174,7 +188,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      */
     protected function _getFacetByName($name)
     {
-        return $this->facetsTable->findBySql(
+        return $this->facetTable->findBySql(
             'name=?', array($name), true
         );
     }
