@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearch_AddonConfig_Test extends SolrSearch_Test_AppTestCase
+class SolrSearch_Addon_Config_Test extends SolrSearch_Test_AppTestCase
 {
 
     private static $config_json = <<<'EOF'
