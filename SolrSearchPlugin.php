@@ -210,7 +210,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     {
         if (is_allowed('SolrSearch_Config', 'index')) {
             $nav[] = array(
-                'label' => __('Solr'), 'uri' => url('solr-search')
+                'label' => __('Solr Search'), 'uri' => url('solr-search')
             );
         }
         return $nav;
