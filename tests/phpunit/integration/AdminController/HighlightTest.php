@@ -14,18 +14,6 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
 
 
     /**
-     * Set plugin options.
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        set_option('solr_search_hl', 'true');
-        set_option('solr_search_snippets', '1');
-        set_option('solr_search_fragsize', '250');
-    }
-
-
-    /**
      * HIGHLIGHT should display the hit highlighting form.
      */
     public function testMarkup()
@@ -67,9 +55,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
 
         // Missing snippet count.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'        => 'true',
-            'solr_search_snippets'  => '',
-            'solr_search_fragsize'  => '250'
+            'solr_search_snippets' => ''
         ));
 
         $this->dispatch('solr-search/highlight');
@@ -91,9 +77,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
 
         // Missing snippet count.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'        => 'true',
-            'solr_search_snippets'  => 'invalid',
-            'solr_search_fragsize'  => '250'
+            'solr_search_snippets' => 'invalid',
         ));
 
         $this->dispatch('solr-search/highlight');
@@ -115,9 +99,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
 
         // Missing snippet length.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'        => 'true',
-            'solr_search_snippets'  => '1',
-            'solr_search_fragsize'  => ''
+            'solr_search_fragsize' => ''
         ));
 
         $this->dispatch('solr-search/highlight');
@@ -139,9 +121,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
 
         // Missing snippet length.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'        => 'true',
-            'solr_search_snippets'  => '1',
-            'solr_search_fragsize'  => 'invalid'
+            'solr_search_fragsize' => 'invalid'
         ));
 
         $this->dispatch('solr-search/highlight');
@@ -160,6 +140,10 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
      */
     public function testSuccess()
     {
+
+        set_option('solr_search_hl', 'true');
+        set_option('solr_search_snippets', '1');
+        set_option('solr_search_fragsize', '250');
 
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_hl'        => 'false',
