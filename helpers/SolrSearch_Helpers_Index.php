@@ -255,7 +255,11 @@ class SolrSearch_Helpers_Index
      */
     public static function pingSolrServer($options=array())
     {
-        return self::connect($options)->ping();
+        try {
+            return self::connect($options)->ping();
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
 

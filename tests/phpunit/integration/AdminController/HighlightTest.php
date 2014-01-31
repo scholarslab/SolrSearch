@@ -53,6 +53,8 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
     public function testNoSnippetCount()
     {
 
+        set_option('solr_search_snippets', '1');
+
         // Missing snippet count.
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_snippets' => ''
@@ -75,9 +77,11 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
     public function testInvalidSnippetCount()
     {
 
+        set_option('solr_search_snippets', '1');
+
         // Missing snippet count.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_snippets' => 'invalid',
+            'solr_search_snippets' => 'invalid'
         ));
 
         $this->dispatch('solr-search/highlight');
@@ -96,6 +100,8 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
      */
     public function testNoSnippetLength()
     {
+
+        set_option('solr_search_fragsize', '250');
 
         // Missing snippet length.
         $this->request->setMethod('POST')->setPost(array(
@@ -118,6 +124,8 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
      */
     public function testInvalidSnippetLength()
     {
+
+        set_option('solr_search_fragsize', '250');
 
         // Missing snippet length.
         $this->request->setMethod('POST')->setPost(array(

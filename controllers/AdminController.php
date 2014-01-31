@@ -25,31 +25,27 @@ class SolrSearch_AdminController
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
 
-            $options = $form->getValues();
-
-            // Validate the connection.
-            if (SolrSearch_Helpers_Index::pingSolrServer($options)) {
-
-                // Apply options.
-                foreach ($options as $option => $value) {
-                    set_option($option, $value);
-                }
-
-                // Flash success.
-                $this->_helper->flashMessenger(
-                    __('Settings successfully updated! Be sure to reindex.'),
-                    'success'
-                );
-
+            // Set the options.
+            foreach ($form->getValues() as $option => $value) {
+                set_option($option, $value);
             }
 
-            // Flash failure.
-            else $this->_helper->flashMessenger(
-                __('Cannot connect to Solr with the given configuration.'),
-                'error'
+        }
+
+        // Are the current parameters valid?
+        if (SolrSearch_Helpers_Index::pingSolrServer()) {
+
+            // Notify valid connection.
+            $this->_helper->flashMessenger(
+                __('Solr connection is valid.'), 'success'
             );
 
-        }	
+        }
+
+        // Notify invalid connection.
+        else $this->_helper->flashMessenger(
+            __('Solr connection is invalid.'), 'error'
+        );
 
         $this->view->form = $form;
 
@@ -120,7 +116,7 @@ class SolrSearch_AdminController
         if ($this->_request->isPost() && $form->isValid($_POST)) {
 
             // Set options.
-            $v= $form->getValues();
+            $v = $form->getValues();
             set_option('solr_search_hl',        $v['solr_search_hl']);
             set_option('solr_search_snippets',  $v['solr_search_snippets']);
             set_option('solr_search_fragsize',  $v['solr_search_fragsize']);
