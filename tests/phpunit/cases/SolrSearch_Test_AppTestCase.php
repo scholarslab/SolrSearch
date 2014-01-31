@@ -278,7 +278,7 @@ SQL
     {
         $this->assertXpath(
             "//{$element}[@name='$name']
-              /following-sibling::ul[@class='error']"
+            /following-sibling::ul[@class='error']"
         );
     }
 

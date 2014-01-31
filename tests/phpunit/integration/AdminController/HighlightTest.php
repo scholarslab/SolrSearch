@@ -149,9 +149,9 @@ class AdminControllerTest_Highlight extends SolrSearch_Test_AppTestCase
     public function testSuccess()
     {
 
-        set_option('solr_search_hl', 'true');
-        set_option('solr_search_snippets', '1');
-        set_option('solr_search_fragsize', '250');
+        set_option('solr_search_hl',        'true');
+        set_option('solr_search_snippets',  '1');
+        set_option('solr_search_fragsize',  '250');
 
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_hl'        => 'false',

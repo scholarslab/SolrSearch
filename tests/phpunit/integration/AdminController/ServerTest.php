@@ -211,11 +211,11 @@ class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
     public function testSuccess()
     {
 
-        set_option('solr_search_server', 'server');
-        set_option('solr_search_port', 'port');
-        set_option('solr_search_core', '/core/');
-        set_option('solr_search_facet_sort', 'count');
-        set_option('solr_search_facet_limit', '25');
+        set_option('solr_search_server',        'server');
+        set_option('solr_search_port',          'port');
+        set_option('solr_search_core',          '/core/');
+        set_option('solr_search_facet_sort',    'count');
+        set_option('solr_search_facet_limit',   '25');
 
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_server'        => $this->config->server,
