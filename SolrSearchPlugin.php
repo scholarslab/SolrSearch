@@ -23,8 +23,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'after_save_record',
         'after_save_item',
         'before_delete_record',
-        'before_delete_item',
-        'define_acl'
+        'before_delete_item'
     );
     //}}}
 
@@ -186,21 +185,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
 
     /**
-     * Register the ACL.
-     *
-     * @param array $args With `acl`.
-     */
-    public function hookDefineAcl($args)
-    {
-        $acl = $args['acl'];
-        if (!$acl->has('SolrSearch_Config')) {
-            $acl->addResource('SolrSearch_Config');
-            $acl->allow(null, 'SolrSearch_Config', array('index', 'status'));
-        }
-    }
-
-
-    /**
      * Add a link to the administrative navigation bar.
      *
      * @param string $nav The array of label/URI pairs.
@@ -208,11 +192,9 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function filterAdminNavigationMain($nav)
     {
-        if (is_allowed('SolrSearch_Config', 'index')) {
-            $nav[] = array(
-                'label' => __('Solr Search'), 'uri' => url('solr-search')
-            );
-        }
+        $nav[] = array(
+            'label' => __('Solr Search'), 'uri' => url('solr-search')
+        );
         return $nav;
     }
 

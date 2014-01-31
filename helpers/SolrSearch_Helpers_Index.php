@@ -52,38 +52,49 @@ class SolrSearch_Helpers_Index
      **/
     public static function itemToDocument($db, $item)
     {
-    
+
+        // Create the item document.
         $doc = new Apache_Solr_Document();
         $doc->id = "Item_{$item['id']}";
+        $doc->setMultiValue('resulttype', 'Item');
+        $doc->setField('url', SolrSearch_Helpers_Index::getUri($item));
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item['id']);
-        $doc->setField('url', SolrSearch_Helpers_Index::getUri($item));
 
+        // Get list of indexed elements.
         $indexSet = SolrSearch_Helpers_Index::getIndexSet($db);
 
         $elementTexts = $db
             ->getTable('ElementText')
             ->findBySql('record_id = ?', array($item['id']));
 
+        // Index element texts:
         foreach ($elementTexts as $elementText) {
+
+            // If the element text should be searchable.
             if (array_key_exists($elementText['element_id'], $indexSet)) {
+
+                // Set the text value on the document.
                 $fieldName = $indexSet[$elementText['element_id']];
                 $doc->setMultiValue($fieldName, $elementText['text']);
 
+                // If the title is searchable, set it explicitly.
                 if ($elementText['element_id'] == 50) {
                     $doc->setMultiValue('title', $elementText['text']);
                 }
+
             }
+
         }
 
-        $doc->setMultiValue('resulttype', 'Item');
-
+        // Index tags:
         if (array_key_exists('tag', $indexSet)) {
             foreach ($item->getTags() as $tag) {
                 $doc->setMultiValue('tag', $tag->name);
             }
         }
 
+        // Index collection name:
         if (array_key_exists('collection', $indexSet)
             && $item['collection_id'] > 0
         ) {
@@ -94,7 +105,7 @@ class SolrSearch_Helpers_Index
             $doc->collection = $collectionName;
         }
 
-        // Item Type
+        // Index item type:
         if (array_key_exists('itemtype', $indexSet) && $item['item_type_id'] > 0) {
             $itemType = $db
                 ->getTable('ItemType')
@@ -103,9 +114,10 @@ class SolrSearch_Helpers_Index
             $doc->itemtype = $itemType;
         }
 
-        // Images
-        $files = $item->Files;
-        foreach ((array)$files as $file) {
+        // TODO: What's the purpose of this? Are we just indexing the ids?
+
+        // Index files:
+        foreach ((array) $item->Files as $file) {
             $mimeType = $file->mime_browser;
             if ($file->has_derivative_image == 1) {
                 $doc->setMultiValue('image', $file['id']);
@@ -130,17 +142,18 @@ class SolrSearch_Helpers_Index
         $rc     = get_class($record);
 
         if ($rc === 'SimplePagesPage') {
+
             // TODO: If page is the home page, point to root URL.
             $uri = url($record->slug);
 
         } else if ($rc === 'ExhibitPage') {
+
             $exhibit = $record->getExhibit();
             $exUri   = SolrSearch_Helpers_Index::getSlugUri($exhibit, $action);
             $uri     = "$exUri/$record->slug";
 
         } else if (property_exists($record, 'slug')) {
             $uri = SolrSearch_Helpers_Index::getSlugUri($record, $action);
-
         } else {
             $uri = record_url($record, $action);
         }
@@ -194,9 +207,7 @@ class SolrSearch_Helpers_Index
     {
         $fieldSet = array();
 
-        $facets = $db
-            ->getTable('SolrSearchFacet')
-            ->findAll();
+        $facets = $db->getTable('SolrSearchFacet')->findAll();
 
         foreach ($facets as $facet) {
             if ($facet->is_displayed || $facet->is_facet) {
