@@ -15,16 +15,6 @@ class SolrSearchPluginTest_HookAfterSaveItem
 
 
     /**
-     * Connect to Solr.
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->solr = SolrSearch_Helpers_Index::connect();
-    }
-
-
-    /**
      * Search for an item document in Solr.
      *
      * @param Item $item The Omeka item.
