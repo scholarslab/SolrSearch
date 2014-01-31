@@ -151,12 +151,8 @@ class SolrSearch_ResultsController
     {
         $request = $this->getRequest();
         $page = $request->get('page') or $page = 1;
-        $rows = get_option('solr_search_rows');
+        $rows = get_option('per_page_public');
         $paginationUrl = $this->getRequest()->getBaseUrl() . '/results/';
-
-        if (! $rows) {
-            $rows = get_option('per_page_public') or get_option('solr_search_rows');
-        }
 
         $pagination = array(
             'page'          => $page,
