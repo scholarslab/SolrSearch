@@ -20,8 +20,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
     public function testIndexNewPublicItem()
     {
 
-        // Connect to Solr, insert public item.
-        $solr = SolrSearch_Helpers_Index::connect();
+        // Insert public item.
         $item = insert_item(array('public' => true));
 
         // Should add a Solr document.
@@ -37,8 +36,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
     public function testIndexItemWhenSetPublic()
     {
 
-        // Connect to Solr, insert private item.
-        $solr = SolrSearch_Helpers_Index::connect();
+        // Insert private item.
         $item = insert_item(array('public' => false));
 
         // Set the item public.
@@ -56,8 +54,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
     public function testDontIndexNewPrivateItem()
     {
 
-        // Connect to Solr, insert private item.
-        $solr = SolrSearch_Helpers_Index::connect();
+        // Insert private item.
         $item = insert_item(array('public' => false));
 
         // Should add a Solr document.
@@ -73,8 +70,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
     public function testRemoveItemWhenSetPrivate()
     {
 
-        // Connect to Solr, insert public item.
-        $solr = SolrSearch_Helpers_Index::connect();
+        // Insert public item.
         $item = insert_item(array('public' => true));
 
         // Set the item private.
