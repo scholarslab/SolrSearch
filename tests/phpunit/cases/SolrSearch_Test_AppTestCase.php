@@ -172,27 +172,23 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      *
      * @param string $title The Dublin Core "Title".
      * @param string $subject The Dublin Core "Subject".
+     * $return Item
      */
     protected function _item($title=null, $subject=null)
     {
         return insert_item(array(), array('Dublin Core' => array(
-            'Title'     => array(array('text' => $title,    'html' => false)),
-            'Subject'   => array(array('text' => $subject,  'html' => false))
+
+            'Title' => array(array(
+                'text' => $title,
+                'html' => false
+            )),
+
+            'Subject' => array(array(
+                'text' => $subject,
+                'html' => false
+            ))
+
         )));
-    }
-
-
-    /**
-     * Assert that a form error was displayed for an input.
-     *
-     * @param string $name The `name` attribute of the input with the error.
-     * @param string $element The input element type.
-     */
-    protected function _assertFormError($name, $element='input')
-    {
-        $this->assertXpath("//{$element}[@name='$name']
-            /following-sibling::ul[@class='error']"
-        );
     }
 
 
@@ -205,6 +201,85 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         DELETE FROM {$this->db->prefix}solr_search_facets WHERE 1=1
 SQL
 );
+    }
+
+
+    /**
+     * Count the total number of document in the Solr index.
+     *
+     * @return integer
+     */
+    protected function _countSolrDocuments()
+    {
+        return $this->solr->search("*:*")->response->numFound;
+    }
+
+
+    /**
+     * Search for an item document in Solr.
+     *
+     * @param Item $item The Omeka item.
+     * @return Apache_Solr_Response
+     */
+    protected function _searchForItem($item)
+    {
+
+        // Get a Solr document for the item.
+        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
+        $id = $doc->getField('id');
+
+        // Query for the document.
+        return $this->solr->search("id:{$id['value']}");
+
+    }
+
+
+    /**
+     * Assert that an item is indexed in Solr.
+     *
+     * @param Item $item The Omeka item.
+     */
+    protected function _assertItemInSolr($item)
+    {
+
+        // Query for the document.
+        $result = $this->_searchForItem($item);
+
+        // Solr document should exist.
+        $this->assertEquals(1, $result->response->numFound);
+
+    }
+
+
+    /**
+     * Assert that an item is _not_ indexed in Solr.
+     *
+     * @param Item $item The Omeka item.
+     */
+    protected function _assertNotItemInSolr($item)
+    {
+
+        // Query for the document.
+        $result = $this->_searchForItem($item);
+
+        // Solr document should not exist.
+        $this->assertEquals(0, $result->response->numFound);
+
+    }
+
+
+    /**
+     * Assert that a form error was displayed for an input.
+     *
+     * @param string $name The `name` attribute of the input with the error.
+     * @param string $element The input element type.
+     */
+    protected function _assertFormError($name, $element='input')
+    {
+        $this->assertXpath(
+            "//{$element}[@name='$name']
+              /following-sibling::ul[@class='error']"
+        );
     }
 
 

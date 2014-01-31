@@ -16,20 +16,26 @@ class AdminControllerTest_Reindex extends SolrSearch_Test_AppTestCase
     /**
      * REINDX should clear the Solr index and reindex all records.
      */
-    public function testMarkup()
+    public function testReindex()
     {
 
         // Add items.
-        $item1 = insert_item();
-        $item2 = insert_item();
+        $item1 = insert_item(array('public' => true));
+        $item2 = insert_item(array('public' => true));
 
         // Delete the Solr records.
         SolrSearch_Helpers_Index::deleteAll();
 
+        // Index should be empty.
+        $this->assertEquals(0, $this->_countSolrDocuments());
+
         // Trigger a reindex.
+        $this->request->setMethod('POST');
         $this->dispatch('solr-search/reindex');
 
-        // TODO: Assert 2 documents.
+        // Should reindex the items.
+        $this->_assertItemInSolr($item1);
+        $this->_assertItemInSolr($item2);
 
     }
 

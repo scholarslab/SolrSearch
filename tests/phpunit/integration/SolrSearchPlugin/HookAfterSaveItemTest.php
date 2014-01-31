@@ -15,59 +15,6 @@ class SolrSearchPluginTest_HookAfterSaveItem
 
 
     /**
-     * Search for an item document in Solr.
-     *
-     * @param Item $item The Omeka item.
-     * @return Apache_Solr_Response
-     */
-    private function _searchForItem($item)
-    {
-
-        // Get a Solr document for the item.
-        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
-        $id = $doc->getField('id');
-
-        // Query for the document.
-        return $this->solr->search("id:{$id['value']}");
-
-    }
-
-
-    /**
-     * Assert that an item is indexed in Solr.
-     *
-     * @param Item $item The Omeka item.
-     */
-    private function _assertSolrDocument($item)
-    {
-
-        // Query for the document.
-        $result = $this->_searchForItem($item);
-
-        // Solr document should exist.
-        $this->assertEquals(1, $result->response->numFound);
-
-    }
-
-
-    /**
-     * Assert that an item is _not_ indexed in Solr.
-     *
-     * @param Item $item The Omeka item.
-     */
-    private function _assertNotSolrDocument($item)
-    {
-
-        // Query for the document.
-        $result = $this->_searchForItem($item);
-
-        // Solr document should not exist.
-        $this->assertEquals(0, $result->response->numFound);
-
-    }
-
-
-    /**
      * When a new public item is added, it should be indexed in Solr.
      */
     public function testIndexNewPublicItem()
@@ -78,7 +25,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
         $item = insert_item(array('public' => true));
 
         // Should add a Solr document.
-        $this->_assertSolrDocument($item);
+        $this->_assertItemInSolr($item);
 
     }
 
@@ -98,7 +45,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
         update_item($item, array('public' => true));
 
         // Should add a Solr document.
-        $this->_assertSolrDocument($item);
+        $this->_assertItemInSolr($item);
 
     }
 
@@ -114,7 +61,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
         $item = insert_item(array('public' => false));
 
         // Should add a Solr document.
-        $this->_assertNotSolrDocument($item);
+        $this->_assertNotItemInSolr($item);
 
     }
 
@@ -134,7 +81,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
         update_item($item, array('public' => false));
 
         // Should add a Solr document.
-        $this->_assertNotSolrDocument($item);
+        $this->_assertNotItemInSolr($item);
 
     }
 
