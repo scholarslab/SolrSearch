@@ -42,6 +42,18 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
+     * Clear the Solr index.
+     */
+    public function tearDown()
+    {
+        try {
+            SolrSearch_Helpers_Index::deleteAll();
+        } catch (Exception $e) {};
+        parent::tearDown();
+    }
+
+
+    /**
      * Apply options defined in the `solr.ini` file.
      */
     protected function _applyTestingOptions()
