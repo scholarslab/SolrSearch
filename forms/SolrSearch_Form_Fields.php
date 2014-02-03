@@ -59,8 +59,8 @@ class SolrSearch_Form_Fields extends Omeka_Form
 
                 $facetForm->addElement('MultiCheckbox', 'options', array(
                     'multiOptions' => array(
-                        'is_displayed' => 'Is Searchable',
-                        'is_facet'     => 'Is Facet'
+                        'is_displayed' => __('Is Searchable'),
+                        'is_facet'     => __('Is Facet')
                     ),
                     'value' => $values
                 ));
