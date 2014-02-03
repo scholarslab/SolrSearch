@@ -38,7 +38,7 @@ require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Index.php';
 
 // Forms:
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Server.php';
-require_once SOLR_DIR.'/forms/SolrSearch_Form_Facet.php';
+require_once SOLR_DIR.'/forms/SolrSearch_Form_Fields.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Highlight.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Reindex.php';
 

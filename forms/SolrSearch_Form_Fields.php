@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearch_Form_Facet extends Omeka_Form
+class SolrSearch_Form_Fields extends Omeka_Form
 {
 
     /**
@@ -32,32 +32,32 @@ class SolrSearch_Form_Facet extends Omeka_Form
         foreach ($groups as $title => $facets) {
 
             // Sub-form for group:
-            $sf = new Zend_Form_SubForm();
-            $sf->setLegend($title);
-            $this->addSubForm($sf, "$g");
+            $groupForm = new Zend_Form_SubForm();
+            $groupForm->setLegend($title);
+            $this->addSubForm($groupForm, "$g");
 
             foreach ($facets as $facet) {
 
                 // Sub-sub-form for facet:
-                $ssf = new Zend_Form_SubForm();
-                $ssf->setElementsBelongTo("facets[$n]");
-                $sf->addSubForm($ssf, "$n");
+                $facetForm = new Zend_Form_SubForm();
+                $facetForm->setElementsBelongTo("facets[$n]");
+                $groupForm->addSubForm($facetForm, "$n");
 
                 $values = array();
                 foreach (array('is_displayed', 'is_facet') as $key) {
                     if ($facet->$key == 1) array_push($values, $key);
                 }
 
-                $ssf->addElement('hidden', 'facetid', array(
+                $facetForm->addElement('hidden', 'facetid', array(
                     'value' => $facet->id
                 ));
 
-                $ssf->addElement('text', 'label', array(
+                $facetForm->addElement('text', 'label', array(
                     'value'    => $facet->label,
                     'revertto' => $facet->getOriginalLabel()
                 ));
 
-                $ssf->addElement('MultiCheckbox', 'options', array(
+                $facetForm->addElement('MultiCheckbox', 'options', array(
                     'multiOptions' => array(
                         'is_displayed' => 'Is Searchable',
                         'is_facet'     => 'Is Facet'

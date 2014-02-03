@@ -57,7 +57,7 @@ class SolrSearchPluginTest_HookAfterSaveItem
         // Insert private item.
         $item = insert_item(array('public' => false));
 
-        // Should add a Solr document.
+        // Should not add a Solr document.
         $this->_assertNotItemInSolr($item);
 
     }
@@ -73,10 +73,13 @@ class SolrSearchPluginTest_HookAfterSaveItem
         // Insert public item.
         $item = insert_item(array('public' => true));
 
+        // Should add a Solr document.
+        $this->_assertItemInSolr($item);
+
         // Set the item private.
         update_item($item, array('public' => false));
 
-        // Should add a Solr document.
+        // Should remove the Solr document.
         $this->_assertNotItemInSolr($item);
 
     }

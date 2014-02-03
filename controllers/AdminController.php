@@ -57,7 +57,7 @@ class SolrSearch_AdminController
     public function fieldsAction()
     {
 
-        $form = new SolrSearch_Form_Facet();
+        $form = new SolrSearch_Form_Fields();
 
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
