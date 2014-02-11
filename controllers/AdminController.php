@@ -62,12 +62,9 @@ class SolrSearch_AdminController
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
 
-            $uploadedData = $form->getValues();
-            $db = get_db();
-
             // Save the facets.
-            foreach ($uploadedData['facets'] as $group) {
-                foreach ($group['facets'] as $facet) {
+            foreach ($form->getValues() as $group) {
+                foreach ($group as $facet) {
 
                     $options = array(
                         'is_displayed'  => 0,
@@ -82,7 +79,7 @@ class SolrSearch_AdminController
                     }
 
                     // Insert or update the rows.
-                    $db->insert('solr_search_facets', array(
+                    get_db()->insert('solr_search_facets', array(
                         'id'            => $facet['facetid'],
                         'label'         => $facet['label'],
                         'is_displayed'  => $options['is_displayed'],
