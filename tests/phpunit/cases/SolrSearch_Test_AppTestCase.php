@@ -35,11 +35,11 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $this->elementSetTable  = $this->db->getTable('ElementSet');
         $this->elementTable     = $this->db->getTable('Element');
 
-        // Connect to Solr.
-        $this->solr = SolrSearch_Helpers_Index::connect();
-
         // Apply `solr.ini` values.
         $this->_applyTestingOptions();
+
+        // Connect to Solr.
+        $this->solr = SolrSearch_Helpers_Index::connect();
 
     }
 

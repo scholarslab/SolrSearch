@@ -14,7 +14,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 {
 
 
-    // {{{ hooks
     protected $_hooks = array(
         'install',
         'uninstall',
@@ -25,15 +24,12 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'before_delete_record',
         'before_delete_item'
     );
-    //}}}
 
 
-    //{{{ filters
     protected $_filters = array(
         'admin_navigation_main',
         'search_form_default_action'
     );
-    //}}}
 
 
     /**

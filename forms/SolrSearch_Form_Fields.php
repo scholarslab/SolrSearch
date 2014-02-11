@@ -18,6 +18,7 @@ class SolrSearch_Form_Fields extends Omeka_Form
      */
     public function init()
     {
+
         $_db = get_db();
         $_facetsTable = $_db->getTable('SolrSearchFacet');
 
@@ -26,22 +27,21 @@ class SolrSearch_Form_Fields extends Omeka_Form
         $this->setAttrib('id', 'facets-form');
         $this->setElementsBelongTo("facets");
 
-        $g = 0;
-        $n = 1000;
+        $g = 0; $n = 1000;
         $groups = $_facetsTable->groupByElementSet();
         foreach ($groups as $title => $facets) {
 
             // Sub-form for group:
             $groupForm = new Zend_Form_SubForm();
             $groupForm->setLegend($title);
-            $this->addSubForm($groupForm, "$g");
+            $this->addSubForm($groupForm, $g);
 
             foreach ($facets as $facet) {
 
                 // Sub-sub-form for facet:
                 $facetForm = new Zend_Form_SubForm();
                 $facetForm->setElementsBelongTo("facets[$n]");
-                $groupForm->addSubForm($facetForm, "$n");
+                $groupForm->addSubForm($facetForm, $n);
 
                 $values = array();
                 foreach (array('is_displayed', 'is_facet') as $key) {

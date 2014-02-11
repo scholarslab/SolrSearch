@@ -67,24 +67,24 @@ class SolrSearch_AdminController
 
             // Save the facets.
             foreach ($uploadedData['facets'] as $group) {
-                foreach ($group['facets'] as $group) {
+                foreach ($group['facets'] as $facet) {
 
                     $options = array(
-                        'is_displayed' => 0,
-                        'is_facet'     => 0
+                        'is_displayed'  => 0,
+                        'is_facet'      => 0
                     );
 
-                    // Flip on activated options.
-                    if (is_array($group['options'])) {
-                        foreach ($group['options'] as $opt) {
+                    // Flip on the activated options.
+                    if (is_array($facet['options'])) {
+                        foreach ($facet['options'] as $opt) {
                             $options[$opt] = 1;
                         }
                     }
 
                     // Insert or update the rows.
                     $db->insert('solr_search_facets', array(
-                        'id'            => $group['facetid'],
-                        'label'         => $group['label'],
+                        'id'            => $facet['facetid'],
+                        'label'         => $facet['label'],
                         'is_displayed'  => $options['is_displayed'],
                         'is_facet'      => $options['is_facet']
                     ));

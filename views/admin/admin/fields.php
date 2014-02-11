@@ -52,8 +52,8 @@
             </thead>
 
             <tbody>
-              <?php foreach ($group->getSubForms() as $eform): ?>
-                <?php echo SolrSearch_Helpers_View::createFacetSubForm($n, $eform); ?>
+              <?php foreach ($group->getSubForms() as $facet): ?>
+                <?php echo SolrSearch_Helpers_View::createFacetSubForm($n, $facet); ?>
               <?php endforeach; ?>
             </tbody>
 

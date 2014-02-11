@@ -235,8 +235,8 @@ class SolrSearch_ResultsController
     }
 
     /**
-     * This returns all fields that need to be included in the output from Solr,
-     * but aren't displayed.
+     * This returns all fields that need to be included in the output from
+     * Solr, but aren't displayed.
      *
      * @return string $fields A comma-delimited list of fields.
      */
