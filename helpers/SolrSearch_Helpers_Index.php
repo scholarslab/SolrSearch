@@ -13,6 +13,7 @@
 class SolrSearch_Helpers_Index
 {
 
+
     /**
      * Connect to Solr.
      *
@@ -39,6 +40,7 @@ class SolrSearch_Helpers_Index
         return new Apache_Solr_Service($server, $port, $core);
 
     }
+
 
     /**
      * This takes an Omeka_Record instance and returns a populated 
@@ -127,6 +129,7 @@ class SolrSearch_Helpers_Index
         return $doc;
     }
 
+
     /**
      * This returns the URI for an Omeka_Record.
      *
@@ -164,6 +167,7 @@ class SolrSearch_Helpers_Index
         return $uri;
     }
 
+
     /**
      * This returns the URL for an Omeka_Record with a 'slug' property.
      *
@@ -190,6 +194,7 @@ class SolrSearch_Helpers_Index
 
         return $uri;
     }
+
 
     /**
      * This returns a set of fields to be indexed by Solr according to the
@@ -219,6 +224,7 @@ class SolrSearch_Helpers_Index
         return $fieldSet;
     }
 
+
     /**
      * This index the content of an XML file into a Solr document.
      *
@@ -242,6 +248,7 @@ class SolrSearch_Helpers_Index
             }
         }
     }
+
 
     /**
      * This pings the Solr server with the given options and returns true if
@@ -283,6 +290,7 @@ class SolrSearch_Helpers_Index
 
     }
 
+
     /**
      * This re-indexes everything in the Omeka DB.
      *
@@ -321,5 +329,6 @@ class SolrSearch_Helpers_Index
 
         $solr->optimize();
     }
+
 
 }

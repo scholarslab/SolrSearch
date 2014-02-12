@@ -13,11 +13,13 @@
 class SolrSearch_Form_Server extends Omeka_Form
 {
 
+
     public function init()
     {
         parent::init();
         $this->_registerElements();
     }
+
 
     /**
      * Construct the form elements.
@@ -115,5 +117,6 @@ class SolrSearch_Form_Server extends Omeka_Form
         ), 'submit_button');
 
     }
+
 
 }

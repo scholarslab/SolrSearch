@@ -13,6 +13,7 @@
 class SolrSearch_Form_Fields extends Omeka_Form
 {
 
+
     /**
      * Construct the field indexing configuration form.
      */
@@ -66,5 +67,6 @@ class SolrSearch_Form_Fields extends Omeka_Form
         ));
 
     }
+
 
 }

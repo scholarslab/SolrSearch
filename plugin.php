@@ -27,7 +27,6 @@ require_once SOLR_DIR.'/lib/SolrSearch/Addon/Config.php';
 require_once SOLR_DIR.'/lib/SolrSearch/Addon/Field.php';
 require_once SOLR_DIR.'/lib/SolrSearch/Addon/Indexer.php';
 require_once SOLR_DIR.'/lib/SolrSearch/Addon/Manager.php';
-require_once SOLR_DIR.'/lib/SolrSearch/QueryManager.php';
 require_once SOLR_DIR.'/lib/SolrSearch/Utils.php';
 require_once SOLR_DIR.'/lib/SolrSearch/DbPager.php';
 

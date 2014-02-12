@@ -10,12 +10,9 @@
  */
 
 
-/**
- * This is a collection of utilities to make displaying results and generating 
- * URLs easier.
- **/
 class SolrSearch_Helpers_View
 {
+
 
     /**
      * This returns the base URL for the results page.
@@ -27,6 +24,7 @@ class SolrSearch_Helpers_View
     {
         return url('/solr-search/results/');
     }
+
 
     /**
      * This creates the default search form.
@@ -50,12 +48,12 @@ class SolrSearch_Helpers_View
         $html  = '<form ' . tag_attributes($formProperties) . '>' . "\n";
         $html .= '<fieldset>' . "\n\n";
         $html .= get_view()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
-        //$html .= get_view()->formHidden('solrfacet', '');
         $html .= get_view()->formSubmit('submit_search', $buttonText);
         $html .= '</fieldset>' . "\n\n";
         $html .= '</form>';
         return $html;
     }
+
 
     /**
      * Looks up element name for all Solr elements.
@@ -80,6 +78,7 @@ class SolrSearch_Helpers_View
         return $index;
     }
 
+
     /**
      * Looks up a Solr element name (ID_suffix) in the index returned by 
      * getElementNames.
@@ -95,6 +94,7 @@ class SolrSearch_Helpers_View
         $id    = $field[0];
         return $index[$id];
     }
+
 
     /**
      * Lookup the element name for a solr element
@@ -114,6 +114,7 @@ class SolrSearch_Helpers_View
         return $element['name'];
     }
 
+
     /**
      * Generate a Results link for SolrSearch
      *
@@ -126,6 +127,7 @@ class SolrSearch_Helpers_View
         $title = is_array($doc->title) ? $doc->title[0] : $doc->title;
         return "<a href='{$doc->url}'>{$title}</a> <span class='solr-result-model'>{$doc->resulttype}</span>";
     }
+
 
     /**
      * Return the title of doc
@@ -155,6 +157,7 @@ class SolrSearch_Helpers_View
         return $title;
     }
 
+
     /**
      * Return the path for an image
      *
@@ -169,6 +172,7 @@ class SolrSearch_Helpers_View
         $file = $db->getTable('File')->find($fileId);
         return $file->getWebPath($type);
     }
+
 
     /**
      * Display a search snippet if enabled
@@ -207,6 +211,7 @@ class SolrSearch_Helpers_View
         }
     }
 
+
     /**
      * Generate an image tag for use in search results.
      *
@@ -232,6 +237,7 @@ class SolrSearch_Helpers_View
 
         return $html;
     }
+
 
     /**
      * Output a tag string for a given Solr search result
@@ -278,6 +284,7 @@ class SolrSearch_Helpers_View
         return $tagString;
     }
 
+
     /**
      * This takes a tag and returns a string containing the tab label wrapped in 
      * an A.
@@ -304,6 +311,7 @@ class SolrSearch_Helpers_View
 
         return $a;
     }
+
 
     /**
      * This takes a subform for the facet config form and renders it.
@@ -343,7 +351,7 @@ class SolrSearch_Helpers_View
                 $output .= ' checked="checked"';
             }
 
-            $output .= " class='g{$group}{$column}'/>";
+            $output .= " class='g-{$group}-{$column}'/>";
             $output .= '</td>';
 
         }
@@ -352,6 +360,7 @@ class SolrSearch_Helpers_View
 
         return $output;
     }
+
 
     /**
      * This creates the checkbox to select all children checkboxes.
@@ -364,11 +373,12 @@ class SolrSearch_Helpers_View
      **/
     public static function createSelectAll($label, $group, $column)
     {
-        $output   = "$label <input form='' type='checkbox'";
-        $output  .= " class='group-sel-all'";
-        $output  .= " data-target='.g{$group}{$column}' />";
+        $output  = "$label <input form='' type='checkbox'";
+        $output .= " class='group-sel-all'";
+        $output .= " data-target='.g-{$group}-{$column}' />";
 
         return $output;
     }
+
 
 }

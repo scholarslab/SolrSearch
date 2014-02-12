@@ -11,12 +11,12 @@
 
 
 /**
- * This manages the process of getting the addon information from the config files and using 
- * them to index a document.
+ * This manages the process of getting the addon information from the config
+ * files and using them to index a document.
  **/
 class SolrSearch_Addon_Manager
 {
-    // {{{Properties
+
 
     /**
      * The database this will interface with.
@@ -39,8 +39,6 @@ class SolrSearch_Addon_Manager
      **/
     var $addons;
 
-    // }}}
-    // {{{Methods
 
     /**
      * This instantiates a SolrSearch_Addon_Manager
@@ -58,6 +56,7 @@ class SolrSearch_Addon_Manager
             $this->addonDir = SOLR_DIR . '/addons';
         }
     }
+
 
     /**
      * This parses all the JSON configuration files in the addon directory and 
@@ -85,6 +84,7 @@ class SolrSearch_Addon_Manager
         return $this->addons;
     }
 
+
     /**
      * A helper method to the return the addon for the record.
      *
@@ -110,6 +110,7 @@ class SolrSearch_Addon_Manager
         return $hit;
     }
 
+
     /**
      * This reindexes all the addons and returns the Solr documents created.
      *
@@ -134,6 +135,7 @@ class SolrSearch_Addon_Manager
 
         return $docs;
     }
+
 
     /**
      * This indexes a single record.
@@ -164,6 +166,7 @@ class SolrSearch_Addon_Manager
         return $doc;
     }
 
+
     /**
      * This returns the Solr ID for the record.
      *
@@ -192,6 +195,5 @@ class SolrSearch_Addon_Manager
         return $id;
     }
 
-    // }}}
 
 }

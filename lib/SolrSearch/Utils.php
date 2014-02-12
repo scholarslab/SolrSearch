@@ -16,6 +16,7 @@
 class SolrSearch_Utils
 {
 
+
     /**
      * This tests whether the view is available or not.
      *
@@ -30,5 +31,6 @@ class SolrSearch_Utils
         }
         return Zend_Registry::get('view');
     }
+
 
 }

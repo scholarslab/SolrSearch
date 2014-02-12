@@ -209,9 +209,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     }
 
 
-    // {{{protected
-
-
     /**
      * Install the facets table.
      */
@@ -312,9 +309,6 @@ SQL
         delete_option('solr_search_snippets');
         delete_option('solr_search_fragsize');
     }
-
-
-    //}}}
 
 
 }

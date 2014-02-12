@@ -15,7 +15,7 @@
  **/
 class SolrSearch_Addon_Addon
 {
-    //{{{Properties
+
 
     /**
      * The name of the addon.
@@ -89,7 +89,6 @@ class SolrSearch_Addon_Addon
      **/
     var $children;
 
-    //}}}
 
     function __construct(
         $name=null, $resultType=null, $table=null, $idColumn='id', 
@@ -106,6 +105,7 @@ class SolrSearch_Addon_Addon
         $this->fields      = array();
         $this->children    = array();
     }
+
 
     /**
      * This tests whether this addon has a flag anywhere up its ancenstors.
@@ -125,6 +125,7 @@ class SolrSearch_Addon_Addon
 
         return $flag;
     }
+
 
     /**
      * This returns the field marked title, named title, or null for this 
@@ -156,5 +157,6 @@ class SolrSearch_Addon_Addon
 
         return $result;
     }
+
 
 }

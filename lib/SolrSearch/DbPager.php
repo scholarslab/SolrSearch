@@ -19,6 +19,7 @@
 class SolrSearch_DbPager
 {
 
+
     /**
      * This is the database object.
      *
@@ -75,6 +76,7 @@ class SolrSearch_DbPager
         $this->params     = $params;
     }
 
+
     /**
      * This returns the next chunk of database result objects.
      *
@@ -90,4 +92,5 @@ class SolrSearch_DbPager
         $rows = $this->table->fetchObjects($this->select, $this->params);
         return $rows;
     }
+
 }

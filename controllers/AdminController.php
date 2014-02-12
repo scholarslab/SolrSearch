@@ -14,6 +14,7 @@ class SolrSearch_AdminController
     extends Omeka_Controller_AbstractActionController
 {
 
+
     /**
      * Display the "Solr Configuration" form.
      */
@@ -50,6 +51,7 @@ class SolrSearch_AdminController
         $this->view->form = $form;
 
     }
+
 
     /**
      * Display the "Field Configuration" form.
@@ -98,6 +100,7 @@ class SolrSearch_AdminController
 
     }
 
+
     /**
      * Display the "Hit Highlighting Options" form.
      */
@@ -125,6 +128,7 @@ class SolrSearch_AdminController
         $this->view->form = $form;
 
     }
+
 
     /**
      * Display the "Index Items" form.
@@ -159,5 +163,6 @@ class SolrSearch_AdminController
         $this->view->form = $form;
 
     }
+
 
 }

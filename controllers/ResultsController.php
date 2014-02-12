@@ -14,6 +14,7 @@ class SolrSearch_ResultsController
     extends Omeka_Controller_AbstractActionController
 {
 
+
     /**
      * Default index action.
      */
@@ -21,6 +22,7 @@ class SolrSearch_ResultsController
     {
         $this->handleHtml();
     }
+
 
     /**
      * Intercept search queries from simple search and redirect with
@@ -38,6 +40,7 @@ class SolrSearch_ResultsController
         $this->_redirect('solr-search/results?' . $query);
 
     }
+
 
     /**
      * Display results using HTML handler.
@@ -64,6 +67,7 @@ class SolrSearch_ResultsController
         $this->view->facets = $facets;
     }
 
+
     /**
      * Display result set using JSON handler.
      */
@@ -81,6 +85,7 @@ class SolrSearch_ResultsController
         $this->view->facets = $facets;
         $this->_helper->viewRenderer('ajax');
     }
+
 
     /**
      * Retrive search facet settings from the database.
@@ -103,6 +108,7 @@ class SolrSearch_ResultsController
         natcasesort($facets);
         return $facets;
     }
+
 
     /**
      * Retrieve search fields.
@@ -141,6 +147,7 @@ class SolrSearch_ResultsController
         return $params;
     }
 
+
     /**
      * Retrieve pagination settings from the database
      *
@@ -166,6 +173,7 @@ class SolrSearch_ResultsController
         return $pagination;
     }
 
+
     /**
      * Update the pagination setting
      *
@@ -179,6 +187,7 @@ class SolrSearch_ResultsController
         Zend_Registry::set('pagination', $pagination);
         return $pagination;
     }
+
 
     /**
      * Pass setting to Solr search
@@ -208,6 +217,7 @@ class SolrSearch_ResultsController
         return $results;
     }
 
+
     /**
      * Get the displayable fields from the Solr table, which is passed to the
      * view to restring fields that appear in the results
@@ -234,6 +244,7 @@ class SolrSearch_ResultsController
         return implode(',', $fields);
     }
 
+
     /**
      * This returns all fields that need to be included in the output from
      * Solr, but aren't displayed.
@@ -245,5 +256,6 @@ class SolrSearch_ResultsController
         $fields = "image,title,url,model,modelid";
         return $fields;
     }
+
 
 }

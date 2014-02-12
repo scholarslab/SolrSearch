@@ -16,7 +16,6 @@
 class SolrSearch_Addon_Config
 {
 
-    // {{{Properties
 
     /**
      * The database this will interface with.
@@ -25,14 +24,12 @@ class SolrSearch_Addon_Config
      **/
     var $db;
 
-    // }}}
-
-    // {{{Public Methods
 
     function __construct($db)
     {
         $this->db = $db;
     }
+
 
     /**
      * This parses a string into an associative array of SolrSearch_Addon_Addon 
@@ -55,6 +52,7 @@ class SolrSearch_Addon_Config
         return $addons;
     }
 
+
     /**
      * This parses the JSON data in a file.
      *
@@ -67,6 +65,7 @@ class SolrSearch_Addon_Config
     {
         return $this->parseString(file_get_contents($filename));
     }
+
 
     /**
      * This parses a directory of JSON files.
@@ -93,9 +92,6 @@ class SolrSearch_Addon_Config
         return $addons;
     }
 
-    // }}}
-
-    // {{{Private Methods
 
     /**
      * This takes a JSON object describing an addon and parses it into an 
@@ -124,6 +120,7 @@ class SolrSearch_Addon_Config
 
         return $addons;
     }
+
 
     /**
      * This parses the data for a single addon.
@@ -181,9 +178,10 @@ class SolrSearch_Addon_Config
         return $addons;
     }
 
+
     /**
      * This parses a JSON object or string into a SolrSearch_Addon_Field.
-     * 
+     *
      * @param array|string $json The JSON object to parse into a field.
      *
      * @return SolrSearch_Addon_Field $field That parsed field.
@@ -210,6 +208,5 @@ class SolrSearch_Addon_Config
         return $field;
     }
 
-    // }}}
 
 }

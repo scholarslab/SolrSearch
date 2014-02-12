@@ -15,7 +15,7 @@
  **/
 class SolrSearch_Addon_Indexer
 {
-    //{{{ Properties
+
 
     /**
      * This is the database interface.
@@ -24,12 +24,12 @@ class SolrSearch_Addon_Indexer
      **/
     var $db;
 
-    //}}}
 
     function __construct($db)
     {
         $this->db = $db;
     }
+
 
     /**
      * This creates a Solr-style name for an addon and field.
@@ -44,6 +44,7 @@ class SolrSearch_Addon_Indexer
     {
         return "{$addon->name}_{$field}_s";
     }
+
 
     /**
      * This gets all the records in the database matching all the addons passed 
@@ -65,6 +66,7 @@ class SolrSearch_Addon_Indexer
 
         return $docs;
     }
+
 
     /**
      * This gets all the records associated with a single addon for indexing.
@@ -92,6 +94,7 @@ class SolrSearch_Addon_Indexer
         return $docs;
     }
 
+
     /**
      * This tests whether the table exists.
      *
@@ -112,6 +115,7 @@ class SolrSearch_Addon_Indexer
 
         return $exists;
     }
+
 
     /**
      * This returns an Apache_Solr_Document to index, if the addons say it 
@@ -165,6 +169,7 @@ class SolrSearch_Addon_Indexer
         return $doc;
     }
 
+
     /**
      * This returns a value that is local to the record.
      *
@@ -181,6 +186,7 @@ class SolrSearch_Addon_Indexer
         $value[] = $record[$field->name];
         return $value;
     }
+
 
     /**
      * This returns a value that is remotely attached to the record.
@@ -211,6 +217,7 @@ class SolrSearch_Addon_Indexer
         return $value;
     }
 
+
     /**
      * This builds a query for returning all the records to index from the 
      * database.
@@ -234,6 +241,7 @@ class SolrSearch_Addon_Indexer
 
         return $select;
     }
+
 
     /**
      * This adds the joins and where clauses to respect an addon's privacy 
@@ -269,6 +277,7 @@ class SolrSearch_Addon_Indexer
         }
     }
 
+
     /**
      * This returns true if this addon (and none of its ancestors) are flagged.
      *
@@ -299,5 +308,6 @@ class SolrSearch_Addon_Indexer
 
         return $indexed;
     }
+
 
 }

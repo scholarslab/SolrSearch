@@ -15,7 +15,7 @@
  **/
 class SolrSearch_Addon_Field
 {
-    //{{{Properties
+
 
     /**
      * The Solr name of the field.
@@ -53,7 +53,6 @@ class SolrSearch_Addon_Field
      **/
     var $remote;
 
-    //}}}
 
     function __construct(
         $name=null, $label=null, $is_facet=null, $is_title=null, $remote=null
@@ -64,4 +63,6 @@ class SolrSearch_Addon_Field
         $this->is_title = $is_title;
         $this->remote   = $remote;
     }
+
+
 }

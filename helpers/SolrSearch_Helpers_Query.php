@@ -10,11 +10,9 @@
  */
 
 
-/**
- * This is a collection of utilities for working with queries, facets, etc.
- **/
 class SolrSearch_Helpers_Query
 {
+
 
     /**
      * This returns an array containing the Solr GET/POST parameters.
@@ -55,6 +53,7 @@ class SolrSearch_Helpers_Query
 
         return $params;
     }
+
 
     /**
      * Create a SolrFacetLink
@@ -110,6 +109,7 @@ class SolrSearch_Helpers_Query
 
         return $html;
     }
+
 
     /**
      * Create a new anchor with a field popped
@@ -170,6 +170,7 @@ class SolrSearch_Helpers_Query
         return $html;
     }
 
+
     /**
      * This returns true if the search searches for nothing.
      *
@@ -197,6 +198,7 @@ class SolrSearch_Helpers_Query
 
         return $is_null;
     }
+
 
     /**
      * Return the current search URL with only the given facet removed.
@@ -249,6 +251,7 @@ class SolrSearch_Helpers_Query
         return $removeFacetLink;
     }
 
+
     /**
      * This takes a keyed array of query parameters and returns an array with
      * the values to pass to Solr.
@@ -273,6 +276,7 @@ class SolrSearch_Helpers_Query
         return $q;
     }
 
+
     /**
      * Looks up elements for the index
      *
@@ -288,6 +292,7 @@ class SolrSearch_Helpers_Query
         $element = $db->getTable('Element')->find($fieldId);
         return $element['name'];
     }
+
 
     /**
      * Parses facet field to determine human readable version.
@@ -306,6 +311,7 @@ class SolrSearch_Helpers_Query
         $facet  = $table->fetchObject($select);
         return $facet->label;
     }
+
 
     /**
      * This Solr-escapes this facet value.
@@ -326,5 +332,6 @@ class SolrSearch_Helpers_Query
             $facet
         );
     }
+
 
 }
