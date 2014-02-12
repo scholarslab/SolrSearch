@@ -286,7 +286,7 @@ SQL
     {
         set_option('solr_search_server',        'localhost');
         set_option('solr_search_port',          '8080');
-        set_option('solr_search_core',          '/solr/collection1/');
+        set_option('solr_search_core',          '/solr/omeka/');
         set_option('solr_search_facet_limit',   '25');
         set_option('solr_search_facet_sort',    'count');
         set_option('solr_search_hl',            'true');
