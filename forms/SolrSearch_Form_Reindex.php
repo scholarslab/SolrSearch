@@ -14,13 +14,17 @@ class SolrSearch_Form_Reindex extends Omeka_Form
 
 
     /**
-     * Build the reindex form.
+     * Build the "Clear and Reindex" button.
      */
     public function init()
     {
+
+        parent::init();
+
         $this->addElement('submit', 'submit', array(
             'label' => __('Clear and Reindex')
         ));
+
     }
 
 

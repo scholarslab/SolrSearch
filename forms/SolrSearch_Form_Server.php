@@ -14,18 +14,13 @@ class SolrSearch_Form_Server extends Omeka_Form
 {
 
 
+    /**
+     * Build the "Server Configuration" button.
+     */
     public function init()
     {
+
         parent::init();
-        $this->_registerElements();
-    }
-
-
-    /**
-     * Construct the form elements.
-     */
-    protected function _registerElements()
-    {
 
         // Server Host:
         $this->addElement('text', 'solr_search_server', array(
@@ -101,7 +96,7 @@ class SolrSearch_Form_Server extends Omeka_Form
 
         // Submit:
         $this->addElement('submit', 'submit', array(
-            'label' => __('Submit')
+            'label' => __('Save Settings')
         ));
 
         $this->addDisplayGroup(array(

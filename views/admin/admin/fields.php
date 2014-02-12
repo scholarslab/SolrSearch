@@ -62,7 +62,7 @@
 
         <?php endforeach; ?>
 
-      <?php echo $form->getElement('submit'); ?>
+      <?php echo $this->formSubmit('submit', __('Update Search Fields')); ?>
 
     </form>
 

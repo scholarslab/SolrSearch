@@ -1173,3 +1173,8 @@ input[type="submit"].btn.btn-mini {
 .textinplace .valuewrap .icons {
   float: right;
 }
+
+/* line 31, sass/fields.scss */
+#submit {
+  margin-top: 2em !important;
+}

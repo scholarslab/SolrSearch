@@ -15,14 +15,16 @@ class SolrSearch_Form_Fields extends Omeka_Form
 
 
     /**
-     * Construct the field indexing configuration form.
+     * Build the "Field Configuration" form.
      */
     public function init()
     {
 
-        $facets = get_db()->getTable('SolrSearchFacet');
+        parent::init();
 
+        $facets = get_db()->getTable('SolrSearchFacet');
         $groups = $facets->groupByElementSet();
+
         foreach ($groups as $title => $facets) {
 
             // Group sub-form:
@@ -61,10 +63,6 @@ class SolrSearch_Form_Fields extends Omeka_Form
             }
 
         }
-
-        $this->addElement( 'submit', 'submit', array(
-            'label' => __('Update Search Fields')
-        ));
 
     }
 

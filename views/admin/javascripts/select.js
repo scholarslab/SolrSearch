@@ -10,11 +10,21 @@
 
 jQuery(function($) {
 
-  $('.group-sel-all').change(function(event) {
-    var checkbox = $(this);
-    $(checkbox.attr('data-target')).prop('checked',
-      checkbox.is(':checked')
-    );
+  var selects = $('.group-sel-all');
+
+  selects.each(function() {
+
+    var allChecked = true;
+    $($(this).attr('data-target')).each(function() {
+      allChecked &= $(this).is(':checked');
+    });
+
+    $(this).prop('checked', allChecked);
+
+  });
+
+  selects.change(function(event) {
+    $($(this).attr('data-target')).prop('checked', $(this).is(':checked'));
   });
 
 });

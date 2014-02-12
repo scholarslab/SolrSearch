@@ -14,18 +14,13 @@ class SolrSearch_Form_Highlight extends Omeka_Form
 {
 
 
+    /**
+     * Build the "Hit Highlighting" form.
+     */
     public function init()
     {
+
         parent::init();
-        $this->_registerElements();
-    }
-
-
-    /**
-     * Construct the form elements.
-     */
-    protected function _registerElements()
-    {
 
         // Enable Highlighting:
         $this->addElement('select', 'solr_search_hl', array(
@@ -73,7 +68,7 @@ class SolrSearch_Form_Highlight extends Omeka_Form
 
         // Submit:
         $this->addElement('submit', 'submit', array(
-            'label' => __('Submit')
+            'label' => __('Save Settings')
         ));
 
         $this->addDisplayGroup(array(
