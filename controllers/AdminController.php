@@ -66,10 +66,9 @@ class SolrSearch_AdminController
             foreach ($form->getValues() as $group) {
                 foreach ($group as $facet) {
 
-                    $options = $facet['options'];
-
-                    $isDisplayed = 0;
-                    $isFacet = 0;
+                    $options            = $facet['options'];
+                    $isDisplayed        = 0;
+                    $isFacet            = 0;
 
                     if (is_array($options)) {
                         $isDisplayed    = in_array('is_displayed', $options);
