@@ -56,7 +56,7 @@ class SolrSearchPluginTest_HookInstall extends SolrSearch_Test_AppTestCase
             // Facet should exist.
             $this->assertNotNull($facet);
 
-            // Elements should not be used as facets.
+            // Should not be used as a facet.
             $this->assertEquals(0, $facet->is_facet);
 
             // DC "Title" and "Description" should be searchable.
