@@ -66,24 +66,22 @@ class SolrSearch_AdminController
             foreach ($form->getValues() as $group) {
                 foreach ($group as $facet) {
 
-                    $options = array(
-                        'is_displayed'  => 0,
-                        'is_facet'      => 0
-                    );
+                    $options = $facet['options'];
 
-                    // Flip on the activated options.
-                    if (is_array($facet['options'])) {
-                        foreach ($facet['options'] as $opt) {
-                            $options[$opt] = 1;
-                        }
+                    $isDisplayed = 0;
+                    $isFacet = 0;
+
+                    if (is_array($options)) {
+                        $isDisplayed    = in_array('is_displayed', $options);
+                        $isFacet        = in_array('is_facet', $options);
                     }
 
                     // Insert or update the rows.
                     get_db()->insert('solr_search_facets', array(
                         'id'            => $facet['facetid'],
                         'label'         => $facet['label'],
-                        'is_displayed'  => $options['is_displayed'],
-                        'is_facet'      => $options['is_facet']
+                        'is_displayed'  => $isDisplayed,
+                        'is_facet'      => $isFacet
                     ));
 
                 }
