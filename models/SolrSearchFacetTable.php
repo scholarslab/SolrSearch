@@ -68,8 +68,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
      * @return string $setName The element set name.
      * @return string $elementName The element name.
      */
-    public function setElementSearchable($elementSetName, $elementName)
-    {
+    public function setElementSearchable($elementSetName, $elementName) {
 
         // Get the element table.
         $elementTable = $this->getTable('Element');
@@ -81,7 +80,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
 
         // Get the facet, set searchable.
         $facet = $this->findByElement($element);
-        $facet->is_displayed = 1;
+        $facet->is_displayed = true;
         $facet->save();
 
     }

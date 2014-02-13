@@ -259,4 +259,46 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     }
 
 
+    /**
+     * Fields that have been marked as not searchable should not be indexed.
+     */
+    public function testDontIndexUnsearchableFields()
+    {
+
+        // Add an item with a "Subject" and "Source" texts.
+        $item = insert_item(array('public' => true), array(
+            'Dublin Core' => array (
+                'Subject' => array(
+                    array('text' => 'subject', 'html' => false)
+                ),
+                'Source' => array(
+                    array('text' => 'source', 'html' => false)
+                )
+            )
+        ));
+
+        // Get the Solr document for the item.
+        $document = $this->_getItemDocument($item);
+
+        // Get the "Subject" element.
+        $subject = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Subject'
+        );
+
+        // Get the "Source" element.
+        $source = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Source'
+        );
+
+        // Get the subject and source facets.
+        $subjectName = $this->facetTable->findByElement($subject)->name;
+        $sourceName  = $this->facetTable->findByElement($source)->name;
+
+        // Should index the searchable fields.
+        $this->assertObjectNotHasAttribute($subjectName, $document);
+        $this->assertObjectNotHasAttribute($sourceName, $document);
+
+    }
+
+
 }
