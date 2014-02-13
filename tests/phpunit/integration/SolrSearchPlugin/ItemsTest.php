@@ -85,6 +85,21 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
 
     /**
+     * The item URL should be indexed.
+     */
+    public function testIndexUrl()
+    {
+
+        $item = insert_item(array('public' => true));
+        $document = $this->_getItemDocument($item);
+
+        // Should index the result type.
+        $this->assertEquals(record_url($item, 'show'), $document->url);
+
+    }
+
+
+    /**
      * The "Item" `resulttype` should be indexed.
      */
     public function testIndexResultType()
@@ -100,16 +115,23 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
 
     /**
-     * The item URL should be indexed.
+     * The Dublin Core title should be indexed.
      */
-    public function testIndexUrl()
+    public function testIndexTitle()
     {
 
-        $item = insert_item(array('public' => true));
+        $item = insert_item(array('public' => true), array(
+            'Dublin Core' => array (
+                'Title' => array(
+                    array('text' => 'Test Title', 'html' => false)
+                )
+            )
+        ));
+
         $document = $this->_getItemDocument($item);
 
-        // Should index the result type.
-        $this->assertEquals(record_url($item, 'show'), $document->url);
+        // Should index the item type.
+        $this->assertEquals('Test Title', $document->title);
 
     }
 
@@ -156,6 +178,25 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
         // Should index the collection title.
         $this->assertEquals('Test Collection', $document->collection);
+
+    }
+
+
+    /**
+     * The tags should be indexed.
+     */
+    public function testIndexTags()
+    {
+
+        $item = insert_item(array(
+            'tags' => 'tag1,tag2,tag3',
+            'public' => true
+        ));
+
+        $document = $this->_getItemDocument($item);
+
+        // Should index the tags.
+        $this->assertEquals(array('tag1', 'tag2', 'tag3'), $document->tag);
 
     }
 
