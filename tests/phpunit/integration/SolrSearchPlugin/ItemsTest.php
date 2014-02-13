@@ -90,7 +90,6 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexResultType()
     {
 
-        // Insert item, get the document.
         $item = insert_item(array('public' => true));
         $document = $this->_getItemDocument($item);
 
@@ -106,12 +105,57 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexUrl()
     {
 
-        // Insert item, get the document.
         $item = insert_item(array('public' => true));
         $document = $this->_getItemDocument($item);
 
         // Should index the result type.
         $this->assertEquals(record_url($item, 'show'), $document->url);
+
+    }
+
+
+    /**
+     * The item type should be indexed.
+     */
+    public function testIndexItemType()
+    {
+
+        $item = insert_item(array(
+            'item_type_name' => 'Software',
+            'public' => true
+        ));
+
+        $document = $this->_getItemDocument($item);
+
+        // Should index the item type.
+        $this->assertEquals('Software', $document->itemtype);
+
+    }
+
+
+    /**
+     * The collection title should be indexed.
+     */
+    public function testIndexCollection()
+    {
+
+        $collection = insert_collection(array(), array(
+            'Dublin Core' => array (
+                'Title' => array(
+                    array('text' => 'Test Collection', 'html' => false)
+                )
+            )
+        ));
+
+        $item = insert_item(array(
+            'collection_id' => $collection->id,
+            'public' => true
+        ));
+
+        $document = $this->_getItemDocument($item);
+
+        // Should index the collection title.
+        $this->assertEquals('Test Collection', $document->collection);
 
     }
 

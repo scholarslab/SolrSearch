@@ -97,14 +97,18 @@ class SolrSearch_Helpers_Index
         }
 
         // Index collection name:
-        if (array_key_exists('collection', $indexSet)
-            && $item['collection_id'] > 0
+        if (array_key_exists('collection', $indexSet) &&
+          $item['collection_id'] > 0
         ) {
-            $collectionName = $db
+
+            $collection = $db
                 ->getTable('Collection')
-                ->find($item['collection_id'])
-                ->name;
-            $doc->collection = $collectionName;
+                ->find($item['collection_id']);
+
+            $doc->collection = metadata(
+              $collection, array('Dublin Core', 'Title')
+            );
+
         }
 
         // Index item type:
