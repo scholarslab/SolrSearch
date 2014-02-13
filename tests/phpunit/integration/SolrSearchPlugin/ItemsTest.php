@@ -90,7 +90,10 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexUrl()
     {
 
+        // Add an item to the index.
         $item = insert_item(array('public' => true));
+
+        // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
         // Should index the result type.
@@ -105,7 +108,10 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexResultType()
     {
 
+        // Add an item to the index.
         $item = insert_item(array('public' => true));
+
+        // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
         // Should index the result type.
@@ -120,18 +126,20 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexTitle()
     {
 
+        // Add an item with a Dublin Core "Title."
         $item = insert_item(array('public' => true), array(
             'Dublin Core' => array (
                 'Title' => array(
-                    array('text' => 'Test Title', 'html' => false)
+                    array('text' => 'title', 'html' => false)
                 )
             )
         ));
 
+        // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
         // Should index the item type.
-        $this->assertEquals('Test Title', $document->title);
+        $this->assertEquals('title', $document->title);
 
     }
 
@@ -142,11 +150,12 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexItemType()
     {
 
+        // Add a "Software" item.
         $item = insert_item(array(
-            'item_type_name' => 'Software',
-            'public' => true
+            'public' => true, 'item_type_name' => 'Software'
         ));
 
+        // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
         // Should index the item type.
@@ -161,23 +170,25 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexCollection()
     {
 
+        // Add collection with a "Title" element.
         $collection = insert_collection(array(), array(
             'Dublin Core' => array (
                 'Title' => array(
-                    array('text' => 'Test Collection', 'html' => false)
+                    array('text' => 'collection', 'html' => false)
                 )
             )
         ));
 
+        // Add an item to the collection.
         $item = insert_item(array(
-            'collection_id' => $collection->id,
-            'public' => true
+            'public' => true, 'collection_id' => $collection->id
         ));
 
+        // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
         // Should index the collection title.
-        $this->assertEquals('Test Collection', $document->collection);
+        $this->assertEquals('collection', $document->collection);
 
     }
 
@@ -188,15 +199,62 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexTags()
     {
 
+        // Add an item with tags.
         $item = insert_item(array(
-            'tags' => 'tag1,tag2,tag3',
-            'public' => true
+            'public' => true, 'tags' => 'tag1,tag2,tag3'
         ));
 
+        // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
         // Should index the tags.
         $this->assertEquals(array('tag1', 'tag2', 'tag3'), $document->tag);
+
+    }
+
+
+    /**
+     * Fields that have been marked as searchable should be indexed.
+     */
+    public function testIndexSearchableFields()
+    {
+
+        // Set "Subject" and "Source" searchable.
+        $this->facetTable->setElementSearchable('Dublin Core', 'Subject');
+        $this->facetTable->setElementSearchable('Dublin Core', 'Source');
+
+        // Add an item with a "Subject" and "Source" texts.
+        $item = insert_item(array('public' => true), array(
+            'Dublin Core' => array (
+                'Subject' => array(
+                    array('text' => 'subject', 'html' => false)
+                ),
+                'Source' => array(
+                    array('text' => 'source', 'html' => false)
+                )
+            )
+        ));
+
+        // Get the Solr document for the item.
+        $document = $this->_getItemDocument($item);
+
+        // Get the "Subject" element.
+        $subject = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Subject'
+        );
+
+        // Get the "Source" element.
+        $source = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Source'
+        );
+
+        // Get the subject and source facets.
+        $subjectName = $this->facetTable->findByElement($subject)->name;
+        $sourceName  = $this->facetTable->findByElement($source)->name;
+
+        // Should index the searchable fields.
+        $this->assertEquals('subject',  $document->$subjectName);
+        $this->assertEquals('source',   $document->$sourceName);
 
     }
 
