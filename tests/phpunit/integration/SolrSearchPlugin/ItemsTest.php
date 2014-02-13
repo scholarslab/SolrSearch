@@ -9,8 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class SolrSearchPluginTest_HookAfterSaveItem
-    extends SolrSearch_Test_AppTestCase
+class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 {
 
 
@@ -81,6 +80,38 @@ class SolrSearchPluginTest_HookAfterSaveItem
 
         // Should remove the Solr document.
         $this->_assertNotItemInSolr($item);
+
+    }
+
+
+    /**
+     * The "Item" `resulttype` should be indexed.
+     */
+    public function testIndexResultType()
+    {
+
+        // Insert item, get the document.
+        $item = insert_item(array('public' => true));
+        $document = $this->_getItemDocument($item);
+
+        // Should index the result type.
+        $this->assertEquals('Item', $document->resulttype);
+
+    }
+
+
+    /**
+     * The item URL should be indexed.
+     */
+    public function testIndexUrl()
+    {
+
+        // Insert item, get the document.
+        $item = insert_item(array('public' => true));
+        $document = $this->_getItemDocument($item);
+
+        // Should index the result type.
+        $this->assertEquals(record_url($item, 'show'), $document->url);
 
     }
 

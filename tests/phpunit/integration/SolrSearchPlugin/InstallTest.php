@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class SolrSearchPluginTest_HookInstall extends SolrSearch_Test_AppTestCase
+class SolrSearchPluginTest_Install extends SolrSearch_Test_AppTestCase
 {
 
 

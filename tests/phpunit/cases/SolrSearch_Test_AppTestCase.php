@@ -216,7 +216,7 @@ SQL
 
 
     /**
-     * Search for an item document in Solr.
+     * Search for an item by id.
      *
      * @param Item $item The Omeka item.
      * @return Apache_Solr_Response
@@ -231,6 +231,18 @@ SQL
         // Query for the document.
         return $this->solr->search("id:{$id['value']}");
 
+    }
+
+
+    /**
+     * Get the individual Solr document for an item.
+     *
+     * @param Item $item The Omeka item.
+     * @return Apache_Solr_Document
+     */
+    protected function _getItemDocument($item)
+    {
+        return $this->_searchForItem($item)->response->docs[0];
     }
 
 
