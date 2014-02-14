@@ -102,9 +102,18 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);
 
+        // If the record yields a Solr document, index it.
         if (!is_null($doc)) {
             $solr = SolrSearch_Helpers_Index::connect();
             $solr->addDocuments(array($doc));
+            $solr->commit();
+            $solr->optimize();
+        }
+
+        // If not (eg, if the record is private), remove an existing document.
+        else if (!is_null($mgr->findAddonForRecord($record))) {
+            $solr = SolrSearch_Helpers_Index::connect();
+            $solr->deleteById($mgr->getId($record));
             $solr->commit();
             $solr->optimize();
         }
@@ -137,8 +146,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $solr->commit();
             $solr->optimize();
 
+        }
+
         // If the item's is being set private, remove it from Solr.
-        } else {
+        else {
             $solr->deleteById('Item_' . $item['id']);
             $solr->commit();
             $solr->optimize();

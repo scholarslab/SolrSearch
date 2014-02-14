@@ -48,7 +48,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
         // Add a private page.
         $page = $this->_page(false);
 
-        // Set the page private.
+        // Set the page public.
         $page->is_published = true;
         $page->save();
 
@@ -80,7 +80,17 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
      */
     public function testRemovePageWhenSetPrivate()
     {
-        // TODO
+
+        // Add a public page.
+        $page = $this->_page(true);
+
+        // Set the page private.
+        $page->is_published = false;
+        $page->save();
+
+        // Should remove Solr document.
+        $this->_assertNotRecordInSolr($page);
+
     }
 
 
