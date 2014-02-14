@@ -85,6 +85,28 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
 
     /**
+     * When an existing item is switched from public to private, it should be
+     * removed from Solr.
+     */
+    public function testRemoveItemWhenDeleted()
+    {
+
+        // Insert public item.
+        $item = insert_item(array('public' => true));
+
+        // Should add a Solr document.
+        $this->_assertItemInSolr($item);
+
+        // Delete.
+        $item->delete();
+
+        // Should remove the Solr document.
+        $this->_assertNotItemInSolr($item);
+
+    }
+
+
+    /**
      * The item URL should be indexed.
      */
     public function testIndexUrl()
