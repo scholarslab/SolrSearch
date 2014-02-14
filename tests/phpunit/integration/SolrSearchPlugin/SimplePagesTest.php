@@ -60,7 +60,6 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
 
     /**
      * When a new private page is added, it should not be indexed in Solr.
-     * @group pages
      */
     public function testDontIndexNewPrivatePage()
     {
@@ -168,10 +167,19 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
 
     /**
      * The page text should be indexed.
+     * @group pages
      */
     public function testIndexText()
     {
-        // TODO
+
+        // Add a page with text.
+        $page = $this->_page(true);
+        $page->text = 'text';
+        $page->save();
+
+        // TODO|dev
+        echo $this->_getAddonSolrKey($page, 'text');
+
     }
 
 

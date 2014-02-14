@@ -272,13 +272,33 @@ SQL
 
 
     /**
+     * Get the key used on Solr documents for a field on a given record.
+     *
+     * @param Omeka_Record_AbstractRecord $record The record.
+     * @param string $field The field.
+     * @return string
+     */
+    protected function _getAddonSolrKey($record, $field)
+    {
+
+        // Spin up a manager and indexer.
+        $mgr = new SolrSearch_Addon_Manager($this->db);
+        $idx = new SolrSearch_Addon_Indexer($this->db);
+
+        // Return the key used to store the field on the Solr document.
+        return $idx->makeSolrName($mgr->findAddonForRecord($record), $field);
+
+    }
+
+
+    /**
      * Get the `name` (used as the key value on Solr documents) for a facet.
      *
      * @param string $elementSetName The element set name.
      * @param string $elementName The element name.
      * @return string
      */
-    protected function _getFacetSolrKey($elementSetName, $elementName)
+    protected function _getElementSolrKey($elementSetName, $elementName)
     {
 
         // Get the element.
