@@ -112,7 +112,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         // Get the Solr document for the item.
         $document = $this->_getRecordDocument($item);
 
-        // Should index the result type.
+        // Should index the URL.
         $this->assertEquals(record_url($item, 'show'), $document->url);
 
     }
@@ -255,8 +255,8 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $document = $this->_getRecordDocument($item);
 
         // Get the subject and source facets.
-        $subjectName = $this->_getFacetName('Dublin Core', 'Subject');
-        $sourceName  = $this->_getFacetName('Dublin Core', 'Source');
+        $subjectName = $this->_getFacetSolrKey('Dublin Core', 'Subject');
+        $sourceName  = $this->_getFacetSolrKey('Dublin Core', 'Source');
 
         // Should index the searchable fields.
         $this->assertEquals('subject',  $document->$subjectName);
@@ -287,8 +287,8 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $document = $this->_getRecordDocument($item);
 
         // Get the subject and source facets.
-        $subjectName = $this->_getFacetName('Dublin Core', 'Subject');
-        $sourceName  = $this->_getFacetName('Dublin Core', 'Source');
+        $subjectName = $this->_getFacetSolrKey('Dublin Core', 'Subject');
+        $sourceName  = $this->_getFacetSolrKey('Dublin Core', 'Source');
 
         // Should index the searchable fields.
         $this->assertObjectNotHasAttribute($subjectName, $document);

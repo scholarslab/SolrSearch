@@ -117,7 +117,16 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
      */
     public function testIndexUrl()
     {
-        // TODO
+
+        // Add a page to the index.
+        $page = $this->_page(true);
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Should index the URL.
+        $this->assertEquals(record_url($page, 'show'), $document->url);
+
     }
 
 
@@ -126,7 +135,16 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
      */
     public function testIndexResultType()
     {
-        // TODO
+
+        // Add a page to the index.
+        $page = $this->_page(true);
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Should index the result type.
+        $this->assertEquals('Simple Pages', $document->resulttype);
+
     }
 
 
@@ -135,7 +153,16 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
      */
     public function testIndexTitle()
     {
-        // TODO
+
+        // Add a page called "title".
+        $page = $this->_page(true, 'title');
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Should index title.
+        $this->assertEquals('title', $document->title);
+
     }
 
 

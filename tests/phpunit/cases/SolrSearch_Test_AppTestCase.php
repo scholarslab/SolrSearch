@@ -278,7 +278,7 @@ SQL
      * @param string $elementName The element name.
      * @return string
      */
-    protected function _getFacetName($elementSetName, $elementName)
+    protected function _getFacetSolrKey($elementSetName, $elementName)
     {
 
         // Get the element.
