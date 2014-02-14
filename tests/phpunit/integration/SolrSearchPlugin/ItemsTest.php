@@ -72,9 +72,6 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         // Insert public item.
         $item = insert_item(array('public' => true));
 
-        // Should add a Solr document.
-        $this->_assertItemInSolr($item);
-
         // Set the item private.
         update_item($item, array('public' => false));
 
@@ -93,9 +90,6 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
         // Insert public item.
         $item = insert_item(array('public' => true));
-
-        // Should add a Solr document.
-        $this->_assertItemInSolr($item);
 
         // Delete.
         $item->delete();

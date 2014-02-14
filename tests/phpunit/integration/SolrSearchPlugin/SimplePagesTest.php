@@ -46,7 +46,17 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
      */
     public function testIndexWhenPageSetPublic()
     {
-        // TODO
+
+        // Add a private page.
+        $page = $this->_page(false);
+
+        // Set the page private.
+        $page->is_published = true;
+        $page->save();
+
+        // Should add a Solr document.
+        $this->_assertPageInSolr($page);
+
     }
 
 
