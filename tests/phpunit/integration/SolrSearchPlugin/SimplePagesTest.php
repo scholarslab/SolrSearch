@@ -99,6 +99,51 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
      */
     public function testRemovePageWhenDeleted()
     {
+
+        // Add a public page.
+        $page = $this->_page(true);
+
+        // Delete.
+        $page->delete();
+
+        // Should remove Solr document.
+        $this->_assertNotRecordInSolr($page);
+
+    }
+
+
+    /**
+     * The page URL should be indexed.
+     */
+    public function testIndexUrl()
+    {
+        // TODO
+    }
+
+
+    /**
+     * The result type should be indexed.
+     */
+    public function testIndexResultType()
+    {
+        // TODO
+    }
+
+
+    /**
+     * The page title should be indexed.
+     */
+    public function testIndexTitle()
+    {
+        // TODO
+    }
+
+
+    /**
+     * The page text should be indexed.
+     */
+    public function testIndexText()
+    {
         // TODO
     }
 

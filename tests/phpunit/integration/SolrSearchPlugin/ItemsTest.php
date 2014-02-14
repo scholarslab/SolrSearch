@@ -119,7 +119,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
 
     /**
-     * The "Item" `resulttype` should be indexed.
+     * The result type should be indexed.
      */
     public function testIndexResultType()
     {
