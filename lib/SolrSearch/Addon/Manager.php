@@ -97,10 +97,9 @@ class SolrSearch_Addon_Manager
     {
         $hit = null;
 
-        $recordTable = get_class($record->getTable());
+        $recordTable = get_class($record);
         foreach ($this->addons as $key => $addon) {
-            $tableName = get_class($this->db->getTable($addon->table));
-            if ($tableName == $recordTable) {
+            if ($recordTable == $addon->table) {
                 $hit = $addon;
                 break;
             }

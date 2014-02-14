@@ -1,5 +1,6 @@
 {
     "exhibits": {
+
         "table"       : "Exhibit",
         "result_type" : "Exhibits",
         "tagged"      : true,
@@ -9,14 +10,14 @@
             "title",
             "description"
         ],
+
         "children": {
             "pages": {
                 "table"       : "ExhibitPage",
                 "result_type" : "Exhibit Pages",
                 "parent_key"  : "exhibit_id",
                 "fields"      : [
-                    "title",
-                    {
+                    "title", {
                         "field"    : "text",
                         "label"    : "Page Text",
                         "facet"    : false,
@@ -29,5 +30,6 @@
                 ]
             }
         }
+
     }
 }
