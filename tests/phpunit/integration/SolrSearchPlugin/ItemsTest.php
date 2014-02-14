@@ -63,7 +63,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
 
 
     /**
-     * When an existing item is switched from public to private, it should be 
+     * When an existing item is switched from public to private, it should be
      * removed from Solr.
      */
     public function testRemoveItemWhenSetPrivate()

@@ -193,6 +193,29 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
+     * Create a Simple Pages page.
+     *
+     * @param string $title The page title.
+     * @param string $slug The page slug.
+     * $return Item
+     */
+    protected function _page($title='Test Title', $slug='test-slug')
+    {
+
+        $page = new SimplePagesPage;
+        $page->created_by_user_id = current_user()->id;
+
+        $page->setArray(array(
+            'title' => $title, 'slug' => $slug
+        ));
+
+        $page->save();
+        return $page;
+
+    }
+
+
+    /**
      * Delete all existing facet mappings.
      */
     protected function _clearFacetMappings()
@@ -224,12 +247,32 @@ SQL
     protected function _searchForItem($item)
     {
 
-        // Get a Solr document for the item.
+        // Get a Solr id for the item.
         $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
-        $id = $doc->getField('id');
+        $sid = $doc->getField('id');
 
         // Query for the document.
-        return $this->solr->search("id:{$id['value']}");
+        return $this->solr->search("id:{$sid['value']}");
+
+    }
+
+
+    /**
+     * Search for a Simple Pages page by id.
+     *
+     * @param SimplePagesPage $page The page.
+     * @return Apache_Solr_Response
+     */
+    protected function _searchForPage($page)
+    {
+
+        // Get a Solr id for the page.
+        $mgr = new SolrSearch_Addon_Manager($this->db);
+        $doc = $mgr->indexRecord($page);
+        $sid = $doc->getField('id');
+
+        // Query for the document.
+        return $this->solr->search("id:{$sid['value']}");
 
     }
 
@@ -243,6 +286,18 @@ SQL
     protected function _getItemDocument($item)
     {
         return $this->_searchForItem($item)->response->docs[0];
+    }
+
+
+    /**
+     * Get the individual Solr document for a Simple Pages page.
+     *
+     * @param SimplePagesPage $page The page.
+     * @return Apache_Solr_Document
+     */
+    protected function _getPageDocument($page)
+    {
+        return $this->_searchForPage($page)->response->docs[0];
     }
 
 
@@ -277,6 +332,23 @@ SQL
 
         // Query for the document.
         $result = $this->_searchForItem($item);
+
+        // Solr document should exist.
+        $this->assertEquals(1, $result->response->numFound);
+
+    }
+
+
+    /**
+     * Assert that a page is indexed in Solr.
+     *
+     * @param SimplePagesPage $page The page.
+     */
+    protected function _assertPageInSolr($page)
+    {
+
+        // Query for the document.
+        $result = $this->_searchForPage($page);
 
         // Solr document should exist.
         $this->assertEquals(1, $result->response->numFound);
