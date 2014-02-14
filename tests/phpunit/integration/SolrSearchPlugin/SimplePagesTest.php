@@ -25,10 +25,18 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
 
     /**
      * When a new page is added, it should be indexed in Solr.
+     *
+     * @group pages
      */
     public function testIndexNewPublicPage()
     {
-        // TODO
+
+        // Add a public page.
+        $page = $this->_page(true);
+
+        // Should add a Solr document.
+        $this->_assertPageInSolr($page);
+
     }
 
 

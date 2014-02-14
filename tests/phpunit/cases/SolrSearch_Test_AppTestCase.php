@@ -195,19 +195,22 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     /**
      * Create a Simple Pages page.
      *
-     * @param string $title The page title.
-     * @param string $slug The page slug.
-     * $return Item
+     * @param boolean $public True if the page is public.
+     * $return SimplePagesPage
      */
-    protected function _page($title='Test Title', $slug='test-slug')
-    {
+    protected function _page(
+        $public=true, $title='Test Title', $slug='test-slug'
+    ) {
 
         $page = new SimplePagesPage;
-        $page->created_by_user_id = current_user()->id;
 
-        $page->setArray(array(
-            'title' => $title, 'slug' => $slug
-        ));
+        // Set parent user and public/private.
+        $page->created_by_user_id = current_user()->id;
+        $page->is_published = $public;
+
+        // Set text fields.
+        $page->title = $title;
+        $page->slug  = $slug;
 
         $page->save();
         return $page;

@@ -90,8 +90,7 @@ class SolrSearch_Addon_Manager
      *
      * @param Omeka_Record $record The record to find an addon for.
      *
-     * @return SolrSearch_Addon_Addon|null $addon The addon for the input 
-     * record.
+     * @return SolrSearch_Addon_Addon|null $addon The corresponding addon.
      * @author Eric Rochester <erochest@virginia.edu>
      **/
     public function findAddonForRecord($record)

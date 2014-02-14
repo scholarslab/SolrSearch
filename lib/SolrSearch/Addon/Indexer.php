@@ -281,9 +281,8 @@ class SolrSearch_Addon_Indexer
     /**
      * This returns true if this addon (and none of its ancestors) are flagged.
      *
-     * @param Omeka_Record           $record The Omeka record to consider 
-     * indexing.
-     * @param SolrSearch_Addon_Addon $addon  The addon for the record.
+     * @param Omeka_Record $record The Omeka record to consider indexing.
+     * @param SolrSearch_Addon_Addon $addon The addon for the record.
      *
      * @return bool $indexed A flag indicating whether to index the record.
      * @author Eric Rochester <erochest@virginia.edu>

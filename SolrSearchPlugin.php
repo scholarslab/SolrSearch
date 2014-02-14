@@ -95,6 +95,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAfterSaveRecord($args)
     {
+
         SolrSearch_Utils::ensureView();
 
         $record = $args['record'];
@@ -107,6 +108,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $solr->commit();
             $solr->optimize();
         }
+
     }
 
 
@@ -118,12 +120,15 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookAfterSaveItem($args)
     {
+
         SolrSearch_Utils::ensureView();
 
         $item = $args['record'];
         $solr = SolrSearch_Helpers_Index::connect();
 
+        // If the item is public, add/update the Solr document.
         if ($item['public'] == true) {
+
             $docs = array();
             $doc = SolrSearch_Helpers_Index::itemToDocument($this->_db, $item);
             $docs[] = $doc;
@@ -131,12 +136,14 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $solr->addDocuments($docs);
             $solr->commit();
             $solr->optimize();
+
+        // If the item's is being set private, remove it from Solr.
         } else {
-            // If the item's no longer public, remove it from the index.
             $solr->deleteById('Item_' . $item['id']);
             $solr->commit();
             $solr->optimize();
         }
+
     }
 
 
@@ -147,6 +154,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookBeforeDeleteRecord($args)
     {
+
         $record = $args['record'];
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $id = $mgr->getId($record);
@@ -159,6 +167,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
                 $solr->optimize();
             } catch (Exception $e) {}
         }
+
     }
 
 
@@ -169,6 +178,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookBeforeDeleteItem($args)
     {
+
         $item = $args['record'];
         $solr = SolrSearch_Helpers_Index::connect();
 
@@ -177,6 +187,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             $solr->commit();
             $solr->optimize();
         } catch (Exception $e) {}
+
     }
 
 
