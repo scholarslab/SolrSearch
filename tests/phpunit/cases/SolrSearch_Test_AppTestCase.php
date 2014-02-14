@@ -242,65 +242,32 @@ SQL
 
 
     /**
-     * Search for an item by id.
+     * Search for a record by id.
      *
-     * @param Item $item The Omeka item.
+     * @param Omeka_Record_AbstractRecord $record The page.
      * @return Apache_Solr_Response
      */
-    protected function _searchForItem($item)
+    protected function _searchForRecord($record)
     {
 
-        // Get a Solr id for the item.
-        $doc = SolrSearch_Helpers_Index::itemToDocument($this->db, $item);
-        $sid = $doc->getField('id');
+        // Get a Solr id for the record.
+        $id = get_class($record) . "_{$record->id}";
 
         // Query for the document.
-        return $this->solr->search("id:{$sid['value']}");
+        return $this->solr->search("id:$id");
 
     }
 
 
     /**
-     * Search for a Simple Pages page by id.
+     * Get the individual Solr document for a record.
      *
-     * @param SimplePagesPage $page The page.
-     * @return Apache_Solr_Response
-     */
-    protected function _searchForPage($page)
-    {
-
-        // Get a Solr id for the page.
-        $mgr = new SolrSearch_Addon_Manager($this->db);
-        $doc = $mgr->indexRecord($page);
-        $sid = $doc->getField('id');
-
-        // Query for the document.
-        return $this->solr->search("id:{$sid['value']}");
-
-    }
-
-
-    /**
-     * Get the individual Solr document for an item.
-     *
-     * @param Item $item The Omeka item.
+     * @param Omeka_Record_AbstractRecord $record The page.
      * @return Apache_Solr_Document
      */
-    protected function _getItemDocument($item)
+    protected function _getRecordDocument($page)
     {
-        return $this->_searchForItem($item)->response->docs[0];
-    }
-
-
-    /**
-     * Get the individual Solr document for a Simple Pages page.
-     *
-     * @param SimplePagesPage $page The page.
-     * @return Apache_Solr_Document
-     */
-    protected function _getPageDocument($page)
-    {
-        return $this->_searchForPage($page)->response->docs[0];
+        return $this->_searchForRecord($page)->response->docs[0];
     }
 
 
@@ -326,15 +293,15 @@ SQL
 
 
     /**
-     * Assert that an item is indexed in Solr.
+     * Assert that a record is indexed in Solr.
      *
-     * @param Item $item The Omeka item.
+     * @param Omeka_Record_AbstractRecord $record The page.
      */
-    protected function _assertItemInSolr($item)
+    protected function _assertRecordInSolr($record)
     {
 
         // Query for the document.
-        $result = $this->_searchForItem($item);
+        $result = $this->_searchForRecord($record);
 
         // Solr document should exist.
         $this->assertEquals(1, $result->response->numFound);
@@ -343,34 +310,17 @@ SQL
 
 
     /**
-     * Assert that a page is indexed in Solr.
+     * Assert that a record is _not_ indexed in Solr.
      *
-     * @param SimplePagesPage $page The page.
+     * @param Omeka_Record_AbstractRecord $record The page.
      */
-    protected function _assertPageInSolr($page)
+    protected function _assertNotRecordInSolr($record)
     {
 
         // Query for the document.
-        $result = $this->_searchForPage($page);
+        $result = $this->_searchForRecord($record);
 
         // Solr document should exist.
-        $this->assertEquals(1, $result->response->numFound);
-
-    }
-
-
-    /**
-     * Assert that an item is _not_ indexed in Solr.
-     *
-     * @param Item $item The Omeka item.
-     */
-    protected function _assertNotItemInSolr($item)
-    {
-
-        // Query for the document.
-        $result = $this->_searchForItem($item);
-
-        // Solr document should not exist.
         $this->assertEquals(0, $result->response->numFound);
 
     }

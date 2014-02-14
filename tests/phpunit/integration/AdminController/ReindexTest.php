@@ -34,8 +34,8 @@ class AdminControllerTest_Reindex extends SolrSearch_Test_AppTestCase
         $this->dispatch('solr-search/reindex');
 
         // Should reindex the items.
-        $this->_assertItemInSolr($item1);
-        $this->_assertItemInSolr($item2);
+        $this->_assertRecordInSolr($item1);
+        $this->_assertRecordInSolr($item2);
 
     }
 

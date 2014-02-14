@@ -25,8 +25,6 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
 
     /**
      * When a new page is added, it should be indexed in Solr.
-     *
-     * @group pages
      */
     public function testIndexNewPublicPage()
     {
@@ -35,7 +33,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
         $page = $this->_page(true);
 
         // Should add a Solr document.
-        $this->_assertPageInSolr($page);
+        $this->_assertRecordInSolr($page);
 
     }
 
@@ -55,17 +53,24 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
         $page->save();
 
         // Should add a Solr document.
-        $this->_assertPageInSolr($page);
+        $this->_assertRecordInSolr($page);
 
     }
 
 
     /**
      * When a new private page is added, it should not be indexed in Solr.
+     * @group pages
      */
     public function testDontIndexNewPrivatePage()
     {
-        // TODO
+
+        // Add a private page.
+        $page = $this->_page(false);
+
+        // Should not add a Solr document.
+        $this->_assertNotRecordInSolr($page);
+
     }
 
 

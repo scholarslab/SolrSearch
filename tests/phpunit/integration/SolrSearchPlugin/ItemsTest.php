@@ -23,7 +23,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $item = insert_item(array('public' => true));
 
         // Should add a Solr document.
-        $this->_assertItemInSolr($item);
+        $this->_assertRecordInSolr($item);
 
     }
 
@@ -42,7 +42,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         update_item($item, array('public' => true));
 
         // Should add a Solr document.
-        $this->_assertItemInSolr($item);
+        $this->_assertRecordInSolr($item);
 
     }
 
@@ -57,7 +57,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $item = insert_item(array('public' => false));
 
         // Should not add a Solr document.
-        $this->_assertNotItemInSolr($item);
+        $this->_assertNotRecordInSolr($item);
 
     }
 
@@ -76,7 +76,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         update_item($item, array('public' => false));
 
         // Should remove the Solr document.
-        $this->_assertNotItemInSolr($item);
+        $this->_assertNotRecordInSolr($item);
 
     }
 
@@ -95,7 +95,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $item->delete();
 
         // Should remove the Solr document.
-        $this->_assertNotItemInSolr($item);
+        $this->_assertNotRecordInSolr($item);
 
     }
 
@@ -110,7 +110,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $item = insert_item(array('public' => true));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Should index the result type.
         $this->assertEquals(record_url($item, 'show'), $document->url);
@@ -128,7 +128,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         $item = insert_item(array('public' => true));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Should index the result type.
         $this->assertEquals('Item', $document->resulttype);
@@ -152,7 +152,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         ));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Should index the item type.
         $this->assertEquals('title', $document->title);
@@ -172,7 +172,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         ));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Should index the item type.
         $this->assertEquals('Software', $document->itemtype);
@@ -201,7 +201,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         ));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Should index the collection title.
         $this->assertEquals('collection', $document->collection);
@@ -221,7 +221,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         ));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Should index the tags.
         $this->assertEquals(array('tag1', 'tag2', 'tag3'), $document->tag);
@@ -252,7 +252,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         ));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Get the subject and source facets.
         $subjectName = $this->_getFacetName('Dublin Core', 'Subject');
@@ -284,7 +284,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         ));
 
         // Get the Solr document for the item.
-        $document = $this->_getItemDocument($item);
+        $document = $this->_getRecordDocument($item);
 
         // Get the subject and source facets.
         $subjectName = $this->_getFacetName('Dublin Core', 'Subject');
