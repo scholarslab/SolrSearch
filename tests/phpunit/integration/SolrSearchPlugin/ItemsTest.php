@@ -150,7 +150,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
     public function testIndexItemType()
     {
 
-        // Add a "Software" item.
+        // Add an item of type "Software".
         $item = insert_item(array(
             'public' => true, 'item_type_name' => 'Software'
         ));
@@ -238,19 +238,9 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
-        // Get the "Subject" element.
-        $subject = $this->elementTable->findByElementSetNameAndElementName(
-            'Dublin Core', 'Subject'
-        );
-
-        // Get the "Source" element.
-        $source = $this->elementTable->findByElementSetNameAndElementName(
-            'Dublin Core', 'Source'
-        );
-
         // Get the subject and source facets.
-        $subjectName = $this->facetTable->findByElement($subject)->name;
-        $sourceName  = $this->facetTable->findByElement($source)->name;
+        $subjectName = $this->_getFacetName('Dublin Core', 'Subject');
+        $sourceName  = $this->_getFacetName('Dublin Core', 'Source');
 
         // Should index the searchable fields.
         $this->assertEquals('subject',  $document->$subjectName);
@@ -280,19 +270,9 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         // Get the Solr document for the item.
         $document = $this->_getItemDocument($item);
 
-        // Get the "Subject" element.
-        $subject = $this->elementTable->findByElementSetNameAndElementName(
-            'Dublin Core', 'Subject'
-        );
-
-        // Get the "Source" element.
-        $source = $this->elementTable->findByElementSetNameAndElementName(
-            'Dublin Core', 'Source'
-        );
-
         // Get the subject and source facets.
-        $subjectName = $this->facetTable->findByElement($subject)->name;
-        $sourceName  = $this->facetTable->findByElement($source)->name;
+        $subjectName = $this->_getFacetName('Dublin Core', 'Subject');
+        $sourceName  = $this->_getFacetName('Dublin Core', 'Source');
 
         // Should index the searchable fields.
         $this->assertObjectNotHasAttribute($subjectName, $document);

@@ -65,7 +65,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
     /**
      * Flag a metadata element to be indexed in Solr.
      *
-     * @return string $setName The element set name.
+     * @return string $elementSetName The element set name.
      * @return string $elementName The element name.
      */
     public function setElementSearchable($elementSetName, $elementName) {

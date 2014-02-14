@@ -247,6 +247,27 @@ SQL
 
 
     /**
+     * Get the `name` (used as the key value on Solr documents) for a facet.
+     *
+     * @param string $elementSetName The element set name.
+     * @param string $elementName The element name.
+     * @return string
+     */
+    protected function _getFacetName($elementSetName, $elementName)
+    {
+
+        // Get the element.
+        $element = $this->elementTable->findByElementSetNameAndElementName(
+            $elementSetName, $elementName
+        );
+
+        // Get the subject and source facets.
+        return $this->facetTable->findByElement($element)->name;
+
+    }
+
+
+    /**
      * Assert that an item is indexed in Solr.
      *
      * @param Item $item The Omeka item.
