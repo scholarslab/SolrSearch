@@ -99,23 +99,34 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         SolrSearch_Utils::ensureView();
 
         $record = $args['record'];
+
+        // Try to extract a document for the record.
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);
 
-        // If the record yields a Solr document, index it.
-        if (!is_null($doc)) {
-            $solr = SolrSearch_Helpers_Index::connect();
-            $solr->addDocuments(array($doc));
-            $solr->commit();
-            $solr->optimize();
-        }
+        // TODO: Why is this check necessary?
+        // Does the record have an add-on profile?
+        if ($mgr->findAddonForRecord($record)) {
 
-        // If not (eg, if the record is private), remove an existing document.
-        else if (!is_null($mgr->findAddonForRecord($record))) {
+            // Connect to Solr.
             $solr = SolrSearch_Helpers_Index::connect();
-            $solr->deleteById($mgr->getId($record));
-            $solr->commit();
-            $solr->optimize();
+
+            // If the record yields a Solr document, index it.
+            if (!is_null($doc)) {
+                $solr->addDocuments(array($doc));
+                $solr->commit();
+                $solr->optimize();
+            }
+
+            // If not, remove an existing document.
+            else {
+                try {
+                    $solr->deleteById($mgr->getId($record));
+                    $solr->commit();
+                    $solr->optimize();
+                } catch (Exception $e) {}
+            }
+
         }
 
     }
