@@ -44,8 +44,6 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
     /**
      * When an existing exhibit is switched from private to public, a page in
      * the exhibit should be indexed in Solr.
-     *
-     * @group pages
      */
     public function testIndexPageWhenExhibitSetPublic()
     {
@@ -125,6 +123,99 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
 
         // Should remove Solr document.
         $this->_assertNotRecordInSolr($page);
+
+    }
+
+
+    /**
+     * The exhibit URL should be indexed.
+     */
+    public function testIndexUrl()
+    {
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Should index the URL.
+        $this->assertEquals(record_url($page, 'show'), $document->url);
+
+    }
+
+
+    /**
+     * The result type should be indexed.
+     */
+    public function testIndexResultType()
+    {
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Should index the URL.
+        $this->assertEquals('Exhibit Pages', $document->resulttype);
+
+    }
+
+
+    /**
+     * The title should be indexed.
+     */
+    public function testIndexTitle()
+    {
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Add a page with a title.
+        $page = $this->_exhibitPage($exhibit, 'title');
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Should index the URL.
+        $this->assertEquals('title', $document->title);
+
+    }
+
+
+    /**
+     * Text fields on child entries should be indexed.
+     * @group pages
+     */
+    public function testIndexEntryText()
+    {
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Add a page with a title.
+        $page = $this->_exhibitPage($exhibit, 'title');
+
+        // Add two entries.
+        $entry1 = $this->_exhibitEntry($page, 'text1');
+        $entry2 = $this->_exhibitEntry($page, 'text2');
+        $page->save();
+
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Get the name of the `text` Solr key.
+        $textKey = $this->_getAddonSolrKey($page, 'text');
+
+        // Should index the URL.
+        $this->assertEquals(array('text1', 'text2'), $document->$textKey);
 
     }
 
