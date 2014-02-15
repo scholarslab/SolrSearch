@@ -167,7 +167,6 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
 
     /**
      * The page text should be indexed.
-     * @group pages
      */
     public function testIndexText()
     {

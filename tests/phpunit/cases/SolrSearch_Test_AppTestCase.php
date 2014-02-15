@@ -273,6 +273,7 @@ SQL
      * @param string $title The page title.
      * @param string $layout The layout template.
      * @param string $slug The page slug.
+     * @param integer $order The page order.
      * $return ExhibitPage
      */
     protected function _exhibitPage(
@@ -299,15 +300,17 @@ SQL
      *
      * @param ExhibitPage $page The parent page.
      * @param string $text The entry content.
+     * @param integer $order The entry order.
      * $return ExhibitPage
      */
-    protected function _exhibitEntry($page, $text='Test text.')
+    protected function _exhibitEntry($page, $text='Test text.', $order=1)
     {
 
         $entry = new ExhibitPageEntry;
 
         $entry->page_id = $page->id;
         $entry->text    = $text;
+        $entry->order   = $order;
 
         $entry->save();
         return $entry;

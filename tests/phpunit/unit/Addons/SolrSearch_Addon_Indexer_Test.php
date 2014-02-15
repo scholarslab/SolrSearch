@@ -68,8 +68,8 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
             $indexer->makeSolrName($this->exhibits, 'description')
         );
         $this->assertEquals(
-            'pages_title_s',
-            $indexer->makeSolrName($this->mgr->addons['pages'], 'title')
+            'exhibit_pages_title_s',
+            $indexer->makeSolrName($this->mgr->addons['exhibit_pages'], 'title')
         );
     }
 

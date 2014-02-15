@@ -62,7 +62,7 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         $this->assertNotEmpty($rows);
         $addon = $mgr->findAddonForRecord($rows[0]);
         $this->assertNotNull($addon);
-        $this->assertEquals('pages', $addon->name);
+        $this->assertEquals('exhibit_pages', $addon->name);
     }
 
     public function testReindexAddons()
@@ -87,11 +87,8 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
             case 'Exhibits':
                 $titleField = 'exhibits_title_s';
                 break;
-            case 'Sections':
-                $titleField = 'sections_title_s';
-                break;
             case 'Exhibit Pages':
-                $titleField = 'pages_title_s';
+                $titleField = 'exhibit_pages_title_s';
                 break;
             }
 

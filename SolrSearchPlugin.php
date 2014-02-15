@@ -104,8 +104,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);
 
-        // TODO: Why is this check necessary?
-        // Does the record have an add-on profile?
+        // Is the record index-able?
         if ($mgr->findAddonForRecord($record)) {
 
             // Connect to Solr.

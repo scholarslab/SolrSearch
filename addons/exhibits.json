@@ -12,7 +12,7 @@
         ],
 
         "children": {
-            "pages": {
+            "exhibit_pages": {
                 "table"       : "ExhibitPage",
                 "result_type" : "Exhibit Pages",
                 "parent_key"  : "exhibit_id",
