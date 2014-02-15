@@ -56,6 +56,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
+    // ENVIRONMENT
+    // ------------------------------------------------------------------------
+
+
     /**
      * Apply options defined in the `solr.ini` file.
      */
@@ -89,6 +93,22 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         }
 
     }
+
+
+    /**
+     * Delete all existing facet mappings.
+     */
+    protected function _clearFacetMappings()
+    {
+        $this->db->query(<<<SQL
+        DELETE FROM {$this->db->prefix}solr_search_facets WHERE 1=1
+SQL
+);
+    }
+
+
+    // LEGACY FIXTURES
+    // ------------------------------------------------------------------------
 
 
     /**
@@ -167,6 +187,10 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
     }
 
 
+    // RECORD FIXTURES
+    // ------------------------------------------------------------------------
+
+
     /**
      * Create an item.
      *
@@ -222,6 +246,8 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      * Create an Exhibit.
      *
      * @param boolean $public True if the exhibit is public.
+     * @param string $title The exhibit title.
+     * @param string $slug The exhibit slug.
      * $return Exhibit
      */
     protected function _exhibit(
@@ -240,15 +266,51 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
 
     /**
-     * Delete all existing facet mappings.
+     * Create an Exhibit page.
+     *
+     * @param Exhibit $exhibit The parent exhibit.
+     * @param string $title The page title.
+     * @param string $slug The page slug.
+     * $return ExhibitPage
      */
-    protected function _clearFacetMappings()
-    {
-        $this->db->query(<<<SQL
-        DELETE FROM {$this->db->prefix}solr_search_facets WHERE 1=1
-SQL
-);
+    protected function _exhibitPage(
+        $exhibit, $title='Test Title', $slug='test-slug'
+    ) {
+
+        $page = new ExhibitPage;
+        $page->exhibit_id = $exhibit->id;
+
+        $page->slug  = $slug;
+        $page->title = $title;
+
+        $page->save();
+        return $page;
+
     }
+
+
+    /**
+     * Create an Exhibit page entry.
+     *
+     * @param ExhibitPage $page The parent page.
+     * @param string $text The entry content.
+     * $return ExhibitPage
+     */
+    protected function _exhibitEntry($page, $text='Test text.')
+    {
+
+        $page = new ExhibitPage;
+        $page->slug  = $slug;
+        $page->title = $title;
+
+        $page->save();
+        return $page;
+
+    }
+
+
+    // SOLR HELPERS
+    // ------------------------------------------------------------------------
 
 
     /**
@@ -332,6 +394,10 @@ SQL
         return $this->facetTable->findByElement($element)->name;
 
     }
+
+
+    // CUSTOM ASSERTIONS
+    // ------------------------------------------------------------------------
 
 
     /**
