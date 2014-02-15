@@ -23,7 +23,7 @@
                         "facet"    : false,
                         "is_title" : false,
                         "remote"   : {
-                            "table" : "ExhibitPageBlock",
+                            "table" : "ExhibitPageEntry",
                             "key"   : "page_id"
                         }
                     }

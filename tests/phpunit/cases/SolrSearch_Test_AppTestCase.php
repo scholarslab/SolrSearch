@@ -284,6 +284,7 @@ SQL
         // Spin up a manager and indexer.
         $mgr = new SolrSearch_Addon_Manager($this->db);
         $idx = new SolrSearch_Addon_Indexer($this->db);
+        $mgr->parseAll();
 
         // Return the key used to store the field on the Solr document.
         return $idx->makeSolrName($mgr->findAddonForRecord($record), $field);

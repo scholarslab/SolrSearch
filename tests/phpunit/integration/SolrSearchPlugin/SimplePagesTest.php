@@ -177,8 +177,14 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
         $page->text = 'text';
         $page->save();
 
-        // TODO|dev
-        echo $this->_getAddonSolrKey($page, 'text');
+        // Get the Solr document for the page.
+        $document = $this->_getRecordDocument($page);
+
+        // Get the name of the `text` Solr key.
+        $textKey = $this->_getAddonSolrKey($page, 'text');
+
+        // Should index the text field.
+        $this->assertEquals('text', $document->$textKey);
 
     }
 

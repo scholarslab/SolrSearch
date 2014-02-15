@@ -254,13 +254,13 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         // Get the Solr document for the item.
         $document = $this->_getRecordDocument($item);
 
-        // Get the subject and source facets.
-        $subjectName = $this->_getElementSolrKey('Dublin Core', 'Subject');
-        $sourceName  = $this->_getElementSolrKey('Dublin Core', 'Source');
+        // Get the subject and source keys.
+        $subjectKey = $this->_getElementSolrKey('Dublin Core', 'Subject');
+        $sourceKey  = $this->_getElementSolrKey('Dublin Core', 'Source');
 
         // Should index the searchable fields.
-        $this->assertEquals('subject',  $document->$subjectName);
-        $this->assertEquals('source',   $document->$sourceName);
+        $this->assertEquals('subject',  $document->$subjectKey);
+        $this->assertEquals('source',   $document->$sourceKey);
 
     }
 
@@ -286,13 +286,13 @@ class SolrSearchPluginTest_Items extends SolrSearch_Test_AppTestCase
         // Get the Solr document for the item.
         $document = $this->_getRecordDocument($item);
 
-        // Get the subject and source facets.
-        $subjectName = $this->_getElementSolrKey('Dublin Core', 'Subject');
-        $sourceName  = $this->_getElementSolrKey('Dublin Core', 'Source');
+        // Get the subject and source keys.
+        $subjectKey = $this->_getElementSolrKey('Dublin Core', 'Subject');
+        $sourceKey  = $this->_getElementSolrKey('Dublin Core', 'Source');
 
-        // Should index the searchable fields.
-        $this->assertObjectNotHasAttribute($subjectName, $document);
-        $this->assertObjectNotHasAttribute($sourceName, $document);
+        // Should not index the un-searchable fields.
+        $this->assertObjectNotHasAttribute($subjectKey, $document);
+        $this->assertObjectNotHasAttribute($sourceKey, $document);
 
     }
 
