@@ -198,7 +198,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      * @param boolean $public True if the page is public.
      * $return SimplePagesPage
      */
-    protected function _page(
+    protected function _simplePage(
         $public=true, $title='Test Title', $slug='test-slug'
     ) {
 

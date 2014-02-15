@@ -28,7 +28,12 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
      */
     public function testIndexNewPageInPublicExhibit()
     {
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
         // TODO
+
     }
 
 

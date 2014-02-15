@@ -30,7 +30,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a public page.
-        $page = $this->_page(true);
+        $page = $this->_simplePage(true);
 
         // Should add a Solr document.
         $this->_assertRecordInSolr($page);
@@ -46,7 +46,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a private page.
-        $page = $this->_page(false);
+        $page = $this->_simplePage(false);
 
         // Set the page public.
         $page->is_published = true;
@@ -65,7 +65,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a private page.
-        $page = $this->_page(false);
+        $page = $this->_simplePage(false);
 
         // Should not add a Solr document.
         $this->_assertNotRecordInSolr($page);
@@ -81,7 +81,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a public page.
-        $page = $this->_page(true);
+        $page = $this->_simplePage(true);
 
         // Set the page private.
         $page->is_published = false;
@@ -100,7 +100,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a public page.
-        $page = $this->_page(true);
+        $page = $this->_simplePage(true);
 
         // Delete.
         $page->delete();
@@ -118,7 +118,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a page to the index.
-        $page = $this->_page(true);
+        $page = $this->_simplePage(true);
 
         // Get the Solr document for the page.
         $document = $this->_getRecordDocument($page);
@@ -136,7 +136,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a page to the index.
-        $page = $this->_page(true);
+        $page = $this->_simplePage(true);
 
         // Get the Solr document for the page.
         $document = $this->_getRecordDocument($page);
@@ -154,7 +154,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a page called "title".
-        $page = $this->_page(true, 'title');
+        $page = $this->_simplePage(true, 'title');
 
         // Get the Solr document for the page.
         $document = $this->_getRecordDocument($page);
@@ -173,7 +173,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Test_AppTestCase
     {
 
         // Add a page with text.
-        $page = $this->_page(true);
+        $page = $this->_simplePage(true);
         $page->text = 'text';
         $page->save();
 
