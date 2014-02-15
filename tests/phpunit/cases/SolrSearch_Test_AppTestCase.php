@@ -255,9 +255,10 @@ SQL
     ) {
 
         $exhibit = new Exhibit;
-        $exhibit->public = $public;
-        $exhibit->slug   = $slug;
-        $exhibit->title  = $title;
+
+        $exhibit->public    = $public;
+        $exhibit->slug      = $slug;
+        $exhibit->title     = $title;
 
         $exhibit->save();
         return $exhibit;
@@ -270,18 +271,22 @@ SQL
      *
      * @param Exhibit $exhibit The parent exhibit.
      * @param string $title The page title.
+     * @param string $layout The layout template.
      * @param string $slug The page slug.
      * $return ExhibitPage
      */
     protected function _exhibitPage(
-        $exhibit, $title='Test Title', $slug='test-slug'
+        $exhibit, $title='Test Title', $layout='text',
+        $slug='test-slug', $order=1
     ) {
 
         $page = new ExhibitPage;
-        $page->exhibit_id = $exhibit->id;
 
-        $page->slug  = $slug;
-        $page->title = $title;
+        $page->exhibit_id   = $exhibit->id;
+        $page->slug         = $slug;
+        $page->layout       = $layout;
+        $page->title        = $title;
+        $page->order        = $order;
 
         $page->save();
         return $page;
@@ -299,12 +304,13 @@ SQL
     protected function _exhibitEntry($page, $text='Test text.')
     {
 
-        $page = new ExhibitPage;
-        $page->slug  = $slug;
-        $page->title = $title;
+        $entry = new ExhibitPageEntry;
 
-        $page->save();
-        return $page;
+        $entry->page_id = $page->id;
+        $entry->text    = $text;
+
+        $entry->save();
+        return $entry;
 
     }
 

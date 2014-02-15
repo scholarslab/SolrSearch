@@ -32,7 +32,11 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
         // Add a public exhibit.
         $exhibit = $this->_exhibit(true);
 
-        // TODO
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Should add a Solr document.
+        $this->_assertRecordInSolr($page);
 
     }
 
@@ -40,10 +44,25 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
     /**
      * When an existing exhibit is switched from private to public, a page in
      * the exhibit should be indexed in Solr.
+     *
+     * @group pages
      */
     public function testIndexPageWhenExhibitSetPublic()
     {
-        // TODO
+
+        // Add a private exhibit.
+        $exhibit = $this->_exhibit(false);
+
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Set exhibit public.
+        $exhibit->public = true;
+        $exhibit->save();
+
+        // Should add a Solr document.
+        $this->_assertRecordInSolr($page);
+
     }
 
 
@@ -52,7 +71,16 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
      */
     public function testDontIndexNewPageInPrivateExhibit()
     {
-        // TODO
+
+        // Add a private exhibit.
+        $exhibit = $this->_exhibit(false);
+
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Should add a Solr document.
+        $this->_assertNotRecordInSolr($page);
+
     }
 
 
@@ -62,7 +90,20 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
      */
     public function testRemovePageWhenExhibitSetPrivate()
     {
-        // TODO
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Set exhibit private.
+        $exhibit->public = false;
+        $exhibit->save();
+
+        // Should remove Solr document.
+        $this->_assertNotRecordInSolr($page);
+
     }
 
 
@@ -72,7 +113,19 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
      */
     public function testRemovePageWhenExhibitDeleted()
     {
-        // TODO
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Add a page to the exhibit.
+        $page = $this->_exhibitPage($exhibit);
+
+        // Delete exhibit.
+        $exhibit->delete();
+
+        // Should remove Solr document.
+        $this->_assertNotRecordInSolr($page);
+
     }
 
 
