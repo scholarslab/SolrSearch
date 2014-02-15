@@ -11,16 +11,9 @@
   text-align: left;
 
   input#solrq {
-    border-radius: 8px;
-  }
-
-  input#solrq {
     width: 475px;
-    box-shadow: 0 1px 3px rgba(44, 11, 0, 0.3), 0 0 7px rgba(88, 88, 88, 0.4) inset;
-    font-size: 16px;
     height: 30px;
     margin-left: 15px;
-    padding: 4px 8px;
   }
 }
 
@@ -31,7 +24,7 @@
 .appliedFilter {
   background: none repeat scroll 0 0 #e2edfe;
   border: 1px solid #c4dafe;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 5px;
   display: inline-block;
   margin-bottom: 0.66em;
   margin-right: 0.33em;
@@ -146,16 +139,16 @@
   }
 
   .solr_result_doc dt {
-    float:left;
-    width:125px;
-    font-weight:bold;
-    text-align:right;
-    margin-right:25px;
+    float: left;
+    width: 125px;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 25px;
   }
 
   .solr_facets_container {
     float: left;
-    width:30%;
+    width: 30%;
 
     li {
       list-style: none;
@@ -163,15 +156,15 @@
 
     .clicker {
       cursor: pointer;
-      position:relative;
+      position: relative;
       padding-left: 12px;
       margin-bottom: 0.5em;
       &:before {
-        position:absolute;
+        position: absolute;
         top: 50%;
-        left:0;
+        left: 0;
         margin-top: -6px;
-        text-align:right;
+        text-align: right;
         content: "";
         border-top: 6px solid transparent;
         border-left: 6px solid #ddd;
@@ -190,34 +183,35 @@
 
   }
 
-  .item{
-    width:100%;
+  .item {
+    width: 100%;
   }
 
-  .fn{
-    width:80%;
-    float:left;
+  .fn {
+    width: 80%;
+    float: left;
   }
-  .fc{
-    float:left;
-    text-align:right;
-    width:15%;
+  .fc {
+    float: left;
+    text-align: right;
+    width: 15%;
   }
 
   ul.facets, ul.facets ul {
       list-style-type: none;
   }
-  .solr_sort>h4{
-    display:inline;	
+  .solr_sort>h4 {
+    display: inline;	
   }
-  .solr_sort_form{
-    float:right;
+  .solr_sort_form {
+    float: right;
   }
-  #sort-label label{
-    display:inline;
+  #sort-label label {
+    display: inline;
   }
-  .solr_highlight>em{
-    font-weight:bold;	
+  .solr_highlight em {
+    font-weight: bold;	
+    font-style: normal;
   }
 
   #facets-form {
