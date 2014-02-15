@@ -209,11 +209,32 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
         $page->is_published = $public;
 
         // Set text fields.
-        $page->title = $title;
         $page->slug  = $slug;
+        $page->title = $title;
 
         $page->save();
         return $page;
+
+    }
+
+
+    /**
+     * Create an Exhibit.
+     *
+     * @param boolean $public True if the exhibit is public.
+     * $return Exhibit
+     */
+    protected function _exhibit(
+        $public=true, $title='Test Title', $slug='test-slug'
+    ) {
+
+        $exhibit = new Exhibit;
+        $exhibit->public = $public;
+        $exhibit->slug   = $slug;
+        $exhibit->title  = $title;
+
+        $exhibit->save();
+        return $exhibit;
 
     }
 

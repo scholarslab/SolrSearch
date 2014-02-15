@@ -28,7 +28,13 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Test_AppTestCase
      */
     public function testIndexNewPublicExhibit()
     {
-        // TODO
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Should add a Solr document.
+        $this->_assertRecordInSolr($exhibit);
+
     }
 
 
@@ -38,7 +44,17 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Test_AppTestCase
      */
     public function testIndexWhenExhibitSetPublic()
     {
-        // TODO
+
+        // Add a private exhibit.
+        $exhibit = $this->_exhibit(false);
+
+        // Set public.
+        $exhibit->public = true;
+        $exhibit->save();
+
+        // Should add a Solr document.
+        $this->_assertRecordInSolr($exhibit);
+
     }
 
 
@@ -47,7 +63,13 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Test_AppTestCase
      */
     public function testDontIndexNewPrivateExhibit()
     {
-        // TODO
+
+        // Add a private exhibit.
+        $exhibit = $this->_exhibit(false);
+
+        // Should add a Solr document.
+        $this->_assertNotRecordInSolr($exhibit);
+
     }
 
 
@@ -57,7 +79,17 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Test_AppTestCase
      */
     public function testRemoveExhibitWhenSetPrivate()
     {
-        // TODO
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Set private.
+        $exhibit->public = false;
+        $exhibit->save();
+
+        // Should remove Solr document.
+        $this->_assertNotRecordInSolr($exhibit);
+
     }
 
 
@@ -66,24 +98,33 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Test_AppTestCase
      */
     public function testRemoveExhibitWhenDeleted()
     {
-        // TODO
+
+        // Add a public exhibit.
+        $exhibit = $this->_exhibit(true);
+
+        // Delete.
+        $exhibit->delete();
+
+        // Should remove Solr document.
+        $this->_assertNotRecordInSolr($exhibit);
+
     }
 
 
     /**
-     * The page URL should be indexed.
+     * The exhibit URL should be indexed.
      */
     public function testIndexUrl()
     {
 
-        // Add a page to the index.
-        $page = $this->_page(true);
+        // Add an exhibit to the index.
+        $exhibit = $this->_exhibit(true);
 
-        // Get the Solr document for the page.
-        $document = $this->_getRecordDocument($page);
+        // Get the Solr document for the exhibit.
+        $document = $this->_getRecordDocument($exhibit);
 
         // Should index the URL.
-        $this->assertEquals(record_url($page, 'show'), $document->url);
+        $this->assertEquals(record_url($exhibit, 'show'), $document->url);
 
     }
 
@@ -94,56 +135,55 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Test_AppTestCase
     public function testIndexResultType()
     {
 
-        // Add a page to the index.
-        $page = $this->_page(true);
+        // Add an exhibit to the index.
+        $exhibit = $this->_exhibit(true);
 
-        // Get the Solr document for the page.
-        $document = $this->_getRecordDocument($page);
+        // Get the Solr document for the exhibit.
+        $document = $this->_getRecordDocument($exhibit);
 
-        // Should index the result type.
-        $this->assertEquals('Simple Pages', $document->resulttype);
+        // Should index the URL.
+        $this->assertEquals('Exhibits', $document->resulttype);
 
     }
 
 
     /**
-     * The page title should be indexed.
+     * The title should be indexed.
      */
     public function testIndexTitle()
     {
 
-        // Add a page called "title".
-        $page = $this->_page(true, 'title');
+        // Add an exhibit called "title".
+        $exhibit = $this->_exhibit(true, 'title');
 
-        // Get the Solr document for the page.
-        $document = $this->_getRecordDocument($page);
+        // Get the Solr document for the exhibit.
+        $document = $this->_getRecordDocument($exhibit);
 
-        // Should index title.
+        // Should index the URL.
         $this->assertEquals('title', $document->title);
 
     }
 
 
     /**
-     * The page text should be indexed.
-     * @group pages
+     * The title should be indexed.
      */
-    public function testIndexText()
+    public function testIndexDescription()
     {
 
-        // Add a page with text.
-        $page = $this->_page(true);
-        $page->text = 'text';
-        $page->save();
+        // Add an exhibit with a description.
+        $exhibit = $this->_exhibit(true);
+        $exhibit->description = 'description';
+        $exhibit->save();
 
-        // Get the Solr document for the page.
-        $document = $this->_getRecordDocument($page);
+        // Get the Solr document for the exhibit.
+        $document = $this->_getRecordDocument($exhibit);
 
-        // Get the name of the `text` Solr key.
-        $textKey = $this->_getAddonSolrKey($page, 'text');
+        // Get the name of the `description` Solr key.
+        $textKey = $this->_getAddonSolrKey($exhibit, 'description');
 
         // Should index the text field.
-        $this->assertEquals('text', $document->$textKey);
+        $this->assertEquals('description', $document->$textKey);
 
     }
 
