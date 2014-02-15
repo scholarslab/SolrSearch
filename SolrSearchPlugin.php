@@ -105,7 +105,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $doc = $mgr->indexRecord($record);
 
         // Is the record index-able?
-        if ($mgr->findAddonForRecord($record)) {
+        if ($addon = $mgr->findAddonForRecord($record)) {
 
             // Connect to Solr.
             $solr = SolrSearch_Helpers_Index::connect();

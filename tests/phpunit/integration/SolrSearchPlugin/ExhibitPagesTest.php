@@ -58,7 +58,7 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
 
         // Set exhibit public.
         $exhibit->public = true;
-        $exhibit->save();
+        $exhibit->save(); $page->save();
 
         // Should add a Solr document.
         $this->_assertRecordInSolr($page);
@@ -99,7 +99,7 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
 
         // Set exhibit private.
         $exhibit->public = false;
-        $exhibit->save();
+        $exhibit->save(); $page->save();
 
         // Should remove Solr document.
         $this->_assertNotRecordInSolr($page);

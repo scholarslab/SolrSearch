@@ -334,36 +334,6 @@ SQL
 
 
     /**
-     * Search for a record by id.
-     *
-     * @param Omeka_Record_AbstractRecord $record The page.
-     * @return Apache_Solr_Response
-     */
-    protected function _searchForRecord($record)
-    {
-
-        // Get a Solr id for the record.
-        $id = get_class($record) . "_{$record->id}";
-
-        // Query for the document.
-        return $this->solr->search("id:$id");
-
-    }
-
-
-    /**
-     * Get the individual Solr document for a record.
-     *
-     * @param Omeka_Record_AbstractRecord $record The page.
-     * @return Apache_Solr_Document
-     */
-    protected function _getRecordDocument($page)
-    {
-        return $this->_searchForRecord($page)->response->docs[0];
-    }
-
-
-    /**
      * Get the key used on Solr documents for a field on a given record.
      *
      * @param Omeka_Record_AbstractRecord $record The record.
@@ -402,6 +372,36 @@ SQL
         // Get the subject and source facets.
         return $this->facetTable->findByElement($element)->name;
 
+    }
+
+
+    /**
+     * Search for a record by id.
+     *
+     * @param Omeka_Record_AbstractRecord $record The page.
+     * @return Apache_Solr_Response
+     */
+    protected function _searchForRecord($record)
+    {
+
+        // Get a Solr id for the record.
+        $id = get_class($record) . "_{$record->id}";
+
+        // Query for the document.
+        return $this->solr->search("id:$id");
+
+    }
+
+
+    /**
+     * Get the individual Solr document for a record.
+     *
+     * @param Omeka_Record_AbstractRecord $record The page.
+     * @return Apache_Solr_Document
+     */
+    protected function _getRecordDocument($page)
+    {
+        return $this->_searchForRecord($page)->response->docs[0];
     }
 
 
