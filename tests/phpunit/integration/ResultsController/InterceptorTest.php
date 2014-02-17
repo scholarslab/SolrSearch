@@ -26,7 +26,29 @@ class ResultsControllerTest_Interceptor extends SolrSearch_Test_AppTestCase
 
         // Should override the default search action.
         $this->assertXpath('//form[@id="search-form"][@action="'.
-            url('solr-search/results/interceptor').'"]');
+            url('solr-search/results/interceptor').'"]'
+        );
+
+    }
+
+
+    /**
+     * The interceptor action should redirect to the results view and populate
+     * the `solrq` GET parameter with the search query.
+     */
+    public function testRedirectToResults()
+    {
+
+        // Set the search query.
+        $this->request->setMethod('GET')->setParams(array(
+            'query' => 'query'
+        ));
+
+        // Run the search.
+        $this->dispatch(url('solr-search/results/interceptor'));
+
+        // Should redirect to the results action.
+        $this->assertRedirectTo('/solr-search/results?solrq=query');
 
     }
 
