@@ -44,7 +44,6 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
     /**
      * When an existing exhibit is switched from private to public, a page in
      * the exhibit should be indexed in Solr.
-     * @group pages
      */
     public function testIndexPageWhenExhibitSetPublic()
     {
