@@ -110,6 +110,70 @@ class SolrSearch_Addon_Manager
 
 
     /**
+     * For a given record, re-save all child addon records, if any exist.
+     *
+     * @param Omeka_Record $record The record.
+     *
+     * @author David McClure <david.mcclure@virginia.edu>
+     **/
+    public function resaveChildren($record)
+    {
+
+        // Get the record's addon.
+        $addon = $this->findAddonForRecord($record);
+        if (is_null($addon)) return;
+
+        foreach ($addon->children as $childAddon) {
+
+            // Load each of the child records.
+            $children = $this->db->getTable($childAddon->table)->findBySql(
+                "{$childAddon->parentKey}=?", array($record->id)
+            );
+
+            // Resave each of the children.
+            foreach ($children as $child) $child->save();
+
+        }
+
+    }
+
+
+    /**
+     * For a given record, re-save the remote parent record, if one exists.
+     *
+     * @param Omeka_Record $record The record.
+     *
+     * @author David McClure <david.mcclure@virginia.edu>
+     **/
+    public function resaveRemoteParent($record)
+    {
+
+        // Get the record type.
+        $table = get_class($record);
+
+        // Iterate over all addon fields.
+        foreach ($this->addons as $addon) {
+            foreach ($addon->fields as $field) {
+
+                // Match remote fields that point to the record's type.
+                if ($field->remote && $field->remote->table == $table) {
+
+                    $parentTable = $this->db->getTable($addon->table);
+                    $parentIdKey = $field->remote->key;
+
+                    // Load the parent and re-save.
+                    $parent = $parentTable->find($record->$parentIdKey);
+                    $parent->save();
+
+                }
+
+            }
+        }
+
+    }
+
+
+    /**
      * This reindexes all the addons and returns the Solr documents created.
      *
      * @param SolrSearch_Addon_Config $config The configuration parser. If 

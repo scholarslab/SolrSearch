@@ -128,6 +128,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         }
 
+        // Reindex related records.
+        $mgr->resaveRemoteParent($record);
+        $mgr->resaveChildren($record);
+
     }
 
 

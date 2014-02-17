@@ -200,7 +200,7 @@ class SolrSearch_ResultsController
     private function _search($facets, $offset=0, $limit=10)
     {
 
-        // Connec to Solr.
+        // Connect to Solr.
         $solr = SolrSearch_Helpers_Index::connect();
 
         // Form the query.
@@ -228,14 +228,10 @@ class SolrSearch_ResultsController
     {
         $db = get_db();
         $displayFields = $db->getTable('SolrSearchFacet')->findBySql(
-            'is_displayed = ?',
-            array('1')
+            'is_displayed = ?', array('1')
         );
 
-        $fields = array(
-            'id',
-            'title'
-        );
+        $fields = array('id', 'title');
         foreach ($displayFields as $k => $displayField) {
             // Pass field accordingly, depending on whether it is an element
             // or collection/tag.

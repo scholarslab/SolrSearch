@@ -56,7 +56,7 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
 
         // Set exhibit public, resave.
         $exhibit->public = true;
-        $exhibit->save(); $page->save();
+        $exhibit->save();
 
         // Should add a Solr document.
         $this->_assertRecordInSolr($page);
@@ -97,7 +97,7 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
 
         // Set exhibit private, resave.
         $exhibit->public = false;
-        $exhibit->save(); $page->save();
+        $exhibit->save();
 
         // Should remove Solr document.
         $this->_assertNotRecordInSolr($page);
@@ -206,7 +206,6 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Test_AppTestCase
         // Add two entries.
         $entry1 = $this->_exhibitEntry($page, 'text1');
         $entry2 = $this->_exhibitEntry($page, 'text2');
-        $page->save();
 
         // Get the Solr document for the page.
         $document = $this->_getRecordDocument($page);
