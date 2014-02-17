@@ -19,41 +19,12 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
         parent::setUp();
         $this->_installPluginOrSkip('ExhibitBuilder');
         $this->_installPluginOrSkip('SimplePages');
-        $this->_loadExhibits();
 
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $addons = $this->mgr->parseAll();
         $this->exhibits = $addons['exhibits'];
 
         $this->idxr = new SolrSearch_Addon_Indexer($this->db);
-    }
-
-    public function testExhibitBuilderInstalled()
-    {
-        $table = $this->db->getTable('Exhibit');
-        $this->assertNotNull($table);
-
-        $tables = $this->db->fetchAssoc('SHOW TABLES;');
-        $this->assertArrayHasKey('omeka_exhibits', $tables);
-
-        $rows = $table->findAll();
-        $this->assertNotEmpty($rows);
-    }
-
-    public function testModels()
-    {
-        $table = $this->db->getTable('Exhibit');
-        $select = $table->getSelect();
-        $table->filterByPublic($select, 1);
-        $es = $table->fetchObjects($select);
-
-        $this->assertCount(1, $es);
-
-        $e = $es[0];
-        $this->assertEquals('Test Exhibit', $e->title);
-
-        $tags = $e->getTags();
-        $this->assertCount(3, $tags);
     }
 
     public function testMakeSolrName()
@@ -71,15 +42,6 @@ class SolrSearch_Addon_Indexer_Test extends SolrSearch_Test_AppTestCase
             'exhibit_pages_title_s',
             $indexer->makeSolrName($this->mgr->addons['exhibit_pages'], 'title')
         );
-    }
-
-    public function testIndexAddons()
-    {
-        $idxr = $this->idxr;
-        $docs = $idxr->indexAll($this->mgr->addons);
-
-        $this->assertNotEmpty($docs);
-        $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
 
     public function testIndexFields()

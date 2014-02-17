@@ -18,7 +18,7 @@ class SolrSearch_Helpers_Query
      * This returns an array containing the Solr GET/POST parameters.
      *
      * @param array  $req        The request array to pull the parameters from.
-     * This defaults to null, which then gets set to $_REQUEST.
+     * This defaults to null, which then gets set to $_GET.
      * @param string $qParam     The name of the q parameter. This defaults to
      * 'solrq'.
      * @param string $facetParam The name of the facet parameter. This defaults
@@ -32,7 +32,7 @@ class SolrSearch_Helpers_Query
         $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
     ) {
 
-        if (is_null($req)) $req = $_REQUEST;
+        if (is_null($req)) $req = $_GET;
         $params = array('q' => '*:*');
 
         if (isset($req[$qParam])) {

@@ -107,119 +107,16 @@ SQL
     }
 
 
-    // LEGACY FIXTURES
-    // ------------------------------------------------------------------------
-
-
-    /**
-     * Create an exhibit with pages and entries.
-     *
-     * @param array $exhibit The raw exhibit fixture array.
-     */
-    protected function _createExhibit($exhibit)
-    {
-        $e = new Exhibit();
-        $e->title       = array_key_exists('title', $exhibit) ? $exhibit['title'] : null;
-        $e->description = array_key_exists('description', $exhibit) ? $exhibit['description'] : null;
-        $e->public      = array_key_exists('public', $exhibit) ? $exhibit['public'] : true;
-        $e->public      = $e->public ? 1 : 0;
-        $e->save();
-
-        if (array_key_exists('tags', $exhibit)) {
-            $e->addTags($exhibit['tags'], $this->user);
-            $e->save();
-        }
-
-        $j = 1;
-        foreach ($exhibit['pages'] as $page) {
-            $p = new ExhibitPage();
-            $p->title      = array_key_exists('title', $page) ? $page['title'] : null;
-            $p->slug       = "exhibit-page-$j";
-            $p->exhibit_id = $e->id;
-            $p->order      = $j;
-            $p->layout     = 'horizontal';
-            $p->save();
-
-            $entries = array_key_exists('entries', $page) ? $page['entries'] : array();
-            $k = 1;
-            foreach ($entries as $entry) {
-
-                $item = $this->_item(
-                    array_key_exists('title', $entry) ? $entry['title'] : null,
-                    array_key_exists('subject', $entry) ? $entry['subject'] : null
-                );
-
-                $pe = new ExhibitPageEntry();
-                $pe->item_id = $item->id;
-                $pe->page_id = $p->id;
-                $pe->order   = $k;
-                $pe->text    = array_key_exists('text', $entry) ? $entry['text'] : null;
-                $pe->caption = array_key_exists('caption', $entry) ? $entry['caption'] : null;
-                $pe->save();
-
-                $k++;
-            }
-
-            $j++;
-        }
-
-        return $e;
-
-    }
-
-
-    /**
-     * Install Exhibit Buidler fixtures.
-     */
-    protected function _loadExhibits()
-    {
-
-        // Parse the JSON file.
-        $fixture = Zend_Json::decode(file_get_contents(
-            SOLR_TEST_DIR . '/fixtures/exhibits.json'
-        ));
-
-        // Install each of the exhibits.
-        foreach ($fixture['exhibits'] as $exhibit) {
-            $this->_createExhibit($exhibit);
-        }
-
-    }
-
-
     // RECORD FIXTURES
     // ------------------------------------------------------------------------
-
-
-    /**
-     * Create an item.
-     *
-     * @param string $title The Dublin Core "Title".
-     * @param string $subject The Dublin Core "Subject".
-     * $return Item
-     */
-    protected function _item($title=null, $subject=null)
-    {
-        return insert_item(array(), array('Dublin Core' => array(
-
-            'Title' => array(array(
-                'text' => $title,
-                'html' => false
-            )),
-
-            'Subject' => array(array(
-                'text' => $subject,
-                'html' => false
-            ))
-
-        )));
-    }
 
 
     /**
      * Create a Simple Pages page.
      *
      * @param boolean $public True if the page is public.
+     * @param string $title The exhibit title.
+     * @param string $slug The exhibit slug.
      * $return SimplePagesPage
      */
     protected function _simplePage(
@@ -271,15 +168,18 @@ SQL
      *
      * @param Exhibit $exhibit The parent exhibit.
      * @param string $title The page title.
-     * @param string $layout The layout template.
      * @param string $slug The page slug.
+     * @param string $layout The layout template.
      * @param integer $order The page order.
      * $return ExhibitPage
      */
     protected function _exhibitPage(
-        $exhibit, $title='Test Title', $layout='text',
-        $slug='test-slug', $order=1
+        $exhibit=null, $title='Test Title', $slug='test-slug',
+        $layout='text', $order=1
     ) {
+
+        // Create a parent exhibit.
+        if (is_null($exhibit)) $exhibit = $this->_exhibit();
 
         $page = new ExhibitPage;
 
@@ -303,8 +203,12 @@ SQL
      * @param integer $order The entry order.
      * $return ExhibitPage
      */
-    protected function _exhibitEntry($page, $text='Test text.', $order=1)
-    {
+    protected function _exhibitEntry(
+        $page=null, $text='Test text.', $order=1
+    ) {
+
+        // Create a parent page.
+        if (is_null($page)) $page = $this->_exhibitPage();
 
         $entry = new ExhibitPageEntry;
 

@@ -18,16 +18,12 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
         parent::setUp();
         $this->_installPluginOrSkip('ExhibitBuilder');
         $this->_installPluginOrSkip('SimplePages');
-        $this->_loadExhibits();
     }
 
     public function testAddonDir()
     {
         $mgr = new SolrSearch_Addon_Manager($this->db);
-        $this->assertEquals(
-            realpath(SOLR_DIR . '/addons'),
-            realpath($mgr->addonDir)
-        );
+        $this->assertEquals(SOLR_DIR . '/addons', $mgr->addonDir);
     }
 
     public function testParseAll()
@@ -39,37 +35,32 @@ class SolrSearch_Addon_Manager_Test extends SolrSearch_Test_AppTestCase
 
     public function testFindAddonForRecordExhibit()
     {
-        $mgr   = new SolrSearch_Addon_Manager($this->db);
-        $table = $this->db->getTable('Exhibit');
-        $rows  = $table->fetchObjects($table->getSelect());
-
+        $mgr = new SolrSearch_Addon_Manager($this->db);
         $mgr->parseAll();
 
-        $this->assertNotEmpty($rows);
-        $addon = $mgr->findAddonForRecord($rows[0]);
+        $addon = $mgr->findAddonForRecord($this->_exhibit());
         $this->assertNotNull($addon);
         $this->assertEquals('exhibits', $addon->name);
     }
 
     public function testFindAddonForRecordExhibitPage()
     {
-        $mgr   = new SolrSearch_Addon_Manager($this->db);
-        $table = $this->db->getTable('ExhibitPage');
-        $rows  = $table->fetchObjects($table->getSelect());
-
+        $mgr = new SolrSearch_Addon_Manager($this->db);
         $mgr->parseAll();
 
-        $this->assertNotEmpty($rows);
-        $addon = $mgr->findAddonForRecord($rows[0]);
+        $addon = $mgr->findAddonForRecord($this->_exhibitPage());
         $this->assertNotNull($addon);
         $this->assertEquals('exhibit_pages', $addon->name);
     }
 
     public function testReindexAddons()
     {
-        $mgr  = new SolrSearch_Addon_Manager($this->db);
-        $docs = $mgr->reindexAddons();
+        $mgr = new SolrSearch_Addon_Manager($this->db);
+        $exhibit1 = $this->_exhibit(true, 'Exhibit 1', 'exhibit1');
+        $exhibit2 = $this->_exhibit(true, 'Exhibit 2', 'exhibit2');
+        $exhibit3 = $this->_exhibit(true, 'Exhibit 3', 'exhibit3');
 
+        $docs = $mgr->reindexAddons();
         $this->assertCount(3, $docs);
         $this->assertInstanceOf('Apache_Solr_Document', $docs[0]);
     }
