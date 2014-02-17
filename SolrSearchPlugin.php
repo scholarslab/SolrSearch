@@ -104,7 +104,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);
 
-        // Is the record index-able?
+        // Does the record have an add-on profile?
         if ($addon = $mgr->findAddonForRecord($record)) {
 
             // Connect to Solr.
@@ -127,6 +127,9 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
             }
 
         }
+
+        // Re-save all child records.
+        $mgr->resaveChildren($record);
 
     }
 

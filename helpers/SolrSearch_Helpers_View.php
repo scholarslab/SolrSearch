@@ -37,7 +37,7 @@ class SolrSearch_Helpers_View
      * @author Eric Rochester <erochest@virginia.edu>
      **/
     public static function createSearchForm(
-        $buttonText=null, $formProperties=array( 'id' => 'simple-search' )
+        $buttonText=null, $formProperties=array('id' => 'simple-search')
     ) {
         $buttonText  = (is_null($buttonText) ? __('Search') : $buttonText);
         $searchQuery = array_key_exists('solrq', $_GET) ? $_GET['solrq'] : '';
