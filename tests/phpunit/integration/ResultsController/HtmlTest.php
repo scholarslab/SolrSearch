@@ -17,6 +17,17 @@ class ResultsControllerTest_Query extends SolrSearch_Test_AppTestCase
 
 
     /**
+     * Install Exhibit Builder and Simple Pages.
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->_installPluginOrSkip('ExhibitBuilder');
+        $this->_installPluginOrSkip('SimplePages');
+    }
+
+
+    /**
      * The simple sarch form should point to the Solr Search interceptor.
      */
     public function testOverrideSearchFormAction()
@@ -114,8 +125,15 @@ class ResultsControllerTest_Query extends SolrSearch_Test_AppTestCase
     public function testReturnAllDocumentsForEmptyQuery()
     {
 
+        $this->_item(true);
+        $this->_simplePage(true);
+        $this->_exhibit(true);
+
         // Search for nothing.
         $this->dispatch('solr-search/results');
+
+        // Should return 4 documents.
+        $this->assertXpathCount(3, '//div[@class="result"]');
 
     }
 

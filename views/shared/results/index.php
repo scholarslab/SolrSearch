@@ -74,7 +74,7 @@
       <!-- Documents. -->
       <?php foreach($results->response->docs as $doc): ?>
 
-        <div class="item" id="solr_<?php echo $doc->__get('id'); ?>">
+        <div class="result" id="solr_<?php echo $doc->__get('id'); ?>">
           <div class="details">
 
             <div class="title">
