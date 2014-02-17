@@ -112,25 +112,6 @@ SQL
 
 
     /**
-     * Create an Item.
-     *
-     * @param boolean $public True if the item is public.
-     * @param string $title The exhibit title.
-     * @return Item $item The item.
-     */
-    protected function _item($public=true, $title='Test Title')
-    {
-        return $item = insert_item(array('public' => $public), array(
-            'Dublin Core' => array (
-                'Title' => array(
-                    array('text' => $title, 'html' => false)
-                )
-            )
-        ));
-    }
-
-
-    /**
      * Create a Simple Pages page.
      *
      * @param boolean $public True if the page is public.
