@@ -128,9 +128,6 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
 
         }
 
-        // Re-save all child records.
-        $mgr->resaveChildren($record);
-
     }
 
 

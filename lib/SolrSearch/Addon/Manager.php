@@ -110,42 +110,6 @@ class SolrSearch_Addon_Manager
 
 
     /**
-     * For a given record, check to see if it has an addon with child records.
-     * If so, load and re-save each of the children. This has the effect of
-     * passing the children through the after-save plugin hooks, which in turn
-     * will automatically (de)index when a change has been made to the parent
-     * that needs to cascade down to the children (eg, when the parent is set
-     * public or private, which determines whether or not the children should
-     * be indexed).
-     *
-     * @param Omeka_Record $record The record.
-     *
-     * @return SolrSearch_Addon_Addon|null $addon The corresponding addon.
-     * @author David McClure <david.mcclure@virginia.edu>
-     **/
-    public function resaveChildren($record)
-    {
-
-        // Get the record's addon.
-        $addon = $this->findAddonForRecord($record);
-        if (is_null($addon)) return;
-
-        foreach ($addon->children as $childAddon) {
-
-            // Load each of the child records.
-            $children = $this->db->getTable($childAddon->table)->findBySql(
-                "{$childAddon->parentKey}=?", array($record->id)
-            );
-
-            // Resave each of the children.
-            foreach ($children as $child) $child->save();
-
-        }
-
-    }
-
-
-    /**
      * This reindexes all the addons and returns the Solr documents created.
      *
      * @param SolrSearch_Addon_Config $config The configuration parser. If 
