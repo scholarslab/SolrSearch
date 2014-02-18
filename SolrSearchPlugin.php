@@ -50,18 +50,19 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookUninstall()
     {
 
-        $sql = "DROP TABLE IF EXISTS `{$this->_db->prefix}solr_search_facets`";
-        $this->_db->query($sql);
+        $this->_db->query(<<<SQL
+        DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_facets
+SQL
+);
 
         try {
             $solr = SolrSearch_Helpers_Index::connect();
             $solr->deleteByQuery('*:*');
             $solr->commit();
             $solr->optimize();
-        } catch (Exception $e) {
-        }
+        } catch (Exception $e) {}
 
-        self::_deleteOptions();
+        self::_clearOptions();
 
     }
 
@@ -316,7 +317,7 @@ SQL
 
 
     /**
-     * Set the default global options.
+     * Set the global options.
      */
     protected function _setOptions()
     {
@@ -332,9 +333,9 @@ SQL
 
 
     /**
-     * Delete the default global options.
+     * Clear the global options.
      */
-    protected function _deleteOptions()
+    protected function _clearOptions()
     {
         delete_option('solr_search_server');
         delete_option('solr_search_port');
