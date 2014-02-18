@@ -427,7 +427,7 @@ input[type="submit"].btn.btn-mini {
   *padding-bottom: 1px;
 }
 
-/* line 6, sass/results.scss */
+/* line 5, sass/results.scss */
 #solr_search {
   border: 1px solid #aaa;
   border-radius: 4px 4px 0 0;
@@ -435,19 +435,19 @@ input[type="submit"].btn.btn-mini {
   padding: 0.666em;
   text-align: left;
 }
-/* line 13, sass/results.scss */
+/* line 12, sass/results.scss */
 #solr_search input#solrq {
   width: 475px;
   height: 30px;
   margin-left: 15px;
 }
 
-/* line 20, sass/results.scss */
+/* line 19, sass/results.scss */
 .facet-fields tbody tr:nth-child(2n+1) {
   background-color: #eee;
 }
 
-/* line 24, sass/results.scss */
+/* line 23, sass/results.scss */
 .appliedFilter {
   background: none repeat scroll 0 0 #e2edfe;
   border: 1px solid #c4dafe;
@@ -458,7 +458,7 @@ input[type="submit"].btn.btn-mini {
   padding: 3px 3px 3px 1.5em;
   position: relative;
 }
-/* line 34, sass/results.scss */
+/* line 33, sass/results.scss */
 .appliedFilter .btnRemove {
   background: url("img/remove.gif") no-repeat scroll center center transparent;
   border-bottom: medium none;
@@ -473,18 +473,18 @@ input[type="submit"].btn.btn-mini {
   width: 32px;
 }
 
-/* line 49, sass/results.scss */
+/* line 48, sass/results.scss */
 .filterName {
   padding-right: 14px;
   background: url("img/separator.gif") no-repeat scroll right center transparent;
 }
 
-/* line 54, sass/results.scss */
+/* line 53, sass/results.scss */
 .filterValue {
   padding-right: 37px;
 }
 
-/* line 58, sass/results.scss */
+/* line 57, sass/results.scss */
 .resultLine {
   background: none repeat scroll 0 0 #f5f5f5;
   clear: both;
@@ -492,19 +492,19 @@ input[type="submit"].btn.btn-mini {
   overflow: hidden;
   padding: 8px 11px 8px 8px;
 }
-/* line 65, sass/results.scss */
+/* line 64, sass/results.scss */
 .resultLine .results {
   float: left;
   width: 100px;
   margin-top: 8px;
 }
-/* line 71, sass/results.scss */
+/* line 70, sass/results.scss */
 .resultLine span {
   float: left;
   line-height: 0 20px;
 }
 
-/* line 79, sass/results.scss */
+/* line 78, sass/results.scss */
 #solr_results #appliedParams {
   background-color: #f0f0f0;
   border-bottom: 1px solid #aaa;
@@ -514,7 +514,7 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 1.5em;
   padding: 1em 0.66em 0 1em;
 }
-/* line 88, sass/results.scss */
+/* line 87, sass/results.scss */
 #solr_results #appliedParams h3 {
   color: #555;
   display: block;
@@ -527,7 +527,7 @@ input[type="submit"].btn.btn-mini {
   margin: 0;
   position: relative;
 }
-/* line 102, sass/results.scss */
+/* line 101, sass/results.scss */
 #solr_results .hd {
   background-color: #eef5fb;
   border-top: 1px solid #a4c6ef;
@@ -536,12 +536,12 @@ input[type="submit"].btn.btn-mini {
   padding-left: 10px;
   width: 100%;
 }
-/* line 111, sass/results.scss */
+/* line 110, sass/results.scss */
 #solr_results .metadata {
   margin: 0.382em 0 0;
   width: 80%;
 }
-/* line 116, sass/results.scss */
+/* line 115, sass/results.scss */
 #solr_results dt {
   float: left;
   line-height: 14px;
@@ -549,11 +549,11 @@ input[type="submit"].btn.btn-mini {
   text-align: right;
   width: 137px;
 }
-/* line 124, sass/results.scss */
+/* line 123, sass/results.scss */
 #solr_results .details .metadata dt {
   font-weight: bold;
 }
-/* line 128, sass/results.scss */
+/* line 127, sass/results.scss */
 #solr_results .hide, #solr_results .print {
   height: 1px;
   left: -1000em;
@@ -561,12 +561,12 @@ input[type="submit"].btn.btn-mini {
   top: -1000em;
   width: 1px;
 }
-/* line 136, sass/results.scss */
+/* line 135, sass/results.scss */
 #solr_results #results {
   float: right;
   width: 65%;
 }
-/* line 141, sass/results.scss */
+/* line 140, sass/results.scss */
 #solr_results .solr_result_doc dt {
   float: left;
   width: 125px;
@@ -574,23 +574,23 @@ input[type="submit"].btn.btn-mini {
   text-align: right;
   margin-right: 25px;
 }
-/* line 149, sass/results.scss */
+/* line 148, sass/results.scss */
 #solr_results .solr_facets_container {
   float: left;
   width: 30%;
 }
-/* line 153, sass/results.scss */
+/* line 152, sass/results.scss */
 #solr_results .solr_facets_container li {
   list-style: none;
 }
-/* line 157, sass/results.scss */
+/* line 156, sass/results.scss */
 #solr_results .solr_facets_container .clicker {
   cursor: pointer;
   position: relative;
   padding-left: 12px;
   margin-bottom: 0.5em;
 }
-/* line 162, sass/results.scss */
+/* line 161, sass/results.scss */
 #solr_results .solr_facets_container .clicker:before {
   position: absolute;
   top: 50%;
@@ -603,7 +603,7 @@ input[type="submit"].btn.btn-mini {
   border-bottom: 6px solid transparent;
   display: inline-block;
 }
-/* line 175, sass/results.scss */
+/* line 174, sass/results.scss */
 #solr_results .solr_facets_container .clicker.active:before {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -611,125 +611,125 @@ input[type="submit"].btn.btn-mini {
   -o-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-/* line 180, sass/results.scss */
+/* line 179, sass/results.scss */
 #solr_results .solr_facets_container ul.facet-list {
   margin: 0 0 3em;
 }
-/* line 186, sass/results.scss */
-#solr_results .item {
+/* line 185, sass/results.scss */
+#solr_results .result {
   width: 100%;
 }
-/* line 190, sass/results.scss */
+/* line 189, sass/results.scss */
 #solr_results .fn {
   width: 80%;
   float: left;
 }
-/* line 194, sass/results.scss */
+/* line 193, sass/results.scss */
 #solr_results .fc {
   float: left;
   text-align: right;
   width: 15%;
 }
-/* line 200, sass/results.scss */
+/* line 199, sass/results.scss */
 #solr_results ul.facets, #solr_results ul.facets ul {
   list-style-type: none;
 }
-/* line 203, sass/results.scss */
+/* line 202, sass/results.scss */
 #solr_results .solr_sort > h4 {
   display: inline;
 }
-/* line 206, sass/results.scss */
+/* line 205, sass/results.scss */
 #solr_results .solr_sort_form {
   float: right;
 }
-/* line 209, sass/results.scss */
+/* line 208, sass/results.scss */
 #solr_results #sort-label label {
   display: inline;
 }
-/* line 212, sass/results.scss */
+/* line 211, sass/results.scss */
 #solr_results .solr_highlight em {
   font-weight: bold;
   font-style: normal;
 }
-/* line 219, sass/results.scss */
+/* line 218, sass/results.scss */
 #solr_results #facets-form .ui-state-focus {
   -moz-box-shadow: none !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   outline: none !important;
 }
-/* line 226, sass/results.scss */
+/* line 225, sass/results.scss */
 #solr_results #facets-form .ui-accordion-header a {
   padding-left: 1.6em !important;
 }
-/* line 230, sass/results.scss */
+/* line 229, sass/results.scss */
 #solr_results #facets-form h3 {
   font-size: 15px;
   font-weight: bold;
   margin: 0;
 }
-/* line 235, sass/results.scss */
+/* line 234, sass/results.scss */
 #solr_results #facets-form h3 .ui-icon {
   opacity: 0.5;
 }
-/* line 240, sass/results.scss */
+/* line 239, sass/results.scss */
 #solr_results #facets-form legend {
   width: 100%;
 }
-/* line 244, sass/results.scss */
+/* line 243, sass/results.scss */
 #solr_results #facets-form .form-row {
   display: block;
 }
-/* line 248, sass/results.scss */
+/* line 247, sass/results.scss */
 #solr_results #facets-form tr.fieldset {
   font-weight: bold;
 }
-/* line 252, sass/results.scss */
+/* line 251, sass/results.scss */
 #solr_results #facets-form table {
   margin: 0;
   padding: 0;
 }
-/* line 257, sass/results.scss */
+/* line 256, sass/results.scss */
 #solr_results #facets-form table, #solr_results #facets-form tr {
   border: none;
 }
-/* line 261, sass/results.scss */
+/* line 260, sass/results.scss */
 #solr_results #facets-form .ui-accordion, #solr_results #facets-form .ui-accordion-content {
   padding: 1em 0 !important;
 }
-/* line 265, sass/results.scss */
+/* line 264, sass/results.scss */
 #solr_results #facets-form td.element {
   padding-left: 2em;
   font-weight: bold;
 }
-/* line 270, sass/results.scss */
+/* line 269, sass/results.scss */
 #solr_results #facets-form th, #solr_results #facets-form td {
   text-align: center;
   width: 25%;
 }
-/* line 275, sass/results.scss */
+/* line 274, sass/results.scss */
 #solr_results #facets-form th:first-child {
   padding-left: 2em;
   text-align: left;
 }
-/* line 279, sass/results.scss */
+/* line 278, sass/results.scss */
 #solr_results #facets-form td:first-child {
   text-align: left;
 }
-/* line 284, sass/results.scss */
+/* line 283, sass/results.scss */
 #solr_results .solr-result-model {
   font-style: italic;
   font-size: 0.75em;
 }
-/* line 285, sass/results.scss */
+/* line 284, sass/results.scss */
 #solr_results .solr-result-model:before {
   content: '(';
 }
-/* line 288, sass/results.scss */
+/* line 287, sass/results.scss */
 #solr_results .solr-result-model:after {
   content: ')';
 }
-/* line 296, sass/results.scss */
+/* line 295, sass/results.scss */
 #solr_results .resultbody .image {
   float: left;
   padding-right: 0.5em;
