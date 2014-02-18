@@ -20,18 +20,11 @@
     type="hidden"
   />
 
-  <div id="facet-<?php echo $facet->id; ?>" class="facetlabel">
-    <?php echo $facet->label; ?>
-  </div>
-
-  <script type="text/javascript">
-    jQuery(function($) {
-      $('#facet-<?php echo $facet->id; ?>').textinplace({
-        form_name: 'facets[<?php echo $facet->name; ?>][label]',
-        revert_to: '<?php echo $facet->getOriginalLabel(); ?>'
-      });
-    });
-  </script>
+  <div
+    data-form-name="facets[<?php echo $facet->name; ?>][label]"
+    data-revert-to="<?php echo $facet->getOriginalLabel(); ?>"
+    class="facet-label"
+  ><?php echo $facet->label; ?></div>
 
   </td>
 

@@ -25,7 +25,7 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
 
             // Label:
             $this->assertXpathContentContains(
-                "//div[@id='facet-{$facet->id}']",
+                "//div[@data-form-name='facets[{$facet->name}][label]']",
                 $facet->label
             );
 
