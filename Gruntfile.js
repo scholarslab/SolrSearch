@@ -53,7 +53,6 @@ module.exports = function(grunt) {
       fields: {
         src: [
           'bower_components/textinplace/dist/jquery.textinplace.js',
-          'views/admin/javascripts/select.js',
           'views/admin/javascripts/accordion.js'
         ],
         dest: 'views/admin/javascripts/payloads/fields.js'

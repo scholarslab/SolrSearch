@@ -314,55 +314,6 @@ class SolrSearch_Helpers_View
 
 
     /**
-     * This takes a subform for the facet config form and renders it.
-     *
-     * This should really use decorators to display them the way we want.
-     *
-     * @param string    $group   The name of the group for the class.
-     * @param Zend_Form $subform The subform to populate.
-     *
-     * @return string
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    public static function createFacetSubForm($group, $subform)
-    {
-        $output  = '';
-        $facetId = $subform->getElement('facetid');
-        $label   = $subform->getElement('label');
-        $options = $subform->getElement('options');
-        $id      = preg_replace('/\W+/', '_', $label->getFullyQualifiedName());
-
-        $output .= get_view()->partial('admin/partials/subform.php', array(
-            'id'      => $id,
-            'facetId' => $facetId,
-            'label'   => $label
-        ));
-
-        foreach ($options->getMultiOptions() as $name => $optlabel) {
-
-            $shortlab = explode(' ', $optlabel);
-            $column   = strtolower($shortlab[1][0]);
-            $output  .= '<td>';
-            $output  .= "<input type='checkbox' name='{$options->getFullyQualifiedName()}' value='$name' ";
-
-            // Flip on checkboxes for activated options.
-            $value = $options->getValue();
-            if (is_array($value) && in_array($name, $value)) {
-                $output .= ' checked="checked"';
-            }
-
-            $output .= " class='g-{$group}-{$column}'/>";
-            $output .= '</td>';
-
-        }
-
-        $output .= '</tr>';
-
-        return $output;
-    }
-
-
-    /**
      * This creates the checkbox to select all children checkboxes.
      *
      * @param string $label The label for the checkbox.

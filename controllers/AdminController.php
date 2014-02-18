@@ -59,33 +59,29 @@ class SolrSearch_AdminController
     public function fieldsAction()
     {
 
-        $form = new SolrSearch_Form_Fields();
-
-        // If a valid form was submitted.
-        if ($this->_request->isPost() && $form->isValid($_POST)) {
+        // If the form was submitted.
+        if ($this->_request->isPost()) {
 
             // Save the facets.
-            foreach ($form->getValues() as $group) {
-                foreach ($group as $facet) {
+            foreach ($this->_request->getPost()['facets'] as $facet) {
 
-                    $options            = $facet['options'];
-                    $isDisplayed        = 0;
-                    $isFacet            = 0;
+                $isDisplayed        = 0;
+                $isFacet            = 0;
 
-                    if (is_array($options)) {
-                        $isDisplayed    = in_array('is_displayed', $options);
-                        $isFacet        = in_array('is_facet', $options);
-                    }
-
-                    // Insert or update the rows.
-                    get_db()->insert('solr_search_facets', array(
-                        'id'            => $facet['facetid'],
-                        'label'         => $facet['label'],
-                        'is_displayed'  => $isDisplayed,
-                        'is_facet'      => $isFacet
-                    ));
-
+                if (array_key_exists('options', $facet)) {
+                    $options        = $facet['options'];
+                    $isDisplayed    = in_array('is_displayed', $options);
+                    $isFacet        = in_array('is_facet', $options);
                 }
+
+                // Insert or update the rows.
+                get_db()->insert('solr_search_facets', array(
+                    'id'            => $facet['id'],
+                    'label'         => $facet['label'],
+                    'is_displayed'  => $isDisplayed,
+                    'is_facet'      => $isFacet
+                ));
+
             }
 
             // Flash success.
@@ -96,7 +92,9 @@ class SolrSearch_AdminController
 
         }
 
-        $this->view->form = $form;
+        // Assign the facet groups.
+        $facets = $this->_helper->db->getTable('SolrSearchFacet');
+        $this->view->groups = $facets->groupByElementSet();
 
     }
 
@@ -115,8 +113,8 @@ class SolrSearch_AdminController
             // Set options.
             $v = $form->getValues();
             set_option('solr_search_hl',        $v['solr_search_hl']);
+            set_option('solr_search_hl_length', $v['solr_search_hl_length']);
             set_option('solr_search_hl_count',  $v['solr_search_hl_count']);
-            set_option('solr_search_hl_length',  $v['solr_search_hl_length']);
 
             // Flash success.
             $this->_helper->flashMessenger(

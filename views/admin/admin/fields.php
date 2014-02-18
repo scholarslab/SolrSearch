@@ -30,10 +30,10 @@
     <?php echo flash(); ?>
 
     <form id="facets-form" method="post">
-      <?php foreach ($form->getSubForms() as $group): ?>
+      <?php foreach ($groups as $name => $group): ?>
 
         <h3 class="fieldset">
-          <a href="#"><?php echo $group->getLegend(); ?></a>
+          <a href="#"><?php echo $name; ?></a>
         </h3>
 
         <div>
@@ -48,10 +48,10 @@
             </thead>
 
             <tbody>
-              <?php foreach ($group->getSubForms() as $facet): ?>
-                <?php echo SolrSearch_Helpers_View::createFacetSubForm(
-                  $group->getName(), $facet
-                ); ?>
+              <?php foreach ($group as $facet): ?>
+                <?php echo $this->partial('admin/partials/facet.php', array(
+                  'facet' => $facet
+                )); ?>
               <?php endforeach; ?>
             </tbody>
 
