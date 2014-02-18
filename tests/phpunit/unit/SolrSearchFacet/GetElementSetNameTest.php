@@ -10,8 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_GetElementSetName
-    extends SolrSearch_Case_Default
+class SolrSearchFacetTest_GetElementSetName extends SolrSearch_Case_Default
 {
 
 

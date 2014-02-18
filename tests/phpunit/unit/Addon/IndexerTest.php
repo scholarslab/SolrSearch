@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearch_Addon_Indexer_Test extends SolrSearch_Case_Default
+class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
 {
 
     public function setUp()
