@@ -71,7 +71,7 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
 
         // Apply the testing values.
         set_option('solr_search_port',      $this->config->port);
-        set_option('solr_search_server',    $this->config->server);
+        set_option('solr_search_host',    $this->config->server);
         set_option('solr_search_core',      $this->config->core);
 
     }

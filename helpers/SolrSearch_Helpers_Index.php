@@ -25,9 +25,9 @@ class SolrSearch_Helpers_Index
     public static function connect($options=array())
     {
 
-        $server = array_key_exists('solr_search_server', $options)
-            ? $options['solr_search_server']
-            : get_option('solr_search_server');
+        $server = array_key_exists('solr_search_host', $options)
+            ? $options['solr_search_host']
+            : get_option('solr_search_host');
 
         $port = array_key_exists('solr_search_port', $options)
             ? $options['solr_search_port']

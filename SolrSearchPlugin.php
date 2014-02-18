@@ -321,14 +321,14 @@ SQL
      */
     protected function _setOptions()
     {
-        set_option('solr_search_server',        'localhost');
+        set_option('solr_search_host',          'localhost');
         set_option('solr_search_port',          '8080');
         set_option('solr_search_core',          '/solr/omeka/');
-        set_option('solr_search_facet_limit',   '25');
-        set_option('solr_search_facet_sort',    'count');
+        set_option('solr_search_facet_count',   '25');
+        set_option('solr_search_facet_order',   'count');
         set_option('solr_search_hl',            'true');
-        set_option('solr_search_snippets',      '1');
-        set_option('solr_search_fragsize',      '250');
+        set_option('solr_search_hl_count',      '1');
+        set_option('solr_search_hl_length',     '250');
     }
 
 
@@ -337,14 +337,14 @@ SQL
      */
     protected function _clearOptions()
     {
-        delete_option('solr_search_server');
+        delete_option('solr_search_host');
         delete_option('solr_search_port');
         delete_option('solr_search_core');
-        delete_option('solr_search_facet_limit');
-        delete_option('solr_search_facet_sort');
+        delete_option('solr_search_facet_count');
+        delete_option('solr_search_facet_order');
         delete_option('solr_search_hl');
-        delete_option('solr_search_snippets');
-        delete_option('solr_search_fragsize');
+        delete_option('solr_search_hl_count');
+        delete_option('solr_search_hl_length');
     }
 
 

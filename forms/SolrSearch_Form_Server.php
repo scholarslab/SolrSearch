@@ -23,10 +23,10 @@ class SolrSearch_Form_Server extends Omeka_Form
         parent::init();
 
         // Server Host:
-        $this->addElement('text', 'solr_search_server', array(
+        $this->addElement('text', 'solr_search_host', array(
             'label'         => __('Server Host'),
             'description'   => __('The location of the Solr server.'),
-            'value'         => get_option('solr_search_server'),
+            'value'         => get_option('solr_search_host'),
             'required'      => true,
             'size'          => 40
         ));
@@ -69,18 +69,18 @@ class SolrSearch_Form_Server extends Omeka_Form
         ));
 
         // Facet Ordering:
-        $this->addElement('select', 'solr_search_facet_sort', array(
+        $this->addElement('select', 'solr_search_facet_order', array(
             'label'         => __('Facet Ordering'),
             'description'   => __('The sorting criteria for result facets.'),
             'multiOptions'  => array( 'index' => __('Alphabetical'), 'count' => __('Occurrences')),
-            'value'         => get_option('solr_search_facet_sort')
+            'value'         => get_option('solr_search_facet_order')
         ));
 
         // Maximum Facet Count:
-        $this->addElement('text', 'solr_search_facet_limit', array(
+        $this->addElement('text', 'solr_search_facet_count', array(
             'label'         => __('Facet Count'),
             'description'   => __('The maximum number of facets to display.'),
-            'value'         => get_option('solr_search_facet_limit'),
+            'value'         => get_option('solr_search_facet_count'),
             'required'      => true,
             'size'          => 40,
             'validators'    => array(
@@ -100,11 +100,11 @@ class SolrSearch_Form_Server extends Omeka_Form
         ));
 
         $this->addDisplayGroup(array(
-            'solr_search_server',
+            'solr_search_host',
             'solr_search_port',
             'solr_search_core',
-            'solr_search_facet_sort',
-            'solr_search_facet_limit'
+            'solr_search_facet_order',
+            'solr_search_facet_count'
         ), 'fields');
 
         $this->addDisplayGroup(array(

@@ -115,8 +115,8 @@ class SolrSearch_AdminController
             // Set options.
             $v = $form->getValues();
             set_option('solr_search_hl',        $v['solr_search_hl']);
-            set_option('solr_search_snippets',  $v['solr_search_snippets']);
-            set_option('solr_search_fragsize',  $v['solr_search_fragsize']);
+            set_option('solr_search_hl_count',  $v['solr_search_hl_count']);
+            set_option('solr_search_hl_length',  $v['solr_search_hl_length']);
 
             // Flash success.
             $this->_helper->flashMessenger(
