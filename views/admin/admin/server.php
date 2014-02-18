@@ -12,9 +12,7 @@
 ?>
 
 <?php echo head(array(
-  'title' => __('Solr Search | Server Configuration'),
-  'bodyclass' => 'primary',
-  'content_class' => 'horizontal-nav'
+  'title' => __('Solr Search | Server Configuration')
 )); ?>
 
 <?php echo $this->partial('admin/partials/navigation.php', array(

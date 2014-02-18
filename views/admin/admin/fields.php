@@ -16,9 +16,7 @@
 
 <?php echo head(array(
   'title' => __('Solr Search | Field Configuration'),
-  'bodyclass' => 'primary',
-  'content_class' => 'horizontal-nav')
-); ?>
+)); ?>
 
 <div id="solr_config">
 
@@ -34,26 +32,26 @@
     <form id="facets-form" method="post">
       <?php foreach ($form->getSubForms() as $group): ?>
 
-        <h3 class="fieldset"><a href="#"><?php echo $group->getLegend(); ?></a></h3>
+        <h3 class="fieldset">
+          <a href="#"><?php echo $group->getLegend(); ?></a>
+        </h3>
+
         <div>
           <table class="facet-fields">
 
             <thead>
               <tr>
-                <?php
-                  $n             = $group->getName();
-                  $is_searchable = SolrSearch_Helpers_View::createSelectAll(__('Is Searchable'), $n, 's');
-                  $is_facet      = SolrSearch_Helpers_View::createSelectAll(__('Is Facet'), $n, 'f');
-                ?>
-                <th><?php echo __('Field');    ?></th>
-                <th><?php echo $is_searchable; ?></th>
-                <th><?php echo $is_facet;      ?></th>
+                <th><?php echo __('Field'); ?></th>
+                <th><?php echo __('Is Searchable'); ?></th>
+                <th><?php echo __('Is Facet'); ?></th>
               </tr>
             </thead>
 
             <tbody>
               <?php foreach ($group->getSubForms() as $facet): ?>
-                <?php echo SolrSearch_Helpers_View::createFacetSubForm($n, $facet); ?>
+                <?php echo SolrSearch_Helpers_View::createFacetSubForm(
+                  $group->getName(), $facet
+                ); ?>
               <?php endforeach; ?>
             </tbody>
 
