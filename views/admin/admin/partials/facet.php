@@ -35,15 +35,14 @@
 
   </td>
 
-  <?php foreach (array('is_displayed', 'is_facet') as $column): ?>
+  <?php foreach (array('is_indexed', 'is_facet') as $opt): ?>
     <td>
       <input
 
-        name="facets[<?php echo $facet->name; ?>][options][]"
-        value="<?php echo $column; ?>"
+        name="facets[<?php echo $facet->name; ?>][<?php echo $opt; ?>]"
         type="checkbox"
 
-        <?php if ($facet->$column): ?>
+        <?php if ($facet->$opt): ?>
           checked="checked"
         <?php endif; ?>
 

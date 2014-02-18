@@ -219,7 +219,7 @@ class SolrSearch_Helpers_Index
         $facets = $db->getTable('SolrSearchFacet')->findAll();
 
         foreach ($facets as $facet) {
-            if ($facet->is_displayed || $facet->is_facet) {
+            if ($facet->is_indexed || $facet->is_facet) {
                 $key = $facet->element_id ? $facet->element_id : $facet->name;
                 $fieldSet[$key] = $facet->name;
             }

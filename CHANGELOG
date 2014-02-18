@@ -525,7 +525,7 @@ a cleaner URL in Zend pagination.
 fields from conditional in the view to parameters passed to solr.
 added faceting
 
-[Wed, 30 Jun 2010 15:25:40 +0000] added is_displayed column to
+[Wed, 30 Jun 2010 15:25:40 +0000] added is_indexed column to
 table. implemented user-selected displayable fields selected in
 config form and displayed in public views. added solr-home
 

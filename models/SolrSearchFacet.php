@@ -35,7 +35,7 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
     /**
      * Displayed status [boolean/tinyint].
      */
-    public $is_displayed;
+    public $is_indexed;
 
 
     /**

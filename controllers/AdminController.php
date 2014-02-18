@@ -59,28 +59,30 @@ class SolrSearch_AdminController
     public function fieldsAction()
     {
 
+        // Get the facet mapping table.
+        $facetTable = $this->_helper->db->getTable('SolrSearchFacet');
+
         // If the form was submitted.
         if ($this->_request->isPost()) {
 
+            // Get facets from POST.
+            $facets = $this->_request->getPost()['facets'];
+
             // Save the facets.
-            foreach ($this->_request->getPost()['facets'] as $facet) {
+            foreach ($facets as $name => $data) {
 
-                $isDisplayed        = 0;
-                $isFacet            = 0;
+                // Were "Is Indexed?" and "Is Facet?" checked?
+                $indexed = array_key_exists('is_indexed', $data) ? 1 : 0;
+                $faceted = array_key_exists('is_facet', $data) ? 1 : 0;
 
-                if (array_key_exists('options', $facet)) {
-                    $options        = $facet['options'];
-                    $isDisplayed    = in_array('is_displayed', $options);
-                    $isFacet        = in_array('is_facet', $options);
-                }
+                // Load the facet mapping.
+                $facet = $facetTable->findByName($name);
 
-                // Insert or update the rows.
-                get_db()->insert('solr_search_facets', array(
-                    'id'            => $facet['id'],
-                    'label'         => $facet['label'],
-                    'is_displayed'  => $isDisplayed,
-                    'is_facet'      => $isFacet
-                ));
+                // Apply the updated values.
+                $facet->label       = $data['label'];
+                $facet->is_indexed  = $indexed;
+                $facet->is_facet    = $faceted;
+                $facet->save();
 
             }
 
@@ -93,8 +95,7 @@ class SolrSearch_AdminController
         }
 
         // Assign the facet groups.
-        $facets = $this->_helper->db->getTable('SolrSearchFacet');
-        $this->view->groups = $facets->groupByElementSet();
+        $this->view->groups = $facetTable->groupByElementSet();
 
     }
 

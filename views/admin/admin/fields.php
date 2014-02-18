@@ -42,8 +42,8 @@
             <thead>
               <tr>
                 <th><?php echo __('Field'); ?></th>
-                <th><?php echo __('Is Searchable'); ?></th>
-                <th><?php echo __('Is Facet'); ?></th>
+                <th><?php echo __('Is Indexed?'); ?></th>
+                <th><?php echo __('Is Facet?'); ?></th>
               </tr>
             </thead>
 

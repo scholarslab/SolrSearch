@@ -14,7 +14,7 @@ class AdminControllerTest_Reindex extends SolrSearch_Case_Default
 
 
     /**
-     * REINDX should clear the Solr index and reindex all records.
+     * REINDEX should clear the Solr index and reindex all records.
      */
     public function testReindex()
     {

@@ -255,12 +255,12 @@ SQL
 
         CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_facets (
 
-            id              int(10) unsigned NOT NULL auto_increment,
-            element_id      int(10) unsigned,
-            name            tinytext collate utf8_unicode_ci NOT NULL,
-            label           tinytext collate utf8_unicode_ci NOT NULL,
-            is_displayed    tinyint unsigned DEFAULT 0,
-            is_facet        tinyint unsigned DEFAULT 0,
+            id          int(10) unsigned NOT NULL auto_increment,
+            element_id  int(10) unsigned,
+            name        tinytext collate utf8_unicode_ci NOT NULL,
+            label       tinytext collate utf8_unicode_ci NOT NULL,
+            is_indexed  tinyint unsigned DEFAULT 0,
+            is_facet    tinyint unsigned DEFAULT 0,
 
             PRIMARY KEY (id)
 
@@ -281,10 +281,10 @@ SQL
         $elements  = $this->_db->getTable('Element');
 
         // Generic facets:
-        $this->_installGenericFacet('tag', __('Tag'));
-        $this->_installGenericFacet('collection', __('Collection'));
-        $this->_installGenericFacet('itemtype', __('Item Type'));
-        $this->_installGenericFacet('resulttype', __('Result Type'));
+        $this->_installGenericFacet('tag',          __('Tag'));
+        $this->_installGenericFacet('collection',   __('Collection'));
+        $this->_installGenericFacet('itemtype',     __('Item Type'));
+        $this->_installGenericFacet('resulttype',   __('Result Type'));
 
         // Element-backed facets:
         foreach ($elements->findAll() as $element) {
@@ -308,10 +308,10 @@ SQL
     protected function _installGenericFacet($name, $label)
     {
         $facet = new SolrSearchFacet();
-        $facet->name            = $name;
-        $facet->label           = $label;
-        $facet->is_displayed    = 1;
-        $facet->is_facet        = 1;
+        $facet->name        = $name;
+        $facet->label       = $label;
+        $facet->is_indexed  = 1;
+        $facet->is_facet    = 1;
         $facet->save();
     }
 

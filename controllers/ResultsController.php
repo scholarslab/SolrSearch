@@ -56,13 +56,12 @@ class SolrSearch_ResultsController
         $results = $this->_search($facets, $start, $search_rows);
 
         $this->_updatePagination($pagination, $results->response->numFound);
-        $this->view->assign(
-            array(
-                'results'    => $results,
-                'pagination' => $pagination,
-                'page'       => $page
-            )
-        );
+
+        $this->view->assign(array(
+            'results'    => $results,
+            'pagination' => $pagination,
+            'page'       => $page
+        ));
 
         $this->view->facets = $facets;
     }
@@ -228,7 +227,7 @@ class SolrSearch_ResultsController
     {
         $db = get_db();
         $displayFields = $db->getTable('SolrSearchFacet')->findBySql(
-            'is_displayed = ?', array('1')
+            'is_indexed = ?', array('1')
         );
 
         $fields = array('id', 'title');

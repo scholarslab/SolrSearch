@@ -80,7 +80,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
 
         // Get the facet, set searchable.
         $facet = $this->findByElement($element);
-        $facet->is_displayed = true;
+        $facet->is_indexed = true;
         $facet->save();
 
     }

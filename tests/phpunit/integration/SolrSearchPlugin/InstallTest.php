@@ -33,7 +33,7 @@ class SolrSearchPluginTest_Install extends SolrSearch_Case_Default
             $this->assertNotNull($facet);
 
             // Should make viewable / searchable.
-            $this->assertEquals(1, $facet->is_displayed);
+            $this->assertEquals(1, $facet->is_indexed);
             $this->assertEquals(1, $facet->is_facet);
 
         }
@@ -61,11 +61,11 @@ class SolrSearchPluginTest_Install extends SolrSearch_Case_Default
 
             // DC "Title" and "Description" should be searchable.
             if (in_array($element->name, array('Title', 'Description'))) {
-                $this->assertEquals(1, $facet->is_displayed);
+                $this->assertEquals(1, $facet->is_indexed);
             }
 
             // But other elements should not be searchable.
-            else $this->assertEquals(0, $facet->is_displayed);
+            else $this->assertEquals(0, $facet->is_indexed);
 
         }
 
