@@ -30,6 +30,7 @@ module.exports = function(grunt) {
     },
 
     clean: {
+      bower: 'bower_components',
       pkg: 'pkg'
     },
 
@@ -161,6 +162,7 @@ module.exports = function(grunt) {
 
   // Build the application.
   grunt.registerTask('build', [
+    'clean',
     'bower',
     'compile:min'
   ]);

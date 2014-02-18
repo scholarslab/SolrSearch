@@ -15,16 +15,18 @@
   <td class="element">
 
   <input
+    type="hidden"
     name="facets[<?php echo $facet->name; ?>][id]"
     value="<?php echo $facet->id; ?>"
-    type="hidden"
   />
 
   <div
+    class="facet-label"
     data-form-name="facets[<?php echo $facet->name; ?>][label]"
     data-revert-to="<?php echo $facet->getOriginalLabel(); ?>"
-    class="facet-label"
-  ><?php echo $facet->label; ?></div>
+  >
+    <?php echo $facet->label; ?>
+  </div>
 
   </td>
 
@@ -32,8 +34,8 @@
     <td>
       <input
 
-        name="facets[<?php echo $facet->name; ?>][<?php echo $opt; ?>]"
         type="checkbox"
+        name="facets[<?php echo $facet->name; ?>][<?php echo $opt; ?>]"
 
         <?php if ($facet->$opt): ?>
           checked="checked"

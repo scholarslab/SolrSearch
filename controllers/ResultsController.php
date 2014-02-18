@@ -138,11 +138,10 @@ class SolrSearch_ResultsController
                 'facet.sort'     => get_option('solr_search_facet_sort'),
                 'hl.fl'          => $displayFields
             );
-        } else {
-            $params = array(
-                'fl'   => $displayFields
-            );
         }
+
+        else $params = array('fl' => $displayFields);
+
         return $params;
     }
 
