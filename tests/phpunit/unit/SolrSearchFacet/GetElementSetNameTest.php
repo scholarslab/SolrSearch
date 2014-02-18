@@ -11,7 +11,7 @@
 
 
 class SolrSearchFacetTest_GetElementSetName
-    extends SolrSearch_Test_AppTestCase
+    extends SolrSearch_Case_Default
 {
 
 

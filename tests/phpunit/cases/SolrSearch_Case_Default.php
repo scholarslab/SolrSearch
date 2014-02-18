@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
+class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
 {
 
 

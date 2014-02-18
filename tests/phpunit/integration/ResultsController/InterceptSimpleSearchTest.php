@@ -10,7 +10,7 @@
  */
 
 class ResultsControllerTest_InterceptSimpleSearch
-    extends SolrSearch_Test_AppTestCase
+    extends SolrSearch_Case_Default
 {
 
 

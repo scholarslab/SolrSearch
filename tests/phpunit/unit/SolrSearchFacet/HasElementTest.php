@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_HasElement extends SolrSearch_Test_AppTestCase
+class SolrSearchFacetTest_HasElement extends SolrSearch_Case_Default
 {
 
 

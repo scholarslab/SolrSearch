@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class ResultsControllerTest_SearchItems extends SolrSearch_Test_AppTestCase
+class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
 {
 
 

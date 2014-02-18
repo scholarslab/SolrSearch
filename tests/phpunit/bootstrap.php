@@ -18,4 +18,4 @@ define('OMEKA_DIR', dirname(dirname(SOLR_DIR)));
 require_once OMEKA_DIR.'/application/tests/bootstrap.php';
 
 // Base test case.
-require_once 'cases/SolrSearch_Test_AppTestCase.php';
+require_once 'cases/SolrSearch_Case_Default.php';

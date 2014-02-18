@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_GetOriginalLabel extends SolrSearch_Test_AppTestCase
+class SolrSearchFacetTest_GetOriginalLabel extends SolrSearch_Case_Default
 {
 
 

@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearch_Addon_Addon_Test extends SolrSearch_Test_AppTestCase
+class SolrSearch_Addon_Addon_Test extends SolrSearch_Case_Default
 {
 
     public function setUp()

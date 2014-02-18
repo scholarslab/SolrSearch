@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class AdminControllerTest_Server extends SolrSearch_Test_AppTestCase
+class AdminControllerTest_Server extends SolrSearch_Case_Default
 {
 
 

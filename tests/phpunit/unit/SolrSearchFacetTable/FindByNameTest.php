@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTableTest_FindByName extends SolrSearch_Test_AppTestCase
+class SolrSearchFacetTableTest_FindByName extends SolrSearch_Case_Default
 {
 
 
