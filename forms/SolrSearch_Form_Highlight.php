@@ -31,10 +31,10 @@ class SolrSearch_Form_Highlight extends Omeka_Form
         ));
 
         // Number of Snippets:
-        $this->addElement('text', 'solr_search_hl_count', array(
+        $this->addElement('text', 'solr_search_hl_snippets', array(
             'label'         => __('Number of Snippets'),
             'description'   => __('The maximum number of highlighted snippets to generate.'),
-            'value'         => get_option('solr_search_hl_count'),
+            'value'         => get_option('solr_search_hl_snippets'),
             'required'      => true,
             'size'          => 40,
             'validators'    => array(
@@ -49,10 +49,10 @@ class SolrSearch_Form_Highlight extends Omeka_Form
         ));
 
         // Snippet Length:
-        $this->addElement('text', 'solr_search_hl_length', array(
+        $this->addElement('text', 'solr_search_hl_fragsize', array(
             'label'         => __('Snippet Length'),
             'description'   => __('The maximum number of characters to display in a snippet.'),
-            'value'         => get_option('solr_search_hl_length'),
+            'value'         => get_option('solr_search_hl_fragsize'),
             'required'      => true,
             'size'          => 40,
             'validators'    => array(
@@ -73,8 +73,8 @@ class SolrSearch_Form_Highlight extends Omeka_Form
 
         $this->addDisplayGroup(array(
             'solr_search_hl',
-            'solr_search_hl_count',
-            'solr_search_hl_length'
+            'solr_search_hl_snippets',
+            'solr_search_hl_fragsize'
         ), 'fields');
 
         $this->addDisplayGroup(array(

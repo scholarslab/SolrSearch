@@ -33,15 +33,15 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
         // Snippets:
         $this->assertXpath(
             '//input
-            [@name="solr_search_hl_count"]
-            [@value="' . get_option('solr_search_hl_count') . '"]'
+            [@name="solr_search_hl_snippets"]
+            [@value="' . get_option('solr_search_hl_snippets') . '"]'
         );
 
         // Snippet size:
         $this->assertXpath(
             '//input
-            [@name="solr_search_hl_length"]
-            [@value="' . get_option('solr_search_hl_length') . '"]'
+            [@name="solr_search_hl_fragsize"]
+            [@value="' . get_option('solr_search_hl_fragsize') . '"]'
         );
 
     }
@@ -53,20 +53,20 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
     public function testNoSnippetCount()
     {
 
-        set_option('solr_search_hl_count', '1');
+        set_option('solr_search_hl_snippets', '1');
 
         // Missing snippet count.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl_count' => ''
+            'solr_search_hl_snippets' => ''
         ));
 
         $this->dispatch('solr-search/highlight');
 
         // Should not set option.
-        $this->assertEquals('1', get_option('solr_search_hl_count'));
+        $this->assertEquals('1', get_option('solr_search_hl_snippets'));
 
         // Should flash error.
-        $this->_assertFormError('solr_search_hl_count');
+        $this->_assertFormError('solr_search_hl_snippets');
 
     }
 
@@ -77,20 +77,20 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
     public function testInvalidSnippetCount()
     {
 
-        set_option('solr_search_hl_count', '1');
+        set_option('solr_search_hl_snippets', '1');
 
         // Missing snippet count.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl_count' => 'invalid'
+            'solr_search_hl_snippets' => 'invalid'
         ));
 
         $this->dispatch('solr-search/highlight');
 
         // Should not set option.
-        $this->assertEquals('1', get_option('solr_search_hl_count'));
+        $this->assertEquals('1', get_option('solr_search_hl_snippets'));
 
         // Should flash error.
-        $this->_assertFormError('solr_search_hl_count');
+        $this->_assertFormError('solr_search_hl_snippets');
 
     }
 
@@ -101,20 +101,20 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
     public function testNoSnippetLength()
     {
 
-        set_option('solr_search_hl_length', '250');
+        set_option('solr_search_hl_fragsize', '250');
 
         // Missing snippet length.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl_length' => ''
+            'solr_search_hl_fragsize' => ''
         ));
 
         $this->dispatch('solr-search/highlight');
 
         // Should not set option.
-        $this->assertEquals('250', get_option('solr_search_hl_length'));
+        $this->assertEquals('250', get_option('solr_search_hl_fragsize'));
 
         // Should flash error.
-        $this->_assertFormError('solr_search_hl_length');
+        $this->_assertFormError('solr_search_hl_fragsize');
 
     }
 
@@ -125,20 +125,20 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
     public function testInvalidSnippetLength()
     {
 
-        set_option('solr_search_hl_length', '250');
+        set_option('solr_search_hl_fragsize', '250');
 
         // Missing snippet length.
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl_length' => 'invalid'
+            'solr_search_hl_fragsize' => 'invalid'
         ));
 
         $this->dispatch('solr-search/highlight');
 
         // Should not set option.
-        $this->assertEquals('250', get_option('solr_search_hl_length'));
+        $this->assertEquals('250', get_option('solr_search_hl_fragsize'));
 
         // Should flash error.
-        $this->_assertFormError('solr_search_hl_length');
+        $this->_assertFormError('solr_search_hl_fragsize');
 
     }
 
@@ -149,21 +149,21 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
     public function testSuccess()
     {
 
-        set_option('solr_search_hl',        'true');
-        set_option('solr_search_hl_count',  '1');
-        set_option('solr_search_hl_length', '250');
+        set_option('solr_search_hl',            'true');
+        set_option('solr_search_hl_snippets',   '1');
+        set_option('solr_search_hl_fragsize',   '250');
 
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'        => 'false',
-            'solr_search_hl_count'  => '2',
-            'solr_search_hl_length' => '300'
+            'solr_search_hl'            => 'false',
+            'solr_search_hl_snippets'   => '2',
+            'solr_search_hl_fragsize'   => '300'
         ));
 
         $this->dispatch('solr-search/highlight');
 
         $hl         = get_option('solr_search_hl');
-        $snippets   = get_option('solr_search_hl_count');
-        $fragsize   = get_option('solr_search_hl_length');
+        $snippets   = get_option('solr_search_hl_snippets');
+        $fragsize   = get_option('solr_search_hl_fragsize');
 
         // Should update options.
         $this->assertEquals('false',    $hl);

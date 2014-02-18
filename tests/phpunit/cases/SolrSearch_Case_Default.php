@@ -70,9 +70,9 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
         $this->config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
 
         // Apply the testing values.
-        set_option('solr_search_port',      $this->config->port);
-        set_option('solr_search_host',    $this->config->server);
-        set_option('solr_search_core',      $this->config->core);
+        set_option('solr_search_port',  $this->config->port);
+        set_option('solr_search_host',  $this->config->server);
+        set_option('solr_search_core',  $this->config->core);
 
     }
 
