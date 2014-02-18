@@ -56,47 +56,6 @@ class SolrSearch_Helpers_View
 
 
     /**
-     * Looks up element name for all Solr elements.
-     *
-     * @return array An array indexed by element IDs, mapping to element names.
-     */
-    public static function getElementNames()
-    {
-        $index = array();
-
-        $db = get_db();
-        $select = $db
-            ->select()
-            ->from("{$db->prefix}elements", array('id', 'name'));
-        $stmt   = $select->query();
-        $result = $stmt->fetchAll();
-
-        foreach ($result as $row) {
-            $index['' . $row['id']] = $row['name'];
-        }
-
-        return $index;
-    }
-
-
-    /**
-     * Looks up a Solr element name (ID_suffix) in the index returned by 
-     * getElementNames.
-     *
-     * @param array  $index The index returned by getElementNames.
-     * @param string $name  The Solr element name.
-     *
-     * @return string The display label for the element.
-     */
-    public static function getElementName($index, $name)
-    {
-        $field = explode('_', $name);
-        $id    = $field[0];
-        return $index[$id];
-    }
-
-
-    /**
      * Lookup the element name for a solr element
      *
      * TODO: store this in the solr index (add sub-index field for this)
