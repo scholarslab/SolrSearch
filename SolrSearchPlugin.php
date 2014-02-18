@@ -153,11 +153,11 @@ SQL
         // If the item is public, add/update the Solr document.
         if ($item['public'] == true) {
 
-            $docs = array();
-            $doc = SolrSearch_Helpers_Index::itemToDocument($this->_db, $item);
-            $docs[] = $doc;
+            $doc = SolrSearch_Helpers_Index::itemToDocument(
+                $this->_db, $item
+            );
 
-            $solr->addDocuments($docs);
+            $solr->addDocuments(array($doc));
             $solr->commit();
             $solr->optimize();
 
