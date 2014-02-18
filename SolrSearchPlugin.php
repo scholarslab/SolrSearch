@@ -21,8 +21,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'define_routes',
         'after_save_record',
         'after_save_item',
+        'after_save_element',
         'before_delete_record',
-        'before_delete_item'
+        'before_delete_item',
+        'before_delete_element'
     );
 
 
@@ -174,6 +176,20 @@ SQL
 
 
     /**
+     * When a new element is added, register a facet mapping for it.
+     *
+     * @param array $args With `record` and `insert`.
+     */
+    public function hookAfterSaveElement($args)
+    {
+        if ($args['insert']) {
+            $facet = new SolrSearchFacet($args['record']);
+            $facet->save();
+        }
+    }
+
+
+    /**
      * When a record is deleted, clear its Solr record.
      *
      * @param array $args With `record`.
@@ -214,6 +230,19 @@ SQL
             $solr->optimize();
         } catch (Exception $e) {}
 
+    }
+
+
+    /**
+     * When an element is deleted, remove its facet mapping.
+     *
+     * @param array $args With `record`.
+     */
+    public function hookBeforeDeleteElement($args)
+    {
+        $table = $this->_db->getTable('SolrSearchFacet');
+        $facet = $table->findByElement($args['record']);
+        $facet->delete();
     }
 
 

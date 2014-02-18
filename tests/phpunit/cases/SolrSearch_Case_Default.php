@@ -226,6 +226,30 @@ SQL
 
 
     /**
+     * Create an Element.
+     *
+     * @param string $elementSetName The name of the parent element set.
+     * @param string $name The element name.
+     * $return Element
+     */
+    protected function _element(
+        $elementSetName='Item Type Metadata', $name='Test Element'
+    ) {
+
+        // Get the parent element set.
+        $elementSet = $this->elementSetTable->findByName($elementSetName);
+
+        $element = new Element();
+        $element->element_set_id = $elementSet->id;
+        $element->name = 'New Element';
+
+        $element->save();
+        return $element;
+
+    }
+
+
+    /**
      * Reload a record.
      *
      * @param Omeka_Record_AbstractRecord $record A record to reload.
