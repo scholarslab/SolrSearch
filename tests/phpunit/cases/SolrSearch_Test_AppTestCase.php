@@ -65,12 +65,15 @@ class SolrSearch_Test_AppTestCase extends Omeka_Test_AppTestCase
      */
     protected function _applyTestingOptions()
     {
-        if (file_exists(SOLR_TEST_DIR.'/solr.ini')) {
-            $this->config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
-            set_option('solr_search_port',      $this->config->port);
-            set_option('solr_search_server',    $this->config->server);
-            set_option('solr_search_core',      $this->config->core);
-        }
+
+        // Parse the config file.
+        $this->config = new Zend_Config_Ini(SOLR_TEST_DIR.'/solr.ini');
+
+        // Apply the testing values.
+        set_option('solr_search_port',      $this->config->port);
+        set_option('solr_search_server',    $this->config->server);
+        set_option('solr_search_core',      $this->config->core);
+
     }
 
 
@@ -178,7 +181,7 @@ SQL
         $layout='text', $order=1
     ) {
 
-        // Create a parent exhibit.
+        // Create a parent exhibit if none is passed.
         if (is_null($exhibit)) $exhibit = $this->_exhibit();
 
         $page = new ExhibitPage;
@@ -207,7 +210,7 @@ SQL
         $page=null, $text='Test text.', $order=1
     ) {
 
-        // Create a parent page.
+        // Create a parent page if none is passed.
         if (is_null($page)) $page = $this->_exhibitPage();
 
         $entry = new ExhibitPageEntry;
