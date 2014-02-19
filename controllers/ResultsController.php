@@ -31,23 +31,19 @@ class SolrSearch_ResultsController
      */
     public function indexAction()
     {
+
+        // Get a list of active facets.
         $facets = $this->_getSearchFacets();
-        $pagination = $this->_getPagination();
-        $page = $pagination['page'];
-        $search_rows = $pagination['per_page'];
-        $start = ($page - 1) * $search_rows;
 
-        $results = $this->_search($facets, $start, $search_rows);
+        // Execute the query.
+        $results = $this->_search($facets, $start, $pagination['per_page']);
 
+        // Update the pagination in the Zend registry.
         $this->_updatePagination($pagination, $results->response->numFound);
 
-        $this->view->assign(array(
-            'results'    => $results,
-            'pagination' => $pagination,
-            'page'       => $page
-        ));
+        $this->view->results = $results;
+        $this->view->facets  = $facets;
 
-        $this->view->facets = $facets;
     }
 
 

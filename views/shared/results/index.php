@@ -40,10 +40,17 @@
     <!-- Document. -->
     <div class="solr-result">
 
-      <!-- Title and type. -->
+      <!-- Header. -->
       <div class="solr-title">
-        <a href="<?php echo $doc->url; ?>"><?php echo $doc->title; ?></a>
+
+        <!-- Title. -->
+        <a href="<?php echo $doc->url; ?>">
+          <?php echo is_array($doc->title) ? $doc->title[0] : $doc->title; ?>
+        </a>
+
+        <!-- Result type. -->
         <span class="result-type">(<?php echo $doc->resulttype; ?>)</span>
+
       </div>
 
       <!-- Highlighting. -->
