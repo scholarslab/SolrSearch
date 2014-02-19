@@ -128,7 +128,7 @@ class SolrSearch_ResultsController
      */
     private function _getSearchParameters($facets)
     {
-        $displayFields = $this->_getDisplayableFields();
+        $displayFields = $this->_getDisplayedFields();
         $hiddenFields  = $this->_getHiddenFields();
 
         $fields = $displayFields;
@@ -233,7 +233,7 @@ class SolrSearch_ResultsController
      *
      * @return string Fields to display
      */
-    private function _getDisplayableFields()
+    private function _getDisplayedFields()
     {
         $db = get_db();
         $displayFields = $db->getTable('SolrSearchFacet')->findBySql(
