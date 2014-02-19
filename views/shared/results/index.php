@@ -70,4 +70,5 @@
 
 </div>
 
+<?php echo pagination_links(); ?>
 <?php echo foot();

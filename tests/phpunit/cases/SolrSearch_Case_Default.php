@@ -115,6 +115,25 @@ SQL
 
 
     /**
+     * Create an item.
+     *
+     * @param boolean $public True if the item is public.
+     * @param string $title The Dublin Core "Title".
+     * $return Item
+     */
+    protected function _item($public=true, $title='Test Title')
+    {
+        return insert_item(array('public' => true), array(
+            'Dublin Core' => array (
+                'Title' => array(
+                    array('text' => 'title', 'html' => false)
+                )
+            )
+        ));
+    }
+
+
+    /**
      * Create a Simple Pages page.
      *
      * @param boolean $public True if the page is public.
