@@ -137,4 +137,16 @@ class SolrSearchFacet extends Omeka_Record_AbstractRecord
     }
 
 
+    /**
+     * If the label is empty, revert to the original label.
+     *
+     * @return string The facet label.
+     */
+    public function beforeSave()
+    {
+        $label = trim($this->label);
+        if (empty($label)) $this->label = $this->getOriginalLabel();
+    }
+
+
 }
