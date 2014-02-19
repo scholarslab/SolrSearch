@@ -31,15 +31,6 @@ class SolrSearch_ResultsController
      */
     public function indexAction()
     {
-        $this->handleHtml();
-    }
-
-
-    /**
-     * Display results using HTML handler.
-     */
-    protected function handleHtml()
-    {
         $facets = $this->_getSearchFacets();
         $pagination = $this->_getPagination();
         $page = $pagination['page'];
@@ -61,22 +52,47 @@ class SolrSearch_ResultsController
 
 
     /**
+     * Display results using HTML handler.
+     */
+    //protected function handleHtml()
+    //{
+        //$facets = $this->_getSearchFacets();
+        //$pagination = $this->_getPagination();
+        //$page = $pagination['page'];
+        //$search_rows = $pagination['per_page'];
+        //$start = ($page - 1) * $search_rows;
+
+        //$results = $this->_search($facets, $start, $search_rows);
+
+        //$this->_updatePagination($pagination, $results->response->numFound);
+
+        //$this->view->assign(array(
+            //'results'    => $results,
+            //'pagination' => $pagination,
+            //'page'       => $page
+        //));
+
+        //$this->view->facets = $facets;
+    //}
+
+
+    /**
      * Display result set using JSON handler.
      */
-    protected function handleJson()
-    {
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $facets = $this->_getSearchFacets();
-        $results = $this->_search($facets, 0, 1500);
-        $this->view->assign(
-            array(
-                'results' => $results
-            )
-        );
+    //protected function handleJson()
+    //{
+        //$this->getResponse()->setHeader('Content-type', 'application/json');
+        //$facets = $this->_getSearchFacets();
+        //$results = $this->_search($facets, 0, 1500);
+        //$this->view->assign(
+            //array(
+                //'results' => $results
+            //)
+        //);
 
-        $this->view->facets = $facets;
-        $this->_helper->viewRenderer('ajax');
-    }
+        //$this->view->facets = $facets;
+        //$this->_helper->viewRenderer('ajax');
+    //}
 
 
     /**
