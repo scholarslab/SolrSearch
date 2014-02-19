@@ -27,35 +27,6 @@ class SolrSearch_Helpers_View
 
 
     /**
-     * This creates the default search form.
-     *
-     * @param string $buttonText     The text to use on the button.
-     * @param array  $formProperties Extra HTML attributes to add to the
-     *                               form element.
-     *
-     * @return string
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    public static function createSearchForm(
-        $buttonText=null, $formProperties=array('id' => 'simple-search')
-    ) {
-        $buttonText  = (is_null($buttonText) ? __('Search') : $buttonText);
-        $searchQuery = array_key_exists('solrq', $_GET) ? $_GET['solrq'] : '';
-
-        $uri = SolrSearch_Helpers_View::getBaseUrl();
-        $formProperties['action'] = $uri;
-        $formProperties['method'] = 'get';
-        $html  = '<form ' . tag_attributes($formProperties) . '>' . "\n";
-        $html .= '<fieldset>' . "\n\n";
-        $html .= get_view()->formText('solrq', $searchQuery, array('name'=>'solrq', 'value' => $searchQuery, 'class'=>'textinput'));
-        $html .= get_view()->formSubmit('submit_search', $buttonText);
-        $html .= '</fieldset>' . "\n\n";
-        $html .= '</form>';
-        return $html;
-    }
-
-
-    /**
      * Lookup the element name for a solr element
      *
      * TODO: store this in the solr index (add sub-index field for this)
@@ -71,20 +42,6 @@ class SolrSearch_Helpers_View
         $db = get_db();
         $element = $db->getTable('Element')->find($fieldId);
         return $element['name'];
-    }
-
-
-    /**
-     * Generate a Results link for SolrSearch
-     *
-     * @param SolrDoc $doc Document to generate link for
-     *
-     * @return string Link to the model
-     */
-    public static function createResultLink($doc)
-    {
-        $title = is_array($doc->title) ? $doc->title[0] : $doc->title;
-        return "<a href='{$doc->url}'>{$title}</a> <span class='solr-result-model'>{$doc->resulttype}</span>";
     }
 
 
@@ -130,44 +87,6 @@ class SolrSearch_Helpers_View
         $db   = get_db();
         $file = $db->getTable('File')->find($fileId);
         return $file->getWebPath($type);
-    }
-
-
-    /**
-     * Display a search snippet if enabled
-     *
-     * @param int  $id           SolrDocument ID
-     * @param bool $highlighting If the plugin should display highlights
-     *
-     * @return void
-     */
-    public static function displaySnippets($id, $highlighting)
-    {
-        if ($highlighting == null) {
-            return;
-        }
-
-        $display = array();
-        foreach ($highlighting as $k=>$v) {
-            if ($k == $id) {
-                foreach ($v as $k=>$snippets) {
-                    $snippet = implode(' <strong>...</strong> ', $snippets);
-                    $display[$snippet] = 1;
-                }
-            }
-        }
-        $display = array_keys($display);
-        natcasesort($display);
-
-        if (count($display) == 1) {
-            echo "<p>{$display[0]}</p>";
-        } else {
-            echo "<ul class='hit-snippets'>";
-            foreach ($display as $d) {
-                echo "<li>$d</li>";
-            }
-            echo "</ul>";
-        }
     }
 
 
@@ -269,25 +188,6 @@ class SolrSearch_Helpers_View
         $a = '<a href="' . $searchpath .'" reg="tag">' . $label . '</a>';
 
         return $a;
-    }
-
-
-    /**
-     * This creates the checkbox to select all children checkboxes.
-     *
-     * @param string $label The label for the checkbox.
-     * @param string $group The group label.
-     *
-     * @return string
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    public static function createSelectAll($label, $group, $column)
-    {
-        $output  = "$label <input form='' type='checkbox'";
-        $output .= " class='group-sel-all'";
-        $output .= " data-target='.g-{$group}-{$column}' />";
-
-        return $output;
     }
 
 

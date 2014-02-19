@@ -120,17 +120,8 @@ class SolrSearch_Helpers_Index
             $doc->itemtype = $itemType;
         }
 
-        // TODO: What's the purpose of this? Are we just indexing the ids?
-
-        // Index files:
-        foreach ((array) $item->Files as $file) {
-            $mimeType = $file->mime_browser;
-            if ($file->has_derivative_image == 1) {
-                $doc->setMultiValue('image', $file['id']);
-            }
-        }
-
         return $doc;
+
     }
 
 
@@ -226,31 +217,6 @@ class SolrSearch_Helpers_Index
         }
 
         return $fieldSet;
-    }
-
-
-    /**
-     * This index the content of an XML file into a Solr document.
-     *
-     * @param string               $filename The name of the file to index.
-     * @param Apache_Solr_Document $solrDoc  The document to index into.
-     *
-     * @return null
-     * @author Eric Rochester <erochest@virginia.edu>
-     */
-    protected static function _indexXml($filename, $solrDoc)
-    {
-        $xml = new DomDocument();
-        $xml->load($filename);
-        $xpath = new DOMXPath($xml);
-
-        $nodes = $xpath->query('//text()');
-        foreach ($nodes as $node) {
-            $value = preg_replace('/\s\s+/', ' ', trim($node->nodeValue));
-            if ($value != ' ' && $value != '') {
-                $solrDoc->setMultiValue('fulltext', $value);
-            }
-        }
     }
 
 
