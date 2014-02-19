@@ -35,6 +35,12 @@ class SolrSearch_ResultsController
         // Get a list of active facets.
         $facets = $this->_getSearchFacets();
 
+        // Get the pagination settings.
+        $pagination = $this->_getPagination();
+
+        // Get the starting offset.
+        $start = ($pagination['page']-1) * $pagination['per_page'];
+
         // Execute the query.
         $results = $this->_search($facets, $start, $pagination['per_page']);
 
@@ -236,8 +242,6 @@ class SolrSearch_ResultsController
 
         $fields = array('id', 'title');
         foreach ($displayFields as $k => $displayField) {
-            // Pass field accordingly, depending on whether it is an element
-            // or collection/tag.
             $fields[] = $displayField['name'];
         }
         return implode(',', $fields);

@@ -3,12 +3,10 @@
 @import "buttons";
 
 #solr-search-form {
-
   overflow: hidden;
   box-sizing: border-box;
 
   span.float-wrap {
-
     display: block;
     padding-right: 10px;
     overflow: hidden;
@@ -28,11 +26,16 @@
 #solr-results {
 
   div.solr-result {
-
     margin: 1em 0;
 
     div.solr-title {
       a {
+        font-weight: bold;
+      }
+    }
+
+    ul.solr-hl {
+      em {
         font-weight: bold;
       }
     }
