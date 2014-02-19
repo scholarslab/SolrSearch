@@ -66,50 +66,6 @@ class SolrSearch_ResultsController
 
 
     /**
-     * Display results using HTML handler.
-     */
-    //protected function handleHtml()
-    //{
-        //$facets = $this->_getSearchFacets();
-        //$pagination = $this->_getPagination();
-        //$page = $pagination['page'];
-        //$search_rows = $pagination['per_page'];
-        //$start = ($page - 1) * $search_rows;
-
-        //$results = $this->_search($facets, $start, $search_rows);
-
-        //$this->_updatePagination($pagination, $results->response->numFound);
-
-        //$this->view->assign(array(
-            //'results'    => $results,
-            //'pagination' => $pagination,
-            //'page'       => $page
-        //));
-
-        //$this->view->facets = $facets;
-    //}
-
-
-    /**
-     * Display result set using JSON handler.
-     */
-    //protected function handleJson()
-    //{
-        //$this->getResponse()->setHeader('Content-type', 'application/json');
-        //$facets = $this->_getSearchFacets();
-        //$results = $this->_search($facets, 0, 1500);
-        //$this->view->assign(
-            //array(
-                //'results' => $results
-            //)
-        //);
-
-        //$this->view->facets = $facets;
-        //$this->_helper->viewRenderer('ajax');
-    //}
-
-
-    /**
      * Retrive search facet settings from the database.
      *
      * @return array Array containing facet fields
@@ -133,24 +89,20 @@ class SolrSearch_ResultsController
 
 
     /**
-     * Retrieve search fields.
+     * Construct the Solr search parameters.
      *
      * @param array $facets Array containing facet fields
      * @return array Array of fields to pass to Solr
      */
     private function _getSearchParameters($facets)
     {
-        $displayFields = $this->_getDisplayedFields();
-        $hiddenFields  = $this->_getHiddenFields();
 
-        $fields = $displayFields;
-        if ($hiddenFields != null && strlen($hiddenFields) > 0) {
-            $fields .= ",$hiddenFields";
-        }
+        $displayedFields    = $this->_getDisplayedFields();
+        $hiddenFields       = $this->_getHiddenFields();
 
         if (!empty($facets)) {
             $params = array(
-                'fl'             => $fields,
+                'fl'             => "$displayedFields,$hiddenFields",
                 'facet'          => 'true',
                 'facet.field'    => $facets,
                 'facet.mincount' => 1,
@@ -159,13 +111,14 @@ class SolrSearch_ResultsController
                 'hl.snippets'    => get_option('solr_search_hl_snippets'),
                 'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
                 'facet.sort'     => get_option('solr_search_facet_sort'),
-                'hl.fl'          => $displayFields
+                'hl.fl'          => $displayedFields
             );
         }
 
-        else $params = array('fl' => $displayFields);
+        else $params = array('fl' => $displayedFields);
 
         return $params;
+
     }
 
 
