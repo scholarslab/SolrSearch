@@ -142,7 +142,7 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Case_Default
         $document = $this->_getRecordDocument($page);
 
         // Should index the result type.
-        $this->assertEquals('Simple Pages', $document->resulttype);
+        $this->assertEquals('Simple Page', $document->resulttype);
 
     }
 

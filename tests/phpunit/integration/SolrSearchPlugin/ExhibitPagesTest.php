@@ -164,7 +164,7 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Case_Default
         $document = $this->_getRecordDocument($page);
 
         // Should index the URL.
-        $this->assertEquals('Exhibit Pages', $document->resulttype);
+        $this->assertEquals('Exhibit Page', $document->resulttype);
 
     }
 

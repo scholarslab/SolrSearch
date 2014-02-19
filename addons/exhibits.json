@@ -2,7 +2,7 @@
     "exhibits": {
 
         "table"       : "Exhibit",
-        "result_type" : "Exhibits",
+        "result_type" : "Exhibit",
         "tagged"      : true,
         "flag"        : "public",
 
@@ -14,7 +14,7 @@
         "children": {
             "exhibit_pages": {
                 "table"       : "ExhibitPage",
-                "result_type" : "Exhibit Pages",
+                "result_type" : "Exhibit Page",
                 "parent_key"  : "exhibit_id",
                 "fields"      : [
                     "title", {

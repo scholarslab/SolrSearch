@@ -142,7 +142,7 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Case_Default
         $document = $this->_getRecordDocument($exhibit);
 
         // Should index the URL.
-        $this->assertEquals('Exhibits', $document->resulttype);
+        $this->assertEquals('Exhibit', $document->resulttype);
 
     }
 
