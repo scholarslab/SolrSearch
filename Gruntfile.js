@@ -49,13 +49,8 @@ module.exports = function(grunt) {
 
     },
 
-    concat: {
-      // TODO
-    },
-
-    uglify: {
-      // TODO
-    },
+    //concat: {},
+    //uglify: {},
 
     compass: {
 
@@ -71,11 +66,7 @@ module.exports = function(grunt) {
     watch: {
 
       payload: {
-        files: [
-          'views/shared/css/sass/*.scss',
-          '<%= concat.fields.src %>',
-          '<%= concat.results.src %>'
-        ],
+        files: 'views/shared/css/sass/*.scss',
         tasks: 'compile:min'
       }
 
@@ -141,13 +132,13 @@ module.exports = function(grunt) {
 
   // Compile JS/CSS payloads.
   grunt.registerTask('compile', [
-    'concat',
+    //'concat',
     'compass'
   ]);
 
   // Minify JS/CSS payloads.
   grunt.registerTask('compile:min', [
-    'uglify',
+    //'uglify',
     'compass'
   ]);
 
