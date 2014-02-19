@@ -29,7 +29,7 @@
   <td>
     <input
       name="facets[<?php echo $facet->name; ?>][label]"
-      value="<?php echo $facet->label; ?>"
+      value="<?php echo htmlspecialchars($facet->label); ?>"
       type="text"
     />
   </td>

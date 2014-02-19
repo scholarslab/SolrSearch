@@ -20,15 +20,9 @@ class SolrSearch_ResultsController
      */
     public function interceptorAction()
     {
-
-        // Construct the query parameters.
-        $query = http_build_query(array(
+        $this->_redirect('solr-search/results?' . http_build_query(array(
             'solrq' => $this->_request->getParam('query')
-        ));
-
-        // Redirect to the Solr results action.
-        $this->_redirect('solr-search/results?' . $query);
-
+        )));
     }
 
 
