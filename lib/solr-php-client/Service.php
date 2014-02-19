@@ -690,9 +690,9 @@ class Apache_Solr_Service
 		$commitWithin = (int) $commitWithin;
 		$commitWithinString = $commitWithin > 0 ? " commitWithin=\"{$commitWithin}\"" : '';
 		
-        // TODO|solr4
+    // TODO|solr4
 		//$rawPost = "<add allowDups=\"{$dupValue}\" overwritePending=\"{$pendingValue}\" overwriteCommitted=\"{$committedValue}\"{$commitWithinString}>";
-        $rawPost = "<add>";
+    $rawPost = "<add>";
 		$rawPost .= $this->_documentToXmlFragment($document);
 		$rawPost .= '</add>';
 
@@ -720,9 +720,9 @@ class Apache_Solr_Service
 		$commitWithin = (int) $commitWithin;
 		$commitWithinString = $commitWithin > 0 ? " commitWithin=\"{$commitWithin}\"" : '';
 
-        // TODO|solr4
+    // TODO|solr4
 		//$rawPost = "<add allowDups=\"{$dupValue}\" overwritePending=\"{$pendingValue}\" overwriteCommitted=\"{$committedValue}\"{$commitWithinString}>";
-        $rawPost = "<add>";
+    $rawPost = "<add>";
 
 		foreach ($documents as $document)
 		{
@@ -865,7 +865,7 @@ class Apache_Solr_Service
 		//escape special xml characters
 		$id = htmlspecialchars($id, ENT_NOQUOTES, 'UTF-8');
 
-        // TODO|solr4
+    // TODO|solr4
 		//$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '"><id>' . $id . '</id></delete>';
 		$rawPost = '<delete><id>' . $id . '</id></delete>';
 
@@ -888,7 +888,7 @@ class Apache_Solr_Service
 		$pendingValue = $fromPending ? 'true' : 'false';
 		$committedValue = $fromCommitted ? 'true' : 'false';
 
-        // TODO|solr4
+    // TODO|solr4
 		//$rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '">';
 		$rawPost = '<delete>';
 

@@ -111,11 +111,10 @@ class SolrSearch_AdminController
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {
 
-            // Set options.
-            $v = $form->getValues();
-            set_option('solr_search_hl',        $v['solr_search_hl']);
-            set_option('solr_search_hl_fragsize', $v['solr_search_hl_fragsize']);
-            set_option('solr_search_hl_snippets',  $v['solr_search_hl_snippets']);
+            // Set the options.
+            foreach ($form->getValues() as $option => $value) {
+                set_option($option, $value);
+            }
 
             // Flash success.
             $this->_helper->flashMessenger(

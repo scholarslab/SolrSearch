@@ -12,11 +12,12 @@
   }
 
   .valuewrap {
-    border: 1px solid #ccc;
-    padding-left: 0.4em;
+    border: 1px solid #d8d8d8;
+    box-shadow: 0 0 .375em #d6d6d6 inset;
+    padding: 0.3em;
 
     &:hover {
-      background-color: #bbb;
+      background-color: #ddd;
       cursor: pointer;
     }
 

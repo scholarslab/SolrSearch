@@ -1161,20 +1161,21 @@ input[type="submit"].btn.btn-mini {
 }
 /* line 14, sass/fields.scss */
 .textinplace .valuewrap {
-  border: 1px solid #ccc;
-  padding-left: 0.4em;
+  border: 1px solid #d8d8d8;
+  box-shadow: 0 0 .375em #d6d6d6 inset;
+  padding: 0.3em;
 }
-/* line 18, sass/fields.scss */
+/* line 19, sass/fields.scss */
 .textinplace .valuewrap:hover {
-  background-color: #bbb;
+  background-color: #ddd;
   cursor: pointer;
 }
-/* line 23, sass/fields.scss */
+/* line 24, sass/fields.scss */
 .textinplace .valuewrap .icons {
   float: right;
 }
 
-/* line 31, sass/fields.scss */
+/* line 32, sass/fields.scss */
 #submit {
   margin-top: 2em !important;
 }
