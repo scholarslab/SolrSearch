@@ -11,14 +11,14 @@
 
 ?>
 
-<?php queue_js_file('payloads/fields'); ?>
+<?php queue_js_file('accordion'); ?>
 <?php queue_css_file('fields'); ?>
 
 <?php echo head(array(
   'title' => __('Solr Search | Field Configuration'),
 )); ?>
 
-<div id="solr_config">
+<div id="solr-fields">
 
   <?php echo $this->partial('admin/partials/navigation.php', array(
     'tab' => 'fields'
@@ -42,6 +42,7 @@
             <thead>
               <tr>
                 <th><?php echo __('Field'); ?></th>
+                <th><?php echo __('Facet Label'); ?></th>
                 <th><?php echo __('Is Indexed?'); ?></th>
                 <th><?php echo __('Is Facet?'); ?></th>
               </tr>

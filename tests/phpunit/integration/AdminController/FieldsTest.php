@@ -24,9 +24,9 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
         foreach ($this->facetTable->findAll() as $facet) {
 
             // Label:
-            $this->assertXpathContentContains(
-                "//div[@data-form-name='facets[{$facet->name}][label]']",
-                $facet->label
+            $this->assertXpath(
+                "//input[@name='facets[{$facet->name}][label]']
+                [@value='{$facet->label}']"
             );
 
             // ID:

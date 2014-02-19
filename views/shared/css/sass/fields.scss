@@ -4,27 +4,19 @@
 @import "buttons";
 @import "sprites";
 
-.textinplace {
+#solr-fields {
+
+  td {
+    vertical-align: middle;
+  }
 
   input[type=text] {
-    @include box-sizing(border-box);
+    margin: 0;
     width: 100%;
   }
 
-  .valuewrap {
-    border: 1px solid #d8d8d8;
-    box-shadow: 0 0 .375em #d6d6d6 inset;
-    padding: 0.3em;
-
-    &:hover {
-      background-color: #ddd;
-      cursor: pointer;
-    }
-
-    .icons {
-      float: right;
-    }
-
+  span.original-label {
+    font-weight: bold;
   }
 
 }

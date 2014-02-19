@@ -15,32 +15,31 @@
   <td class="element">
 
   <input
-    type="hidden"
     name="facets[<?php echo $facet->name; ?>][id]"
     value="<?php echo $facet->id; ?>"
+    type="hidden"
   />
 
-  <div
-    class="facet-label"
-    data-form-name="facets[<?php echo $facet->name; ?>][label]"
-    data-revert-to="<?php echo $facet->getOriginalLabel(); ?>"
-  >
-    <?php echo $facet->label; ?>
-  </div>
+  <span class="original-label">
+    <?php echo $facet->getOriginalLabel(); ?>
+  </span>
 
+  </td>
+
+  <td>
+    <input
+      name="facets[<?php echo $facet->name; ?>][label]"
+      value="<?php echo $facet->label; ?>"
+      type="text"
+    />
   </td>
 
   <?php foreach (array('is_indexed', 'is_facet') as $opt): ?>
     <td>
       <input
-
-        type="checkbox"
         name="facets[<?php echo $facet->name; ?>][<?php echo $opt; ?>]"
-
-        <?php if ($facet->$opt): ?>
-          checked="checked"
-        <?php endif; ?>
-
+        <?php if ($facet->$opt): ?>checked="checked"<?php endif; ?>
+        type="checkbox"
       />
     </td>
   <?php endforeach; ?>

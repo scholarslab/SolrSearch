@@ -11,13 +11,10 @@
 
 ?>
 
-<?php queue_js_file('payloads/results'); ?>
 <?php queue_css_file('results'); ?>
 
 <?php echo head(array(
-  'title' => __('Browse Items'),
-  'bodyclass' => 'browse',
-  'id' => 'items'
+  'title' => __('Browse Items')
 ));?>
 
 <div id="primary" class="solr_results results">

@@ -50,39 +50,11 @@ module.exports = function(grunt) {
     },
 
     concat: {
-
-      fields: {
-        src: [
-          'bower_components/textinplace/dist/jquery.textinplace.js',
-          'views/admin/javascripts/accordion.js',
-          'views/admin/javascripts/labels.js'
-        ],
-        dest: 'views/admin/javascripts/payloads/fields.js'
-      },
-
-      results: {
-        src: [
-          'bower_components/infinitescroll/jquery.infinitescroll.js',
-          'views/shared/javascripts/facets.js',
-          'views/shared/javascripts/scroll.js'
-        ],
-        dest: 'views/shared/javascripts/payloads/results.js'
-      }
-
+      // TODO
     },
 
     uglify: {
-
-      fields: {
-        src: '<%= concat.fields.src %>',
-        dest: '<%= concat.fields.dest %>'
-      },
-
-      results: {
-        src: '<%= concat.results.src %>',
-        dest: '<%= concat.results.dest %>'
-      }
-
+      // TODO
     },
 
     compass: {
