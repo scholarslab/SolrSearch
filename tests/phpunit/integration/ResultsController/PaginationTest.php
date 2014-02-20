@@ -89,8 +89,6 @@ class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
         $prev = public_url('solr-search/results?page=2');
         $this->assertXpath('//a[@href="'.$prev.'"]');
 
-        // --------------------------------------------------------------------
-
     }
 
 

@@ -47,27 +47,8 @@ class ResultsControllerTest_InterceptSearch extends SolrSearch_Case_Default
         // Run the search.
         $this->dispatch('solr-search/results/interceptor');
 
-        // Should redirect to the results action.
+        // Should redirect with the `solrq` parameter.
         $this->assertRedirectTo('/solr-search/results?solrq=query');
-
-    }
-
-
-    /**
-     * When an empty query is submitted to the simple search API, the request
-     * should be redirected with no `solrq` parameter.
-     */
-    public function testRedirectEmptyQuery()
-    {
-
-        // Set the search query.
-        $this->request->setMethod('GET')->setParam('query', '');
-
-        // Run empty query.
-        $this->dispatch('solr-search/results/interceptor');
-
-        // Should redirect to the results action.
-        $this->assertRedirectTo('/solr-search/results');
 
     }
 
