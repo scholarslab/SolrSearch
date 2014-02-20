@@ -38,12 +38,13 @@ class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
         // Page 1.
         $this->dispatch('solr-search/results');
 
-        // Should list items 1-2.
+        // Should just list items 1-2.
         $this->assertXpath('//a[@href="'.record_url($item1).'"]');
         $this->assertXpath('//a[@href="'.record_url($item2).'"]');
-
-        // Should _just_ list items 1-2.
-        $this->assertXpath('//div[@class="solr-result"]', 2);
+        $this->assertNotXpath('//a[@href="'.record_url($item3).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item4).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item5).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item6).'"]');
 
         // Should link to page 2.
         $next = public_url('solr-search/results?page=2');
@@ -58,12 +59,13 @@ class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
         $this->request->setMethod('GET')->setParam('page', '2');
         $this->dispatch('solr-search/results');
 
-        // Should list items 3-4.
+        // Should just list items 3-4.
+        $this->assertNotXpath('//a[@href="'.record_url($item1).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item2).'"]');
         $this->assertXpath('//a[@href="'.record_url($item3).'"]');
         $this->assertXpath('//a[@href="'.record_url($item4).'"]');
-
-        // Should _just_ list items 3-4.
-        $this->assertXpath('//div[@class="solr-result"]', 2);
+        $this->assertNotXpath('//a[@href="'.record_url($item5).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item6).'"]');
 
         // Should link to page 3.
         $next = public_url('solr-search/results?page=3');
@@ -78,16 +80,19 @@ class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
         $this->request->setMethod('GET')->setParam('page', '3');
         $this->dispatch('solr-search/results');
 
-        // Should list items 5-6.
+        // Should just list items 5-6.
+        $this->assertNotXpath('//a[@href="'.record_url($item1).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item2).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item3).'"]');
+        $this->assertNotXpath('//a[@href="'.record_url($item4).'"]');
         $this->assertXpath('//a[@href="'.record_url($item5).'"]');
         $this->assertXpath('//a[@href="'.record_url($item6).'"]');
-
-        // Should _just_ list items 5-6.
-        $this->assertXpath('//div[@class="solr-result"]', 2);
 
         // Should link back to page 2.
         $prev = public_url('solr-search/results?page=2');
         $this->assertXpath('//a[@href="'.$prev.'"]');
+
+        // --------------------------------------------------------------------
 
     }
 

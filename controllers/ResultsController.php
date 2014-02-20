@@ -120,6 +120,7 @@ class SolrSearch_ResultsController
         $results = $solr->search($query, $offset, $limit, $params);
 
         return $results;
+
     }
 
 
