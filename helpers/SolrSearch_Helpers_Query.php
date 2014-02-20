@@ -56,6 +56,31 @@ class SolrSearch_Helpers_Query
 
 
     /**
+     * This takes a keyed array of query parameters and returns an array with
+     * the values to pass to Solr.
+     *
+     * @param array  $query   This is the array of parameters passed as GET or
+     * POST parameters.
+     * @param string $default This is the value of 'q' to use if one isn't
+     * provided. This defaults to '*:*'.
+     *
+     * @return string The 'q' parameter to pass to the Solr engine.
+     */
+    public static function createQuery($query, $default='*:*')
+    {
+        $q = (isset($query['q']) && strlen($query['q']) > 0) ?
+            $query['q'] :
+            $default;
+
+        if (isset($query['facet']) && strlen($query['facet']) > 0) {
+            $q .= " AND ({$query['facet']})";
+        }
+
+        return $q;
+    }
+
+
+    /**
      * Create a SolrFacetLink
      *
      * @param array   $current The current facet search.
@@ -249,31 +274,6 @@ class SolrSearch_Helpers_Query
             . str_replace("\\", "", $label)
             . '</a>';
         return $removeFacetLink;
-    }
-
-
-    /**
-     * This takes a keyed array of query parameters and returns an array with
-     * the values to pass to Solr.
-     *
-     * @param array  $query   This is the array of parameters passed as GET or
-     * POST parameters.
-     * @param string $default This is the value of 'q' to use if one isn't
-     * provided. This defaults to '*:*'.
-     *
-     * @return string The 'q' parameter to pass to the Solr engine.
-     */
-    public static function createQuery($query, $default='*:*')
-    {
-        $q = (isset($query['q']) && strlen($query['q']) > 0) ?
-            $query['q'] :
-            $default;
-
-        if (isset($query['facet']) && strlen($query['facet']) > 0) {
-            $q .= " AND ({$query['facet']})";
-        }
-
-        return $q;
     }
 
 

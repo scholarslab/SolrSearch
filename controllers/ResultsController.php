@@ -49,7 +49,7 @@ class SolrSearch_ResultsController
         // Execute the query.
         $results = $this->_search($start, $limit);
 
-        // Set the pagination in the Zend registry.
+        // Set the pagination.
         Zend_Registry::set('pagination', array(
             'page'          => $page,
             'total_results' => $results->response->numFound,
