@@ -134,6 +134,26 @@ SQL
 
 
     /**
+     * Create a standalone facet.
+     *
+     * @param string $name The facet name.
+     * @param string $label The facet label.
+     * $return SolrSearchFacet
+     */
+    protected function _facet($name, $label='Test Label')
+    {
+
+        $facet = new SolrSearchFacet();
+        $facet->name  = $name;
+        $facet->label = $label;
+
+        $facet->save();
+        return $facet;
+
+    }
+
+
+    /**
      * Create a Simple Pages page.
      *
      * @param boolean $public True if the page is public.
@@ -162,7 +182,7 @@ SQL
 
 
     /**
-     * Create an Exhibit.
+     * Create an exhibit.
      *
      * @param boolean $public True if the exhibit is public.
      * @param string $title The exhibit title.
@@ -186,7 +206,7 @@ SQL
 
 
     /**
-     * Create an Exhibit page.
+     * Create an exhibit page.
      *
      * @param Exhibit $exhibit The parent exhibit.
      * @param string $title The page title.
@@ -218,7 +238,7 @@ SQL
 
 
     /**
-     * Create an Exhibit page entry.
+     * Create an exhibit page entry.
      *
      * @param ExhibitPage $page The parent page.
      * @param string $text The entry content.
@@ -245,7 +265,7 @@ SQL
 
 
     /**
-     * Create an Element.
+     * Create an element.
      *
      * @param string $elementSetName The name of the parent element set.
      * @param string $name The element name.
