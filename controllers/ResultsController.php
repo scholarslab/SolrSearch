@@ -16,7 +16,7 @@ class SolrSearch_ResultsController
 
 
     /**
-     * Get the facets table.
+     * Cache the facets table.
      */
     public function init()
     {
@@ -36,67 +36,29 @@ class SolrSearch_ResultsController
 
 
     /**
-     * Default index action.
+     * Display Solr results.
      */
     public function indexAction()
     {
 
-        // Get the pagination settings.
-        $pagination = $this->_getPagination();
-
-        // Get the starting offset.
-        $start = ($pagination['page']-1) * $pagination['per_page'];
+        // Get pagination settings.
+        $limit = get_option('per_page_public');
+        $page  = $this->_request->page ? $this->_request->page : 1;
+        $start = ($page-1) * $limit;
 
         // Execute the query.
-        $results = $this->_search($start, $pagination['per_page']);
+        $results = $this->_search($start, $limit);
 
-        // Update the pagination in the Zend registry.
-        $this->_updatePagination($pagination, $results->response->numFound);
+        // Set the pagination in the Zend registry.
+        Zend_Registry::set('pagination', array(
+            'page'          => $page,
+            'total_results' => $results->response->numFound,
+            'per_page'      => $limit
+        ));
 
         // Push results to the view.
         $this->view->results = $results;
 
-    }
-
-
-    /**
-     * Retrieve pagination settings from the database
-     *
-     * @param int $numFound Number of results
-     * @return int Pagination settings
-     */
-    private function _getPagination($numFound=0)
-    {
-
-        // Get the current page and page length.
-        $page = $this->_request->page ? $this->_request->page : 1;
-        $rows = get_option('per_page_public');
-
-        $pagination = array(
-            'page'          => $page,
-            'total_results' => $numFound,
-            'per_page'      => $rows
-        );
-
-        // Set the pagination in the registry.
-        Zend_Registry::set('pagination', $pagination);
-        return $pagination;
-
-    }
-
-
-    /**
-     * Update the pagination setting
-     *
-     * @param int $pagination Number of results per page
-     * @param int $numFound   Total number of results in query
-     * @return int Pagination setting
-     */
-    private function _updatePagination($pagination, $numFound)
-    {
-        $pagination['total_results'] = $numFound;
-        Zend_Registry::set('pagination', $pagination);
-        return $pagination;
     }
 
 
