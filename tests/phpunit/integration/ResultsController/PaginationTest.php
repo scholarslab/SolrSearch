@@ -56,7 +56,7 @@ class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
         // --------------------------------------------------------------------
 
         // Page 2.
-        $this->request->setMethod('GET')->setParam('page', '2');
+        $_GET['page'] = '2';
         $this->dispatch('solr-search/results');
 
         // Should just list items 3-4.
@@ -77,7 +77,7 @@ class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
         // --------------------------------------------------------------------
 
         // Page 3.
-        $this->request->setMethod('GET')->setParam('page', '3');
+        $_GET['page'] = '3';
         $this->dispatch('solr-search/results');
 
         // Should just list items 5-6.

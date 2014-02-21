@@ -31,6 +31,28 @@
   </form>
 </div>
 
+<!-- Facets. TODO|dev -->
+<div id="solr-facets">
+  <?php foreach ($results->facet_counts->facet_fields as $name => $facets): ?>
+
+    <!-- Does the facet have any hits? -->
+    <?php if (count(get_object_vars($facets))): ?>
+
+      <!-- Facet label. -->
+      <h5><?php echo $name; ?></h5>
+
+      <ul>
+        <!-- Facets. -->
+        <?php foreach ($facets as $label => $num): ?>
+          <li><a href="#"><?php echo $label; ?></a> (<?php echo $num; ?>)</li>
+        <?php endforeach; ?>
+      </ul>
+
+    <?php endif; ?>
+
+  <?php endforeach; ?>
+</div>
+
 <!-- Results. -->
 <div id="solr-results">
 

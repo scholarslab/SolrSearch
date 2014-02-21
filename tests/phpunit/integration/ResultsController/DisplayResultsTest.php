@@ -22,9 +22,10 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
     public function testPopulateSearchBoxWithQuery()
     {
 
+        $_GET['q'] = 'query';
+
         // Search for "query."
-        $this->request->setMethod('GET')->setParam('q', 'query');
-        $this->dispatch('solr-search/results?q=query');
+        $this->dispatch('solr-search/results');
 
         // Should populate the search box.
         $this->assertXpath('//input[@name="q"][@value="query"]');

@@ -41,10 +41,9 @@ class ResultsControllerTest_InterceptSearch extends SolrSearch_Case_Default
     public function testRedirectWithQuery()
     {
 
-        // Set the search query.
-        $this->request->setMethod('GET')->setParam('query', 'query');
+        $_GET['query'] = 'query';
 
-        // Run the search.
+        // Search for 'query'.
         $this->dispatch('solr-search/results/interceptor');
 
         // Should redirect with the `q` parameter.
