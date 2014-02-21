@@ -19,24 +19,20 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
      */
     public $element_id;
 
-
     /**
      * The name of the element [string].
      */
     public $name;
-
 
     /**
      * The label of the element.
      **/
     public $label;
 
-
     /**
      * Displayed status [boolean/tinyint].
      */
     public $is_indexed;
-
 
     /**
      * Facet status [boolean/tinyint].
@@ -71,7 +67,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
 
 
     /**
-     * Does the facet have a parent element?
+     * Is the field associated with a metadata element?
      *
      * @return boolean True if an element is defined.
      */
@@ -118,7 +114,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
 
 
     /**
-     * Return the original label for this facet, if it can be determined.
+     * Return the original label for the field.
      *
      * @return string|null
      **/
