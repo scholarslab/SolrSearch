@@ -142,10 +142,9 @@ class SolrSearch_Helpers_Query
     {
         $is_null = false;
 
-        if (empty($params)) {
-            $is_null = true;
+        if (empty($params)) $is_null = true;
 
-        } else {
+        else {
             $nullq     = false;
             $nullfacet = false;
 
@@ -248,10 +247,7 @@ class SolrSearch_Helpers_Query
 
 
     /**
-     * This Solr-escapes this facet value.
-     *
-     * The regex comes from
-     * @link http://fragmentsofcode.wordpress.com/2010/03/10/escape-special-characters-for-solrlucene-query/
+     * Solr-escape a facet value.
      *
      * @param string $facet The facet value to clean up.
      *
