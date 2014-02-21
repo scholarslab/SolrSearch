@@ -16,7 +16,7 @@ class SolrSearchFacetTableTest_SetElementSearchable
 
 
     /**
-     * `setElementSearchable` should flip on the indexing flag for the facet
+     * `setElementIndexed` should flip on the indexing flag for the facet
      * that corresponds to the passed element.
      */
     public function testFindByName()
@@ -30,7 +30,7 @@ class SolrSearchFacetTableTest_SetElementSearchable
         $facet = $this->facetTable->findByElement($element);
         $this->assertEquals(0, $facet->is_indexed);
 
-        $this->facetTable->setElementSearchable('Dublin Core', 'Date');
+        $this->facetTable->setElementIndexed('Dublin Core', 'Date');
 
         // Should make facet searchable.
         $facet = $this->facetTable->findByElement($element);

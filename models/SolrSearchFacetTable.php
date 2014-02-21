@@ -88,7 +88,7 @@ class SolrSearchFacetTable extends Omeka_Db_Table
      * @return string $elementSetName The element set name.
      * @return string $elementName The element name.
      */
-    public function setElementSearchable($elementSetName, $elementName) {
+    public function setElementIndexed($elementSetName, $elementName) {
 
         // Get the element table.
         $elementTable = $this->getTable('Element');

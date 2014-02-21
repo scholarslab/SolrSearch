@@ -322,8 +322,8 @@ SQL
         }
 
         // By default, index DC Title/Description.
-        $facets->setElementSearchable('Dublin Core', 'Title');
-        $facets->setElementSearchable('Dublin Core', 'Description');
+        $facets->setElementIndexed('Dublin Core', 'Title');
+        $facets->setElementIndexed('Dublin Core', 'Description');
 
     }
 

@@ -236,8 +236,8 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
     {
 
         // Set "Subject" and "Source" searchable.
-        $this->facetTable->setElementSearchable('Dublin Core', 'Subject');
-        $this->facetTable->setElementSearchable('Dublin Core', 'Source');
+        $this->facetTable->setElementIndexed('Dublin Core', 'Subject');
+        $this->facetTable->setElementIndexed('Dublin Core', 'Source');
 
         // Add an item with a "Subject" and "Source" texts.
         $item = insert_item(array('public' => true), array(
