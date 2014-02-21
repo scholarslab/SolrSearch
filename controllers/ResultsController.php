@@ -123,14 +123,14 @@ class SolrSearch_ResultsController
 
         // Get the field lists.
         $indexed = $this->_getIndexedFields();
-        $hidden  = $this->_getHiddenFields();
+        $default = 'image,title,url,model,modelid';
 
         // Get a list of active facets.
         $facets = $this->_fields->getActiveFacetNames();
 
         if (!empty($facets)) $params = array(
 
-            'fl'             => "$indexed,$hidden",
+            'fl'             => "$indexed,$default",
             'facet'          => 'true',
             'facet.field'    => $facets,
             'facet.mincount' => 1,
@@ -167,18 +167,6 @@ class SolrSearch_ResultsController
         // Implode to comma-delimited string.
         return implode(',', $indexed);
 
-    }
-
-
-    /**
-     * Get a list of all fields that need to be included in the output from
-     * Solr, but aren't displayed.
-     *
-     * @return string $fields A comma-delimited list of fields.
-     */
-    protected function _getHiddenFields()
-    {
-        return "image,title,url,model,modelid";
     }
 
 
