@@ -35,26 +35,6 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
-     * Get a list of the names of all indexed fields.
-     *
-     * @return array The list of indexed field names.
-     */
-    public function getIndexedFieldNames()
-    {
-
-        $indexed = array();
-
-        // Get names for active facets.
-        foreach ($this->findBySql('is_indexed=?', array(1)) as $facet) {
-            $indexed[] = $facet->name;
-        }
-
-        return $indexed;
-
-    }
-
-
-    /**
      * Get all fields grouped by element set id.
      *
      * @return array $facets The ElementSet-grouped facets.

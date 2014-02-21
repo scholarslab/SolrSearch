@@ -121,16 +121,13 @@ class SolrSearch_ResultsController
     protected function _getParameters()
     {
 
-        // Get the field lists.
-        $indexed = $this->_getIndexedFields();
-        $default = 'image,title,url,model,modelid';
+        $params = array();
 
         // Get a list of active facets.
         $facets = $this->_fields->getActiveFacetNames();
 
         if (!empty($facets)) $params = array(
 
-            'fl'             => "$indexed,$default",
             'facet'          => 'true',
             'facet.field'    => $facets,
             'facet.mincount' => 1,
@@ -139,33 +136,11 @@ class SolrSearch_ResultsController
             'hl'             => get_option('solr_search_hl'),
             'hl.snippets'    => get_option('solr_search_hl_snippets'),
             'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
-            'hl.fl'          => $indexed
+            'hl.fl'          => '*_s'
 
         );
 
-        else $params = array('fl' => $displayed);
-
         return $params;
-
-    }
-
-
-    /**
-     * Get the list of indexed field names as a comma-delimited string.
-     *
-     * @return string The list of fields.
-     */
-    protected function _getIndexedFields()
-    {
-
-        // Get the list of indexed names.
-        $indexed = $this->_fields->getIndexedFieldNames();
-
-        // Merge in the default fields.
-        $indexed = array_merge(array('id', 'title'), $indexed);
-
-        // Implode to comma-delimited string.
-        return implode(',', $indexed);
 
     }
 

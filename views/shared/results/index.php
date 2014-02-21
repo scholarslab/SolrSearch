@@ -24,7 +24,9 @@
   <form id="solr-search-form">
     <input type="submit" value="Search" />
     <span class="float-wrap">
-      <input type="text" name="q" value="<?php echo $_GET['q']; ?>" />
+      <input type="text" name="q" value="<?php
+        echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
+      ?>" />
     </span>
   </form>
 </div>
@@ -71,8 +73,6 @@
   <?php endforeach; ?>
 
 </div>
-
-<?php print_r($results); ?>
 
 <?php echo pagination_links(); ?>
 <?php echo foot();

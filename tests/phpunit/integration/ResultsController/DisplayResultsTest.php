@@ -19,12 +19,12 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
     /**
      * The current query should be populated in the search box.
      */
-    public function testPopulateSearchBox()
+    public function testPopulateSearchBoxWithQuery()
     {
 
         // Search for "query."
         $this->request->setMethod('GET')->setParam('q', 'query');
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search/results?q=query');
 
         // Should populate the search box.
         $this->assertXpath('//input[@name="q"][@value="query"]');
@@ -33,11 +33,17 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
 
 
     /**
-     * When an empty query is entered, all documents should be listed.
+     * When an empty query is entered, the search box should be blank.
      */
-    public function testReturnAllDocumentsForEmptyQuery()
+    public function testPopulateSearchBoxWithEmptyQuery()
     {
-        // TODO
+
+        // Enter an empty query.
+        $this->dispatch('solr-search/results');
+
+        // Should leave the search box empty.
+        $this->assertXpath('//input[@name="q"][@value=""]');
+
     }
 
 
