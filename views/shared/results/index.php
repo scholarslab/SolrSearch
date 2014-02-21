@@ -11,13 +11,13 @@
 
 ?>
 
-<?php queue_css_file('results'); ?>
 
-<?php echo head(array(
-  'title' => __('Solr Search')
-));?>
+<?php queue_css_file('results'); ?>
+<?php echo head(array('title' => __('Solr Search')));?>
+
 
 <h1><?php echo __('Search the Collection'); ?></h1>
+
 
 <!-- Search form. -->
 <div class="solr">
@@ -30,6 +30,32 @@
     </span>
   </form>
 </div>
+
+
+<!-- Applied facets. -->
+<div id="solr-applied-facets">
+
+  <ul>
+
+    <!-- Get the applied facets. -->
+    <?php $facets = SolrSearch_Helpers_Facet::getParams()['facet']; ?>
+    <?php foreach ($facets as $f): ?>
+      <li>
+
+        <!-- Facet label. -->
+        <span><?php echo $f[0]; ?> > <?php echo $f[1]; ?></span>
+
+        <!-- Remove link. -->
+        <?php $url = SolrSearch_Helpers_Facet::removeFacet($f[0], $f[1]); ?>
+        (<a href="<?php echo $url; ?>">remove</a>)
+
+      </li>
+    <?php endforeach; ?>
+
+  </ul>
+
+</div>
+
 
 <!-- Facets. -->
 <div id="solr-facets">
@@ -44,7 +70,14 @@
       <ul>
         <!-- Facets. -->
         <?php foreach ($facets as $label => $num): ?>
-          <li><a href="#"><?php echo $label; ?></a> (<?php echo $num; ?>)</li>
+          <li>
+
+            <!-- Facet link. -->
+            <?php $url = SolrSearch_Helpers_Facet::addFacet($name, $label); ?>
+            <a href="<?php echo $url; ?>"><?php echo $label; ?></a>
+            (<?php echo $num; ?>)
+
+          </li>
         <?php endforeach; ?>
       </ul>
 
@@ -52,6 +85,7 @@
 
   <?php endforeach; ?>
 </div>
+
 
 <!-- Results. -->
 <div id="solr-results">
@@ -95,6 +129,7 @@
   <?php endforeach; ?>
 
 </div>
+
 
 <?php echo pagination_links(); ?>
 <?php echo foot();

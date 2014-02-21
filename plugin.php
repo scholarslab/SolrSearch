@@ -30,10 +30,10 @@ require_once SOLR_DIR.'/lib/SolrSearch/Addon/Manager.php';
 require_once SOLR_DIR.'/lib/SolrSearch/Utils.php';
 require_once SOLR_DIR.'/lib/SolrSearch/DbPager.php';
 
-// Theme helpers:
+// Helpers:
 require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_View.php';
-require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Query.php';
 require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Index.php';
+require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Facet.php';
 
 // Forms:
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Server.php';

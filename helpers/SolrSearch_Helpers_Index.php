@@ -140,11 +140,10 @@ class SolrSearch_Helpers_Index
         $rc     = get_class($record);
 
         if ($rc === 'SimplePagesPage') {
-
-            // TODO: If page is the home page, point to root URL.
             $uri = url($record->slug);
+        }
 
-        } else if ($rc === 'ExhibitPage') {
+        else if ($rc === 'ExhibitPage') {
 
             $exhibit = $record->getExhibit();
             $exUri   = SolrSearch_Helpers_Index::getSlugUri($exhibit, $action);
