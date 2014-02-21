@@ -20,7 +20,7 @@ class SolrSearch_ResultsController
      */
     public function init()
     {
-        $this->_facets = $this->_helper->db->getTable('SolrSearchField');
+        $this->_fields = $this->_helper->db->getTable('SolrSearchField');
     }
 
 
@@ -122,15 +122,15 @@ class SolrSearch_ResultsController
     {
 
         // Get the field lists.
-        $displayed  = $this->_getDisplayedFields();
-        $hidden     = $this->_getHiddenFields();
+        $indexed = $this->_getIndexedFields();
+        $hidden  = $this->_getHiddenFields();
 
         // Get a list of active facets.
-        $facets = $this->_facets->getActiveFacetNames();
+        $facets = $this->_fields->getActiveFacetNames();
 
         if (!empty($facets)) $params = array(
 
-            'fl'             => "$displayed,$hidden",
+            'fl'             => "$indexed,$hidden",
             'facet'          => 'true',
             'facet.field'    => $facets,
             'facet.mincount' => 1,
@@ -139,7 +139,7 @@ class SolrSearch_ResultsController
             'hl'             => get_option('solr_search_hl'),
             'hl.snippets'    => get_option('solr_search_hl_snippets'),
             'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
-            'hl.fl'          => $displayed
+            'hl.fl'          => $indexed
 
         );
 
@@ -151,23 +151,22 @@ class SolrSearch_ResultsController
 
 
     /**
-     * Get the displayable fields from the Solr table, which is passed to the
-     * view to restring fields that appear in the results
+     * Get the list of indexed field names as a comma-delimited string.
      *
-     * @return string Fields to display
+     * @return string The list of fields.
      */
-    protected function _getDisplayedFields()
+    protected function _getIndexedFields()
     {
-        $db = get_db();
-        $displayFields = $db->getTable('SolrSearchField')->findBySql(
-            'is_indexed = ?', array('1')
-        );
 
-        $fields = array('id', 'title');
-        foreach ($displayFields as $k => $displayField) {
-            $fields[] = $displayField['name'];
-        }
-        return implode(',', $fields);
+        // Get the list of indexed names.
+        $indexed = $this->_fields->getIndexedFieldNames();
+
+        // Merge in the default fields.
+        $indexed = array_merge(array('id', 'title'), $indexed);
+
+        // Implode to comma-delimited string.
+        return implode(',', $indexed);
+
     }
 
 
