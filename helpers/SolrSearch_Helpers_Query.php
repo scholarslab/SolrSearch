@@ -20,19 +20,20 @@ class SolrSearch_Helpers_Query
      * @param array  $req        The request array to pull the parameters from.
      * This defaults to null, which then gets set to $_GET.
      * @param string $qParam     The name of the q parameter. This defaults to
-     * 'solrq'.
+     * 'q'.
      * @param string $facetParam The name of the facet parameter. This defaults
-     * to 'solrfacet'.
+     * to 'facet'.
      * @param array  $other      A list of other parameters to pull and include
      * in the output.
      *
      * @return array This array is keyed on 'q' and 'facet'.
      */
     public static function getParams(
-        $req=null, $qParam='solrq', $facetParam='solrfacet', $other=null
+        $req=null, $qParam='q', $facetParam='facet', $other=null
     ) {
 
         if (is_null($req)) $req = $_GET;
+
         $params = array('q' => '*:*');
 
         if (isset($req[$qParam])) {
@@ -77,6 +78,7 @@ class SolrSearch_Helpers_Query
         }
 
         return $q;
+
     }
 
 
@@ -113,7 +115,7 @@ class SolrSearch_Helpers_Query
                 . "<div class='fc'>$removeFacetLink</div>";
         } else {
             if (!empty($current['q'])) {
-                $q = 'solrq=' . html_escape($current['q']) . '&';
+                $q = 'q=' . html_escape($current['q']) . '&';
             } else {
                 $q = '';
             }
@@ -123,11 +125,11 @@ class SolrSearch_Helpers_Query
                 $facetq = "$facet:&#x022;$escaped&#x022;";
             }
 
-            $link = $uri . '?' . $q . 'solrfacet=' . $facetq;
+            $link = $uri . '?' . $q . 'facet=' . $facetq;
 
             //otherwise just display a link to a new query with the facet count
             $html .= "<div class='fn'>"
-                . "<a href='$uri?{$q}solrfacet=$facetq'>$label</a>"
+                . "<a href='$uri?{$q}facet=$facetq'>$label</a>"
                 . "</div>"
                 . "<div class='fc'>$count</div>";
         }
@@ -163,7 +165,7 @@ class SolrSearch_Helpers_Query
                 $facet = array_key_exists('facet', $queryParams) ? $queryParams['facet'] : '';
                 $html .= '<span class="appliedFilter constraint query">';
                 $html .= '<span class="filterValue">' . $queryParams['q'] . '</span>';
-                $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?solrfacet=$facet'>";
+                $html .= "<a class='btnRemove imgReplace' alt='remove' href='$uri?facet=$facet'>";
                 $html .= __('Remove constraint %s', $queryParams['q']);
                 $html .= '</a>';
                 $html .= '</span>';
@@ -241,7 +243,7 @@ class SolrSearch_Helpers_Query
         $query = array();
 
         if (isset($queryParams['q'])) {
-            $query[] = "solrq={$queryParams['q']}";
+            $query[] = "q={$queryParams['q']}";
         }
 
         if (isset($queryParams['facet'])) {
@@ -260,13 +262,13 @@ class SolrSearch_Helpers_Query
             if (!empty($facetQuery)) {
                 array_push(
                     $query,
-                    'solrfacet=' . implode('+AND+', $facetQuery)
+                    'facet=' . implode('+AND+', $facetQuery)
                 );
             }
         }
 
         if (empty($query)) {
-            array_push($query, html_escape('solrq=*:*'));
+            array_push($query, html_escape('q=*:*'));
         }
 
         $removeFacetLink = '<a class="btnRemove imgReplace" href="'

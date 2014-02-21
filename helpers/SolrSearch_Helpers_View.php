@@ -184,7 +184,7 @@ class SolrSearch_Helpers_View
             $facetq = 'tag:"' . $label .'"';
         }
 
-        $searchpath = $uri . '?solrq=' . $params['q'] . '&solrfacet=' . htmlspecialchars($facetq, ENT_QUOTES);
+        $searchpath = $uri . '?q=' . $params['q'] . '&facet=' . htmlspecialchars($facetq, ENT_QUOTES);
         $a = '<a href="' . $searchpath .'" reg="tag">' . $label . '</a>';
 
         return $a;

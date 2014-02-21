@@ -36,7 +36,7 @@ class ResultsControllerTest_InterceptSearch extends SolrSearch_Case_Default
     /**
      * When a query is submitted to the simple search API, the request should
      * be redirected to the Solr Search results route and the query should be
-     * forwarded as the `solrq` parameter.
+     * forwarded as the `q` parameter.
      */
     public function testRedirectWithQuery()
     {
@@ -47,8 +47,8 @@ class ResultsControllerTest_InterceptSearch extends SolrSearch_Case_Default
         // Run the search.
         $this->dispatch('solr-search/results/interceptor');
 
-        // Should redirect with the `solrq` parameter.
-        $this->assertRedirectTo('/solr-search/results?solrq=query');
+        // Should redirect with the `q` parameter.
+        $this->assertRedirectTo('/solr-search/results?q=query');
 
     }
 

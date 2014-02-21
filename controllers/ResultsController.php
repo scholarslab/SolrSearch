@@ -30,7 +30,7 @@ class SolrSearch_ResultsController
     public function interceptorAction()
     {
         $this->_redirect('solr-search/results?'.http_build_query(array(
-            'solrq' => $this->_request->getParam('query')
+            'q' => $this->_request->getParam('query')
         )));
     }
 
@@ -69,24 +69,46 @@ class SolrSearch_ResultsController
      * @param int $limit  Limit per page
      * @return SolrResultDoc Solr results
      */
-    private function _search($offset=0, $limit=10)
+    protected function _search($offset, $limit)
     {
 
         // Connect to Solr.
         $solr = SolrSearch_Helpers_Index::connect();
 
-        // Form the query.
-        $query = SolrSearch_Helpers_Query::createQuery(
-            SolrSearch_Helpers_Query::getParams()
-        );
-
         // Get the parameters.
-        $params = $this->_getSearchParameters();
+        $params = $this->_getParameters();
+
+        // Construct the query.
+        $query = $this->_getQuery();
 
         // Execute the query.
-        $results = $solr->search($query, $offset, $limit, $params);
+        return $solr->search($query, $offset, $limit, $params);
 
-        return $results;
+    }
+
+
+    /**
+     * Form the complete Solr query.
+     *
+     * @return string The Solr query.
+     */
+    protected function _getQuery()
+    {
+
+        // Get the `q` GET parameter.
+        $query = $this->_request->q;
+
+        // If defined, replace `:`; otherwise, revert to `*:*`
+        if (!empty($query)) $query = str_replace(':', ' ', $query);
+        else $query = '*:*';
+
+        // Get the `facet` GET parameter
+        $facet = $this->_request->facet;
+
+        // Form the composite Solr query.
+        if (!empty($facet)) $query .= " AND {$facet}";
+
+        return $query;
 
     }
 
@@ -96,7 +118,7 @@ class SolrSearch_ResultsController
      *
      * @return array Array of fields to pass to Solr
      */
-    private function _getSearchParameters()
+    protected function _getParameters()
     {
 
         // Get the field lists.
@@ -134,7 +156,7 @@ class SolrSearch_ResultsController
      *
      * @return string Fields to display
      */
-    private function _getDisplayedFields()
+    protected function _getDisplayedFields()
     {
         $db = get_db();
         $displayFields = $db->getTable('SolrSearchFacet')->findBySql(
@@ -150,14 +172,14 @@ class SolrSearch_ResultsController
 
 
     /**
-     * This returns all fields that need to be included in the output from Solr, but aren't displayed.
+     * Get a list of all fields that need to be included in the output from
+     * Solr, but aren't displayed.
      *
      * @return string $fields A comma-delimited list of fields.
      */
-    private function _getHiddenFields()
+    protected function _getHiddenFields()
     {
-        $fields = "image,title,url,model,modelid";
-        return $fields;
+        return "image,title,url,model,modelid";
     }
 
 
