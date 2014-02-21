@@ -23,7 +23,11 @@
 <div class="solr">
   <form id="solr-search-form">
     <input type="submit" value="Search" />
-    <span class="float-wrap"><input type="text" name="q" /></span>
+    <span class="float-wrap">
+      <input type="text" name="q"
+        value="<?php echo $results->responseHeader->params->q; ?>"
+      />
+    </span>
   </form>
 </div>
 
