@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_GetOriginalLabel extends SolrSearch_Case_Default
+class SolrSearchFieldTest_GetOriginalLabel extends SolrSearch_Case_Default
 {
 
 
@@ -21,19 +21,19 @@ class SolrSearchFacetTest_GetOriginalLabel extends SolrSearch_Case_Default
     public function testGenericCategoryFacets()
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->name = 'tag';
         $this->assertEquals('Tag', $facet->getOriginalLabel());
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->name = 'collection';
         $this->assertEquals('Collection', $facet->getOriginalLabel());
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->name = 'itemtype';
         $this->assertEquals('Item Type', $facet->getOriginalLabel());
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->name = 'resulttype';
         $this->assertEquals('Result Type', $facet->getOriginalLabel());
 
@@ -51,7 +51,7 @@ class SolrSearchFacetTest_GetOriginalLabel extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $facet = new SolrSearchFacet($title);
+        $facet = new SolrSearchField($title);
 
         // Should return the parent element.
         $this->assertEquals('Title', $facet->getOriginalLabel());

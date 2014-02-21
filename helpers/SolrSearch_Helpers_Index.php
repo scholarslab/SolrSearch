@@ -207,7 +207,7 @@ class SolrSearch_Helpers_Index
     {
         $fieldSet = array();
 
-        $facets = $db->getTable('SolrSearchFacet')->findAll();
+        $facets = $db->getTable('SolrSearchField')->findAll();
 
         foreach ($facets as $facet) {
             if ($facet->is_indexed || $facet->is_facet) {

@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTable extends Omeka_Db_Table
+class SolrSearchFieldTable extends Omeka_Db_Table
 {
 
 

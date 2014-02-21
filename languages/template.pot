@@ -25,11 +25,11 @@ msgid ""
 "server host, port, and core."
 msgstr ""
 
-#: SolrSearchPlugin.php:328 models/SolrSearchFacet.php:84
+#: SolrSearchPlugin.php:328 models/SolrSearchField.php:84
 msgid "Tag"
 msgstr ""
 
-#: SolrSearchPlugin.php:331 models/SolrSearchFacet.php:87
+#: SolrSearchPlugin.php:331 models/SolrSearchField.php:87
 msgid "Result Type"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Maximum Facet Count:"
 msgstr ""
 
-#: models/SolrSearchFacetTable.php:29
+#: models/SolrSearchFieldTable.php:29
 msgid "Omeka Categories"
 msgstr ""
 

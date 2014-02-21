@@ -183,7 +183,7 @@ SQL
     public function hookAfterSaveElement($args)
     {
         if ($args['insert']) {
-            $facet = new SolrSearchFacet($args['record']);
+            $facet = new SolrSearchField($args['record']);
             $facet->save();
         }
     }
@@ -240,7 +240,7 @@ SQL
      */
     public function hookBeforeDeleteElement($args)
     {
-        $table = $this->_db->getTable('SolrSearchFacet');
+        $table = $this->_db->getTable('SolrSearchField');
         $facet = $table->findByElement($args['record']);
         $facet->delete();
     }
@@ -282,7 +282,7 @@ SQL
     {
         $this->_db->query(<<<SQL
 
-        CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_facets (
+        CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_fields (
 
             id          int(10) unsigned NOT NULL auto_increment,
             element_id  int(10) unsigned,
@@ -306,7 +306,7 @@ SQL
     protected function _installFacetMappings()
     {
 
-        $facets    = $this->_db->getTable('SolrSearchFacet');
+        $facets    = $this->_db->getTable('SolrSearchField');
         $elements  = $this->_db->getTable('Element');
 
         // Generic facets:
@@ -317,7 +317,7 @@ SQL
 
         // Element-backed facets:
         foreach ($elements->findAll() as $element) {
-            $facet = new SolrSearchFacet($element);
+            $facet = new SolrSearchField($element);
             $facet->save();
         }
 
@@ -336,7 +336,7 @@ SQL
      */
     protected function _installGenericFacet($name, $label)
     {
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->name        = $name;
         $facet->label       = $label;
         $facet->is_indexed  = 1;

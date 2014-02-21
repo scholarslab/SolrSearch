@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTableTest_FindByName extends SolrSearch_Case_Default
+class SolrSearchFieldTableTest_FindByName extends SolrSearch_Case_Default
 {
 
 
@@ -20,7 +20,7 @@ class SolrSearchFacetTableTest_FindByName extends SolrSearch_Case_Default
     public function testFindByName()
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->label = 'facet';
         $facet->name  = 'facet';
         $facet->save();

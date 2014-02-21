@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacet extends Omeka_Record_AbstractRecord
+class SolrSearchField extends Omeka_Record_AbstractRecord
 {
 
 

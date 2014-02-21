@@ -307,7 +307,7 @@ class SolrSearch_Helpers_Query
     public static function parseFacet($facetName)
     {
         $db     = get_db();
-        $table  = $db->getTable('SolrSearchFacet');
+        $table  = $db->getTable('SolrSearchField');
         $select = $table->getSelect();
         $select->where("{$table->getTableAlias()}.name=?", $facetName);
         $facet  = $table->fetchObject($select);

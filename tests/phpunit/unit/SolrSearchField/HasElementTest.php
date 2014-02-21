@@ -10,12 +10,12 @@
  */
 
 
-class SolrSearchFacetTest_GetElement extends SolrSearch_Case_Default
+class SolrSearchFieldTest_HasElement extends SolrSearch_Case_Default
 {
 
 
     /**
-     * `getElement` should return the parent element.
+     * `hasElement` should return true when a parent element is provided.
      */
     public function testParentElement()
     {
@@ -24,10 +24,10 @@ class SolrSearchFacetTest_GetElement extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $facet = new SolrSearchFacet($title);
+        $facet = new SolrSearchField($title);
 
-        // Should return the parent element.
-        $this->assertEquals($title->id, $facet->getElement()->id);
+        // True when a parent element exists.
+        $this->assertTrue($facet->hasElement());
 
     }
 
@@ -38,10 +38,10 @@ class SolrSearchFacetTest_GetElement extends SolrSearch_Case_Default
     public function testNoParentElement()
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
 
-        // Should return NULL.
-        $this->assertNull($facet->getElementSet());
+        // False when no parent element exists.
+        $this->assertFalse($facet->hasElement());
 
     }
 

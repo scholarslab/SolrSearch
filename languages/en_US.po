@@ -25,11 +25,11 @@ msgid ""
 "server host, port, and core."
 msgstr "Cannot connect to Solr with the given configuration. Please check your server host, port, and core."
 
-#: SolrSearchPlugin.php:317 models/SolrSearchFacet.php:84
+#: SolrSearchPlugin.php:317 models/SolrSearchField.php:84
 msgid "Tag"
 msgstr "Tag"
 
-#: SolrSearchPlugin.php:320 models/SolrSearchFacet.php:87
+#: SolrSearchPlugin.php:320 models/SolrSearchField.php:87
 msgid "Result Type"
 msgstr "Result Type"
 
@@ -130,7 +130,7 @@ msgstr "Occurrences"
 msgid "Maximum Facet Count:"
 msgstr "Maximum Facet Count:"
 
-#: models/SolrSearchFacetTable.php:29
+#: models/SolrSearchFieldTable.php:29
 msgid "Omeka Categories"
 msgstr "Omeka Categories"
 

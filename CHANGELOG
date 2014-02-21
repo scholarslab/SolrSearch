@@ -224,7 +224,7 @@ tests
 [Tue, 24 Apr 2012 17:59:48 -0400] sets up plugin installation in
 test runner
 
-[Tue, 24 Apr 2012 17:29:51 -0400] exposes cols on SolrSearchFacet,
+[Tue, 24 Apr 2012 17:29:51 -0400] exposes cols on SolrSearchField,
 getElementSetName() [untested]
 
 [Tue, 24 Apr 2012 17:04:21 -0400] gets rid of unneeded require in

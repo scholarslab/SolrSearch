@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_Construct extends SolrSearch_Case_Default
+class SolrSearchFieldTest_Construct extends SolrSearch_Case_Default
 {
 
 
@@ -25,7 +25,7 @@ class SolrSearchFacetTest_Construct extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $facet = new SolrSearchFacet($title);
+        $facet = new SolrSearchField($title);
 
         // Should set `element_id`, `name`, and `label`.
         $this->assertEquals($title->id, $facet->element_id);
@@ -41,7 +41,7 @@ class SolrSearchFacetTest_Construct extends SolrSearch_Case_Default
     public function testNoElementPassed()
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
 
         // Should not set `element_id`, `name`, or `label`.
         $this->assertNull($facet->element_id);

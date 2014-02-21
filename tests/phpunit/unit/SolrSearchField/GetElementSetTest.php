@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_GetElementSet extends SolrSearch_Case_Default
+class SolrSearchFieldTest_GetElementSet extends SolrSearch_Case_Default
 {
 
 
@@ -28,7 +28,7 @@ class SolrSearchFacetTest_GetElementSet extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $facet = new SolrSearchFacet($title);
+        $facet = new SolrSearchField($title);
 
         // Should return the parent element set.
         $this->assertEquals($dublinCore->id, $facet->getElementSet()->id);
@@ -42,7 +42,7 @@ class SolrSearchFacetTest_GetElementSet extends SolrSearch_Case_Default
     public function testNoParentElement()
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
 
         // Should return NULL.
         $this->assertNull($facet->getElementSet());

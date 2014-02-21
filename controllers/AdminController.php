@@ -60,7 +60,7 @@ class SolrSearch_AdminController
     {
 
         // Get the facet mapping table.
-        $facetTable = $this->_helper->db->getTable('SolrSearchFacet');
+        $facetTable = $this->_helper->db->getTable('SolrSearchField');
 
         // If the form was submitted.
         if ($this->_request->isPost()) {

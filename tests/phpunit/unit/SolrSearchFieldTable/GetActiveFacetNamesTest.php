@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTableTest_GetActiveFacetNames
+class SolrSearchFieldTableTest_GetActiveFacetNames
     extends SolrSearch_Case_Default
 {
 

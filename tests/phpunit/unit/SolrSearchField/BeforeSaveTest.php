@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_BeforeSave extends SolrSearch_Case_Default
+class SolrSearchFieldTest_BeforeSave extends SolrSearch_Case_Default
 {
 
 
@@ -26,7 +26,7 @@ class SolrSearchFacetTest_BeforeSave extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $this->facet = new SolrSearchFacet($title);
+        $this->facet = new SolrSearchField($title);
 
     }
 

@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTableTest_FindByElement extends SolrSearch_Case_Default
+class SolrSearchFieldTableTest_FindByElement extends SolrSearch_Case_Default
 {
 
 
@@ -34,7 +34,7 @@ class SolrSearchFacetTableTest_FindByElement extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $facet = new SolrSearchFacet($title);
+        $facet = new SolrSearchField($title);
         $facet->save();
 
         $retrieved = $this->facetTable->findByElement($title);

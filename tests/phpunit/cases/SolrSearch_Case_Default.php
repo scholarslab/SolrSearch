@@ -31,7 +31,7 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
         $this->helper->setUp('SolrSearch');
 
         // Get tables.
-        $this->facetTable       = $this->db->getTable('SolrSearchFacet');
+        $this->facetTable       = $this->db->getTable('SolrSearchField');
         $this->elementSetTable  = $this->db->getTable('ElementSet');
         $this->elementTable     = $this->db->getTable('Element');
 
@@ -104,7 +104,7 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
     protected function _clearFacetMappings()
     {
         $this->db->query(<<<SQL
-        DELETE FROM {$this->db->prefix}solr_search_facets WHERE 1=1
+        DELETE FROM {$this->db->prefix}solr_search_fields WHERE 1=1
 SQL
 );
     }
@@ -138,12 +138,12 @@ SQL
      *
      * @param string $name The facet name.
      * @param string $label The facet label.
-     * $return SolrSearchFacet
+     * $return SolrSearchField
      */
     protected function _facet($name, $label='Test Label')
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
         $facet->name  = $name;
         $facet->label = $label;
 

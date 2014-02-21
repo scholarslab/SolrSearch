@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTest_GetElementSetName extends SolrSearch_Case_Default
+class SolrSearchFieldTest_GetElementSetName extends SolrSearch_Case_Default
 {
 
 
@@ -24,7 +24,7 @@ class SolrSearchFacetTest_GetElementSetName extends SolrSearch_Case_Default
             'Dublin Core', 'Title'
         );
 
-        $facet = new SolrSearchFacet($title);
+        $facet = new SolrSearchField($title);
 
         // Should return the parent element set name.
         $this->assertEquals('Dublin Core', $facet->getElementSetName());
@@ -38,7 +38,7 @@ class SolrSearchFacetTest_GetElementSetName extends SolrSearch_Case_Default
     public function testNoParentElement()
     {
 
-        $facet = new SolrSearchFacet();
+        $facet = new SolrSearchField();
 
         // Should return the generic string.
         $this->assertEquals('Omeka Categories', $facet->getElementSetName());

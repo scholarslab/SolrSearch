@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFacetTableTest_SetElementSearchable
+class SolrSearchFieldTableTest_SetElementSearchable
     extends SolrSearch_Case_Default
 {
 

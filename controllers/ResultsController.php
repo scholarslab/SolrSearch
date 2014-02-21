@@ -20,7 +20,7 @@ class SolrSearch_ResultsController
      */
     public function init()
     {
-        $this->_facets = $this->_helper->db->getTable('SolrSearchFacet');
+        $this->_facets = $this->_helper->db->getTable('SolrSearchField');
     }
 
 
@@ -159,7 +159,7 @@ class SolrSearch_ResultsController
     protected function _getDisplayedFields()
     {
         $db = get_db();
-        $displayFields = $db->getTable('SolrSearchFacet')->findBySql(
+        $displayFields = $db->getTable('SolrSearchField')->findBySql(
             'is_indexed = ?', array('1')
         );
 
