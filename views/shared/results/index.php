@@ -38,8 +38,7 @@
   <ul>
 
     <!-- Get the applied facets. -->
-    <?php $facets = SolrSearch_Helpers_Facet::getParams()['facet']; ?>
-    <?php foreach ($facets as $f): ?>
+    <?php foreach (SolrSearch_Helpers_Facet::parseFacets() as $f): ?>
       <li>
 
         <!-- Facet label. -->

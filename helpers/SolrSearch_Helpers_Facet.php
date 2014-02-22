@@ -19,62 +19,56 @@ class SolrSearch_Helpers_Facet
      *
      * @return array The parsed parameters.
      */
-    public static function getParams()
+    public static function parseFacets()
     {
 
-        $params = $_GET;
+        $facets = array();
 
-        // Ensure the `q` parameter.
-        if (!array_key_exists('q', $params)) $params['q'] = '';
-
-        // Ensure the `facet` parameter.
-        if (!array_key_exists('facet', $params)) $params['facet'] = array();
-
-        else {
+        if (array_key_exists('facet', $_GET)) {
 
             // Extract the field/value facet pairs.
             preg_match_all('/(?P<field>[\w]+):"(?P<value>[\w]+)"/',
-                $params['facet'], $matches
+                $_GET['facet'], $matches
             );
 
             // Collapse into an array of pairs.
-            $facet = array();
             foreach ($matches['field'] as $i => $field) {
-                $facet[] = array($field, $matches['value'][$i]);
+                $facets[] = array($field, $matches['value'][$i]);
             }
-
-            $params['facet'] = $facet;
 
         }
 
-        return $params;
+        return $facets;
 
     }
 
 
     /**
-     * Convert a parameters array into a URL.
+     * Rebuild the URL with a new array of facets.
      *
-     * @param array $params The parsed parameters.
-     * @return string The URL.
+     * @param array $facets The parsed facets.
+     * @return string The new URL.
      */
-    public static function makeUrl($params)
+    public static function makeUrl($facets)
     {
 
         // Collapse the facets to `:` delimited pairs.
-        $facets = array();
-        foreach ($params['facet'] as $facet) {
-            $facets[] = "{$facet[0]}:\"{$facet[1]}\"";
+        $fParam = array();
+        foreach ($facets as $facet) {
+            $fParam[] = "{$facet[0]}:\"{$facet[1]}\"";
         }
 
         // Implode on ` AND `.
-        $facets = implode(' AND ', $facets);
+        $fParam = implode(' AND ', $fParam);
+
+        // Get the `q` parameter, reverting to ''.
+        $qParam = array_key_exists('q', $_GET) ? $_GET['q'] : '';
 
         // Get the base results URL.
         $results = url('solr-search/results');
 
         // String together the final route.
-        return htmlspecialchars("$results?q={$params['q']}&facet=$facets");
+        return htmlspecialchars("$results?q=$qParam&facet=$fParam");
 
     }
 
@@ -89,16 +83,16 @@ class SolrSearch_Helpers_Facet
     public static function addFacet($field, $value)
     {
 
-        // Get the parameters.
-        $params = self::getParams();
+        // Get the current facets.
+        $facets = self::parseFacets();
 
         // Add the facet, if it's not already present.
-        if (!in_array(array($field, $value), $params['facet'])) {
-            $params['facet'][] = array($field, $value);
+        if (!in_array(array($field, $value), $facets)) {
+            $facets[] = array($field, $value);
         }
 
         // Rebuild the route.
-        return self::makeUrl($params);
+        return self::makeUrl($facets);
 
     }
 
@@ -113,19 +107,17 @@ class SolrSearch_Helpers_Facet
     public static function removeFacet($field, $value)
     {
 
-        // Get the parameters.
-        $params = self::getParams();
+        // Get the current facets.
+        $facets = self::parseFacets();
 
         // Reject the field/value pair.
-        $facets = array();
-        foreach ($params['facet'] as $facet) {
-            if ($facet !== array($field, $value)) $facets[] = $facet;
+        $reduced = array();
+        foreach ($facets as $facet) {
+            if ($facet !== array($field, $value)) $reduced[] = $facet;
         }
 
-        $params['facet'] = $facets;
-
         // Rebuild the route.
-        return self::makeUrl($params);
+        return self::makeUrl($reduced);
 
     }
 
