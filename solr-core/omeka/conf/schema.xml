@@ -94,7 +94,7 @@
     <field name="title" type="text_general" indexed="true" stored="true" multiValued="true" />
     <field name="tag" type="text_general" indexed="true" stored="true" multiValued="true" />
     <field name="image" type="int" indexed="true" stored="true" multiValued="true" />
-    <field name="collection" type="text_general" indexed="true" stored="true" />
+    <field name="collection" type="string" indexed="true" stored="true" />
     <field name="itemtype" type="string" indexed="true" stored="true" />
     <field name="resulttype" type="string" indexed="true" stored="true" />
     <field name="url" type="string" indexed="false" stored="true" />
