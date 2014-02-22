@@ -42,7 +42,8 @@
       <li>
 
         <!-- Facet label. -->
-        <span><?php echo $f[0]; ?> > <?php echo $f[1]; ?></span>
+        <?php $label = SolrSearch_Helpers_Facet::nameToLabel($f[0]); ?>
+        <span><?php echo $label; ?> > <?php echo $f[1]; ?></span>
 
         <!-- Remove link. -->
         <?php $url = SolrSearch_Helpers_Facet::removeFacet($f[0], $f[1]); ?>
@@ -64,7 +65,7 @@
     <?php if (count(get_object_vars($facets))): ?>
 
       <!-- Facet label. -->
-      <h5><?php echo $name; ?></h5>
+      <h5><?php echo SolrSearch_Helpers_Facet::nameTolabel($name); ?></h5>
 
       <ul>
         <!-- Facets. -->

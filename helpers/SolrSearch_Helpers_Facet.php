@@ -122,4 +122,17 @@ class SolrSearch_Helpers_Facet
     }
 
 
+    /**
+     * Get the human-readable label for a given facet name.
+     *
+     * @param string $name The facet name.
+     * @return string The label.
+     */
+    public static function nameToLabel($name)
+    {
+        $fields = get_db()->getTable('SolrSearchField');
+        return $fields->findByName($name)->label;
+    }
+
+
 }
