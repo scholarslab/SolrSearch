@@ -473,14 +473,14 @@ ul {
   margin-left: 22%;
 }
 /* line 51, sass/results.scss */
-#solr-results div.solr-result {
+#solr-results div.result {
   margin: 1em 0;
 }
-/* line 55, sass/results.scss */
-#solr-results div.solr-result div.solr-title a {
+/* line 54, sass/results.scss */
+#solr-results div.result a.result-title {
   font-weight: bold;
 }
-/* line 61, sass/results.scss */
-#solr-results div.solr-result ul.solr-hl em {
+/* line 59, sass/results.scss */
+#solr-results div.result ul.hl em {
   font-weight: bold;
 }

@@ -43,8 +43,8 @@
 
         <!-- Facet label. -->
         <?php $label = SolrSearch_Helpers_Facet::nameToLabel($f[0]); ?>
-        <span><?php echo $label; ?></span> >
-        <strong><?php echo $f[1]; ?></strong>
+        <span class="applied-facet-label"><?php echo $label; ?></span> >
+        <span class="applied-facet-value"><?php echo $f[1]; ?></span>
 
         <!-- Remove link. -->
         <?php $url = SolrSearch_Helpers_Facet::removeFacet($f[0], $f[1]); ?>
@@ -74,13 +74,17 @@
 
       <ul>
         <!-- Facets. -->
-        <?php foreach ($facets as $label => $num): ?>
-          <li>
+        <?php foreach ($facets as $value => $count): ?>
+          <li class="<?php echo $value; ?>">
 
             <!-- Facet link. -->
-            <?php $url = SolrSearch_Helpers_Facet::addFacet($name, $label); ?>
-            <a href="<?php echo $url; ?>"><?php echo $label; ?></a>
-            (<?php echo $num; ?>)
+            <?php $url = SolrSearch_Helpers_Facet::addFacet($name, $value); ?>
+            <a href="<?php echo $url; ?>" class="facet-value">
+              <?php echo $value; ?>
+            </a>
+
+            <!-- Facet count. -->
+            (<span class="facet-count"><?php echo $count; ?></span>)
 
           </li>
         <?php endforeach; ?>
@@ -96,20 +100,20 @@
 <div id="solr-results">
 
   <!-- Number found. -->
-  <h2 id="solr-num-found">
+  <h2 id="num-found">
     <?php echo $results->response->numFound; ?> results
   </h2>
 
   <?php foreach ($results->response->docs as $doc): ?>
 
     <!-- Document. -->
-    <div class="solr-result">
+    <div class="result">
 
       <!-- Header. -->
-      <div class="solr-title">
+      <div class="result-header">
 
         <!-- Title. -->
-        <a href="<?php echo $doc->url; ?>">
+        <a href="<?php echo $doc->url; ?>" class="result-title">
           <?php echo is_array($doc->title) ? $doc->title[0] : $doc->title; ?>
         </a>
 
@@ -120,10 +124,10 @@
 
       <!-- Highlighting. -->
       <?php if (get_option('solr_search_hl')): ?>
-        <ul class="solr-hl">
+        <ul class="hl">
           <?php foreach($results->highlighting->{$doc->id} as $field): ?>
             <?php foreach($field as $hl): ?>
-              <li><?php echo strip_tags($hl, '<em>'); ?></li>
+              <li class="snippet"><?php echo strip_tags($hl, '<em>'); ?></li>
             <?php endforeach; ?>
           <?php endforeach; ?>
         </ul>

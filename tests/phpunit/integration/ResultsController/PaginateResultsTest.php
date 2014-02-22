@@ -9,7 +9,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class ResultsControllerTest_Pagination extends SolrSearch_Case_Default
+class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
 {
 
 

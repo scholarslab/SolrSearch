@@ -48,16 +48,14 @@ ul {
 #solr-results {
   margin-left: 22%;
 
-  div.solr-result {
+  div.result {
     margin: 1em 0;
 
-    div.solr-title {
-      a {
-        font-weight: bold;
-      }
+    a.result-title {
+      font-weight: bold;
     }
 
-    ul.solr-hl {
+    ul.hl {
       em {
         font-weight: bold;
       }

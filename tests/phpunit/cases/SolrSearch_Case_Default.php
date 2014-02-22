@@ -119,14 +119,14 @@ SQL
      *
      * @param boolean $public True if the item is public.
      * @param string $title The Dublin Core "Title".
-     * $return Item
+     * @return Item
      */
     protected function _item($public=true, $title='Test Title')
     {
         return insert_item(array('public' => true), array(
             'Dublin Core' => array (
                 'Title' => array(
-                    array('text' => 'title', 'html' => false)
+                    array('text' => $title, 'html' => false)
                 )
             )
         ));
@@ -138,7 +138,7 @@ SQL
      *
      * @param string $name The facet name.
      * @param string $label The facet label.
-     * $return SolrSearchField
+     * @return SolrSearchField
      */
     protected function _facet($name, $label='Test Label')
     {
@@ -159,7 +159,7 @@ SQL
      * @param boolean $public True if the page is public.
      * @param string $title The exhibit title.
      * @param string $slug The exhibit slug.
-     * $return SimplePagesPage
+     * @return SimplePagesPage
      */
     protected function _simplePage(
         $public=true, $title='Test Title', $slug='test-slug'
@@ -187,7 +187,7 @@ SQL
      * @param boolean $public True if the exhibit is public.
      * @param string $title The exhibit title.
      * @param string $slug The exhibit slug.
-     * $return Exhibit
+     * @return Exhibit
      */
     protected function _exhibit(
         $public=true, $title='Test Title', $slug='test-slug'
@@ -213,7 +213,7 @@ SQL
      * @param string $slug The page slug.
      * @param string $layout The layout template.
      * @param integer $order The page order.
-     * $return ExhibitPage
+     * @return ExhibitPage
      */
     protected function _exhibitPage(
         $exhibit=null, $title='Test Title', $slug='test-slug',
@@ -243,7 +243,7 @@ SQL
      * @param ExhibitPage $page The parent page.
      * @param string $text The entry content.
      * @param integer $order The entry order.
-     * $return ExhibitPage
+     * @return ExhibitPage
      */
     protected function _exhibitEntry(
         $page=null, $text='Test text.', $order=1
@@ -269,7 +269,7 @@ SQL
      *
      * @param string $elementSetName The name of the parent element set.
      * @param string $name The element name.
-     * $return Element
+     * @return Element
      */
     protected function _element(
         $elementSetName='Item Type Metadata', $name='Test Element'
