@@ -23,7 +23,13 @@
 
 }
 
+#solr-facets {
+  width: 20%;
+  float: left;
+}
+
 #solr-results {
+  margin-left: 22%;
 
   div.solr-result {
     margin: 1em 0;

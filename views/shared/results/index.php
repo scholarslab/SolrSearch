@@ -43,7 +43,8 @@
 
         <!-- Facet label. -->
         <?php $label = SolrSearch_Helpers_Facet::nameToLabel($f[0]); ?>
-        <span><?php echo $label; ?> > <?php echo $f[1]; ?></span>
+        <span><?php echo $label; ?></span> >
+        <strong><?php echo $f[1]; ?></strong>
 
         <!-- Remove link. -->
         <?php $url = SolrSearch_Helpers_Facet::removeFacet($f[0], $f[1]); ?>
@@ -59,13 +60,17 @@
 
 <!-- Facets. -->
 <div id="solr-facets">
+
+  <h2><?php echo __('Limit your search'); ?></h2>
+
   <?php foreach ($results->facet_counts->facet_fields as $name => $facets): ?>
 
     <!-- Does the facet have any hits? -->
     <?php if (count(get_object_vars($facets))): ?>
 
       <!-- Facet label. -->
-      <h5><?php echo SolrSearch_Helpers_Facet::nameTolabel($name); ?></h5>
+      <?php $label = SolrSearch_Helpers_Facet::nameTolabel($name); ?>
+      <strong><?php echo $label; ?></strong>
 
       <ul>
         <!-- Facets. -->
@@ -91,9 +96,9 @@
 <div id="solr-results">
 
   <!-- Number found. -->
-  <h3 id="solr-num-found">
+  <h2 id="solr-num-found">
     <?php echo $results->response->numFound; ?> results
-  </h3>
+  </h2>
 
   <?php foreach ($results->response->docs as $doc): ?>
 

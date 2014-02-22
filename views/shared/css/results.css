@@ -447,15 +447,25 @@ input[type="submit"].btn.btn-mini {
   float: right;
 }
 
-/* line 28, sass/results.scss */
+/* line 26, sass/results.scss */
+#solr-facets {
+  width: 20%;
+  float: left;
+}
+
+/* line 31, sass/results.scss */
+#solr-results {
+  margin-left: 22%;
+}
+/* line 34, sass/results.scss */
 #solr-results div.solr-result {
   margin: 1em 0;
 }
-/* line 32, sass/results.scss */
+/* line 38, sass/results.scss */
 #solr-results div.solr-result div.solr-title a {
   font-weight: bold;
 }
-/* line 38, sass/results.scss */
+/* line 44, sass/results.scss */
 #solr-results div.solr-result ul.solr-hl em {
   font-weight: bold;
 }
