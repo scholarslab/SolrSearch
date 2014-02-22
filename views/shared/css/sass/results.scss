@@ -29,11 +29,17 @@ ul {
 
 #solr-applied-facets {
 
-  li {
-    display: inline;
+  ul {
+    margin: 0;
+    padding: 0;
 
-    &+li:before {
-      content: "· "
+    li {
+      display: inline;
+
+      &+li:before {
+        content: "· "
+      }
+
     }
 
   }
