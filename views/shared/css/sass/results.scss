@@ -2,6 +2,10 @@
 @import "variables";
 @import "buttons";
 
+ul {
+  margin-left: 1em;
+}
+
 #solr-search-form {
   overflow: hidden;
   box-sizing: border-box;
@@ -19,6 +23,19 @@
 
   input[type="submit"] {
     float: right;
+  }
+
+}
+
+#solr-applied-facets {
+
+  li {
+    display: inline;
+
+    &+li:before {
+      content: "· "
+    }
+
   }
 
 }

@@ -123,7 +123,7 @@
         <ul class="solr-hl">
           <?php foreach($results->highlighting->{$doc->id} as $field): ?>
             <?php foreach($field as $hl): ?>
-              <li><?php echo $hl; ?></li>
+              <li><?php echo strip_tags($hl, '<em>'); ?></li>
             <?php endforeach; ?>
           <?php endforeach; ?>
         </ul>
