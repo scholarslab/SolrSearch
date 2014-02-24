@@ -91,8 +91,8 @@
    -->
 
     <field name="id" type="string" indexed="true" stored="true" required="true" /> 
-    <field name="title" type="text_general" indexed="true" stored="true" multiValued="true" />
-    <field name="tag" type="text_general" indexed="true" stored="true" multiValued="true" />
+    <field name="title" type="text_en" indexed="true" stored="true" multiValued="true" />
+    <field name="tag" type="text_en" indexed="true" stored="true" multiValued="true" />
     <field name="image" type="int" indexed="true" stored="true" multiValued="true" />
     <field name="collection" type="string" indexed="true" stored="true" />
     <field name="itemtype" type="string" indexed="true" stored="true" />
@@ -103,7 +103,7 @@
     <field name="text" type="text_en" indexed="true" stored="false" multiValued="true"/>
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
-    <dynamicField name="*_s" type="text_general" indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_s" type="text_en" indexed="true" stored="true" multiValued="true" />
 
   </fields>
 
