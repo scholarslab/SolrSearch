@@ -1,36 +1,22 @@
 <?php
-/**
- * SolrSearch Omeka Plugin helpers.
- *
- * Default helpers for the SolrSearch plugin
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
- * applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
- * OF ANY KIND, either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
- *
- * @package    omeka
- * @subpackage SolrSearch
- * @author     "Scholars Lab"
- * @copyright  2010 The Board and Visitors of the University of Virginia
- * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
- * @version    $Id$
- * @link       http://www.scholarslab.org
- *
- * PHP version 5
- *
- */
+
+/* vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80; */
 
 /**
- * This manages the process of getting the addon information from the config files and using 
- * them to index a document.
+ * @package     omeka
+ * @subpackage  solr-search
+ * @copyright   2012 Rector and Board of Visitors, University of Virginia
+ * @license     http://www.apache.org/licenses/LICENSE-2.0.html
+ */
+
+
+/**
+ * This manages the process of getting the addon information from the config
+ * files and using them to index a document.
  **/
 class SolrSearch_Addon_Manager
 {
-    // {{{Properties
+
 
     /**
      * The database this will interface with.
@@ -53,9 +39,7 @@ class SolrSearch_Addon_Manager
      **/
     var $addons;
 
-    // }}}
-    // {{{Methods
-    
+
     /**
      * This instantiates a SolrSearch_Addon_Manager
      *
@@ -69,9 +53,10 @@ class SolrSearch_Addon_Manager
         $this->addons   = null;
 
         if ($this->addonDir === null) {
-            $this->addonDir = SOLR_SEARCH_PLUGIN_DIR . '/addons';
+            $this->addonDir = SOLR_DIR . '/addons';
         }
     }
+
 
     /**
      * This parses all the JSON configuration files in the addon directory and 
@@ -99,23 +84,22 @@ class SolrSearch_Addon_Manager
         return $this->addons;
     }
 
+
     /**
      * A helper method to the return the addon for the record.
      *
      * @param Omeka_Record $record The record to find an addon for.
      *
-     * @return SolrSearch_Addon_Addon|null $addon The addon for the input 
-     * record.
+     * @return SolrSearch_Addon_Addon|null $addon The corresponding addon.
      * @author Eric Rochester <erochest@virginia.edu>
      **/
     public function findAddonForRecord($record)
     {
         $hit = null;
 
-        $recordTable = get_class($record->getTable());
+        $recordTable = get_class($record);
         foreach ($this->addons as $key => $addon) {
-            $tableName = get_class($this->db->getTable($addon->table));
-            if ($tableName == $recordTable) {
+            if ($recordTable == $addon->table) {
                 $hit = $addon;
                 break;
             }
@@ -123,6 +107,71 @@ class SolrSearch_Addon_Manager
 
         return $hit;
     }
+
+
+    /**
+     * For a given record, re-save all child addon records, if any exist.
+     *
+     * @param Omeka_Record $record The record.
+     *
+     * @author David McClure <david.mcclure@virginia.edu>
+     **/
+    public function resaveChildren($record)
+    {
+
+        // Get the record's addon.
+        $addon = $this->findAddonForRecord($record);
+        if (is_null($addon)) return;
+
+        foreach ($addon->children as $childAddon) {
+
+            // Load each of the child records.
+            $children = $this->db->getTable($childAddon->table)->findBySql(
+                "{$childAddon->parentKey}=?", array($record->id)
+            );
+
+            // Resave each of the children.
+            foreach ($children as $child) $child->save();
+
+        }
+
+    }
+
+
+    /**
+     * For a given record, re-save the remote parent record, if one exists.
+     *
+     * @param Omeka_Record $record The record.
+     *
+     * @author David McClure <david.mcclure@virginia.edu>
+     **/
+    public function resaveRemoteParent($record)
+    {
+
+        // Get the record type.
+        $table = get_class($record);
+
+        // Iterate over all addon fields.
+        foreach ($this->addons as $addon) {
+            foreach ($addon->fields as $field) {
+
+                // Match remote fields that point to the record's type.
+                if ($field->remote && $field->remote->table == $table) {
+
+                    $parentTable = $this->db->getTable($addon->table);
+                    $parentIdKey = $field->remote->key;
+
+                    // Load the parent and re-save.
+                    $parent = $parentTable->find($record->$parentIdKey);
+                    $parent->save();
+
+                }
+
+            }
+        }
+
+    }
+
 
     /**
      * This reindexes all the addons and returns the Solr documents created.
@@ -148,6 +197,7 @@ class SolrSearch_Addon_Manager
 
         return $docs;
     }
+
 
     /**
      * This indexes a single record.
@@ -178,6 +228,7 @@ class SolrSearch_Addon_Manager
         return $doc;
     }
 
+
     /**
      * This returns the Solr ID for the record.
      *
@@ -191,7 +242,7 @@ class SolrSearch_Addon_Manager
      **/
     public function getId($record, $config=null)
     {
-        $id  = null;
+        $id   = null;
         $idxr = new SolrSearch_Addon_Indexer($this->db);
 
         if (is_null($this->addons) || !is_null($config)) {
@@ -200,20 +251,11 @@ class SolrSearch_Addon_Manager
 
         $addon = $this->findAddonForRecord($record);
         if (!is_null($addon)) {
-            $id = $record->id;
+            $id = "{$addon->table}_{$record->id}";
         }
 
         return $id;
     }
 
-    // }}}
 
 }
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */

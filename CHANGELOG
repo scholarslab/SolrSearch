@@ -67,7 +67,7 @@ into develop. Fixes #8.
 bootstrap
 
 [Sun, 13 May 2012 08:07:22 -0400] Adds a field lookup to
-SolrSearch_ViewHelpers::lookupElement until this is stored in the
+SolrSearch_Helpers_View::lookupElement until this is stored in the
 index
 
 [Thu, 10 May 2012 11:41:03 -0400] Updates markup and styles for
@@ -224,7 +224,7 @@ tests
 [Tue, 24 Apr 2012 17:59:48 -0400] sets up plugin installation in
 test runner
 
-[Tue, 24 Apr 2012 17:29:51 -0400] exposes cols on SolrSearchFacet,
+[Tue, 24 Apr 2012 17:29:51 -0400] exposes cols on SolrSearchField,
 getElementSetName() [untested]
 
 [Tue, 24 Apr 2012 17:04:21 -0400] gets rid of unneeded require in
@@ -265,7 +265,7 @@ with the createResultImgHtml view helper
 [Sun, 22 Apr 2012 19:17:28 -0300] Update _sass/solr_search.scss
 
 [Sat, 21 Apr 2012 17:32:04 -0400] Updates the results controller
-to get rid of the empty solrfacet; closes #23
+to get rid of the empty facet; closes #23
 
 [Thu, 19 Apr 2012 21:09:15 -0400] Adds vim command, removes
 copy-n-paste stuff with customized Falmouth project code
@@ -409,7 +409,7 @@ TODO.
 [Mon, 2 May 2011 16:09:09 +0000] Fixed empty keyword searches.
 
 [Mon, 2 May 2011 15:39:23 +0000] Changed HTTP interface to use two
-parameters: solrq for the plain query and solrfacet for the for the
+parameters: q for the plain query and facet for the for the
 faceted query.
 
 [Mon, 25 Apr 2011 19:23:16 +0000] Added URL fragment to force item
@@ -525,7 +525,7 @@ a cleaner URL in Zend pagination.
 fields from conditional in the view to parameters passed to solr.
 added faceting
 
-[Wed, 30 Jun 2010 15:25:40 +0000] added is_displayed column to
+[Wed, 30 Jun 2010 15:25:40 +0000] added is_indexed column to
 table. implemented user-selected displayable fields selected in
 config form and displayed in public views. added solr-home
 

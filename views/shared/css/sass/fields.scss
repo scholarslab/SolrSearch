@@ -1,0 +1,26 @@
+@import "compass/css3/box-sizing";
+@import "mixins";
+@import "variables";
+@import "buttons";
+@import "sprites";
+
+#solr-fields {
+
+  td {
+    vertical-align: middle;
+  }
+
+  input[type=text] {
+    margin: 0;
+    width: 100%;
+  }
+
+  span.original-label {
+    font-weight: bold;
+  }
+
+}
+
+#submit {
+  margin-top: 2em !important;
+}

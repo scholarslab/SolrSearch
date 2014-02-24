@@ -1,35 +1,21 @@
 <?php
+
+/* vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80; */
+
 /**
- * SolrSearch Omeka Plugin helpers.
- *
- * Default helpers for the SolrSearch plugin
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
- * applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
- * OF ANY KIND, either express or implied. See the License for the specific
- * language governing permissions and limitations under the License.
- *
- * @package    omeka
- * @subpackage SolrSearch
- * @author     "Scholars Lab"
- * @copyright  2010 The Board and Visitors of the University of Virginia
- * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0
- * @version    $Id$
- * @link       http://www.scholarslab.org
- *
- * PHP version 5
- *
+ * @package     omeka
+ * @subpackage  solr-search
+ * @copyright   2012 Rector and Board of Visitors, University of Virginia
+ * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
+
 
 /**
  * This handles indexes data from the addons.
  **/
 class SolrSearch_Addon_Indexer
 {
-    //{{{ Properties
+
 
     /**
      * This is the database interface.
@@ -38,12 +24,12 @@ class SolrSearch_Addon_Indexer
      **/
     var $db;
 
-    //}}}
 
     function __construct($db)
     {
         $this->db = $db;
     }
+
 
     /**
      * This creates a Solr-style name for an addon and field.
@@ -58,6 +44,7 @@ class SolrSearch_Addon_Indexer
     {
         return "{$addon->name}_{$field}_s";
     }
+
 
     /**
      * This gets all the records in the database matching all the addons passed 
@@ -79,6 +66,7 @@ class SolrSearch_Addon_Indexer
 
         return $docs;
     }
+
 
     /**
      * This gets all the records associated with a single addon for indexing.
@@ -106,6 +94,7 @@ class SolrSearch_Addon_Indexer
         return $docs;
     }
 
+
     /**
      * This tests whether the table exists.
      *
@@ -127,6 +116,7 @@ class SolrSearch_Addon_Indexer
         return $exists;
     }
 
+
     /**
      * This returns an Apache_Solr_Document to index, if the addons say it 
      * should be.
@@ -145,7 +135,7 @@ class SolrSearch_Addon_Indexer
         $doc->id = "{$addon->table}_{$record->id}";
         $doc->addField('model', $addon->table);
         $doc->addField('modelid', $record->id);
-        $doc->addField('url', SolrSearch_IndexHelpers::getUri($record));
+        $doc->addField('url', SolrSearch_Helpers_Index::getUri($record));
 
         $titleField = $addon->getTitleField();
         foreach ($addon->fields as $field) {
@@ -179,6 +169,7 @@ class SolrSearch_Addon_Indexer
         return $doc;
     }
 
+
     /**
      * This returns a value that is local to the record.
      *
@@ -195,6 +186,7 @@ class SolrSearch_Addon_Indexer
         $value[] = $record[$field->name];
         return $value;
     }
+
 
     /**
      * This returns a value that is remotely attached to the record.
@@ -225,6 +217,7 @@ class SolrSearch_Addon_Indexer
         return $value;
     }
 
+
     /**
      * This builds a query for returning all the records to index from the 
      * database.
@@ -248,6 +241,7 @@ class SolrSearch_Addon_Indexer
 
         return $select;
     }
+
 
     /**
      * This adds the joins and where clauses to respect an addon's privacy 
@@ -283,12 +277,12 @@ class SolrSearch_Addon_Indexer
         }
     }
 
+
     /**
      * This returns true if this addon (and none of its ancestors) are flagged.
      *
-     * @param Omeka_Record           $record The Omeka record to consider 
-     * indexing.
-     * @param SolrSearch_Addon_Addon $addon  The addon for the record.
+     * @param Omeka_Record $record The Omeka record to consider indexing.
+     * @param SolrSearch_Addon_Addon $addon The addon for the record.
      *
      * @return bool $indexed A flag indicating whether to index the record.
      * @author Eric Rochester <erochest@virginia.edu>
@@ -314,12 +308,5 @@ class SolrSearch_Addon_Indexer
         return $indexed;
     }
 
-}
 
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */
+}

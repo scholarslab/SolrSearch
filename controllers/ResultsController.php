@@ -1,287 +1,148 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
-require_once 'Omeka/Controller/Action.php';
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 cc=80; */
 
-class SolrSearch_ResultsController extends Omeka_Controller_Action
+/**
+ * @package     omeka
+ * @subpackage  solr-search
+ * @copyright   2012 Rector and Board of Visitors, University of Virginia
+ * @license     http://www.apache.org/licenses/LICENSE-2.0.html
+ */
+
+
+class SolrSearch_ResultsController
+    extends Omeka_Controller_AbstractActionController
 {
 
+
     /**
-     * Intercept search queries from simple search and redirect with
-     * a well-formed SolrSearch request.
-     *
-     * @return void
+     * Cache the facets table.
+     */
+    public function init()
+    {
+        $this->_fields = $this->_helper->db->getTable('SolrSearchField');
+    }
+
+
+    /**
+     * Intercept queries from the simple search form.
      */
     public function interceptorAction()
     {
-
-        // Construct the query parameters.
-        $query = http_build_query(
-            array(
-                'solrq' => $this->_request->getParam('search')
-            )
-        );
-
-        // Redirect.
-        $this->_redirect('solr-search/results?' . $query);
-
+        $this->_redirect('solr-search/results?'.http_build_query(array(
+            'q' => $this->_request->getParam('query')
+        )));
     }
 
+
     /**
-     * Default index action
-     *
-     * @return void
+     * Display Solr results.
      */
     public function indexAction()
     {
-        $this->handleHtml();
 
-        //if ($this->isAjax()) {
-        //$this->handleJson();
-        //} else {
-        //$this->handleHtml();
-        //}
-    }
+        // Get pagination settings.
+        $limit = get_option('per_page_public');
+        $page  = $this->_request->page ? $this->_request->page : 1;
+        $start = ($page-1) * $limit;
 
-    /**
-     * Parse request to determine if it is an AJAX request
-     *
-     * @return bool
-     */
-    private function _isAjax()
-    {
-        return false;
-        //TODO: clean this up
-        //return ($this->getRequest()->isXmlHttpRequest() ||
-        //(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == '1'));
-    }
+        // Execute the query.
+        $results = $this->_search($start, $limit);
 
-    /**
-     * Display results using HTML handler
-     *
-     * @return void
-     */
-    protected function handleHtml()
-    {
-        $facets = $this->_getSearchFacets();
-        $pagination = $this->_getPagination();
-        $page = $pagination['page'];
-        $search_rows = $pagination['per_page'];
-        $start = ($page - 1) * $search_rows;
-
-        $results = $this->_search($facets, $start, $search_rows);
-
-        $this->_updatePagination($pagination, $results->response->numFound);
-        $this->view->assign(
-            array(
-                'results'    => $results,
-                'pagination' => $pagination,
-                'page'       => $page
-            )
-        );
-
-        $this->view->facets = $facets;
-    }
-
-    /**
-     * Display result set using JSON handler
-     *
-     * @return void
-     */
-    protected function handleJson()
-    {
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $facets = $this->_getSearchFacets();
-        $results = $this->_search($facets, 0, 1500);
-        $this->view->assign(
-            array(
-                'results' => $results
-            )
-        );
-
-        $this->view->facets = $facets;
-        $this->_helper->viewRenderer('ajax');
-    }
-
-    /**
-     * Retrive search facet settings from the database
-     *
-     * @return array Array containing facet fields
-     */
-    private function _getSearchFacets()
-    {
-        //get facets
-        $facets = array();
-
-        $db = get_db();
-        $facetList = $db
-            ->getTable('SolrSearch_Facet')
-            ->findBySql('is_facet = ?', array('1'));
-        foreach ($facetList as $facet) {
-            $facets[] = $facet->name;
-        }
-
-        natcasesort($facets);
-        return $facets;
-    }
-
-    /**
-     * Retrieve search fields
-     *
-     * @param array $facets Array containing facet fields
-     *
-     * @return array Array of fields to pass to Solr
-     */
-    private function _getSearchParameters($facets)
-    {
-        $displayFields = $this->_getDisplayableFields();
-        $hiddenFields  = $this->_getHiddenFields();
-
-        $fields = $displayFields;
-        if ($hiddenFields != null && strlen($hiddenFields) > 0) {
-            $fields .= ",$hiddenFields";
-        }
-
-        if (!empty($facets)) {
-            $params = array(
-                'fl'             => $fields,
-                'facet'          => 'true',
-                'facet.mincount' => 1,
-                'facet.limit'    => get_option('solr_search_facet_limit'),
-                'facet.field'    => $facets,
-                'hl'             => get_option('solr_search_hl'),
-                'hl.snippets'    => get_option('solr_search_snippets'),
-                'hl.fragsize'    => get_option('solr_search_fragsize'),
-                'facet.sort'     => get_option('solr_search_facet_sort'),
-                'hl.fl'          => $displayFields
-            );
-        } else {
-            $params = array(
-                'fl'   => $displayFields
-            );
-        }
-        return $params;
-    }
-
-    /**
-     * Retrieve pagination settings from the database
-     *
-     * @param int $numFound Number of results
-     *
-     * @return int Pagination settings
-     */
-    private function _getPagination($numFound=0)
-    {
-        $request = $this->getRequest();
-        $page = $request->get('page') or $page = 1;
-        $rows = get_option('solr_search_rows');
-        $paginationUrl = $this->getRequest()->getBaseUrl() . '/results/';
-
-        if (! $rows) {
-            $rows = get_option('per_page_public') or get_option('solr_search_rows');
-        }
-
-        $pagination = array(
+        // Set the pagination.
+        Zend_Registry::set('pagination', array(
             'page'          => $page,
-            'per_page'      => $rows,
-            'total_results' => $numFound,
-            'link'          => $paginationUrl
-        );
+            'total_results' => $results->response->numFound,
+            'per_page'      => $limit
+        ));
 
-        Zend_Registry::set('pagination', $pagination);
+        // Push results to the view.
+        $this->view->results = $results;
 
-        return $pagination;
     }
 
-    /**
-     * Update the pagination setting
-     *
-     * @param int $pagination Number of results per page
-     * @param int $numFound   Total number of results in query
-     *
-     * @return int Pagination setting
-     */
-    private function _updatePagination($pagination, $numFound)
-    {
-        $pagination['total_results'] = $numFound;
-        Zend_Registry::set('pagination', $pagination);
-        return $pagination;
-    }
 
     /**
      * Pass setting to Solr search
      *
-     * @param array $facets Facet fields
-     * @param int   $offset Results offset
-     * @param int   $limit  Limit per page
-     *
+     * @param int $offset Results offset
+     * @param int $limit  Limit per page
      * @return SolrResultDoc Solr results
      */
-    private function _search($facets, $offset=0, $limit=10)
+    protected function _search($offset, $limit)
     {
-        $solr = new Apache_Solr_Service(
-            get_option('solr_search_server'),
-            get_option('solr_search_port'),
-            get_option('solr_search_core')
-        );
 
-        $query = SolrSearch_QueryHelpers::createQuery(
-            SolrSearch_QueryHelpers::getParams()
-        );
+        // Connect to Solr.
+        $solr = SolrSearch_Helpers_Index::connect();
 
-        $params = $this->_getSearchParameters($facets);
+        // Get the parameters.
+        $params = $this->_getParameters();
 
-        $results = $solr->search($query, $offset, $limit, $params);
+        // Construct the query.
+        $query = $this->_getQuery();
 
-        return $results;
+        // Execute the query.
+        return $solr->search($query, $offset, $limit, $params);
+
     }
+
 
     /**
-     * Get the displayable fields from the Solr table, which is passed to the
-     * view to restring fields that appear in the results
+     * Form the complete Solr query.
      *
-     * @return string Fields to display
+     * @return string The Solr query.
      */
-    private function _getDisplayableFields()
+    protected function _getQuery()
     {
-        $db = get_db();
-        $displayFields = $db->getTable('SolrSearch_Facet')->findBySql(
-            'is_displayed = ?',
-            array('1')
-        );
 
-        $fields = array(
-            'id',
-            'title'
-        );
-        foreach ($displayFields as $k => $displayField) {
-            //pass field accordingly, depending on whether it is an element or
-            //collection/tag
-            $fields[] = $displayField['name'];
-        }
-        return implode(',', $fields);
+        // Get the `q` GET parameter.
+        $query = $this->_request->q;
+
+        // If defined, replace `:`; otherwise, revert to `*:*`
+        if (!empty($query)) $query = str_replace(':', ' ', $query);
+        else $query = '*:*';
+
+        // Get the `facet` GET parameter
+        $facet = $this->_request->facet;
+
+        // Form the composite Solr query.
+        if (!empty($facet)) $query .= " AND {$facet}";
+
+        return $query;
+
     }
+
 
     /**
-     * This returns all fields that need to be included in the output from Solr,
-     * but aren't displayed.
+     * Construct the Solr search parameters.
      *
-     * @return string $fields A comma-delimited list of fields.
-     * @author Eric Rochester <erochest@virginia.edu>
+     * @return array Array of fields to pass to Solr
      */
-    private function _getHiddenFields()
+    protected function _getParameters()
     {
-        $fields = "image,title,url,model,modelid";
-        return $fields;
+
+        $params = array();
+
+        // Get a list of active facets.
+        $facets = $this->_fields->getActiveFacetNames();
+
+        if (!empty($facets)) $params = array(
+
+            'facet'          => 'true',
+            'facet.field'    => $facets,
+            'facet.mincount' => 1,
+            'facet.limit'    => get_option('solr_search_facet_limit'),
+            'facet.sort'     => get_option('solr_search_facet_sort'),
+            'hl'             => get_option('solr_search_hl'),
+            'hl.snippets'    => get_option('solr_search_hl_snippets'),
+            'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
+            'hl.fl'          => '*_s'
+
+        );
+
+        return $params;
+
     }
+
 
 }
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */
-

@@ -25,11 +25,11 @@ msgid ""
 "server host, port, and core."
 msgstr "Cannot connect to Solr with the given configuration. Please check your server host, port, and core."
 
-#: SolrSearchPlugin.php:317 models/SolrSearchFacet.php:84
+#: SolrSearchPlugin.php:317 models/SolrSearchField.php:84
 msgid "Tag"
 msgstr "Tag"
 
-#: SolrSearchPlugin.php:320 models/SolrSearchFacet.php:87
+#: SolrSearchPlugin.php:320 models/SolrSearchField.php:87
 msgid "Result Type"
 msgstr "Result Type"
 
@@ -93,44 +93,44 @@ msgstr "Clear & Reindex"
 msgid "Update Search Fields"
 msgstr "Update Search Fields"
 
-#: helpers/SolrSearch_QueryHelpers.php:121
+#: helpers/SolrSearch_Helpers_Query.php:121
 msgid "ALL TERMS"
 msgstr "ALL TERMS"
 
-#: helpers/SolrSearch_QueryHelpers.php:132
+#: helpers/SolrSearch_Helpers_Query.php:132
 #, php-format
 msgid "Remove constraint %s"
 msgstr "Remove constraint %s"
 
-#: helpers/SolrSearch_ViewHelpers.php:143
+#: helpers/SolrSearch_Helpers_View.php:143
 msgid "Untitled"
 msgstr "Untitled"
 
-#: helpers/SolrSearch_ViewHelpers.php:326
+#: helpers/SolrSearch_Helpers_View.php:326
 msgid "Server Host:"
 msgstr "Server Host:"
 
-#: helpers/SolrSearch_ViewHelpers.php:329
+#: helpers/SolrSearch_Helpers_View.php:329
 msgid "Server Port:"
 msgstr "Server Port:"
 
-#: helpers/SolrSearch_ViewHelpers.php:333
+#: helpers/SolrSearch_Helpers_View.php:333
 msgid "Solr Core Name:"
 msgstr "Solr Core Name:"
 
-#: helpers/SolrSearch_ViewHelpers.php:345
+#: helpers/SolrSearch_Helpers_View.php:345
 msgid "Facet Field Constraint Order:"
 msgstr "Facet Field Constraint Order:"
 
-#: helpers/SolrSearch_ViewHelpers.php:349
+#: helpers/SolrSearch_Helpers_View.php:349
 msgid "Occurrences"
 msgstr "Occurrences"
 
-#: helpers/SolrSearch_ViewHelpers.php:352
+#: helpers/SolrSearch_Helpers_View.php:352
 msgid "Maximum Facet Count:"
 msgstr "Maximum Facet Count:"
 
-#: models/SolrSearchFacetTable.php:29
+#: models/SolrSearchFieldTable.php:29
 msgid "Omeka Categories"
 msgstr "Omeka Categories"
 

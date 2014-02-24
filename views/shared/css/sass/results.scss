@@ -1,0 +1,72 @@
+@import "mixins";
+@import "variables";
+@import "buttons";
+
+ul {
+  margin-left: 1em;
+}
+
+#solr-search-form {
+  overflow: hidden;
+  box-sizing: border-box;
+
+  span.float-wrap {
+    display: block;
+    padding-right: 10px;
+    overflow: hidden;
+
+    input[type="text"] {
+      width: 100%;
+    }
+
+  }
+
+  input[type="submit"] {
+    float: right;
+  }
+
+}
+
+#solr-applied-facets {
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline;
+
+      &+li:before {
+        content: "· "
+      }
+
+    }
+
+  }
+
+}
+
+#solr-facets {
+  width: 20%;
+  float: left;
+}
+
+#solr-results {
+  margin-left: 22%;
+
+  div.result {
+    margin: 1em 0;
+
+    a.result-title {
+      font-weight: bold;
+    }
+
+    ul.hl {
+      em {
+        font-weight: bold;
+      }
+    }
+
+  }
+
+}
