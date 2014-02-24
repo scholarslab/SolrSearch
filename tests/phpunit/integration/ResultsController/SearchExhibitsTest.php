@@ -55,6 +55,7 @@ class ResultsControllerTest_SearchExhibits extends SolrSearch_Case_Default
         $exhibit2 = $this->_exhibit(true, 'Exhibit 2', 'e2');
         $exhibit1->description = 'desc1';
         $exhibit2->description = 'desc2';
+
         $exhibit1->save();
         $exhibit2->save();
 
