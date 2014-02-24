@@ -71,13 +71,13 @@ class ResultsControllerTest_FacetCollections extends SolrSearch_Case_Default
 
         parent::setUp();
 
-        $this->coll1 = $this->_collection('Collection 1');
-        $this->coll2 = $this->_collection('Collection 2');
+        $coll1 = $this->_collection('Collection 1');
+        $coll2 = $this->_collection('Collection 2');
 
-        $this->item1 = $this->_item('Item 1', $this->coll1);
-        $this->item2 = $this->_item('Item 2', $this->coll1);
-        $this->item3 = $this->_item('Item 3', $this->coll2);
-        $this->item4 = $this->_item('Item 4', $this->coll2);
+        $this->item1 = $this->_item('Item 1', $coll1);
+        $this->item2 = $this->_item('Item 2', $coll1);
+        $this->item3 = $this->_item('Item 3', $coll2);
+        $this->item4 = $this->_item('Item 4', $coll2);
 
     }
 

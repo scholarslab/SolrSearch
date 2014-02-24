@@ -34,6 +34,7 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
         $this->facetTable       = $this->db->getTable('SolrSearchField');
         $this->elementSetTable  = $this->db->getTable('ElementSet');
         $this->elementTable     = $this->db->getTable('Element');
+        $this->itemTypeTable    = $this->db->getTable('ItemType');
 
         // Apply `solr.ini` values.
         $this->_applyTestingOptions();

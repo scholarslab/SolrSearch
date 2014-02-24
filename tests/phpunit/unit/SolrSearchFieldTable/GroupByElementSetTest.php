@@ -31,7 +31,7 @@ class SolrSearchFieldTableTest_GroupByElementSet
     public function testGroupByElementSet()
     {
 
-        // Get the "Dublin Core" element set. 
+        // Get the "Dublin Core" element set.
         $dublinCore = $this->elementSetTable->findByName(
             'Dublin Core'
         );
