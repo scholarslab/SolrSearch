@@ -123,7 +123,7 @@
       </div>
 
       <!-- Highlighting. -->
-      <?php if (get_option('solr_search_hl')): ?>
+      <?php if (get_option('solr_search_hl') == 'true'): ?>
         <ul class="hl">
           <?php foreach($results->highlighting->{$doc->id} as $field): ?>
             <?php foreach($field as $hl): ?>
