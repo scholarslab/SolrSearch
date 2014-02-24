@@ -40,12 +40,12 @@ class ResultsControllerTest_HighlightResults extends SolrSearch_Case_Default
         $_GET['q'] = 'item';
         $this->dispatch('solr-search/results');
 
-        // Shouldd highlight item 1.
+        // Should highlight item 1.
         $this->assertXpathContentContains(
             '//li[@class="snippet"]', '<em>Item</em> 1'
         );
 
-        // Shouldd highlight item 2.
+        // Should highlight item 2.
         $this->assertXpathContentContains(
             '//li[@class="snippet"]', '<em>Item</em> 1'
         );

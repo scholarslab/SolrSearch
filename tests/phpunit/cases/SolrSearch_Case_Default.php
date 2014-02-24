@@ -125,7 +125,7 @@ SQL
     protected function _item($public=true, $title='Test Title')
     {
         return insert_item(array('public' => true), array(
-            'Dublin Core' => array (
+            'Dublin Core' => array(
                 'Title' => array(
                     array('text' => $title, 'html' => false)
                 )
