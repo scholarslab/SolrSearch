@@ -17,6 +17,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     protected $_hooks = array(
         'install',
         'uninstall',
+        'upgrade',
         'initialize',
         'define_routes',
         'after_save_record',
@@ -66,6 +67,19 @@ SQL
 
         self::_clearOptions();
 
+    }
+
+
+    /**
+     * If upgrading from 1.x, install the new schema.
+     *
+     * @param array $args Contains: `old_version` and `new_version`.
+     */
+    public function hookUpgrade($args)
+    {
+        if (version_compare($args['old_version'], '1.0.1', '<=')) {
+            $this->hookInstall();
+        }
     }
 
 
