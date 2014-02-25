@@ -53,7 +53,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
     {
 
         $this->_db->query(<<<SQL
-        DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_facets
+        DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_fields
 SQL
 );
 
