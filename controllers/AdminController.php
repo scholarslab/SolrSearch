@@ -66,7 +66,8 @@ class SolrSearch_AdminController
         if ($this->_request->isPost()) {
 
             // Get facets from POST.
-            $facets = $this->_request->getPost()['facets'];
+            $post_args = $this->_request->getPost();
+            $facets = $post_args['facets'];
 
             // Save the facets.
             foreach ($facets as $name => $data) {
