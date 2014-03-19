@@ -71,12 +71,8 @@ class SolrSearch_Helpers_View
     public static function createResultImgHtml($image_id, $alt)
     {
         $html = '';
-        $fullsize = SolrSearch_Helpers_View::getImagePath(
-            'fullsize', $image_id
-        );
-        $thumbnail = SolrSearch_Helpers_View::getImagePath(
-            'square_thumbnail', $image_id
-        );
+        $thumbnail  = self::getImagePath('square_thumbnail', $image_id);
+        $fullsize   = self::getImagePath('fullsize', $image_id);
 
         $html .= '<a class="solr_search_image" href="' . $fullsize . '">';
         $html .= '<img alt="' . $alt . '" src="' . $thumbnail . '" />';
