@@ -40,8 +40,5 @@ require_once SOLR_DIR.'/forms/SolrSearch_Form_Server.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Highlight.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Reindex.php';
 
-// Jobs:
-require_once SOLR_DIR.'/jobs/SolrSearch_Job_Reindex.php';
-
 $solr = new SolrSearchPlugin();
 $solr->setUp();

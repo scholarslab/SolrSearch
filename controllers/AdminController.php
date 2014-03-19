@@ -140,9 +140,8 @@ class SolrSearch_AdminController
             try {
 
                 // Clear and reindex.
-                Zend_Registry::get('job_dispatcher')->sendLongRunning(
-                    'SolrSearch_Job_Reindex'
-                );
+                SolrSearch_Helpers_Index::deleteAll();
+                SolrSearch_Helpers_Index::indexAll();
 
                 // Flash success.
                 $this->_helper->flashMessenger(

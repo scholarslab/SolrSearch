@@ -27,10 +27,10 @@ class SolrSearch_Helpers_View
 
 
     /**
-     * Lookup the element name for a solr element
+     * Lookup the element name for a solr element.
      *
-     * @param string $field Field name to look up
-     * 
+     * @param string $field Field name to look up.
+     *
      * @return string Human readable solr element name
      */
     public static function lookupElement($field)
@@ -44,10 +44,10 @@ class SolrSearch_Helpers_View
 
 
     /**
-     * Return the path for an image
+     * Return the path for an image.
      *
-     * @param string $type   Omeka File type (size)
-     * @param int    $fileId Id of the file to look up
+     * @param string $type Omeka File type (size).
+     * @param int $fileId Id of the file to look up.
      *
      * @return string Link to file
      */
@@ -62,10 +62,10 @@ class SolrSearch_Helpers_View
     /**
      * Generate an image tag for use in search results.
      *
-     * @param int    $image_id Image to look up
-     * @param string $alt      Alt text for image
+     * @param int $image_id Image to look up.
+     * @param string $alt Alt text for image.
      *
-     * @return string $html link to image
+     * @return string $html Link to image.
      * @author Wayne Graham <wsg4w@virginia.edu>
      **/
     public static function createResultImgHtml($image_id, $alt)
