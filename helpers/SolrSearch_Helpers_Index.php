@@ -240,27 +240,6 @@ class SolrSearch_Helpers_Index
 
 
     /**
-     * This deletes everything in the Solr index.
-     *
-     * @param array $options The configuration to test. Missing values will be
-     * pulled from the current set of options.
-     *
-     * @return void
-     * @author Eric Rochester
-     **/
-    public static function deleteAll($options=array())
-    {
-
-        $solr = self::connect($options);
-
-        $solr->deleteByQuery('*:*');
-        $solr->commit();
-        $solr->optimize();
-
-    }
-
-
-    /**
      * This re-indexes everything in the Omeka DB.
      *
      * @return void
@@ -297,6 +276,28 @@ class SolrSearch_Helpers_Index
         $solr->commit();
 
         $solr->optimize();
+
+    }
+
+
+    /**
+     * This deletes everything in the Solr index.
+     *
+     * @param array $options The configuration to test. Missing values will be
+     * pulled from the current set of options.
+     *
+     * @return void
+     * @author Eric Rochester
+     **/
+    public static function deleteAll($options=array())
+    {
+
+        $solr = self::connect($options);
+
+        $solr->deleteByQuery('*:*');
+        $solr->commit();
+        $solr->optimize();
+
     }
 
 

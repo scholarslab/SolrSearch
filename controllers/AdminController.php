@@ -65,12 +65,11 @@ class SolrSearch_AdminController
         // If the form was submitted.
         if ($this->_request->isPost()) {
 
-            // Get facets from POST.
-            $post_args = $this->_request->getPost();
-            $facets = $post_args['facets'];
+            // Gather the POST arguments.
+            $post = $this->_request->getPost();
 
             // Save the facets.
-            foreach ($facets as $name => $data) {
+            foreach ($post['facets'] as $name => $data) {
 
                 // Were "Is Indexed?" and "Is Facet?" checked?
                 $indexed = array_key_exists('is_indexed', $data) ? 1 : 0;
@@ -141,12 +140,13 @@ class SolrSearch_AdminController
             try {
 
                 // Clear and reindex.
-                SolrSearch_Helpers_Index::deleteAll();
-                SolrSearch_Helpers_Index::indexAll();
+                Zend_Registry::get('job_dispatcher')->sendLongRunning(
+                    'SolrSearch_Job_Reindex'
+                );
 
                 // Flash success.
                 $this->_helper->flashMessenger(
-                    __('Reindexing finished.'), 'success'
+                    __('Reindexing started.'), 'success'
                 );
 
             } catch (Exception $err) {
