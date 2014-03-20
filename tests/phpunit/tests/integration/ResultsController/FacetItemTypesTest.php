@@ -41,7 +41,7 @@ class ResultsControllerTest_FacetItemTypes extends SolrSearch_Case_Default
 
 
     /**
-     * Create collections and items.
+     * Create items.
      */
     public function setUp()
     {

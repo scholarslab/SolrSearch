@@ -122,7 +122,7 @@ class SolrSearch_ResultsController
     {
 
         // Get a list of active facets.
-        $facets = $this->_fields->getActiveFacetSlugs();
+        $facets = $this->_fields->getActiveFacetKeys();
 
         return array(
 

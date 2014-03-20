@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFieldTableTest_GetActiveFacetSlugs
+class SolrSearchFieldTableTest_GetActiveFacetKeys
     extends SolrSearch_Case_Default
 {
 
@@ -26,7 +26,7 @@ class SolrSearchFieldTableTest_GetActiveFacetSlugs
 
 
     /**
-     * `getActiveFacetSlugs` should return a list containing the names of all
+     * `getActiveFacetKeys` should return a list containing the names of all
      * the facets that are set active.
      */
     public function testGetActiveFacetNames()
@@ -44,7 +44,7 @@ class SolrSearchFieldTableTest_GetActiveFacetSlugs
         $field2->save();
         $field3->save();
 
-        $names = $this->fieldTable->getActiveFacetSlugs();
+        $names = $this->fieldTable->getActiveFacetKeys();
 
         // Should contain the names of the active facets.
         $this->assertEquals(array('field1', 'field2'), $names);

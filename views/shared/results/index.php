@@ -42,7 +42,7 @@
       <li>
 
         <!-- Facet label. -->
-        <?php $label = SolrSearch_Helpers_Facet::nameToLabel($f[0]); ?>
+        <?php $label = SolrSearch_Helpers_Facet::keyToLabel($f[0]); ?>
         <span class="applied-facet-label"><?php echo $label; ?></span> >
         <span class="applied-facet-value"><?php echo $f[1]; ?></span>
 
@@ -69,7 +69,7 @@
     <?php if (count(get_object_vars($facets))): ?>
 
       <!-- Facet label. -->
-      <?php $label = SolrSearch_Helpers_Facet::nameTolabel($name); ?>
+      <?php $label = SolrSearch_Helpers_Facet::keyToLabel($name); ?>
       <strong><?php echo $label; ?></strong>
 
       <ul>
