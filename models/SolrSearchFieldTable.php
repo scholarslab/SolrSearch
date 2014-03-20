@@ -15,52 +15,6 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
-     * Get a list of the names of all active facets.
-     *
-     * @return array The list of active facet names.
-     */
-    public function getActiveFacetNames()
-    {
-
-        $active = array();
-
-        // Get names for active facets.
-        foreach ($this->findBySql('is_facet=?', array(1)) as $facet) {
-            $active[] = $facet->name;
-        }
-
-        return $active;
-
-    }
-
-
-    /**
-     * Get all fields grouped by element set id.
-     *
-     * @return array $facets The ElementSet-grouped facets.
-     */
-    public function groupByElementSet()
-    {
-
-        $groups = array();
-
-        foreach ($this->findAll() as $facet) {
-
-            // Get element set name.
-            $set = $facet->getElementSetName();
-
-            // Add the facet to its element set group (or create it).
-            if (array_key_exists($set, $groups)) $groups[$set][] = $facet;
-            else $groups[$set] = array($facet);
-
-        }
-
-        return $groups;
-
-    }
-
-
-    /**
      * Find the field associated with a given element.
      *
      * @return Element $element The element name.
@@ -102,6 +56,52 @@ class SolrSearchFieldTable extends Omeka_Db_Table
         $facet = $this->findByElement($element);
         $facet->is_indexed = true;
         $facet->save();
+
+    }
+
+
+    /**
+     * Get a list of the names of all active facets.
+     *
+     * @return array The list of active facet names.
+     */
+    public function getActiveFacetNames()
+    {
+
+        $active = array();
+
+        // Get names for active facets.
+        foreach ($this->findBySql('is_facet=?', array(1)) as $facet) {
+            $active[] = $facet->name;
+        }
+
+        return $active;
+
+    }
+
+
+    /**
+     * Get all fields grouped by element set id.
+     *
+     * @return array $facets The ElementSet-grouped facets.
+     */
+    public function groupByElementSet()
+    {
+
+        $groups = array();
+
+        foreach ($this->findAll() as $facet) {
+
+            // Get element set name.
+            $set = $facet->getElementSetName();
+
+            // Add the facet to its element set group (or create it).
+            if (array_key_exists($set, $groups)) $groups[$set][] = $facet;
+            else $groups[$set] = array($facet);
+
+        }
+
+        return $groups;
 
     }
 

@@ -75,15 +75,15 @@ class SolrSearch_Helpers_Index
         foreach ($elementTexts as $elementText) {
 
             // If the element text should be searchable.
-            if (array_key_exists($elementText['element_id'], $indexSet)) {
+            if (array_key_exists($elementText->element_id, $indexSet)) {
 
                 // Set the text value on the document.
-                $fieldName = $indexSet[$elementText['element_id']];
-                $doc->setMultiValue($fieldName, $elementText['text']);
+                $fieldName = $indexSet[$elementText->element_id];
+                $doc->setMultiValue($fieldName, $elementText->text);
 
                 // If the title is searchable, set it explicitly.
-                if ($elementText['element_id'] == 50) {
-                    $doc->setMultiValue('title', $elementText['text']);
+                if ($elementText->element_id == 50) {
+                    $doc->setMultiValue('title', $elementText->text);
                 }
 
             }

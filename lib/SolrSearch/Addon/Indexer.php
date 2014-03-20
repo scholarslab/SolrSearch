@@ -42,7 +42,7 @@ class SolrSearch_Addon_Indexer
      **/
     public function makeSolrName($addon, $field)
     {
-        return "{$addon->name}_{$field}_s";
+        return "{$addon->name}_{$field}_txt";
     }
 
 

@@ -56,7 +56,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
             $this->element_id = $element->id;
 
             // Element identifier.
-            $this->name = "{$element->id}_s";
+            $this->name = "{$element->id}_txt";
 
             // Pubilc-facing label.
             $this->label = $element->name;
