@@ -15,21 +15,21 @@
   <td class="element">
 
   <input
-    name="facets[<?php echo $facet->slug; ?>][id]"
-    value="<?php echo $facet->id; ?>"
+    name="facets[<?php echo $field->slug; ?>][id]"
+    value="<?php echo $field->id; ?>"
     type="hidden"
   />
 
   <span class="original-label">
-    <?php echo $facet->getOriginalLabel(); ?>
+    <?php echo $field->getOriginalLabel(); ?>
   </span>
 
   </td>
 
   <td>
     <input
-      name="facets[<?php echo $facet->slug; ?>][label]"
-      value="<?php echo htmlspecialchars($facet->label); ?>"
+      name="facets[<?php echo $field->slug; ?>][label]"
+      value="<?php echo htmlspecialchars($field->label); ?>"
       type="text"
     />
   </td>
@@ -37,8 +37,8 @@
   <?php foreach (array('is_indexed', 'is_facet') as $opt): ?>
     <td>
       <input
-        name="facets[<?php echo $facet->slug; ?>][<?php echo $opt; ?>]"
-        <?php if ($facet->$opt): ?>checked="checked"<?php endif; ?>
+        name="facets[<?php echo $field->slug; ?>][<?php echo $opt; ?>]"
+        <?php if ($field->$opt): ?>checked="checked"<?php endif; ?>
         type="checkbox"
       />
     </td>
