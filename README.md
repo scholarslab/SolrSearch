@@ -1,5 +1,7 @@
 # [SolrSearch][plugin]
 
+![Solr](https://lucene.apache.org/images/solr.png)
+
 **SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich searching platform for full-text searching. In most cases, Omeka's built-in searching capabilities work great, but there are a couple situations where Solr might make sense:
 
   - When you have a large collection (tens of thousands of items), and want something a bit faster;
