@@ -121,12 +121,10 @@ class SolrSearch_ResultsController
     protected function _getParameters()
     {
 
-        $params = array();
-
         // Get a list of active facets.
         $facets = $this->_fields->getActiveFacetNames();
 
-        if (!empty($facets)) $params = array(
+        return array(
 
             'facet'          => 'true',
             'facet.field'    => $facets,
@@ -139,8 +137,6 @@ class SolrSearch_ResultsController
             'hl.fl'          => '*_s'
 
         );
-
-        return $params;
 
     }
 
