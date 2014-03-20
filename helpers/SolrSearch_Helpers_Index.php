@@ -66,9 +66,9 @@ class SolrSearch_Helpers_Index
         // Get list of indexed elements.
         $indexSet = self::getIndexSet($db);
 
-        $elementTexts = $db
-            ->getTable('ElementText')
-            ->findBySql('record_id = ?', array($item['id']));
+        $elementTexts = $db->getTable('ElementText')->findBySql(
+            'record_id = ? AND record_type = ?', array($item['id'], 'Item')
+        );
 
         // Index element texts:
         foreach ($elementTexts as $elementText) {
@@ -106,7 +106,7 @@ class SolrSearch_Helpers_Index
                 ->find($item['collection_id']);
 
             $doc->collection = metadata(
-              $collection, array('Dublin Core', 'Title')
+                $collection, array('Dublin Core', 'Title')
             );
 
         }
