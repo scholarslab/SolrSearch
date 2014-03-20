@@ -57,16 +57,18 @@ class SolrSearch_Helpers_Index
 
         // Create the item document.
         $doc = new Apache_Solr_Document();
-        $doc->id = "Item_{$item['id']}";
+        $doc->id = "Item_{$item->id}";
         $doc->setMultiValue('resulttype', 'Item');
         $doc->setField('model', 'Item');
-        $doc->setField('modelid', $item['id']);
+        $doc->setField('modelid', $item->id);
 
         // Get list of indexed elements.
         $indexSet = self::getIndexSet($db);
 
+        // Gather all element texts.
         $elementTexts = $db->getTable('ElementText')->findBySql(
-            'record_id = ? AND record_type = ?', array($item['id'], 'Item')
+            'record_id = ? AND record_type = ?',
+            array($item->id, 'Item')
         );
 
         // Index element texts:
@@ -97,12 +99,11 @@ class SolrSearch_Helpers_Index
 
         // Index collection name:
         if (array_key_exists('collection', $indexSet) &&
-          $item['collection_id'] > 0
-        ) {
+          $item->collection_id > 0) {
 
             $collection = $db
                 ->getTable('Collection')
-                ->find($item['collection_id']);
+                ->find($item->collection_id);
 
             $doc->collection = metadata(
                 $collection, array('Dublin Core', 'Title')
@@ -111,12 +112,16 @@ class SolrSearch_Helpers_Index
         }
 
         // Index item type:
-        if (array_key_exists('itemtype', $indexSet) && $item['item_type_id'] > 0) {
+        if (array_key_exists('itemtype', $indexSet) &&
+            $item->item_type_id > 0) {
+
             $itemType = $db
                 ->getTable('ItemType')
-                ->find($item['item_type_id'])
+                ->find($item->item_type_id)
                 ->name;
+
             $doc->itemtype = $itemType;
+
         }
 
         return $doc;
