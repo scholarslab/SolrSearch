@@ -102,6 +102,7 @@
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
     <dynamicField name="*_txt" type="text_en" indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_str" type="string" indexed="true" stored="true" multiValued="true" />
 
   </fields>
 

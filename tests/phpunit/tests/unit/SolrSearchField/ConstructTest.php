@@ -29,7 +29,7 @@ class SolrSearchFieldTest_Construct extends SolrSearch_Case_Default
 
         // Should set `element_id`, `slug`, and `label`.
         $this->assertEquals($title->id, $facet->element_id);
-        $this->assertEquals("{$title->id}_txt", $facet->slug);
+        $this->assertEquals($title->id, $facet->slug);
         $this->assertEquals('Title', $facet->label);
 
     }

@@ -372,8 +372,11 @@ SQL
             $elementSetName, $elementName
         );
 
-        // Get the subject and source facets.
-        return $this->fieldTable->findByElement($element)->slug;
+        // Get the corresponding field.
+        $field = $this->fieldTable->findByElement($element);
+
+        // TODO: Use model method.
+        return "{$field->slug}_txt";
 
     }
 

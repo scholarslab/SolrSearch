@@ -77,9 +77,12 @@ class SolrSearch_Helpers_Index
             // If the element text should be searchable.
             if (array_key_exists($elementText->element_id, $indexSet)) {
 
-                // Set the text value on the document.
+                // Get the Solr key for the element.
                 $fieldName = $indexSet[$elementText->element_id];
-                $doc->setMultiValue($fieldName, $elementText->text);
+
+                // Set string and text (tokenized) fields on the document.
+                $doc->setMultiValue("{$fieldName}_txt", $elementText->text);
+                $doc->setMultiValue("{$fieldName}_str", $elementText->text);
 
                 // If the title is searchable, set it explicitly.
                 if ($elementText->element_id == 50) {
