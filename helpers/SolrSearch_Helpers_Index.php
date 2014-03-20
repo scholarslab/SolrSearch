@@ -59,7 +59,6 @@ class SolrSearch_Helpers_Index
         $doc = new Apache_Solr_Document();
         $doc->id = "Item_{$item['id']}";
         $doc->setMultiValue('resulttype', 'Item');
-        //$doc->setField('url', self::getUri($item));
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item['id']);
 
