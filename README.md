@@ -2,7 +2,7 @@
 
 **SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich searching platform for full-text searching. In most cases, Omeka's built-in searching capabilities work great, but there are a couple situations where Solr might make sense:
 
-  - When you have a _really_ large collection (many tens of thousands of items), and want something a bit faster;
+  - When you have a large collection (tens of thousands of items), and want something a bit faster;
 
   - When your site contains a lot of text content, and you want to take advantage of Solr's "hit highlighting" functionality, which makes it possible to display a snippet from each of the matching records in the list of results with the search terms displayed in bold;
 
@@ -16,25 +16,19 @@ To use the plugin, you'll need access to an installation of Solr 4.0+ running th
 
 Once Solr is up and running, install SolrSearch just like any other Omeka plugin:
 
-  1. Download the .zip directory from the [Omeka addons repository][plugin] and unzip the archive.
+  1. Download the plugin from the [Omeka addons repository][plugin] and unzip the archive.
 
-  2. Upload the `SolrSearch` directory into the `plugins` directory in you Omeka installation.
+  2. Upload the `SolrSearch` directory into the Omeka `plugins` directory.
 
-  3. Open up the "Plugin" page in the Omeka admin, and click the green "Install" button for Solr Search.
+  3. Open up the "Plugins" page in Omeka and click the "Install" button for Solr Search.
 
-For more information about installing Omeka plugins, check out the [Managing Plugins][managing-plugins] guide in the Omeka Codex.
+For more information, check out the [Managing Plugins][managing-plugins] guide.
 
-## Usage
+## Configuration
 
-Once all the pieces are in place, the first step is to point the SolrSearch plugin at your Solr instance. Once the link is established, other configuration options make it possible to customize how the content is indexed and how the search results are displayed in the public interface.
+### Server Configuration
 
-Open up the configuration options by clicking on on the "Solr Search" tab in the Omeka admin.
-
-### Configuration
-
-#### Server Configuration
-
-Use these fields to set the Solr connection parameters and high-level options:
+To get started, click on the "Solr Search" tab, which displays a form with Solr connection parameters:
 
   - **Server Host**: The location of the Solr server, without the port number.
 
@@ -48,7 +42,7 @@ Use these fields to set the Solr connection parameters and high-level options:
 
 After making changes to the connection parameters, click the "Save Settings" button. If the plugin is able to connect to Solr, a greet notification saying "Solr connection is valid" will be displayed.
 
-#### Field Configuration
+### Field Configuration
 
 This form makes it possible to configure (a) which metadata elements and Omeka categories ("fields") are stored as searchable content in Solr and (b) which fields should be used as "facets", groupings of records that can be used to iteratively narrow down the set of results. For each element, there are three options:
 
@@ -62,7 +56,7 @@ Use the accordion to expand and contract the fields in the three categories. The
 
 After you've made changes, click the "Update Search Fields" to save the configuration.
 
-#### Hit Highlighting
+### Hit Highlighting
 
 Hit highlighting is the feature that makes it possible to display snippets of text for each result in the search interface that excerpt portions of the metadata that are relevant to the query.
 
@@ -74,13 +68,13 @@ Hit highlighting is the feature that makes it possible to display snippets of te
 
 Click "Save Settings" to update the configuration.
 
-#### Index Items
+### Index Items
 
 After making changes in the "Field Configuration" and "Hit Highlighting" tabs, it's necessary to reindex the content in the site in order for the changes to take effect. SolrSearch doesn't do this automatically because reindexing can take as long as a few minutes for really large sites.
 
 When you're ready, just click the "Clear and Reindex" button. This will spawn off a background process behind the scenes that rebuilds the index according to the new configuration options.
 
-### Searching
+## Searching
 
 Once the content has been (re)indexed, head to the public site and type a seaarch query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
 
