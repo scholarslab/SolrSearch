@@ -127,25 +127,13 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean',
     'bower',
-    'compile:min'
-  ]);
-
-  // Compile JS/CSS payloads.
-  grunt.registerTask('compile', [
-    //'concat',
-    'compass'
-  ]);
-
-  // Minify JS/CSS payloads.
-  grunt.registerTask('compile:min', [
-    //'uglify',
     'compass'
   ]);
 
   // Spawn release package.
   grunt.registerTask('package', [
     'clean:pkg',
-    'compile:min',
+    'compass',
     'compress'
   ]);
 
