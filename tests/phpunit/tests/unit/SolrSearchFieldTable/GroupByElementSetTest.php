@@ -63,37 +63,37 @@ class SolrSearchFieldTableTest_GroupByElementSet
 
         // Facet with no element:
         $noElementSetFacet1 = new SolrSearchField();
-        $noElementSetFacet1->name   = 'no_element_set_1';
+        $noElementSetFacet1->slug   = 'no_element_set_1';
         $noElementSetFacet1->label  = 'No Element Set 1';
         $noElementSetFacet1->save();
 
         // Facet with no element:
         $noElementSetFacet2 = new SolrSearchField();
-        $noElementSetFacet2->name   = 'no_element_set_2';
+        $noElementSetFacet2->slug   = 'no_element_set_2';
         $noElementSetFacet2->label  = 'No Element Set 2';
         $noElementSetFacet2->save();
 
         // Facet for Dublin Core element:
         $dublinCoreFacet1 = new SolrSearchField($date);
-        $dublinCoreFacet1->name     = 'dublin_core_1';
+        $dublinCoreFacet1->slug     = 'dublin_core_1';
         $dublinCoreFacet1->label    = 'Dublin Core 1';
         $dublinCoreFacet1->save();
 
         // Facet for Dublin Core element:
         $dublinCoreFacet2 = new SolrSearchField($coverage);
-        $dublinCoreFacet2->name     = 'dublin_core_2';
+        $dublinCoreFacet2->slug     = 'dublin_core_2';
         $dublinCoreFacet2->label    = 'Dublin Core 2';
         $dublinCoreFacet2->save();
 
         // Facet for Item Type Metadata element:
         $itemTypeMetadataFacet1 = new SolrSearchField($to);
-        $itemTypeMetadataFacet1->name   = 'item_type_metadata_1';
+        $itemTypeMetadataFacet1->slug   = 'item_type_metadata_1';
         $itemTypeMetadataFacet1->label  = 'Item Type Metadata 1';
         $itemTypeMetadataFacet1->save();
 
         // Facet for Item Type Metadata element:
         $itemTypeMetadataFacet2 = new SolrSearchField($from);
-        $itemTypeMetadataFacet2->name   = 'item_type_metadata_2';
+        $itemTypeMetadataFacet2->slug   = 'item_type_metadata_2';
         $itemTypeMetadataFacet2->label  = 'Item Type Metadata 2';
         $itemTypeMetadataFacet2->save();
 

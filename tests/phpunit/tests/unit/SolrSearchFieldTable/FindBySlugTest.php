@@ -10,22 +10,22 @@
  */
 
 
-class SolrSearchFieldTableTest_FindByName extends SolrSearch_Case_Default
+class SolrSearchFieldTableTest_FindBySlug extends SolrSearch_Case_Default
 {
 
 
     /**
-     * `findByName` should return the facet with a given name.
+     * `findBySlug` should return the facet with a given slug.
      */
-    public function testFindByName()
+    public function testFindBySlug()
     {
 
         $facet = new SolrSearchField();
         $facet->label = 'facet';
-        $facet->name  = 'facet';
+        $facet->slug  = 'facet';
         $facet->save();
 
-        $retrieved = $this->facetTable->findByName('facet');
+        $retrieved = $this->facetTable->findBySlug('facet');
         $this->assertEquals($facet->id, $retrieved->id);
 
     }

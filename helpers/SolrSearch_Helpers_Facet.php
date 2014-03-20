@@ -131,7 +131,7 @@ class SolrSearch_Helpers_Facet
     public static function nameToLabel($name)
     {
         $fields = get_db()->getTable('SolrSearchField');
-        return $fields->findByName($name)->label;
+        return $fields->findBySlug($name)->label;
     }
 
 

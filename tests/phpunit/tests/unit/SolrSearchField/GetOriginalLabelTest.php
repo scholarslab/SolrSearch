@@ -22,19 +22,19 @@ class SolrSearchFieldTest_GetOriginalLabel extends SolrSearch_Case_Default
     {
 
         $facet = new SolrSearchField();
-        $facet->name = 'tag';
+        $facet->slug = 'tag';
         $this->assertEquals('Tag', $facet->getOriginalLabel());
 
         $facet = new SolrSearchField();
-        $facet->name = 'collection';
+        $facet->slug = 'collection';
         $this->assertEquals('Collection', $facet->getOriginalLabel());
 
         $facet = new SolrSearchField();
-        $facet->name = 'itemtype';
+        $facet->slug = 'itemtype';
         $this->assertEquals('Item Type', $facet->getOriginalLabel());
 
         $facet = new SolrSearchField();
-        $facet->name = 'resulttype';
+        $facet->slug = 'resulttype';
         $this->assertEquals('Result Type', $facet->getOriginalLabel());
 
     }

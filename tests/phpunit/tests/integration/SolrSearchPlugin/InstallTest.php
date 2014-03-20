@@ -21,10 +21,10 @@ class SolrSearchPluginTest_Install extends SolrSearch_Case_Default
     {
 
         $facets = array(
-            $this->facetTable->findByName('tag'),
-            $this->facetTable->findByName('collection'),
-            $this->facetTable->findByName('itemtype'),
-            $this->facetTable->findByName('resulttype')
+            $this->facetTable->findBySlug('tag'),
+            $this->facetTable->findBySlug('collection'),
+            $this->facetTable->findBySlug('itemtype'),
+            $this->facetTable->findBySlug('resulttype')
         );
 
         foreach ($facets as $facet) {

@@ -15,7 +15,7 @@
   <td class="element">
 
   <input
-    name="facets[<?php echo $facet->name; ?>][id]"
+    name="facets[<?php echo $facet->slug; ?>][id]"
     value="<?php echo $facet->id; ?>"
     type="hidden"
   />
@@ -28,7 +28,7 @@
 
   <td>
     <input
-      name="facets[<?php echo $facet->name; ?>][label]"
+      name="facets[<?php echo $facet->slug; ?>][label]"
       value="<?php echo htmlspecialchars($facet->label); ?>"
       type="text"
     />
@@ -37,7 +37,7 @@
   <?php foreach (array('is_indexed', 'is_facet') as $opt): ?>
     <td>
       <input
-        name="facets[<?php echo $facet->name; ?>][<?php echo $opt; ?>]"
+        name="facets[<?php echo $facet->slug; ?>][<?php echo $opt; ?>]"
         <?php if ($facet->$opt): ?>checked="checked"<?php endif; ?>
         type="checkbox"
       />

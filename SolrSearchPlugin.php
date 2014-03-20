@@ -300,7 +300,7 @@ SQL
 
             id          int(10) unsigned NOT NULL auto_increment,
             element_id  int(10) unsigned,
-            name        tinytext collate utf8_unicode_ci NOT NULL,
+            slug        tinytext collate utf8_unicode_ci NOT NULL,
             label       tinytext collate utf8_unicode_ci NOT NULL,
             is_indexed  tinyint unsigned DEFAULT 0,
             is_facet    tinyint unsigned DEFAULT 0,
@@ -345,13 +345,13 @@ SQL
     /**
      * Install the default facet mappings.
      *
-     * @param string $name The facet `name`.
+     * @param string $slug The facet `slug`.
      * @param string $label The facet `label`.
      */
-    protected function _installGenericFacet($name, $label)
+    protected function _installGenericFacet($slug, $label)
     {
         $facet = new SolrSearchField();
-        $facet->name        = $name;
+        $facet->slug        = $slug;
         $facet->label       = $label;
         $facet->is_indexed  = 1;
         $facet->is_facet    = 1;

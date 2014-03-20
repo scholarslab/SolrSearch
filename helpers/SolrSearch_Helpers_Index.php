@@ -214,8 +214,8 @@ class SolrSearch_Helpers_Index
 
         foreach ($facets as $facet) {
             if ($facet->is_indexed || $facet->is_facet) {
-                $key = $facet->element_id ? $facet->element_id : $facet->name;
-                $fieldSet[$key] = $facet->name;
+                $key = $facet->element_id ? $facet->element_id : $facet->slug;
+                $fieldSet[$key] = $facet->slug;
             }
         }
 

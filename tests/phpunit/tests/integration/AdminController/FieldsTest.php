@@ -25,25 +25,25 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
 
             // Label:
             $this->assertXpath(
-                "//input[@name='facets[{$facet->name}][label]']
+                "//input[@name='facets[{$facet->slug}][label]']
                 [@value='{$facet->label}']"
             );
 
             // ID:
             $this->assertXpath(
-                "//input[@name='facets[{$facet->name}][id]']
+                "//input[@name='facets[{$facet->slug}][id]']
                 [@value='{$facet->id}']"
             );
 
             // Is Indexed?:
             $this->assertXpath(
-                "//input[@name='facets[{$facet->name}][is_indexed]']" .
+                "//input[@name='facets[{$facet->slug}][is_indexed]']" .
                 ($facet->is_indexed ? "[@checked='checked']" : "")
             );
 
             // Is Facet?:
             $this->assertXpath(
-                "//input[@name='facets[{$facet->name}][is_facet]']" .
+                "//input[@name='facets[{$facet->slug}][is_facet]']" .
                 ($facet->is_facet ? "[@checked='checked']" : "")
             );
 
@@ -65,7 +65,7 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
             // Set an updated label.
             $this->request->setMethod('POST')->setPost(array(
                 'facets' => array(
-                    "{$facet->name}" => array(
+                    "{$facet->slug}" => array(
                         'id'    => $facet->id,
                         'label' => $newLabel
                     )
@@ -110,7 +110,7 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
             // Set the updated flags.
             $this->request->setMethod('POST')->setPost(array(
                 'facets' => array(
-                    "{$facet->name}" => $data
+                    "{$facet->slug}" => $data
                 )
             ));
 

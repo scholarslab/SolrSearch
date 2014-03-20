@@ -16,7 +16,7 @@ class SolrSearchFieldTest_Construct extends SolrSearch_Case_Default
 
     /**
      * If a parent element is passed, `__construct` set the element reference
-     * and the name/label fields.
+     * and the slug/label fields.
      */
     public function testElementPassed()
     {
@@ -27,9 +27,9 @@ class SolrSearchFieldTest_Construct extends SolrSearch_Case_Default
 
         $facet = new SolrSearchField($title);
 
-        // Should set `element_id`, `name`, and `label`.
+        // Should set `element_id`, `slug`, and `label`.
         $this->assertEquals($title->id, $facet->element_id);
-        $this->assertEquals("{$title->id}_txt", $facet->name);
+        $this->assertEquals("{$title->id}_txt", $facet->slug);
         $this->assertEquals('Title', $facet->label);
 
     }
@@ -43,9 +43,9 @@ class SolrSearchFieldTest_Construct extends SolrSearch_Case_Default
 
         $facet = new SolrSearchField();
 
-        // Should not set `element_id`, `name`, or `label`.
+        // Should not set `element_id`, `slug`, or `label`.
         $this->assertNull($facet->element_id);
-        $this->assertNull($facet->name);
+        $this->assertNull($facet->slug);
         $this->assertNull($facet->label);
 
     }

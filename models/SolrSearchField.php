@@ -22,7 +22,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
     /**
      * The name of the element [string].
      */
-    public $name;
+    public $slug;
 
     /**
      * The label of the element.
@@ -56,7 +56,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
             $this->element_id = $element->id;
 
             // Element identifier.
-            $this->name = "{$element->id}_txt";
+            $this->slug = "{$element->id}_txt";
 
             // Pubilc-facing label.
             $this->label = $element->name;
@@ -120,7 +120,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
      **/
     public function getOriginalLabel()
     {
-        switch ($this->name) {
+        switch ($this->slug) {
 
             case 'tag':         return __('Tag');
             case 'collection':  return __('Collection');

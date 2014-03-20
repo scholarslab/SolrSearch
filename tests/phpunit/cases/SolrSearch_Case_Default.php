@@ -157,15 +157,15 @@ SQL
     /**
      * Create a standalone facet.
      *
-     * @param string $name The facet name.
+     * @param string $slug The facet slug.
      * @param string $label The facet label.
      * @return SolrSearchField
      */
-    protected function _facet($name, $label='Test Label')
+    protected function _facet($slug, $label='Test Label')
     {
 
         $facet = new SolrSearchField();
-        $facet->name  = $name;
+        $facet->slug  = $slug;
         $facet->label = $label;
 
         $facet->save();
@@ -373,7 +373,7 @@ SQL
         );
 
         // Get the subject and source facets.
-        return $this->facetTable->findByElement($element)->name;
+        return $this->facetTable->findByElement($element)->slug;
 
     }
 

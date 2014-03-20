@@ -17,7 +17,7 @@ class SolrSearchFieldTable extends Omeka_Db_Table
     /**
      * Find the field associated with a given element.
      *
-     * @return Element $element The element name.
+     * @return Element $element The element.
      */
     public function findByElement($element)
     {
@@ -26,13 +26,13 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
-     * Find the facet with a given name.
+     * Find the facet with a given slug.
      *
-     * @return Element $element The element name.
+     * @return Element $slug The slug.
      */
-    public function findByName($name)
+    public function findBySlug($slug)
     {
-        return $this->findBySql('name=?', array($name), true);
+        return $this->findBySql('slug=?', array($slug), true);
     }
 
 
@@ -72,7 +72,7 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
         // Get names for active facets.
         foreach ($this->findBySql('is_facet=?', array(1)) as $facet) {
-            $active[] = $facet->name;
+            $active[] = $facet->slug;
         }
 
         return $active;
