@@ -84,113 +84,12 @@ When you're ready, just click the "Clear and Reindex" button. This will spawn of
 
 Once the content has been (re)indexed, head to the public site and type a seaarch query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
 
+---
 
-### Configuration
-
-## Server Configuration
-
-TODO
-
-## Field Configuration
-
-SolrSearch comes with some pre-selected defaults, including titles, itemtype, tag, and references to files. These are configurable in the Solr Index tab of Omeka's Admin interface:
-
-The index configuration is split in to the different types of information Omeka uses, plus a few 'special' fields (image, tag, collection, itemtype) that are outside of the normal classification. Each element has three options:
-
-* **Is Indexed**: Adds the text of the field to the search index.
-* **Is Facet**: Adds the field as a 'facet' in the search interface
-
-After you have configured the fields you want indexed, and how you want them indexed, click on the `Save Facets` button. 
-
-**Note:** SolrSearch indexes any item marked 'public' in Omeka. 
-
-## Hit Highlighting
-
-SolrSearch uses 'hit highlighting' to contextualize the query result. You can configure this in the `Hit Highlighting Options` tab.
-
-## Index Items
-
-TODO
-
-# Developer Mode
-
-There are a number of technologies used in the development mode for this plugin. You will need [node][node], [ruby gems][gems], as well as several gems (installed via [bundler][bundler]), and I recommend [rvm][rvm].
-
-Install the solr keg from [homebrew][homebrew]. You can then start an instance of Solr with
-
-```bash
-$ solr path/to/SolrSearch/solr-home
-```
-
-From scratch, assuming [homebrew][homebrew] is installed.
-
-```bash
-#! /bin/bash
-$ brew install node solr
-$ rvm gemset create solrsearch
-$ solr path/to/SolrSearch/solr-core
-```
-
-## Tomcat
-
-If you want to run this in the Tomcat servlet container, there is a slightly different method of configuring the application.
-
-Install start Tomcat:
-
-```bash
-$ brew install tomcat
-```
-
-We're going to need to refer to a directory inside where brew installed tomcat, and we'll need to pass it to some of the scripts that we run later. Let's find out what it is and save it.
-
-```bash
-$ CATALINA_HOME=$(ls -d /usr/local/Cellar/tomcat/* | head -1)/libexec
-$ export CATALINA_HOME
-$ echo $CATALINA_HOME
-/usr/local/Cellar/tomcat/7.0.50/libexec
-```
-
-The output of the `echo` command on the last line may have a different version number, but everything else should look the same.
-
-
-Now enable the manager application. To do this, edit `/usr/local/Cellar/tomcat/[version]/libexec/conf/tomcat-users.xml`. The first part of the path should be the same as the output of the `echo` command above. Inside the `<tomcat-users>` element, add something along the following:
-
-```xml
-<role rolename="manager-gui"/>
-<user username="tomcat" password="s3cret" roles="manager-gui"/>
-```
-
-You need to have [Solr](http://lucene.apache.org/solr/) downloaded somewhere on your computer.
-
-You need to copy some files that are shipped with Solr to get included in your Tomcat `$PATH`. These are the files in the `examples/lib/ext/` directory. You will have something that looks like this: 
-
-```bash
-cp path/to/solr/download/examples/lib/ext/*.jar $CATALINA_HOME/lib/
-```
-
-Now start Tomcat with the catalina shell:
-
-```bash
-$ catalina start
-```
-This will run Tomcat as a background process on port `8080`, which you can access at `http://localhost:8080`. 
-
-For Tomcat, it's easiest to pass the various values that Solr needs in an XML configuration file. Name it `tomcat-config.xml` in your project directory, and have it contain something like this: 
-
-```xml
-<Context path="/solr" docBase="/Users/[username]/Downloads/solr-4.6.0/dist/solr-4.6.0.war" debug="0" crossContext="true">
-  <Environment name="solr/home" type="java.lang.String" value="/Users/[username]/projects/SolrSearch/solr-core" override="true"/>
-</Context>
-```
-
-**Note:** Adjust your paths as necessary.
-
-Now to access the manager application. Point your browser at `http://localhost:8080/manager/html`. In the deploy section fill out the **Context** and **XML Configuration file URL** fields with: 
-
-* **Context** /solr
-* **XML Configuration file URL** path/to/tomcat-config.xml
-
-Then hit the deploy button. If everything went well, you should see the Solr admin panel when you point your browser at `http://localhost:8080/solr`
+TODO:
+  - install tomcat
+  - install solr
+  - deploy core
 
 [plugin]: http://omeka.org/add-ons/plugins/SolrSearch/
 [solr]: http://lucene.apache.org/solr
