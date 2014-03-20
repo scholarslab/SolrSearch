@@ -27,13 +27,13 @@ class SolrSearchFieldTableTest_SetElementSearchable
         );
 
         // Facet not searchable.
-        $facet = $this->facetTable->findByElement($element);
+        $facet = $this->fieldTable->findByElement($element);
         $this->assertEquals(0, $facet->is_indexed);
 
-        $this->facetTable->setElementIndexed('Dublin Core', 'Date');
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Date');
 
         // Should make facet searchable.
-        $facet = $this->facetTable->findByElement($element);
+        $facet = $this->fieldTable->findByElement($element);
         $this->assertEquals(1, $facet->is_indexed);
 
     }

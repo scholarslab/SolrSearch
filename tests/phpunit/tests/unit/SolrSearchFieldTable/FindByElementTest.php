@@ -37,7 +37,7 @@ class SolrSearchFieldTableTest_FindByElement extends SolrSearch_Case_Default
         $facet = new SolrSearchField($title);
         $facet->save();
 
-        $retrieved = $this->facetTable->findByElement($title);
+        $retrieved = $this->fieldTable->findByElement($title);
         $this->assertEquals($facet->id, $retrieved->id);
 
     }

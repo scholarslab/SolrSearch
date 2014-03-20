@@ -98,7 +98,7 @@ class SolrSearchFieldTableTest_GroupByElementSet
         $itemTypeMetadataFacet2->save();
 
         // Get the facet groups.
-        $groups = $this->facetTable->groupByElementSet();
+        $groups = $this->fieldTable->groupByElementSet();
 
         // Should group Omeka category facets:
 

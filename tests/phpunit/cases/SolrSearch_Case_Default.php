@@ -31,7 +31,7 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
         $this->helper->setUp('SolrSearch');
 
         // Get tables.
-        $this->facetTable       = $this->db->getTable('SolrSearchField');
+        $this->fieldTable       = $this->db->getTable('SolrSearchField');
         $this->elementSetTable  = $this->db->getTable('ElementSet');
         $this->elementTable     = $this->db->getTable('Element');
         $this->itemTypeTable    = $this->db->getTable('ItemType');
@@ -373,7 +373,7 @@ SQL
         );
 
         // Get the subject and source facets.
-        return $this->facetTable->findByElement($element)->slug;
+        return $this->fieldTable->findByElement($element)->slug;
 
     }
 

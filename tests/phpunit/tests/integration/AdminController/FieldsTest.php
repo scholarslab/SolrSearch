@@ -21,7 +21,7 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
 
         $this->dispatch('solr-search/fields');
 
-        foreach ($this->facetTable->findAll() as $facet) {
+        foreach ($this->fieldTable->findAll() as $facet) {
 
             // Label:
             $this->assertXpath(
@@ -58,7 +58,7 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
     public function testSetLabel()
     {
 
-        foreach ($this->facetTable->findAll() as $facet) {
+        foreach ($this->fieldTable->findAll() as $facet) {
 
             $newLabel = $facet->label.'-changed';
 
@@ -89,7 +89,7 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
     public function testSetFlags()
     {
 
-        foreach ($this->facetTable->findAll() as $facet) {
+        foreach ($this->fieldTable->findAll() as $facet) {
 
             $data = array('id' => $facet->id, 'label' => $facet->label);
 

@@ -24,7 +24,7 @@ class SolrSearchPluginTest_Elements extends SolrSearch_Case_Default
         $element = $this->_element();
 
         // Should create a new facet mapping for the element.
-        $this->assertNotNull($this->facetTable->findByElement($element));
+        $this->assertNotNull($this->fieldTable->findByElement($element));
 
     }
 
@@ -40,13 +40,13 @@ class SolrSearchPluginTest_Elements extends SolrSearch_Case_Default
         $element = $this->_element();
 
         // Get the element's facet.
-        $facet = $this->facetTable->findByElement($element);
+        $facet = $this->fieldTable->findByElement($element);
 
         // Delete.
         $element->delete();
 
         // Should remove the facet for the element.
-        $this->assertNull($this->facetTable->find($facet->id));
+        $this->assertNull($this->fieldTable->find($facet->id));
 
     }
 

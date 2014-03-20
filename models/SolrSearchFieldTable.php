@@ -61,11 +61,11 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
-     * Get a list of the names of all active facets.
+     * Get a list of the slugs of all active facets.
      *
-     * @return array The list of active facet names.
+     * @return array The list of active facet slugs.
      */
-    public function getActiveFacetNames()
+    public function getActiveFacetSlugs()
     {
 
         $active = array();

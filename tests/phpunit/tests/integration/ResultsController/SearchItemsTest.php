@@ -54,7 +54,7 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
     public function testSearchIndexedElements()
     {
 
-        $this->facetTable->setElementIndexed('Dublin Core', 'Description');
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Description');
 
         $item1 = insert_item(array('public' => true), array(
             'Dublin Core' => array(

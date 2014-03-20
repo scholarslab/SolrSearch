@@ -21,10 +21,10 @@ class SolrSearchPluginTest_Install extends SolrSearch_Case_Default
     {
 
         $facets = array(
-            $this->facetTable->findBySlug('tag'),
-            $this->facetTable->findBySlug('collection'),
-            $this->facetTable->findBySlug('itemtype'),
-            $this->facetTable->findBySlug('resulttype')
+            $this->fieldTable->findBySlug('tag'),
+            $this->fieldTable->findBySlug('collection'),
+            $this->fieldTable->findBySlug('itemtype'),
+            $this->fieldTable->findBySlug('resulttype')
         );
 
         foreach ($facets as $facet) {
@@ -51,7 +51,7 @@ class SolrSearchPluginTest_Install extends SolrSearch_Case_Default
         foreach ($this->elementTable->findAll() as $element) {
 
             // Try to find a facet.
-            $facet = $this->facetTable->findByElement($element);
+            $facet = $this->fieldTable->findByElement($element);
 
             // Facet should exist.
             $this->assertNotNull($facet);

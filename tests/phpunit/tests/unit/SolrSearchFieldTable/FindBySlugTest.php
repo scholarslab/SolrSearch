@@ -25,7 +25,7 @@ class SolrSearchFieldTableTest_FindBySlug extends SolrSearch_Case_Default
         $facet->slug  = 'facet';
         $facet->save();
 
-        $retrieved = $this->facetTable->findBySlug('facet');
+        $retrieved = $this->fieldTable->findBySlug('facet');
         $this->assertEquals($facet->id, $retrieved->id);
 
     }
