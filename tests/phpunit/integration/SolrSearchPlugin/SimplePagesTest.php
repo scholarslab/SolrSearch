@@ -112,24 +112,6 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Case_Default
 
 
     /**
-     * The page URL should be indexed.
-     */
-    public function testIndexUrl()
-    {
-
-        // Add a page to the index.
-        $page = $this->_simplePage(true);
-
-        // Get the Solr document for the page.
-        $document = $this->_getRecordDocument($page);
-
-        // Should index the URL.
-        $this->assertEquals(record_url($page, 'show'), $document->url);
-
-    }
-
-
-    /**
      * The result type should be indexed.
      */
     public function testIndexResultType()

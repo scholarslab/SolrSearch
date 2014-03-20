@@ -101,24 +101,6 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
 
 
     /**
-     * The item URL should be indexed.
-     */
-    public function testIndexUrl()
-    {
-
-        // Add an item to the index.
-        $item = insert_item(array('public' => true));
-
-        // Get the Solr document for the item.
-        $document = $this->_getRecordDocument($item);
-
-        // Should index the URL.
-        $this->assertEquals(record_url($item, 'show'), $document->url);
-
-    }
-
-
-    /**
      * The result type should be indexed.
      */
     public function testIndexResultType()

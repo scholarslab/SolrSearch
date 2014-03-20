@@ -128,27 +128,6 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Case_Default
 
 
     /**
-     * The exhibit URL should be indexed.
-     */
-    public function testIndexUrl()
-    {
-
-        // Add a public exhibit.
-        $exhibit = $this->_exhibit(true);
-
-        // Add a page to the exhibit.
-        $page = $this->_exhibitPage($exhibit);
-
-        // Get the Solr document for the page.
-        $document = $this->_getRecordDocument($page);
-
-        // Should index the URL.
-        $this->assertEquals(record_url($page, 'show'), $document->url);
-
-    }
-
-
-    /**
      * The result type should be indexed.
      */
     public function testIndexResultType()

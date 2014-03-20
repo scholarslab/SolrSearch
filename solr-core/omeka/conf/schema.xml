@@ -97,7 +97,6 @@
     <field name="collection" type="string" indexed="true" stored="true" />
     <field name="itemtype" type="string" indexed="true" stored="true" />
     <field name="resulttype" type="string" indexed="true" stored="true" />
-    <field name="url" type="string" indexed="false" stored="true" />
     <field name="model" type="string" indexed="false" stored="true" />
     <field name="modelid" type="string" indexed="false" stored="true" />
     <field name="text" type="text_en" indexed="true" stored="false" multiValued="true"/>

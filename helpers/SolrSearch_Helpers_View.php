@@ -31,7 +31,7 @@ class SolrSearch_Helpers_View
      *
      * @param string $field Field name to look up.
      *
-     * @return string Human readable solr element name
+     * @return string Human readable solr element name.
      */
     public static function lookupElement($field)
     {
@@ -49,7 +49,7 @@ class SolrSearch_Helpers_View
      * @param string $type Omeka File type (size).
      * @param int $fileId Id of the file to look up.
      *
-     * @return string Link to file
+     * @return string Link to file.
      */
     public static function getImagePath($type='fullsize', $fileId)
     {
@@ -79,6 +79,20 @@ class SolrSearch_Helpers_View
         $html .= '</a>';
 
         return $html;
+    }
+
+
+    /**
+     * Get the URL for the record that corresponds to a Solr document.
+     *
+     * @param Apache_Solr_Document $doc A Solr document.
+     *
+     * @return string The record URL.
+     */
+    public static function getDocumentUrl($doc)
+    {
+        $record = get_db()->getTable($doc->model)->find($doc->modelid);
+        return SolrSearch_Helpers_Index::getUri($record);
     }
 
 

@@ -77,8 +77,10 @@
         <?php foreach ($facets as $value => $count): ?>
           <li class="<?php echo $value; ?>">
 
-            <!-- Facet link. -->
+            <!-- Facet URL. -->
             <?php $url = SolrSearch_Helpers_Facet::addFacet($name, $value); ?>
+
+            <!-- Facet link. -->
             <a href="<?php echo $url; ?>" class="facet-value">
               <?php echo $value; ?>
             </a>
@@ -112,8 +114,11 @@
       <!-- Header. -->
       <div class="result-header">
 
+        <!-- Record URL. -->
+        <?php $url = SolrSearch_Helpers_View::getDocumentUrl($doc); ?>
+
         <!-- Title. -->
-        <a href="<?php echo $doc->url; ?>" class="result-title">
+        <a href="<?php echo $url; ?>" class="result-title">
           <?php echo is_array($doc->title) ? $doc->title[0] : $doc->title; ?>
         </a>
 
