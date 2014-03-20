@@ -5,8 +5,8 @@
   verbose="true">
 
   <testsuite name="SolrSearchTests">
-    <directory>unit</directory>
-    <directory>integration</directory>
+    <directory>tests/unit</directory>
+    <directory>tests/integration</directory>
   </testsuite>
 
 </phpunit>
