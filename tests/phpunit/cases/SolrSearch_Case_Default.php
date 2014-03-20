@@ -111,6 +111,26 @@ SQL
     }
 
 
+    /**
+     * Inject and return a mock `Omeka_Job_Dispatcher_Default`.
+     *
+     * @return Omeka_Job_Dispatcher_Default PHPUnit mock.
+     */
+    protected function _mockJobDispatcher()
+    {
+
+        // Create a testing-double job dispatcher.
+        $jobs = $this->getMockBuilder('Omeka_Job_Dispatcher_Default')
+            ->disableOriginalConstructor()->getMock();
+
+        // Inject the mock.
+        Zend_Registry::set('job_dispatcher', $jobs);
+
+        return $jobs;
+
+    }
+
+
     // RECORD FIXTURES
     // ------------------------------------------------------------------------
 

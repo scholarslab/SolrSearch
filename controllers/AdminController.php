@@ -134,21 +134,15 @@ class SolrSearch_AdminController
     public function reindexAction()
     {
 
-        // Since we can't reindex in a background process because Omeka is
-        // unable to form record URLs for the Solr documents outside of a web
-        // container, allow this request to run indefinitely, which makes it
-        // possible to index sites with many tens of thousands of documents,
-        // which otherwise would exceed the default 30-second limit.
-        set_time_limit(0); // ** facepalm **
-
         $form = new SolrSearch_Form_Reindex();
 
         if ($this->_request->isPost()) {
             try {
 
                 // Clear and reindex.
-                SolrSearch_Helpers_Index::deleteAll();
-                SolrSearch_Helpers_Index::indexAll();
+                Zend_Registry::get('job_dispatcher')->sendLongRunning(
+                    'SolrSearch_Job_Reindex'
+                );
 
                 // Flash success.
                 $this->_helper->flashMessenger(
