@@ -28,27 +28,26 @@ class SolrSearchFieldTableTest_GetActiveFacetNames
     /**
      * `getActiveFacetNames` should return a list containing the names of all
      * the facets that are set active.
-     * @group names
      */
     public function testGetActiveFacetNames()
     {
 
-        $facet1 = $this->_facet('facet1');
-        $facet2 = $this->_facet('facet2');
-        $facet3 = $this->_facet('facet3');
+        $field1 = $this->_field('field1');
+        $field2 = $this->_field('field2');
+        $field3 = $this->_field('field3');
 
-        $facet1->is_facet = true;
-        $facet2->is_facet = true;
-        $facet3->is_facet = false;
+        $field1->is_facet = true;
+        $field2->is_facet = true;
+        $field3->is_facet = false;
 
-        $facet1->save();
-        $facet2->save();
-        $facet3->save();
+        $field1->save();
+        $field2->save();
+        $field3->save();
 
         $names = $this->facetTable->getActiveFacetNames();
 
         // Should contain the names of the active facets.
-        $this->assertEquals(array('facet1', 'facet2'), $names);
+        $this->assertEquals(array('field1', 'field2'), $names);
 
     }
 

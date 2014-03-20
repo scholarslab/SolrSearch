@@ -155,21 +155,21 @@ SQL
 
 
     /**
-     * Create a standalone facet.
+     * Create a field.
      *
      * @param string $slug The facet slug.
      * @param string $label The facet label.
      * @return SolrSearchField
      */
-    protected function _facet($slug, $label='Test Label')
+    protected function _field($slug, $label='Test Label')
     {
 
-        $facet = new SolrSearchField();
-        $facet->slug  = $slug;
-        $facet->label = $label;
+        $field = new SolrSearchField();
+        $field->slug  = $slug;
+        $field->label = $label;
 
-        $facet->save();
-        return $facet;
+        $field->save();
+        return $field;
 
     }
 
