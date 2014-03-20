@@ -62,14 +62,11 @@ class SolrSearch_Helpers_Index
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item->id);
 
+        // Gather all element texts.
+        $elementTexts = $db->getTable('ElementText')->findByRecord($item);
+
         // Get list of indexed elements.
         $indexSet = self::getIndexSet($db);
-
-        // Gather all element texts.
-        $elementTexts = $db->getTable('ElementText')->findBySql(
-            'record_id = ? AND record_type = ?',
-            array($item->id, 'Item')
-        );
 
         // Index element texts:
         foreach ($elementTexts as $elementText) {
