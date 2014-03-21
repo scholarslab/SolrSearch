@@ -63,27 +63,27 @@ class SolrSearch_Helpers_Index
         $doc->setField('modelid', $item->id);
 
         // Gather all element texts.
-        $elementTexts = $db->getTable('ElementText')->findByRecord($item);
+        $texts = $db->getTable('ElementText')->findByRecord($item);
 
         // Get list of indexed elements.
-        $indexSet = self::getIndexSet($db);
+        $indexed = self::getIndexSet($db);
 
         // Index element texts:
-        foreach ($elementTexts as $elementText) {
+        foreach ($texts as $text) {
 
             // If the element text should be searchable.
-            if (array_key_exists($elementText->element_id, $indexSet)) {
+            if (array_key_exists($text->element_id, $indexed)) {
 
                 // Get the Solr key for the element.
-                $fieldName = $indexSet[$elementText->element_id];
+                $slug = $indexed[$text->element_id];
 
                 // Set string and text (tokenized) fields on the document.
-                $doc->setMultiValue("{$fieldName}_txt", $elementText->text);
-                $doc->setMultiValue("{$fieldName}_str", $elementText->text);
+                $doc->setMultiValue("{$slug}_txt", $text->text);
+                $doc->setMultiValue("{$slug}_str", $text->text);
 
                 // If the title is searchable, set it explicitly.
-                if ($elementText->element_id == 50) {
-                    $doc->setMultiValue('title', $elementText->text);
+                if ($text->element_id == 50) {
+                    $doc->setMultiValue('title', $text->text);
                 }
 
             }
@@ -91,14 +91,14 @@ class SolrSearch_Helpers_Index
         }
 
         // Index tags:
-        if (array_key_exists('tag', $indexSet)) {
+        if (array_key_exists('tag', $indexed)) {
             foreach ($item->getTags() as $tag) {
                 $doc->setMultiValue('tag', $tag->name);
             }
         }
 
         // Index collection name:
-        if (array_key_exists('collection', $indexSet) &&
+        if (array_key_exists('collection', $indexed) &&
           $item->collection_id > 0) {
 
             $collection = $db
@@ -112,7 +112,7 @@ class SolrSearch_Helpers_Index
         }
 
         // Index item type:
-        if (array_key_exists('itemtype', $indexSet) &&
+        if (array_key_exists('itemtype', $indexed) &&
             $item->item_type_id > 0) {
 
             $itemType = $db
