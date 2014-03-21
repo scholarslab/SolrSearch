@@ -376,7 +376,7 @@ SQL
         $field = $this->fieldTable->findByElement($element);
 
         // TODO: Use model method.
-        return "{$field->slug}_txt";
+        return "{$field->slug}_hl";
 
     }
 

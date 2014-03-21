@@ -31,15 +31,15 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
     {
         $indexer = $this->idxr;
         $this->assertEquals(
-            'exhibits_title_txt',
+            'exhibits_title_hl',
             $indexer->makeSolrName($this->exhibits, 'title')
         );
         $this->assertEquals(
-            'exhibits_description_txt',
+            'exhibits_description_hl',
             $indexer->makeSolrName($this->exhibits, 'description')
         );
         $this->assertEquals(
-            'exhibit_pages_title_txt',
+            'exhibit_pages_title_hl',
             $indexer->makeSolrName($this->mgr->addons['exhibit_pages'], 'title')
         );
     }
@@ -64,8 +64,8 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($title = $doc->getField('exhibits_title_txt')) !== false) {
-                $descr = $doc->getField('exhibits_description_txt');
+            if (($title = $doc->getField('exhibits_title_hl')) !== false) {
+                $descr = $doc->getField('exhibits_description_hl');
 
                 $this->assertEquals('Test Exhibit', $title['value'][0]);
                 $this->assertEquals('Like Alice in Wonderland', $descr['value'][0]);
@@ -78,8 +78,8 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($title = $doc->getField('sections_title_txt')) !== false) {
-                $descr = $doc->getField('sections_descriptions_txt');
+            if (($title = $doc->getField('sections_title_hl')) !== false) {
+                $descr = $doc->getField('sections_descriptions_hl');
 
                 $this->assertContains(
                     $title['value'][0],
@@ -95,7 +95,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($title = $doc->getField('section_pages_title_txt')) !== false) {
+            if (($title = $doc->getField('section_pages_title_hl')) !== false) {
                 $this->assertContains(
                     $title['value'][0],
                     array("White Rabbit", "Dormouse")
@@ -110,10 +110,10 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
 
         foreach ($docs as $doc) {
             if (
-                ($title = $doc->getField('section_pages_title_txt')) !== false
+                ($title = $doc->getField('section_pages_title_hl')) !== false
                 && $title['value'][0] === 'Dormouse'
             ) {
-                $text = $doc->getField('section_pages_text_txt');
+                $text = $doc->getField('section_pages_text_hl');
                 $this->assertTrue($text !== false, $title['value'][0]);
                 $this->assertCount(2, $text['value']);
                 $this->assertContains(
@@ -133,7 +133,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($title = $doc->getField('exhibits_title_txt')) !== false) {
+            if (($title = $doc->getField('exhibits_title_hl')) !== false) {
                 $this->assertNotEquals('Private Exhibit', $title['value'][0]);
             }
         }
@@ -144,7 +144,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($title = $doc->getField('sections_title_txt')) !== false) {
+            if (($title = $doc->getField('sections_title_hl')) !== false) {
                 $this->assertNotEquals($title['value'][0], "Mud");
             }
         }
@@ -155,7 +155,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($title = $doc->getField('section_pages_title_txt')) !== false) {
+            if (($title = $doc->getField('section_pages_title_hl')) !== false) {
                 $this->assertNotEquals($title['value'][0], "Earthworms");
                 $this->assertNotEquals($title['value'][0], "Centipedes");
             }
@@ -167,7 +167,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($doc->getField('exhibits_title_txt')) !== false) {
+            if (($doc->getField('exhibits_title_hl')) !== false) {
                 $tags = $doc->getField('tag');
 
                 $this->assertContains('test',    $tags['value']);
@@ -182,7 +182,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($doc->getField('exhibits_title_txt')) !== false) {
+            if (($doc->getField('exhibits_title_hl')) !== false) {
                 $resultType = $doc->getField('resulttype');
 
                 $this->assertTrue($resultType !== false);
@@ -196,7 +196,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($doc->getField('sections_title_txt')) !== false) {
+            if (($doc->getField('sections_title_hl')) !== false) {
                 $resultType = $doc->getField('resulttype');
 
                 $this->assertTrue($resultType !== false);
@@ -210,7 +210,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $docs = $this->idxr->indexAll($this->mgr->addons);
 
         foreach ($docs as $doc) {
-            if (($doc->getField('section_pages_title_txt')) !== false) {
+            if (($doc->getField('section_pages_title_hl')) !== false) {
                 $resultType = $doc->getField('resulttype');
 
                 $this->assertTrue($resultType !== false);

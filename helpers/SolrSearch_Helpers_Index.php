@@ -78,8 +78,8 @@ class SolrSearch_Helpers_Index
                 $slug = $indexed[$text->element_id];
 
                 // Set string and text (tokenized) fields on the document.
-                $doc->setMultiValue("{$slug}_txt", $text->text);
-                $doc->setMultiValue("{$slug}_str", $text->text);
+                $doc->setMultiValue("{$slug}_hl", $text->text);
+                $doc->setMultiValue("{$slug}_fl", $text->text);
 
                 // If the title is searchable, set it explicitly.
                 if ($text->element_id == 50) {
