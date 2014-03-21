@@ -168,15 +168,10 @@ SQL
 
         // If the item is public, add/update the Solr document.
         if ($item['public'] == true) {
-
-            $doc = SolrSearch_Helpers_Index::itemToDocument(
-                $this->_db, $item
-            );
-
+            $doc = SolrSearch_Helpers_Index::itemToDocument($item);
             $solr->addDocuments(array($doc));
             $solr->commit();
             $solr->optimize();
-
         }
 
         // If the item's is being set private, remove it from Solr.

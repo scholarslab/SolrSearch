@@ -46,14 +46,15 @@ class SolrSearch_Helpers_Index
      * This takes an Omeka_Record instance and returns a populated 
      * Apache_Solr_Document.
      *
-     * @param Omeka_Db     $db   The database to query.
      * @param Omeka_Record $item The record to index.
      *
      * @return Apache_Solr_Document
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function itemToDocument($db, $item)
+    public static function itemToDocument($item)
     {
+
+        $db = get_db();
 
         // Create the item document.
         $doc = new Apache_Solr_Document();
@@ -65,8 +66,8 @@ class SolrSearch_Helpers_Index
         // Gather all element texts.
         $texts = $db->getTable('ElementText')->findByRecord($item);
 
-        // Get list of indexed elements.
-        $indexed = self::getIndexSet($db);
+        // Get indexed elements.
+        $indexed = self::getIndexSet();
 
         // Index element texts:
         foreach ($texts as $text) {
@@ -196,21 +197,17 @@ class SolrSearch_Helpers_Index
 
     /**
      * This returns a set of fields to be indexed by Solr according to the
-     * solr_search_facet table.
-     *
-     * The fields can be either the element IDs or the names of categories like
-     * 'description'.
-     *
-     * @param Omeka_Db $db The database to query.
+     * solr_search_facet table. The fields can be either the element IDs or
+     * the names of categories like 'description'.
      *
      * @return array $fieldSet The set of fields to index.
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public static function getIndexSet($db)
+    public static function getIndexSet()
     {
         $fieldSet = array();
 
-        $facets = $db->getTable('SolrSearchField')->findAll();
+        $facets = get_db()->getTable('SolrSearchField')->findAll();
 
         foreach ($facets as $facet) {
             if ($facet->is_indexed || $facet->is_facet) {
@@ -266,7 +263,7 @@ class SolrSearch_Helpers_Index
         while ($items = $pager->next()) {
             foreach ($items as $item) {
                 $docs = array();
-                $doc = self::itemToDocument($db, $item);
+                $doc = self::itemToDocument($item);
                 $docs[] = $doc;
                 $solr->addDocuments($docs);
             }
