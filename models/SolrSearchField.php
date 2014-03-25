@@ -67,6 +67,28 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
 
 
     /**
+     * The key for the tokenized version of the field in a Solr document.
+     *
+     * @return string
+     */
+    public function textKey()
+    {
+        return "{$this->slug}_t";
+    }
+
+
+    /**
+     * The key for the untokenized version of the field in a Solr document.
+     *
+     * @return string
+     */
+    public function stringKey()
+    {
+        return "{$this->slug}_s";
+    }
+
+
+    /**
      * Is the field associated with a metadata element?
      *
      * @return boolean True if an element is defined.

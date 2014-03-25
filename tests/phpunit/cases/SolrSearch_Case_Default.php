@@ -375,8 +375,7 @@ SQL
         // Get the corresponding field.
         $field = $this->fieldTable->findByElement($element);
 
-        // TODO: Use model method.
-        return "{$field->slug}_t";
+        return $field->textKey();
 
     }
 
