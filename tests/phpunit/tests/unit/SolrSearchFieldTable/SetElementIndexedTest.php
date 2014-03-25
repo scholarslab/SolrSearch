@@ -10,31 +10,31 @@
  */
 
 
-class SolrSearchFieldTableTest_SetElementSearchable
+class SolrSearchFieldTableTest_SetElementIndexed
     extends SolrSearch_Case_Default
 {
 
 
     /**
-     * `setElementIndexed` should flip on the indexing flag for the facet
-     * that corresponds to the passed element.
+     * `setElementIndexed` should flip on the indexing flag for the field that
+     * corresponds to the passed element.
      */
-    public function testFindByName()
+    public function testSetElementIndexed()
     {
 
         $element = $this->elementTable->findByElementSetNameAndElementName(
             'Dublin Core', 'Date'
         );
 
-        // Facet not searchable.
-        $facet = $this->fieldTable->findByElement($element);
-        $this->assertEquals(0, $facet->is_indexed);
+        // Field not searchable.
+        $field = $this->fieldTable->findByElement($element);
+        $this->assertEquals(0, $field->is_indexed);
 
         $this->fieldTable->setElementIndexed('Dublin Core', 'Date');
 
         // Should make facet searchable.
-        $facet = $this->fieldTable->findByElement($element);
-        $this->assertEquals(1, $facet->is_indexed);
+        $field = $this->fieldTable->findByElement($element);
+        $this->assertEquals(1, $field->is_indexed);
 
     }
 
