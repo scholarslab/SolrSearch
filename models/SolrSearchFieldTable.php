@@ -17,7 +17,8 @@ class SolrSearchFieldTable extends Omeka_Db_Table
     /**
      * Find the field associated with a given element.
      *
-     * @return Element $element The element.
+     * @param Element $element The element.
+     * @return SolrSearchField
      */
     public function findByElement($element)
     {
@@ -26,9 +27,35 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
+     * Find the field associated with a given element, identified by element
+     * set name and element name.
+     *
+     * @param string $set The element set name.
+     * @param string $element The element name.
+     * @return SolrSearchField
+     */
+    public function findByElementName($set, $element)
+    {
+
+        // Get the element table.
+        $elementTable = $this->getTable('Element');
+
+        // Get the parent element.
+        $element = $elementTable->findByElementSetNameAndElementName(
+            $set, $element
+        );
+
+        // Find the element's field.
+        return $this->findByElement($element);
+
+    }
+
+
+    /**
      * Find the facet with a given slug.
      *
-     * @return Element $slug The slug.
+     * @param string $slug The slug.
+     * @return SolrSearchField
      */
     public function findBySlug($slug)
     {
@@ -39,10 +66,9 @@ class SolrSearchFieldTable extends Omeka_Db_Table
     /**
      * Flag a metadata element to be indexed in Solr.
      *
-     * @return string $set The element set name.
-     * @return string $element The element name.
-     * @return boolean $value True if indexed.
-     * @uses setElementFlag
+     * @param string $set The element set name.
+     * @param string $element The element name.
+     * @param boolean $value True if indexed.
      */
     public function setElementIndexed($set, $element, $value = true) {
         $this->setElementFlag($set, $element, 'is_indexed', $value);
@@ -52,12 +78,11 @@ class SolrSearchFieldTable extends Omeka_Db_Table
     /**
      * Flag a metadata element to be used as a facet.
      *
-     * @return string $set The element set name.
-     * @return string $element The element name.
-     * @return boolean $value True if faceted.
-     * @uses setElementFlag
+     * @param string $set The element set name.
+     * @param string $element The element name.
+     * @param boolean $value True if faceted.
      */
-    public function setElementFaceted($set, $element, $value) {
+    public function setElementFaceted($set, $element, $value = true) {
         $this->setElementFlag($set, $element, 'is_facet', $value);
     }
 
@@ -65,26 +90,15 @@ class SolrSearchFieldTable extends Omeka_Db_Table
     /**
      * Flip a boolean flag on an element-backed field.
      *
-     * @return string $set The element set name.
-     * @return string $element The element name.
-     * @return string $flag The name of the flag.
-     * @return boolean $value True if on.
+     * @param string $set The element set name.
+     * @param string $element The element name.
+     * @param string $flag The name of the flag.
+     * @param boolean $value True if on.
      */
     public function setElementFlag($set, $element, $flag, $value = true) {
-
-        // Get the element table.
-        $elementTable = $this->getTable('Element');
-
-        // Get the parent element.
-        $element = $elementTable->findByElementSetNameAndElementName(
-            $set, $element
-        );
-
-        // Get the facet, set searchable.
-        $facet = $this->findByElement($element);
-        $facet->$flag = $value;
-        $facet->save();
-
+        $field = $this->findByElementName($set, $element);
+        $field->$flag = $value;
+        $field->save();
     }
 
 

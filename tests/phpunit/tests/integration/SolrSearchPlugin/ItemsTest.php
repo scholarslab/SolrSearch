@@ -212,20 +212,20 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
 
 
     /**
-     * Fields that have been marked as searchable should be indexed.
+     * Indexed fields should be stored as text fields.
      */
-    public function testIndexSearchableFields()
+    public function testSetTextFieldsForIndexedElements()
     {
 
-        // Set "Subject" and "Source" searchable.
-        $this->fieldTable->setElementIndexed('Dublin Core', 'Subject');
-        $this->fieldTable->setElementIndexed('Dublin Core', 'Source');
+        // Set "Format" and "Source" indexed.
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Format', true);
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Source', true);
 
-        // Add an item with a "Subject" and "Source" texts.
+        // Add an item with a "Format" and "Source" texts.
         $item = insert_item(array('public' => true), array(
             'Dublin Core' => array (
-                'Subject' => array(
-                    array('text' => 'subject', 'html' => false)
+                'Format' => array(
+                    array('text' => 'format', 'html' => false)
                 ),
                 'Source' => array(
                     array('text' => 'source', 'html' => false)
@@ -236,28 +236,32 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
         // Get the Solr document for the item.
         $document = $this->_getRecordDocument($item);
 
-        // Get the subject and source keys.
-        $subjectKey = $this->_getElementSolrKey('Dublin Core', 'Subject');
-        $sourceKey  = $this->_getElementSolrKey('Dublin Core', 'Source');
+        // Get the "Format" and "Source" keys.
+        $formatKey = $this->_getElementTextKey('Dublin Core', 'Format');
+        $sourceKey = $this->_getElementTextKey('Dublin Core', 'Source');
 
         // Should index the searchable fields.
-        $this->assertEquals('subject',  $document->$subjectKey);
-        $this->assertEquals('source',   $document->$sourceKey);
+        $this->assertEquals('format', $document->$formatKey);
+        $this->assertEquals('source', $document->$sourceKey);
 
     }
 
 
     /**
-     * Fields that have been marked as not searchable should not be indexed.
+     * Un-indexed fields should not be stored as text fields.
      */
-    public function testDontIndexUnsearchableFields()
+    public function testDontSetTextFieldsForUnindexedElements()
     {
 
-        // Add an item with a "Subject" and "Source" texts.
+        // Set "Format" and "Source" un-indexed.
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Format', false);
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Source', false);
+
+        // Add an item with a "Format" and "Source" texts.
         $item = insert_item(array('public' => true), array(
             'Dublin Core' => array (
-                'Subject' => array(
-                    array('text' => 'subject', 'html' => false)
+                'Format' => array(
+                    array('text' => 'format', 'html' => false)
                 ),
                 'Source' => array(
                     array('text' => 'source', 'html' => false)
@@ -268,12 +272,84 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
         // Get the Solr document for the item.
         $document = $this->_getRecordDocument($item);
 
-        // Get the subject and source keys.
-        $subjectKey = $this->_getElementSolrKey('Dublin Core', 'Subject');
-        $sourceKey  = $this->_getElementSolrKey('Dublin Core', 'Source');
+        // Get the "Format" and "Source" keys.
+        $formatKey = $this->_getElementTextKey('Dublin Core', 'Format');
+        $sourceKey = $this->_getElementTextKey('Dublin Core', 'Source');
 
         // Should not index the un-searchable fields.
-        $this->assertObjectNotHasAttribute($subjectKey, $document);
+        $this->assertObjectNotHasAttribute($formatKey, $document);
+        $this->assertObjectNotHasAttribute($sourceKey, $document);
+
+    }
+
+
+    /**
+     * Faceted fields should be stored as string fields.
+     */
+    public function testSetStringFieldsForFacetedElements()
+    {
+
+        // Set "Format" and "Source" faceted.
+        $this->fieldTable->setElementFaceted('Dublin Core', 'Format', true);
+        $this->fieldTable->setElementFaceted('Dublin Core', 'Source', true);
+
+        // Add an item with a "Format" and "Source" texts.
+        $item = insert_item(array('public' => true), array(
+            'Dublin Core' => array (
+                'Format' => array(
+                    array('text' => 'format', 'html' => false)
+                ),
+                'Source' => array(
+                    array('text' => 'source', 'html' => false)
+                )
+            )
+        ));
+
+        // Get the Solr document for the item.
+        $document = $this->_getRecordDocument($item);
+
+        // Get the "Format" and "Source" keys.
+        $formatKey = $this->_getElementStringKey('Dublin Core', 'Format');
+        $sourceKey = $this->_getElementStringKey('Dublin Core', 'Source');
+
+        // Should index the faceted fields.
+        $this->assertEquals('format', $document->$formatKey);
+        $this->assertEquals('source', $document->$sourceKey);
+
+    }
+
+
+    /**
+     * Un-faceted fields should not be stored as string fields.
+     */
+    public function testDontSetStringFieldsForUnfacetedElements()
+    {
+
+        // Set "Format" and "Source" un-faceted.
+        $this->fieldTable->setElementFaceted('Dublin Core', 'Format', false);
+        $this->fieldTable->setElementFaceted('Dublin Core', 'Source', false);
+
+        // Add an item with a "Format" and "Source" texts.
+        $item = insert_item(array('public' => true), array(
+            'Dublin Core' => array (
+                'Format' => array(
+                    array('text' => 'format', 'html' => false)
+                ),
+                'Source' => array(
+                    array('text' => 'source', 'html' => false)
+                )
+            )
+        ));
+
+        // Get the Solr document for the item.
+        $document = $this->_getRecordDocument($item);
+
+        // Get the "Format" and "Source" keys.
+        $formatKey = $this->_getElementStringKey('Dublin Core', 'Format');
+        $sourceKey = $this->_getElementStringKey('Dublin Core', 'Source');
+
+        // Should not index the un-faceted fields.
+        $this->assertObjectNotHasAttribute($formatKey, $document);
         $this->assertObjectNotHasAttribute($sourceKey, $document);
 
     }

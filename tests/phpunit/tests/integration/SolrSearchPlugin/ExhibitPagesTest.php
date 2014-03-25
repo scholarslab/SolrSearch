@@ -190,7 +190,7 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Case_Default
         $document = $this->_getRecordDocument($page);
 
         // Get the name of the `text` Solr key.
-        $textKey = $this->_getAddonSolrKey($page, 'text');
+        $textKey = $this->_getAddonKey($page, 'text');
 
         // Should index the URL.
         $this->assertEquals(array('text1', 'text2'), $document->$textKey);

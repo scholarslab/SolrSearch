@@ -343,7 +343,7 @@ SQL
      * @param string $field The field.
      * @return string
      */
-    protected function _getAddonSolrKey($record, $field)
+    protected function _getAddonKey($record, $field)
     {
 
         // Spin up a manager and indexer.
@@ -358,26 +358,30 @@ SQL
 
 
     /**
-     * Get the `name` (used as the key value on Solr documents) for a facet.
+     * Get the key for an element's tokenized field on a Solr document.
      *
-     * @param string $elementSetName The element set name.
-     * @param string $elementName The element name.
+     * @param string $set The element set name.
+     * @param string $element The element name.
      * @return string
      */
-    protected function _getElementSolrKey($elementSetName, $elementName)
+    protected function _getElementTextKey($set, $element)
     {
-
-        // Get the element.
-        $element = $this->elementTable->findByElementSetNameAndElementName(
-            $elementSetName, $elementName
-        );
-
-        // Get the corresponding field.
-        $field = $this->fieldTable->findByElement($element);
-
-        // Return tokenized key.
+        $field = $this->fieldTable->findByElementName($set, $element);
         return $field->textKey();
+    }
 
+
+    /**
+     * Get the key for an element's un-tokenized field on a Solr document.
+     *
+     * @param string $set The element set name.
+     * @param string $element The element name.
+     * @return string
+     */
+    protected function _getElementStringKey($set, $element)
+    {
+        $field = $this->fieldTable->findByElementName($set, $element);
+        return $field->stringKey();
     }
 
 
