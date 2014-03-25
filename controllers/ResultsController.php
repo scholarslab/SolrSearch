@@ -134,7 +134,7 @@ class SolrSearch_ResultsController
             'hl'             => get_option('solr_search_hl'),
             'hl.snippets'    => get_option('solr_search_hl_snippets'),
             'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
-            'hl.fl'          => '*_hl'
+            'hl.fl'          => '*_t'
 
         );
 

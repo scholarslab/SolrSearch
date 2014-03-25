@@ -131,7 +131,7 @@ class SolrSearch_Helpers_Facet
     public static function keyToLabel($key)
     {
         $fields = get_db()->getTable('SolrSearchField');
-        return $fields->findBySlug(rtrim($key, '_fl'))->label;
+        return $fields->findBySlug(rtrim($key, '_s'))->label;
     }
 
 

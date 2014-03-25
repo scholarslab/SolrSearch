@@ -72,7 +72,7 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
         // Get names for active facets.
         foreach ($this->findBySql('is_facet=?', array(1)) as $facet) {
-            $key = $facet->hasElement() ? "{$facet->slug}_fl" : $facet->slug;
+            $key = $facet->hasElement() ? "{$facet->slug}_s" : $facet->slug;
             $active[] = $key;
         }
 

@@ -101,8 +101,8 @@
     <field name="text" type="text_en" indexed="true" stored="false" multiValued="true"/>
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
-    <dynamicField name="*_hl" type="text_en" indexed="true" stored="true" multiValued="true" />
-    <dynamicField name="*_fl" type="string" indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_t" type="text_en" indexed="true" stored="true" multiValued="true" />
+    <dynamicField name="*_s" type="string" indexed="true" stored="true" multiValued="true" />
 
   </fields>
 
@@ -112,7 +112,7 @@
    -->
   <uniqueKey>id</uniqueKey>
 
-  <copyField source="*_hl" dest="text" />
+  <copyField source="*_t" dest="text" />
   <copyField source="tag" dest="text" />
   <copyField source="collection" dest="text" />
   <copyField source="itemtype" dest="text" />
