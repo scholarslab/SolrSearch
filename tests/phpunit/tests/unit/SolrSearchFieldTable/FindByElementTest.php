@@ -20,7 +20,7 @@ class SolrSearchFieldTableTest_FindByElement extends SolrSearch_Case_Default
     public function setUp()
     {
         parent::setUp();
-        $this->_clearFacetMappings();
+        $this->_clearFieldMappings();
     }
 
 

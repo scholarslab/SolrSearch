@@ -21,7 +21,7 @@ class SolrSearchFieldTableTest_GroupByElementSet
     public function setUp()
     {
         parent::setUp();
-        $this->_clearFacetMappings();
+        $this->_clearFieldMappings();
     }
 
 
