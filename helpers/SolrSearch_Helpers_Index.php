@@ -58,38 +58,43 @@ class SolrSearch_Helpers_Index
 
         // Create the item document.
         $doc = new Apache_Solr_Document();
-        $doc->id = "Item_{$item->id}";
-        $doc->setMultiValue('resulttype', 'Item');
+        $doc->setField('id', "Item_{$item->id}");
+        $doc->setField('resulttype', 'Item');
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item->id);
 
-        // Gather all element texts.
-        $texts = $db->getTable('ElementText')->findByRecord($item);
+        // Set the title field.
+        $title = metadata($item, array('Dublin Core', 'Title'));
+        $doc->setField('title', $title);
 
-        // Get indexed elements.
-        $indexed = self::getIndexSet();
+        foreach ($db->getTable('SolrSearchField')->findAll() as $field) {
 
-        // Index element texts:
-        foreach ($texts as $text) {
+            // Metadata elements:
+            if ($field->hasElement()) {
 
-            // If the element text should be searchable.
-            if (array_key_exists($text->element_id, $indexed)) {
+                // Get all element texts for the element.
+                $texts = $item->getElementTextsByRecord($field->getElement());
 
-                // Get the Solr key for the element.
-                $slug = $indexed[$text->element_id];
+                // Set text fields.
+                if ($field->is_indexed) {
+                    foreach ($texts as $text) {
+                        $doc->setMultiValue($field->textKey(), $text->text);
+                    }
+                }
 
-                // Set string and text fields on the document.
-                $doc->setMultiValue("{$slug}_s", $text->text);
-                $doc->setMultiValue("{$slug}_t", $text->text);
-
-                // If the title is searchable, set it explicitly.
-                if ($text->element_id == 50) {
-                    $doc->setMultiValue('title', $text->text);
+                // Set string fields.
+                if ($field->is_facet) {
+                    foreach ($texts as $text) {
+                        $doc->setMultiValue($field->stringKey(), $text->text);
+                    }
                 }
 
             }
 
         }
+
+        // Get indexed elements.
+        $indexed = self::getIndexSet();
 
         // Index tags:
         if (array_key_exists('tag', $indexed)) {
