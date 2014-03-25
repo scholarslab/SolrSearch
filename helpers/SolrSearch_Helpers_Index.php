@@ -97,26 +97,20 @@ class SolrSearch_Helpers_Index
         $indexed = self::getIndexSet();
 
         // Index tags:
-        if (array_key_exists('tag', $indexed)) {
-            foreach ($item->getTags() as $tag) {
-                $doc->setMultiValue('tag', $tag->name);
-            }
+        foreach ($item->getTags() as $tag) {
+            $doc->setMultiValue('tag', $tag->name);
         }
 
         // Index collection title:
-        if (array_key_exists('collection', $indexed)) {
-            if ($collection = $item->getCollection()) {
-                $doc->collection = metadata(
-                    $collection, array('Dublin Core', 'Title')
-                );
-            }
+        if ($collection = $item->getCollection()) {
+            $doc->collection = metadata(
+                $collection, array('Dublin Core', 'Title')
+            );
         }
 
         // Index item type:
-        if (array_key_exists('itemtype', $indexed)) {
-            if ($itemType = $item->getItemType()) {
-                $doc->itemtype = $itemType->name;
-            }
+        if ($itemType = $item->getItemType()) {
+            $doc->itemtype = $itemType->name;
         }
 
         return $doc;
