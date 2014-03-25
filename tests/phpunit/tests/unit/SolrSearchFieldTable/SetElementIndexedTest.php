@@ -16,10 +16,10 @@ class SolrSearchFieldTableTest_SetElementIndexed
 
 
     /**
-     * `setElementIndexed` should flip on the indexing flag for the field that
-     * corresponds to the passed element.
+     * When `true` is passed as the value, `setElementIndexed` should flip on
+     * the faceting flag for the field that corresponds to the element.
      */
-    public function testSetElementIndexed()
+    public function testFlipOn()
     {
 
         $element = $this->elementTable->findByElementSetNameAndElementName(
@@ -32,11 +32,37 @@ class SolrSearchFieldTableTest_SetElementIndexed
         $field->save();
 
         // Flip on indexing.
-        $this->fieldTable->setElementIndexed('Dublin Core', 'Date');
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Date', true);
 
         // Should enable indexing.
         $field = $this->_reload($field);
         $this->assertEquals(1, $field->is_indexed);
+
+    }
+
+
+    /**
+     * When `false` is passed as the value, `setElementIndexed` should flip
+     * off the faceting flag for the field that corresponds to the element.
+     */
+    public function testFlipOff()
+    {
+
+        $element = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Date'
+        );
+
+        // Flip on indexing.
+        $field = $this->fieldTable->findByElement($element);
+        $field->is_indexed = 1;
+        $field->save();
+
+        // Flip off indexing.
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Date', false);
+
+        // Should enable indexing.
+        $field = $this->_reload($field);
+        $this->assertEquals(0, $field->is_indexed);
 
     }
 

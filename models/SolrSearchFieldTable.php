@@ -37,6 +37,32 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
+     * Flag a metadata element to be indexed in Solr.
+     *
+     * @return string $set The element set name.
+     * @return string $element The element name.
+     * @return boolean $value True if indexed.
+     * @uses setElementFlag
+     */
+    public function setElementIndexed($set, $element, $value = true) {
+        $this->setElementFlag($set, $element, 'is_indexed', $value);
+    }
+
+
+    /**
+     * Flag a metadata element to be used as a facet.
+     *
+     * @return string $set The element set name.
+     * @return string $element The element name.
+     * @return boolean $value True if faceted.
+     * @uses setElementFlag
+     */
+    public function setElementFaceted($set, $element, $value) {
+        $this->setElementFlag($set, $element, 'is_facet', $value);
+    }
+
+
+    /**
      * Flip a boolean flag on an element-backed field.
      *
      * @return string $set The element set name.
@@ -59,28 +85,6 @@ class SolrSearchFieldTable extends Omeka_Db_Table
         $facet->$flag = $value;
         $facet->save();
 
-    }
-
-
-    /**
-     * Flag a metadata element to be indexed in Solr.
-     *
-     * @return string $set The element set name.
-     * @return string $element The element name.
-     */
-    public function setElementIndexed($set, $element) {
-        $this->setElementFlag($set, $element, 'is_indexed', true);
-    }
-
-
-    /**
-     * Flag a metadata element to be used as a facet.
-     *
-     * @return string $set The element set name.
-     * @return string $element The element name.
-     */
-    public function setElementFaceted($set, $element) {
-        $this->setElementFlag($set, $element, 'is_facet', true);
     }
 
 
