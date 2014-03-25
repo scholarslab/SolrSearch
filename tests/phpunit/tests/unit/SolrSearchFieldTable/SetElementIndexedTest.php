@@ -26,14 +26,16 @@ class SolrSearchFieldTableTest_SetElementIndexed
             'Dublin Core', 'Date'
         );
 
-        // Field not searchable.
+        // Flip off indexing.
         $field = $this->fieldTable->findByElement($element);
-        $this->assertEquals(0, $field->is_indexed);
+        $field->is_indexed = 0;
+        $field->save();
 
+        // Flip on indexing.
         $this->fieldTable->setElementIndexed('Dublin Core', 'Date');
 
-        // Should make facet searchable.
-        $field = $this->fieldTable->findByElement($element);
+        // Should enable indexing.
+        $field = $this->_reload($field);
         $this->assertEquals(1, $field->is_indexed);
 
     }

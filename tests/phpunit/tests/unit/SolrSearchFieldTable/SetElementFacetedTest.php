@@ -26,14 +26,16 @@ class SolrSearchFieldTableTest_SetElementFaceted
             'Dublin Core', 'Date'
         );
 
-        // Field not faceted.
+        // Flip off faceting.
         $field = $this->fieldTable->findByElement($element);
-        $this->assertEquals(0, $field->is_facet);
+        $field->is_facet = 0;
+        $field->save();
 
+        // Flip on faceting.
         $this->fieldTable->setElementFaceted('Dublin Core', 'Date');
 
-        // Should make field faceted.
-        $field = $this->fieldTable->findByElement($element);
+        // Should enable faceting.
+        $field = $this->_reload($field);
         $this->assertEquals(1, $field->is_facet);
 
     }
