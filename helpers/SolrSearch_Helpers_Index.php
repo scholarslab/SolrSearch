@@ -75,14 +75,14 @@ class SolrSearch_Helpers_Index
                 // Get all element texts for the element.
                 $texts = $item->getElementTextsByRecord($field->getElement());
 
-                // Set text fields.
+                // Set text fields, if the field is indexed.
                 if ($field->is_indexed) {
                     foreach ($texts as $text) {
                         $doc->setMultiValue($field->textKey(), $text->text);
                     }
                 }
 
-                // Set string fields.
+                // Set string fields, if the field is faceted.
                 if ($field->is_facet) {
                     foreach ($texts as $text) {
                         $doc->setMultiValue($field->stringKey(), $text->text);
@@ -104,23 +104,19 @@ class SolrSearch_Helpers_Index
         }
 
         // Index collection title:
-        if (array_key_exists('collection', $indexed) &&
-          $item->collection_id > 0) {
-
-            $collection = $item->getCollection();
-            $doc->collection = metadata(
-                $collection, array('Dublin Core', 'Title')
-            );
-
+        if (array_key_exists('collection', $indexed)) {
+            if ($collection = $item->getCollection()) {
+                $doc->collection = metadata(
+                    $collection, array('Dublin Core', 'Title')
+                );
+            }
         }
 
         // Index item type:
-        if (array_key_exists('itemtype', $indexed) &&
-            $item->item_type_id > 0) {
-
-            $itemType = $item->getItemType();
-            $doc->itemtype = $itemType->name;
-
+        if (array_key_exists('itemtype', $indexed)) {
+            if ($itemType = $item->getItemType()) {
+                $doc->itemtype = $itemType->name;
+            }
         }
 
         return $doc;
