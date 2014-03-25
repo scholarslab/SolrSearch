@@ -93,9 +93,6 @@ class SolrSearch_Helpers_Index
 
         }
 
-        // Get indexed elements.
-        $indexed = self::getIndexSet();
-
         // Index tags:
         foreach ($item->getTags() as $tag) {
             $doc->setMultiValue('tag', $tag->name);
@@ -180,31 +177,6 @@ class SolrSearch_Helpers_Index
         $uri = url($options, 'id');
 
         return $uri;
-    }
-
-
-    /**
-     * This returns a set of fields to be indexed by Solr according to the
-     * solr_search_facet table. The fields can be either the element IDs or
-     * the names of categories like 'description'.
-     *
-     * @return array $fieldSet The set of fields to index.
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    public static function getIndexSet()
-    {
-        $fieldSet = array();
-
-        $facets = get_db()->getTable('SolrSearchField')->findAll();
-
-        foreach ($facets as $facet) {
-            if ($facet->is_indexed || $facet->is_facet) {
-                $key = $facet->element_id ? $facet->element_id : $facet->slug;
-                $fieldSet[$key] = $facet->slug;
-            }
-        }
-
-        return $fieldSet;
     }
 
 
