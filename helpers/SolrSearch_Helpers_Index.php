@@ -98,14 +98,11 @@ class SolrSearch_Helpers_Index
             }
         }
 
-        // Index collection name:
+        // Index collection title:
         if (array_key_exists('collection', $indexed) &&
           $item->collection_id > 0) {
 
-            $collection = $db
-                ->getTable('Collection')
-                ->find($item->collection_id);
-
+            $collection = $item->getCollection();
             $doc->collection = metadata(
                 $collection, array('Dublin Core', 'Title')
             );
@@ -116,12 +113,8 @@ class SolrSearch_Helpers_Index
         if (array_key_exists('itemtype', $indexed) &&
             $item->item_type_id > 0) {
 
-            $itemType = $db
-                ->getTable('ItemType')
-                ->find($item->item_type_id)
-                ->name;
-
-            $doc->itemtype = $itemType;
+            $itemType = $item->getItemType();
+            $doc->itemtype = $itemType->name;
 
         }
 

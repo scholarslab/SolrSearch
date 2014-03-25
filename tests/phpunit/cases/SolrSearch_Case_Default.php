@@ -375,6 +375,7 @@ SQL
         // Get the corresponding field.
         $field = $this->fieldTable->findByElement($element);
 
+        // Return tokenized key.
         return $field->textKey();
 
     }
