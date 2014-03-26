@@ -26,10 +26,10 @@ class SolrSearchFieldTableTest_GetActiveFacetKeys
 
 
     /**
-     * `getActiveFacetKeys` should return a list containing the names of all
-     * the facets that are set active.
+     * `getActiveFacetKeys` should return a list containing the slugs of all
+     * Omeka category fields that are activated as facets.
      */
-    public function testGetActiveFacetNames()
+    public function testOmekaCategoryFields()
     {
 
         $field1 = $this->_field('field1');
@@ -48,6 +48,48 @@ class SolrSearchFieldTableTest_GetActiveFacetKeys
 
         // Should contain the names of the active facets.
         $this->assertEquals(array('field1', 'field2'), $names);
+
+    }
+
+
+    /**
+     * `getActiveFacetKeys` should return a list containing the string keys of
+     * all element-backed fields that are activated as facets.
+     */
+    public function testElementFields()
+    {
+
+        $title = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Title'
+        );
+
+        $subject = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Subject'
+        );
+
+        $source = $this->elementTable->findByElementSetNameAndElementName(
+            'Dublin Core', 'Source'
+        );
+
+        $field1 = new SolrSearchField($title);
+        $field2 = new SolrSearchField($subject);
+        $field3 = new SolrSearchField($source);
+
+        $field1->is_facet = true;
+        $field2->is_facet = true;
+        $field3->is_facet = false;
+
+        $field1->save();
+        $field2->save();
+        $field3->save();
+
+        $names = $this->fieldTable->getActiveFacetKeys();
+
+        // Should contain the string keys of the active facets.
+        $this->assertEquals(array(
+            $field1->stringKey(),
+            $field2->stringKey()
+        ), $names);
 
     }
 
