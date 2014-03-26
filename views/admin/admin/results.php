@@ -12,15 +12,15 @@
 ?>
 
 <?php echo head(array(
-  'title' => __('Solr Search | Hit Highlighting Options')
+  'title' => __('Solr Search | Results Configuration')
 )); ?>
 
 <?php echo $this->partial('admin/partials/navigation.php', array(
-  'tab' => 'highlight'
+  'tab' => 'results'
 )); ?>
 
 <div id="primary">
-  <h2><?php echo __('Hit Highlighting') ?></h2>
+  <h2><?php echo __('Results Configuration') ?></h2>
 	<?php echo flash(); ?>
 	<?php echo $form; ?>
 </div>

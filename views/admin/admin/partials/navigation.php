@@ -22,9 +22,9 @@
       <?php echo __('Field Configuration') ?>
     </a>
   </li>
-  <li class="<?php if ($tab == 'highlight') echo 'current'; ?>">
-    <a href="<?php echo url('solr-search/highlight'); ?>">
-      <?php echo __('Hit Highlighting') ?>
+  <li class="<?php if ($tab == 'results') echo 'current'; ?>">
+    <a href="<?php echo url('solr-search/results'); ?>">
+      <?php echo __('Results Configuration') ?>
     </a>
   </li>
   <li class="<?php if ($tab == 'reindex') echo 'current'; ?>">

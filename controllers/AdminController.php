@@ -16,7 +16,7 @@ class SolrSearch_AdminController
 
 
     /**
-     * Display the "Solr Configuration" form.
+     * Display the "Server Configuration" form.
      */
     public function serverAction()
     {
@@ -101,9 +101,9 @@ class SolrSearch_AdminController
 
 
     /**
-     * Display the "Hit Highlighting Options" form.
+     * Display the "Results Configuration" form.
      */
-    public function highlightAction()
+    public function resultsAction()
     {
 
         $form = new SolrSearch_Form_Highlight();
