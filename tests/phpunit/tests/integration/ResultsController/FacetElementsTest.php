@@ -50,6 +50,13 @@ class ResultsControllerTest_FacetElements extends SolrSearch_Case_Default
 
         parent::setUp();
 
+        // Set "Type" faceted.
+        $this->fieldTable->setElementFaceted('Dublin Core', 'Type');
+
+        // Cache the "Type" facet key.
+        $type = $this->fieldTable->findByElementName('Dublin Core', 'Type');
+        $this->key = $type->facetKey();
+
         $this->item1 = $this->_item('Item 1', 'type one');
         $this->item2 = $this->_item('Item 2', 'type one');
         $this->item3 = $this->_item('Item 3', 'type two');
@@ -61,75 +68,75 @@ class ResultsControllerTest_FacetElements extends SolrSearch_Case_Default
     /**
      * When no facet is applied, all facet links and items should be listed.
      */
-    //public function testNoFacet()
-    //{
+    public function testNoFacet()
+    {
 
-        //$this->dispatch('solr-search/results');
+        $this->dispatch('solr-search/results');
 
-        //$coll1Link = $this->_getFacetLink('collection', 'Collection 1');
-        //$coll2Link = $this->_getFacetLink('collection', 'Collection 2');
+        $type1Link = $this->_getFacetLink($this->key, 'type one');
+        $type2Link = $this->_getFacetLink($this->key, 'type two');
 
-        //// Should display all facet links.
-        //$this->_assertFacetLink($coll1Link, 'Collection 1');
-        //$this->_assertFacetLink($coll2Link, 'Collection 2');
+        // Should display all facet links.
+        $this->_assertFacetLink($type1Link, 'type one');
+        $this->_assertFacetLink($type2Link, 'type two');
 
-        //// Should display all items.
-        //$this->_assertResultLink(record_url($this->item1), 'Item 1');
-        //$this->_assertResultLink(record_url($this->item2), 'Item 2');
-        //$this->_assertResultLink(record_url($this->item3), 'Item 3');
-        //$this->_assertResultLink(record_url($this->item4), 'Item 4');
+        // Should display all items.
+        $this->_assertResultLink(record_url($this->item1), 'Item 1');
+        $this->_assertResultLink(record_url($this->item2), 'Item 2');
+        $this->_assertResultLink(record_url($this->item3), 'Item 3');
+        $this->_assertResultLink(record_url($this->item4), 'Item 4');
 
-    //}
-
-
-    /**
-     * When the `Collection 1` facet is applied, just the `Collection 1` facet
-     * should be linked and just items that collection should be displayed.
-     */
-    //public function testCollection1()
-    //{
-
-        //$this->dispatch($this->_getFacetLink('collection', 'Collection 1'));
-
-        //$coll1Link = $this->_getFacetLink('collection', 'Collection 1');
-        //$coll2Link = $this->_getFacetLink('collection', 'Collection 2');
-
-        //// Should remove the `Collection 2` facet link.
-        //$this->_assertFacetLink($coll1Link, 'Collection 1');
-        //$this->_assertNotFacetLink($coll2Link);
-
-        //// Should list items in `Collection 1`.
-        //$this->_assertResultLink(record_url($this->item1), 'Item 1');
-        //$this->_assertResultLink(record_url($this->item2), 'Item 2');
-        //$this->_assertNotResultLink(record_url($this->item3));
-        //$this->_assertNotResultLink(record_url($this->item4));
-
-    //}
+    }
 
 
     /**
-     * When the `Collection 2` facet is applied, just the `Collection 2` facet
-     * should be linked and just items that collection should be displayed.
+     * When the `type one` facet is applied, just the `type one` facet should
+     * be linked and just items of that type should be displayed.
      */
-    //public function testCollection2()
-    //{
+    public function testTypeOne()
+    {
 
-        //$this->dispatch($this->_getFacetLink('collection', 'Collection 2'));
+        $this->dispatch($this->_getFacetLink($this->key, 'type one'));
 
-        //$coll1Link = $this->_getFacetLink('collection', 'Collection 1');
-        //$coll2Link = $this->_getFacetLink('collection', 'Collection 2');
+        $type1Link = $this->_getFacetLink($this->key, 'type one');
+        $type2Link = $this->_getFacetLink($this->key, 'type two');
 
-        //// Should remove the `Collection 1` facet link.
-        //$this->_assertNotFacetLink($coll1Link);
-        //$this->_assertFacetLink($coll2Link, 'Collection 2');
+        // Should remove the `type two` facet link.
+        $this->_assertFacetLink($type1Link, 'type one');
+        $this->_assertNotFacetLink($type2Link);
 
-        //// Should list items in `Collection 2`.
-        //$this->_assertNotResultLink(record_url($this->item1));
-        //$this->_assertNotResultLink(record_url($this->item2));
-        //$this->_assertResultLink(record_url($this->item3), 'Item 3');
-        //$this->_assertResultLink(record_url($this->item4), 'Item 4');
+        // Should list items with `type one`.
+        $this->_assertResultLink(record_url($this->item1), 'Item 1');
+        $this->_assertResultLink(record_url($this->item2), 'Item 2');
+        $this->_assertNotResultLink(record_url($this->item3));
+        $this->_assertNotResultLink(record_url($this->item4));
 
-    //}
+    }
+
+
+    /**
+     * When the `type two` facet is applied, just the `type two` facet should
+     * be linked and just items of that type should be displayed.
+     */
+    public function testTypeTwo()
+    {
+
+        $this->dispatch($this->_getFacetLink($this->key, 'type two'));
+
+        $type1Link = $this->_getFacetLink($this->key, 'type one');
+        $type2Link = $this->_getFacetLink($this->key, 'type two');
+
+        // Should remove the `type two` facet link.
+        $this->_assertNotFacetLink($type1Link);
+        $this->_assertFacetLink($type2Link, 'type two');
+
+        // Should list items with `type two`.
+        $this->_assertNotResultLink(record_url($this->item1));
+        $this->_assertNotResultLink(record_url($this->item2));
+        $this->_assertResultLink(record_url($this->item3), 'Item 3');
+        $this->_assertResultLink(record_url($this->item4), 'Item 4');
+
+    }
 
 
 }
