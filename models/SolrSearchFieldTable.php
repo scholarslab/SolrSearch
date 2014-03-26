@@ -15,6 +15,20 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
+     * Find the field associated with a given element text.
+     *
+     * @param ElementText $text The element text.
+     * @return SolrSearchField
+     */
+    public function findByText($text)
+    {
+        return $this->findBySql(
+            'element_id=?', array($text->element_id), true
+        );
+    }
+
+
+    /**
      * Find the field associated with a given element.
      *
      * @param Element $element The element.
@@ -22,7 +36,9 @@ class SolrSearchFieldTable extends Omeka_Db_Table
      */
     public function findByElement($element)
     {
-        return $this->findBySql('element_id=?', array($element->id), true);
+        return $this->findBySql(
+            'element_id=?', array($element->id), true
+        );
     }
 
 
@@ -119,32 +135,6 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
         return $active;
 
-    }
-
-
-    /**
-     * Get all fields that are linked to elements and indexed.
-     *
-     * @return array The indexed, element-backed fields.
-     */
-    public function getIndexedElementFields()
-    {
-        return $this->findBySql(
-            'is_indexed=? && element_id IS NOT NULL', array(1)
-        );
-    }
-
-
-    /**
-     * Get all fields that are linked to elements and faceted.
-     *
-     * @return array The faceted, element-backed fields.
-     */
-    public function getFacetedElementFields()
-    {
-        return $this->findBySql(
-            'is_facet=? && element_id IS NOT NULL', array(1)
-        );
     }
 
 

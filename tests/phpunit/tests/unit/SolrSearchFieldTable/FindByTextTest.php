@@ -10,7 +10,7 @@
  */
 
 
-class SolrSearchFieldTableTest_FindByElement extends SolrSearch_Case_Default
+class SolrSearchFieldTableTest_FindByText extends SolrSearch_Case_Default
 {
 
 
@@ -25,19 +25,23 @@ class SolrSearchFieldTableTest_FindByElement extends SolrSearch_Case_Default
 
 
     /**
-     * `findByElement` should return the facet linked to a given element.
+     * `findByText` should return the facet linked to a given text.
      */
-    public function testFindByElement()
+    public function testFindByText()
     {
 
         $title = $this->elementTable->findByElementSetNameAndElementName(
             'Dublin Core', 'Title'
         );
 
+        // Create a field for "Title".
         $field = new SolrSearchField($title);
         $field->save();
 
-        $retrieved = $this->fieldTable->findByElement($title);
+        // Get a "Title" element text.
+        $texts = $this->_item()->getElementTexts('Dublin Core', 'Title');
+
+        $retrieved = $this->fieldTable->findByText($texts[0]);
         $this->assertEquals($field->id, $retrieved->id);
 
     }

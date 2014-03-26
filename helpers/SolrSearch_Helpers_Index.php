@@ -66,27 +66,18 @@ class SolrSearch_Helpers_Index
         $title = metadata($item, array('Dublin Core', 'Title'));
         $doc->setField('title', $title);
 
-        // Indexed elements:
-        foreach ($fields->getIndexedElementFields() as $field) {
+        // Elements:
+        foreach ($item->getAllElementTexts() as $text) {
 
-            // Get all element texts for the element.
-            $texts = $item->getElementTextsByRecord($field->getElement());
+            $field = $fields->findByText($text);
 
-            // Set text fields.
-            foreach ($texts as $text) {
+            // Set text field.
+            if ($field->is_indexed) {
                 $doc->setMultiValue($field->indexKey(), $text->text);
             }
 
-        }
-
-        // Faceted elements:
-        foreach ($fields->getFacetedElementFields() as $field) {
-
-            // Get all element texts for the element.
-            $texts = $item->getElementTextsByRecord($field->getElement());
-
-            // Set string fields.
-            foreach ($texts as $text) {
+            // Set string field.
+            if ($field->is_facet) {
                 $doc->setMultiValue($field->facetKey(), $text->text);
             }
 

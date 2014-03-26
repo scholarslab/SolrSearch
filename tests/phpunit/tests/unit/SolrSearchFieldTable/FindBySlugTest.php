@@ -20,13 +20,13 @@ class SolrSearchFieldTableTest_FindBySlug extends SolrSearch_Case_Default
     public function testFindBySlug()
     {
 
-        $facet = new SolrSearchField();
-        $facet->label = 'facet';
-        $facet->slug  = 'facet';
-        $facet->save();
+        $field = new SolrSearchField();
+        $field->label = 'field';
+        $field->slug  = 'field';
+        $field->save();
 
-        $retrieved = $this->fieldTable->findBySlug('facet');
-        $this->assertEquals($facet->id, $retrieved->id);
+        $retrieved = $this->fieldTable->findBySlug('field');
+        $this->assertEquals($field->id, $retrieved->id);
 
     }
 
