@@ -10,7 +10,6 @@
 
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compass');
@@ -23,14 +22,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    bower: {
-      install: {
-        options: { copy: false }
-      }
-    },
-
     clean: {
-      bower: 'bower_components',
       pkg: 'pkg'
     },
 
@@ -48,9 +40,6 @@ module.exports = function(grunt) {
       }
 
     },
-
-    //concat: {},
-    //uglify: {},
 
     compass: {
 
@@ -86,10 +75,6 @@ module.exports = function(grunt) {
           // GIT
           '!.git/**',
 
-          // BOWER
-          '!bower.json',
-          '!bower_components/**',
-
           // NPM
           '!package.json',
           '!node_modules/**',
@@ -106,6 +91,9 @@ module.exports = function(grunt) {
           // GRUNT
           '!.grunt/**',
           '!Gruntfile.js',
+
+          // SASS
+          '!.sass-cache/**',
 
           // DIST
           '!pkg/**',
@@ -126,14 +114,12 @@ module.exports = function(grunt) {
   // Build the application.
   grunt.registerTask('build', [
     'clean',
-    'bower',
     'compass'
   ]);
 
   // Spawn release package.
   grunt.registerTask('package', [
-    'clean:pkg',
-    'compass',
+    'build',
     'compress'
   ]);
 
