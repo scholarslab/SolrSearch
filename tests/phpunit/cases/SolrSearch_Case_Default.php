@@ -367,7 +367,7 @@ SQL
     protected function _getElementTextKey($set, $element)
     {
         $field = $this->fieldTable->findByElementName($set, $element);
-        return $field->textKey();
+        return $field->indexKey();
     }
 
 
@@ -381,7 +381,7 @@ SQL
     protected function _getElementStringKey($set, $element)
     {
         $field = $this->fieldTable->findByElementName($set, $element);
-        return $field->stringKey();
+        return $field->facetKey();
     }
 
 

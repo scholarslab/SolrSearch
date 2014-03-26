@@ -78,14 +78,14 @@ class SolrSearch_Helpers_Index
                 // Set text fields, if the field is indexed.
                 if ($field->is_indexed) {
                     foreach ($texts as $text) {
-                        $doc->setMultiValue($field->textKey(), $text->text);
+                        $doc->setMultiValue($field->indexKey(), $text->text);
                     }
                 }
 
                 // Set string fields, if the field is faceted.
                 if ($field->is_facet) {
                     foreach ($texts as $text) {
-                        $doc->setMultiValue($field->stringKey(), $text->text);
+                        $doc->setMultiValue($field->facetKey(), $text->text);
                     }
                 }
 

@@ -162,10 +162,10 @@ class SolrSearchPluginTest_Exhibits extends SolrSearch_Case_Default
         $document = $this->_getRecordDocument($exhibit);
 
         // Get the name of the `description` Solr key.
-        $textKey = $this->_getAddonKey($exhibit, 'description');
+        $indexKey = $this->_getAddonKey($exhibit, 'description');
 
         // Should index the text field.
-        $this->assertEquals('description', $document->$textKey);
+        $this->assertEquals('description', $document->$indexKey);
 
     }
 

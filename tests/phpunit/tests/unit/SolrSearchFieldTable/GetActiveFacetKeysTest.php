@@ -87,8 +87,8 @@ class SolrSearchFieldTableTest_GetActiveFacetKeys
 
         // Should contain the string keys of the active facets.
         $this->assertEquals(array(
-            $field1->stringKey(),
-            $field2->stringKey()
+            $field1->facetKey(),
+            $field2->facetKey()
         ), $names);
 
     }

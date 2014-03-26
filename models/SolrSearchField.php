@@ -71,7 +71,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
      *
      * @return string
      */
-    public function textKey()
+    public function indexKey()
     {
         return "{$this->slug}_t";
     }
@@ -82,7 +82,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
      *
      * @return string
      */
-    public function stringKey()
+    public function facetKey()
     {
         return "{$this->slug}_s";
     }
