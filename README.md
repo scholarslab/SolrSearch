@@ -6,7 +6,7 @@
 
   - When you have a really large collection, and want something a bit faster;
 
-  - When your site contains a lot of text content (eg, 10,000 items with a paragraph or two in the "Description" field), and you want to take advantage of Solr's hit highlighting functionality, which displays a preview snippet from each of the matching records;
+  - When your site contains a lot of text content, and you want to take advantage of Solr's hit highlighting functionality, which displays a preview snippet from each of the matching records;
 
   - When your site makes use of a lot of different taxonomies (collections, item types, etc.), and you want to use Solr's faceting capabilities, which make it possible for users to refine searches by cropping down the set of results to focus on specific categories.
 
@@ -16,11 +16,11 @@ To use the plugin, you'll need access to an installation of Solr 4.0+ running th
 
 ## Installation
 
-### Solr
+### Solr Core
 
 To deploy the Solr core, just copy the `solr-core/omeka` directory into your Solr home directory. For example, if your deployment is based on the default Solr 4 multicore template, you might end up with directories for `core0`, `core1`, and `omeka`. Once the directory is in place, restart/reload Solr to register the new core.
 
-### Omeka
+### Omeka Plugin
 
 Once the core is up and running, install SolrSearch just like any other Omeka plugin:
 
@@ -56,21 +56,19 @@ This form makes it possible to configure (a) which metadata elements and Omeka c
 
   - **Is Facet?**: If checked, the field will be used as a facet in the results. As a rule of thumb, **a field might be a useful facet if it contains a controlled vocabulary**. For example, imagine you use one of three values in the Dublin Core "Type" field - `type1`, `type2`, and `type3`. This would make a good facet, because users would be able to hone in on the implicit relationships among items of the same type. It wouldn't make sense to use something like the "Description" field as a facet, though, two items will almost never share the exact same description (or, at least, they probably shouldn't!).
 
-Use the accordion to expand and contract the fields in the three categories. There are really two types of fields - the "Omeka Categories," which aren't actually metadata elements but rather high-level taxonomies that are baked in to the struture of Omeka, and the metadata elements (Dublin Core and Item Type Metadata) that can be used to describe items.
+Use the accordion to expand and contract the fields in the three categories. There are two types of fields - the "Omeka Categories," which aren't actually metadata elements but rather high-level taxonomies that are baked in to the struture of Omeka, and the metadata elements (Dublin Core and Item Type Metadata) that can be used to describe items.
 
 After you've made changes, click the "Update Search Fields" to save the configuration.
 
 ### Results Configuration
 
-This form exposes options for two features in Solr - hit highlighting and faceting. Hit highlighting makes it possible to display preview snippets for each result that excerpt portions of the metadata that are relevant to the query:
+This form exposes options for two features in Solr: **hit highlighting**, which makes it possible to display preview snippets for each result that excerpt portions of the metadata that are relevant to the query, and **faceting**, which makes it possible for users to progressively refine large result sets by honing in on specific categories.
 
   - **Enable Highlighting**: Set whether highlighting snippets should be displayed.
 
   - **Number of Snippets**: The maximum number of snippets to display for a result.
 
   - **Snippet Length**: The maximum length of each snippet.
-
-Faceting makes it possible for users to progressively refine large result sets by honing in on specific categories:
 
   - **Facet Ordering**: The criteria by which to sort the facets in the results.
 
