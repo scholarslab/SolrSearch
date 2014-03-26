@@ -84,7 +84,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
      */
     public function facetKey()
     {
-        return "{$this->slug}_s";
+        return $this->hasElement() ? "{$this->slug}_s" : $this->slug;
     }
 
 
