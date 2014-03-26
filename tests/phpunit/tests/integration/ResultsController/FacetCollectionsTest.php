@@ -84,7 +84,6 @@ class ResultsControllerTest_FacetCollections extends SolrSearch_Case_Default
 
     /**
      * When no facet is applied, all facet links and items should be listed.
-     * @group test
      */
     public function testNoFacet()
     {
