@@ -2,17 +2,17 @@
 
 ![Solr](https://lucene.apache.org/images/solr.png)
 
-**SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich searching platform for full-text searching. In most cases, Omeka's built-in searching capabilities work great, but there are a couple situations where Solr might make sense:
+**SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich search engine that supports faceting and hit highlighting. In most cases, Omeka's built-in searching capabilities work great, but there are a couple situations where Solr might make sense:
 
   - When you have a large collection (tens of thousands of items), and want something a bit faster;
 
-  - When your site contains a lot of text content, and you want to take advantage of Solr's "hit highlighting" functionality, which makes it possible to display a snippet from each of the matching records in the list of results with the search terms displayed in bold;
+  - When your site contains a lot of text content, and you want to take advantage of Solr's hit highlighting functionality, which makes it possible to display a snippet from each of the matching records;
 
-  - When your site makes use of lots of different _taxonomies_ (collections, item types, etc.), and you want to make use of Solr's "faceting" capabilities, which make it possible for users to progressively refine searches by cropping down the set of results by tag, collection, type, etc.
+  - When your site makes use of a lot of different taxonomies (collections, item types, etc.), and you want to use Solr's faceting capabilities, which make it possible for users to refine searches by progressively cropping down the set of results to focus on specific categories.
 
 ## Requirements
 
-To use the plugin, you'll need access to an installation of Solr 4.0+ running the "core" included in the plugin source code under `solr-core/omeka`. Head over to the [Solr installation documentation][solr-install] for general information, and see below for instructions for how to get up and running with a local testing installation.
+To use the plugin, you'll need access to an installation of Solr 4.0+ running the core included in the plugin source code under `solr-core/omeka`. Head over to the [Solr installation documentation][solr-install] for general information, and see below for instructions for how to get up and running with a local testing installation.
 
 ## Installation
 
