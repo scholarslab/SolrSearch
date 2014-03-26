@@ -34,7 +34,7 @@ class ResultsControllerTest_HighlightResults extends SolrSearch_Case_Default
     {
 
         // Enable highlighting.
-        set_option('solr_search_hl', 'true');
+        set_option('solr_search_hl', '1');
 
         // Search for "item".
         $_GET['q'] = 'item';
@@ -60,7 +60,7 @@ class ResultsControllerTest_HighlightResults extends SolrSearch_Case_Default
     {
 
         // Disable highlighting.
-        set_option('solr_search_hl', 'false');
+        set_option('solr_search_hl', '0');
 
         // Search for "item".
         $_GET['q'] = 'item';

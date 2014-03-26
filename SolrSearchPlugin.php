@@ -364,7 +364,7 @@ SQL
         set_option('solr_search_core',          '/solr/omeka/');
         set_option('solr_search_facet_limit',   '25');
         set_option('solr_search_facet_sort',    'count');
-        set_option('solr_search_hl',            'true');
+        set_option('solr_search_hl',            '1');
         set_option('solr_search_hl_snippets',   '1');
         set_option('solr_search_hl_fragsize',   '250');
     }

@@ -23,10 +23,9 @@ class SolrSearch_Form_Highlight extends Omeka_Form
         parent::init();
 
         // Enable Highlighting:
-        $this->addElement('select', 'solr_search_hl', array(
+        $this->addElement('checkbox', 'solr_search_hl', array(
             'label'         => __('Enable Highlighting'),
             'description'   => __('Enable/Disable highlighting matches in Solr fields.'),
-            'multiOptions'  => array( 'true' => __('True'), 'false' => __('False')),
             'value'         => get_option('solr_search_hl')
         ));
 

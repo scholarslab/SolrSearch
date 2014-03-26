@@ -23,11 +23,10 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
 
         // Highlighting:
         $this->assertXpath(
-            '//select
+            '//input
             [@name="solr_search_hl"]
-            /option
             [@value="'. get_option('solr_search_hl') . '"]
-            [@selected="selected"]'
+            [@checked="checked"]'
         );
 
         // Snippets:
@@ -149,12 +148,12 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
     public function testSuccess()
     {
 
-        set_option('solr_search_hl',            'true');
+        set_option('solr_search_hl',            '1');
         set_option('solr_search_hl_snippets',   '1');
         set_option('solr_search_hl_fragsize',   '250');
 
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'            => 'false',
+            'solr_search_hl'            => '0',
             'solr_search_hl_snippets'   => '2',
             'solr_search_hl_fragsize'   => '300'
         ));
@@ -166,9 +165,9 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
         $fragsize   = get_option('solr_search_hl_fragsize');
 
         // Should update options.
-        $this->assertEquals('false',    $hl);
-        $this->assertEquals('2',        $snippets);
-        $this->assertEquals('300',      $fragsize);
+        $this->assertEquals('0',    $hl);
+        $this->assertEquals('2',    $snippets);
+        $this->assertEquals('300',  $fragsize);
 
     }
 
