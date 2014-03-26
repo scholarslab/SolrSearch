@@ -9,17 +9,17 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-class AdminControllerTest_Highlight extends SolrSearch_Case_Default
+class AdminControllerTest_Results extends SolrSearch_Case_Default
 {
 
 
     /**
-     * HIGHLIGHT should display the hit highlighting form.
+     * RESULTS should display the hit highlighting form.
      */
     public function testMarkup()
     {
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/results');
 
         // Highlighting:
         $this->assertXpath(
@@ -43,6 +43,22 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
             [@value="' . get_option('solr_search_hl_fragsize') . '"]'
         );
 
+        // Facet sort:
+        $this->assertXpath(
+            '//select
+            [@name="solr_search_facet_sort"]
+            /option
+            [@value="'. get_option('solr_search_facet_sort') . '"]
+            [@selected="selected"]'
+        );
+
+        // Facet count:
+        $this->assertXpath(
+            '//input
+            [@name="solr_search_facet_limit"]
+            [@value="'. get_option('solr_search_facet_limit') . '"]'
+        );
+
     }
 
 
@@ -59,7 +75,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
             'solr_search_hl_snippets' => ''
         ));
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/results');
 
         // Should not set option.
         $this->assertEquals('1', get_option('solr_search_hl_snippets'));
@@ -83,7 +99,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
             'solr_search_hl_snippets' => 'invalid'
         ));
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/results');
 
         // Should not set option.
         $this->assertEquals('1', get_option('solr_search_hl_snippets'));
@@ -107,7 +123,7 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
             'solr_search_hl_fragsize' => ''
         ));
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/results');
 
         // Should not set option.
         $this->assertEquals('250', get_option('solr_search_hl_fragsize'));
@@ -131,13 +147,61 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
             'solr_search_hl_fragsize' => 'invalid'
         ));
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/results');
 
         // Should not set option.
         $this->assertEquals('250', get_option('solr_search_hl_fragsize'));
 
         // Should flash error.
         $this->_assertFormError('solr_search_hl_fragsize');
+
+    }
+
+
+    /**
+     * A facet count is required.
+     */
+    public function testNoFacetCountError()
+    {
+
+        set_option('solr_search_facet_limit', '25');
+
+        // Missing facet length.
+        $this->request->setMethod('POST')->setPost(array(
+            'solr_search_facet_limit' => ''
+        ));
+
+        $this->dispatch('solr-search/results');
+
+        // Should not set option.
+        $this->assertEquals('25', get_option('solr_search_facet_limit'));
+
+        // Should flash error.
+        $this->_assertFormError('solr_search_facet_limit');
+
+    }
+
+
+    /**
+     * The facet count must be a number.
+     */
+    public function testInvalidFacetCountError()
+    {
+
+        set_option('solr_search_facet_limit', '25');
+
+        // Invalid facet limit.
+        $this->request->setMethod('POST')->setPost(array(
+            'solr_search_facet_limit' => 'invalid'
+        ));
+
+        $this->dispatch('solr-search/results');
+
+        // Should not set option.
+        $this->assertEquals('25', get_option('solr_search_facet_limit'));
+
+        // Should flash error.
+        $this->_assertFormError('solr_search_facet_limit');
 
     }
 
@@ -151,23 +215,31 @@ class AdminControllerTest_Highlight extends SolrSearch_Case_Default
         set_option('solr_search_hl',            '1');
         set_option('solr_search_hl_snippets',   '1');
         set_option('solr_search_hl_fragsize',   '250');
+        set_option('solr_search_facet_sort',    'count');
+        set_option('solr_search_facet_limit',   '25');
 
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_hl'            => '0',
             'solr_search_hl_snippets'   => '2',
-            'solr_search_hl_fragsize'   => '300'
+            'solr_search_hl_fragsize'   => '300',
+            'solr_search_facet_sort'    => 'index',
+            'solr_search_facet_limit'   => '30'
         ));
 
-        $this->dispatch('solr-search/highlight');
+        $this->dispatch('solr-search/results');
 
         $hl         = get_option('solr_search_hl');
         $snippets   = get_option('solr_search_hl_snippets');
         $fragsize   = get_option('solr_search_hl_fragsize');
+        $sort       = get_option('solr_search_facet_sort');
+        $limit      = get_option('solr_search_facet_limit');
 
         // Should update options.
-        $this->assertEquals('0',    $hl);
-        $this->assertEquals('2',    $snippets);
-        $this->assertEquals('300',  $fragsize);
+        $this->assertEquals('0',        $hl);
+        $this->assertEquals('2',        $snippets);
+        $this->assertEquals('300',      $fragsize);
+        $this->assertEquals('index',    $sort);
+        $this->assertEquals('30',       $limit);
 
     }
 

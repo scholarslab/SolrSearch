@@ -37,7 +37,7 @@ require_once SOLR_DIR.'/helpers/SolrSearch_Helpers_Facet.php';
 
 // Forms:
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Server.php';
-require_once SOLR_DIR.'/forms/SolrSearch_Form_Highlight.php';
+require_once SOLR_DIR.'/forms/SolrSearch_Form_Results.php';
 require_once SOLR_DIR.'/forms/SolrSearch_Form_Reindex.php';
 
 // Jobs:

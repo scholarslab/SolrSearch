@@ -36,7 +36,7 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
         // --------------------------------------------------------------------
 
         // Page 1.
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should just list items 1-2.
         $this->assertXpath('//a[@href="'.record_url($item1).'"]');
@@ -47,7 +47,7 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
         $this->assertNotXpath('//a[@href="'.record_url($item6).'"]');
 
         // Should link to page 2.
-        $next = public_url('solr-search/results?page=2');
+        $next = public_url('solr-search?page=2');
         $this->assertXpath('//a[@href="'.$next.'"]');
 
         $this->resetResponse();
@@ -57,7 +57,7 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
 
         // Page 2.
         $_GET['page'] = '2';
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should just list items 3-4.
         $this->assertNotXpath('//a[@href="'.record_url($item1).'"]');
@@ -68,7 +68,7 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
         $this->assertNotXpath('//a[@href="'.record_url($item6).'"]');
 
         // Should link to page 3.
-        $next = public_url('solr-search/results?page=3');
+        $next = public_url('solr-search?page=3');
         $this->assertXpath('//a[@href="'.$next.'"]');
 
         $this->resetResponse();
@@ -78,7 +78,7 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
 
         // Page 3.
         $_GET['page'] = '3';
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should just list items 5-6.
         $this->assertNotXpath('//a[@href="'.record_url($item1).'"]');
@@ -89,7 +89,7 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
         $this->assertXpath('//a[@href="'.record_url($item6).'"]');
 
         // Should link back to page 2.
-        $prev = public_url('solr-search/results?page=2');
+        $prev = public_url('solr-search?page=2');
         $this->assertXpath('//a[@href="'.$prev.'"]');
 
         // --------------------------------------------------------------------

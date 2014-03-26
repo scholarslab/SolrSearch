@@ -106,7 +106,7 @@ class SolrSearch_AdminController
     public function resultsAction()
     {
 
-        $form = new SolrSearch_Form_Highlight();
+        $form = new SolrSearch_Form_Results();
 
         // If a valid form was submitted.
         if ($this->_request->isPost() && $form->isValid($_POST)) {

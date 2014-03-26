@@ -264,7 +264,7 @@ SQL
     public function filterAdminNavigationMain($nav)
     {
         $nav[] = array(
-            'label' => __('Solr Search'), 'uri' => url('solr-search')
+            'label' => __('Solr Search'), 'uri' => url('solr-search/server')
         );
         return $nav;
     }

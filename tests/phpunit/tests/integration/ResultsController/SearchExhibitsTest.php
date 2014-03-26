@@ -36,7 +36,7 @@ class ResultsControllerTest_SearchExhibits extends SolrSearch_Case_Default
         $exhibit2 = $this->_exhibit(true, 'exhibit2', 'e2');
 
         $_GET['q'] = 'exhibit1';
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should match exhibit 1, but not exhibit 2.
         $this->_assertResultLink(record_url($exhibit1), 'exhibit1');
@@ -60,7 +60,7 @@ class ResultsControllerTest_SearchExhibits extends SolrSearch_Case_Default
         $exhibit2->save();
 
         $_GET['q'] = 'desc1';
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should match exhibit 1, but not exhibit 2.
         $this->_assertResultLink(record_url($exhibit1), 'Exhibit 1');

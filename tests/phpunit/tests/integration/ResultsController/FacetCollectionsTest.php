@@ -88,7 +88,7 @@ class ResultsControllerTest_FacetCollections extends SolrSearch_Case_Default
     public function testNoFacet()
     {
 
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         $coll1Link = $this->_getFacetLink('collection', 'Collection 1');
         $coll2Link = $this->_getFacetLink('collection', 'Collection 2');

@@ -22,7 +22,7 @@ class SolrSearch_Helpers_View
      **/
     public static function getBaseUrl()
     {
-        return url('solr-search/results');
+        return url('solr-search');
     }
 
 

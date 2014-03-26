@@ -39,7 +39,7 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
         ));
 
         $_GET['q'] = 'item1';
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should match item 1, but not item 2.
         $this->_assertResultLink(record_url($item1), 'item1');
@@ -79,7 +79,7 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
         ));
 
         $_GET['q'] = 'desc1';
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should match item 1, but not item 2.
         $this->_assertResultLink(record_url($item1), 'Item 1');

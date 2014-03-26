@@ -25,7 +25,7 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
         $_GET['q'] = 'query';
 
         // Search for "query."
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should populate the search box.
         $this->assertXpath('//input[@name="q"][@value="query"]');
@@ -40,7 +40,7 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
     {
 
         // Enter an empty query.
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         // Should leave the search box empty.
         $this->assertXpath('//input[@name="q"][@value=""]');

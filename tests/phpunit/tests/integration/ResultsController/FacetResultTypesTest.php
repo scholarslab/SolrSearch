@@ -45,7 +45,7 @@ class ResultsControllerTest_FacetResultTypes extends SolrSearch_Case_Default
     public function testNoFacet()
     {
 
-        $this->dispatch('solr-search/results');
+        $this->dispatch('solr-search');
 
         $iLink  = $this->_getFacetLink('resulttype', 'Item');
         $eLink  = $this->_getFacetLink('resulttype', 'Exhibit');
