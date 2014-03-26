@@ -4,11 +4,11 @@
 
 **SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich search engine that supports faceting and hit highlighting. In most cases, Omeka's built-in searching capabilities work great, but there are a couple situations where Solr might make sense:
 
-  - When you have a large collection (tens of thousands of items), and want something a bit faster;
+  - When you have a really large collection, and want something a bit faster;
 
-  - When your site contains a lot of text content, and you want to take advantage of Solr's hit highlighting functionality, which makes it possible to display a snippet from each of the matching records;
+  - When your site contains a lot of text content (eg, 10,000 items with a paragraph or two in the "Description" field), and you want to take advantage of Solr's hit highlighting functionality, which displays a preview snippet from each of the matching records;
 
-  - When your site makes use of a lot of different taxonomies (collections, item types, etc.), and you want to use Solr's faceting capabilities, which make it possible for users to refine searches by progressively cropping down the set of results to focus on specific categories.
+  - When your site makes use of a lot of different taxonomies (collections, item types, etc.), and you want to use Solr's faceting capabilities, which make it possible for users to refine searches by cropping down the set of results to focus on specific categories.
 
 ## Requirements
 
@@ -16,7 +16,13 @@ To use the plugin, you'll need access to an installation of Solr 4.0+ running th
 
 ## Installation
 
-Once Solr is up and running, install SolrSearch just like any other Omeka plugin:
+### Solr
+
+To deploy the Solr core, just copy the `solr-core/omeka` directory into your Solr home directory. For example, if your deployment is based on the default Solr 4 multicore template, you might end up with directories for `core0`, `core1`, and `omeka`. Once the directory is in place, restart/reload Solr to register the new core.
+
+### Omeka
+
+Once the core is up and running, install SolrSearch just like any other Omeka plugin:
 
   1. Download the plugin from the [Omeka addons repository][plugin] and unzip the archive.
 
@@ -38,10 +44,6 @@ To get started, click on the "Solr Search" tab, which displays a form with Solr 
 
   - **Core URL**: The URL of the Solr core in which documents should be indexed.
 
-  - **Facet Ordering**: The criteria by which to sort the facets in the results.
-
-  - **Facet Count**: The maximum number of facets to display.
-
 After making changes to the connection parameters, click the "Save Settings" button. If the plugin is able to connect to Solr, a greet notification saying "Solr connection is valid" will be displayed.
 
 ### Field Configuration
@@ -58,15 +60,21 @@ Use the accordion to expand and contract the fields in the three categories. The
 
 After you've made changes, click the "Update Search Fields" to save the configuration.
 
-### Hit Highlighting
+### Results Configuration
 
-Hit highlighting is the feature that makes it possible to display snippets of text for each result in the search interface that excerpt portions of the metadata that are relevant to the query.
+This form exposes options for two features in Solr - hit highlighting and faceting. Hit highlighting makes it possible to display preview snippets for each result that excerpt portions of the metadata that are relevant to the query:
 
   - **Enable Highlighting**: Set whether highlighting snippets should be displayed.
 
-  - **Number of Snippets**: The maximum number of snippets that should be displayed for a given result.
+  - **Number of Snippets**: The maximum number of snippets to display for a result.
 
-  - **Snippet Length**: The length of each snippet - how much "padding" should be displayed.
+  - **Snippet Length**: The maximum length of each snippet.
+
+Faceting makes it possible for users to progressively refine large result sets by honing in on specific categories:
+
+  - **Facet Ordering**: The criteria by which to sort the facets in the results.
+
+  - **Facet Count**: The maximum number of facets to display.
 
 Click "Save Settings" to update the configuration.
 
@@ -79,13 +87,6 @@ When you're ready, just click the "Clear and Reindex" button. This will spawn of
 ## Searching
 
 Once the content has been (re)indexed, head to the public site and type a seaarch query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
-
----
-
-TODO:
-  - install tomcat
-  - install solr
-  - deploy core
 
 [plugin]: http://omeka.org/add-ons/plugins/SolrSearch/
 [solr]: http://lucene.apache.org/solr
