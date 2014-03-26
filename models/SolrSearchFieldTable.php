@@ -123,6 +123,32 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
 
     /**
+     * Get all fields that are linked to elements and indexed.
+     *
+     * @return array The indexed, element-backed fields.
+     */
+    public function getIndexedElementFields()
+    {
+        return $this->findBySql(
+            'is_indexed=? && element_id IS NOT NULL', array(1)
+        );
+    }
+
+
+    /**
+     * Get all fields that are linked to elements and faceted.
+     *
+     * @return array The faceted, element-backed fields.
+     */
+    public function getFacetedElementFields()
+    {
+        return $this->findBySql(
+            'is_facet=? && element_id IS NOT NULL', array(1)
+        );
+    }
+
+
+    /**
      * Get all fields grouped by element set id.
      *
      * @return array $facets The ElementSet-grouped facets.

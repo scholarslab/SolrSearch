@@ -54,58 +54,57 @@ class SolrSearch_Helpers_Index
     public static function itemToDocument($item)
     {
 
-        $db = get_db();
+        $fields = get_db()->getTable('SolrSearchField');
 
-        // Create the item document.
         $doc = new Apache_Solr_Document();
         $doc->setField('id', "Item_{$item->id}");
         $doc->setField('resulttype', 'Item');
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item->id);
 
-        // Set the title field.
+        // Title:
         $title = metadata($item, array('Dublin Core', 'Title'));
         $doc->setField('title', $title);
 
-        foreach ($db->getTable('SolrSearchField')->findAll() as $field) {
+        // Indexed elements:
+        foreach ($fields->getIndexedElementFields() as $field) {
 
-            // Metadata elements:
-            if ($field->hasElement()) {
+            // Get all element texts for the element.
+            $texts = $item->getElementTextsByRecord($field->getElement());
 
-                // Get all element texts for the element.
-                $texts = $item->getElementTextsByRecord($field->getElement());
-
-                // Set text fields, if the field is indexed.
-                if ($field->is_indexed) {
-                    foreach ($texts as $text) {
-                        $doc->setMultiValue($field->indexKey(), $text->text);
-                    }
-                }
-
-                // Set string fields, if the field is faceted.
-                if ($field->is_facet) {
-                    foreach ($texts as $text) {
-                        $doc->setMultiValue($field->facetKey(), $text->text);
-                    }
-                }
-
+            // Set text fields.
+            foreach ($texts as $text) {
+                $doc->setMultiValue($field->indexKey(), $text->text);
             }
 
         }
 
-        // Index tags:
+        // Faceted elements:
+        foreach ($fields->getFacetedElementFields() as $field) {
+
+            // Get all element texts for the element.
+            $texts = $item->getElementTextsByRecord($field->getElement());
+
+            // Set string fields.
+            foreach ($texts as $text) {
+                $doc->setMultiValue($field->facetKey(), $text->text);
+            }
+
+        }
+
+        // Tags:
         foreach ($item->getTags() as $tag) {
             $doc->setMultiValue('tag', $tag->name);
         }
 
-        // Index collection title:
+        // Collection:
         if ($collection = $item->getCollection()) {
             $doc->collection = metadata(
                 $collection, array('Dublin Core', 'Title')
             );
         }
 
-        // Index item type:
+        // Item type:
         if ($itemType = $item->getItemType()) {
             $doc->itemtype = $itemType->name;
         }
