@@ -40,7 +40,7 @@ class SolrSearchAddonTest_Config extends SolrSearch_Case_Default
                         "facet": false,
                         "is_title": false,
                         "remote": {
-                            "table": "ExhibitPageEntry",
+                            "table": "ExhibitPageBlock",
                             "key": "page_id"
                         }
                     }
@@ -149,7 +149,7 @@ EOF;
 
         $this->assertField(
             $a->fields[2], 'pagetitle', 'Page Title', false, false,
-            array( 'table' => 'ExhibitPageEntry', 'key' => 'page_id' )
+            array( 'table' => 'ExhibitPageBlock', 'key' => 'page_id' )
         );
 
     }

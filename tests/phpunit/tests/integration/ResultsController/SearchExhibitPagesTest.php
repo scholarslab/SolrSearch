@@ -57,8 +57,8 @@ class ResultsControllerTest_SearchExhibitPages extends SolrSearch_Case_Default
         $exhibit2   = $this->_exhibit(true, 'Exhibit 2', 'e2');
         $page1      = $this->_exhibitPage($exhibit1, 'Page 1', 'p1');
         $page2      = $this->_exhibitPage($exhibit2, 'Page 2', 'p2');
-        $entry1     = $this->_exhibitEntry($page1, 'text1');
-        $entry2     = $this->_exhibitEntry($page1, 'text2');
+        $entry1     = $this->_exhibitBlock($page1, 'text1');
+        $entry2     = $this->_exhibitBlock($page1, 'text2');
 
         $_GET['q'] = 'text1';
         $this->dispatch('solr-search');

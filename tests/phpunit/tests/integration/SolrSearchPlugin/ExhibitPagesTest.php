@@ -170,10 +170,9 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Case_Default
 
 
     /**
-     * Text fields on child entries should be indexed.
-     * @group pages
+     * Text fields on child blocks should be indexed.
      */
-    public function testIndexEntryText()
+    public function testIndexBlockText()
     {
 
         // Add a public exhibit.
@@ -183,8 +182,8 @@ class SolrSearchPluginTest_ExhibitPages extends SolrSearch_Case_Default
         $page = $this->_exhibitPage($exhibit, 'title');
 
         // Add two entries.
-        $entry1 = $this->_exhibitEntry($page, 'text1');
-        $entry2 = $this->_exhibitEntry($page, 'text2');
+        $entry1 = $this->_exhibitBlock($page, 'text1');
+        $entry2 = $this->_exhibitBlock($page, 'text2');
 
         // Get the Solr document for the page.
         $document = $this->_getRecordDocument($page);

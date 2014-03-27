@@ -259,28 +259,26 @@ SQL
 
 
     /**
-     * Create an exhibit page entry.
+     * Create an exhibit page block.
      *
      * @param ExhibitPage $page The parent page.
      * @param string $text The entry content.
      * @param integer $order The entry order.
-     * @return ExhibitPage
+     * @return ExhibitPageBlock
      */
-    protected function _exhibitEntry(
-        $page=null, $text='Test text.', $order=1
-    ) {
+    protected function _exhibitBlock($page=null, $text='Test text.') {
 
         // Create a parent page if none is passed.
         if (is_null($page)) $page = $this->_exhibitPage();
 
-        $entry = new ExhibitPageEntry;
+        $block = new ExhibitPageBlock;
 
-        $entry->page_id = $page->id;
-        $entry->text    = $text;
-        $entry->order   = $order;
+        $block->page_id = $page->id;
+        $block->text    = $text;
+        $block->layout  = 'text';
 
-        $entry->save();
-        return $entry;
+        $block->save();
+        return $block;
 
     }
 
