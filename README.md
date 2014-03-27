@@ -2,7 +2,7 @@
 
 ![Solr](https://lucene.apache.org/images/solr.png)
 
-**SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich search engine that supports faceting and hit highlighting. In most cases, Omeka's built-in searching capabilities work great, but there are a couple situations where Solr might make sense:
+**SolrSearch** replaces the default Omeka search interface with one powered by [Solr][solr], a scalable and feature-rich search engine that supports faceting and hit highlighting. In most cases, Omeka's built-in searching capabilities work great, but there are a couple of situations where it might make sense to take a look at Solr:
 
   - When you have a really large collection, and want something a bit faster;
 
@@ -12,7 +12,7 @@
 
 ## Requirements
 
-To use the plugin, you'll need access to an installation of Solr 4.0+ running the core included in the plugin source code under `solr-core/omeka`. Head over to the [Solr installation documentation][solr-install] for general information, and see below for instructions for how to get up and running with a local testing installation.
+To use the plugin, you'll need access to an installation of Solr 4.0+ running the core included in the plugin source code under `solr-core/omeka`. For general information about how to get up and running with Solr, check out the official [installation documentation][solr-install].
 
 ## Installation
 
@@ -78,13 +78,13 @@ Click "Save Settings" to update the configuration.
 
 ### Index Items
 
-After making changes in the "Field Configuration" and "Hit Highlighting" tabs, it's necessary to reindex the content in the site in order for the changes to take effect. SolrSearch doesn't do this automatically because reindexing can take as long as a few minutes for really large sites.
+After making changes in the "Field Configuration" and "Results Configuration" tabs, it's necessary to reindex the content in the site in order for the changes to take effect. SolrSearch doesn't do this automatically because reindexing can take as long as a few minutes for really large sites.
 
 When you're ready, just click the "Clear and Reindex" button. This will spawn off a background process behind the scenes that rebuilds the index according to the new configuration options.
 
 ## Searching
 
-Once the content has been (re)indexed, head to the public site and type a seaarch query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
+Once the content has been indexed, head to the public site and type a seaarch query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
 
 [plugin]: http://omeka.org/add-ons/plugins/SolrSearch/
 [solr]: http://lucene.apache.org/solr
