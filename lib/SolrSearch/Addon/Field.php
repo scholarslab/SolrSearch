@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80; */
-
 /**
  * @package     omeka
  * @subpackage  solr-search
@@ -46,7 +44,7 @@ class SolrSearch_Addon_Field
     var $is_title;
 
     /**
-     * This is an array containing the table and key to a remote location for 
+     * This is an array containing the table and key to a remote location for
      * the data in this field.
      *
      * @var array|null

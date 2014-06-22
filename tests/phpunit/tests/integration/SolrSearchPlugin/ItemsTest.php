@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 cc=80; */
-
 /**
  * @package     omeka
  * @subpackage  solr-search
@@ -29,7 +27,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
 
 
     /**
-     * When an existing item is switched from private to public, it should be 
+     * When an existing item is switched from private to public, it should be
      * indexed in Solr.
      */
     public function testIndexItemWhenSetPublic()

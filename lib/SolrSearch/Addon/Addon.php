@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80; */
-
 /**
  * @package     omeka
  * @subpackage  solr-search
@@ -46,7 +44,7 @@ class SolrSearch_Addon_Addon
     var $idColumn;
 
     /**
-     * If this is the child in a hierarchy, this is the parent. If this is set, 
+     * If this is the child in a hierarchy, this is the parent. If this is set,
      * this object should appear in the parent's children property.
      *
      * @var SolrSearch_Addon_Addon|null
@@ -68,7 +66,7 @@ class SolrSearch_Addon_Addon
     var $tagged;
 
     /**
-     * If set, this is a field that acts as a visible flag. If it is set to 
+     * If set, this is a field that acts as a visible flag. If it is set to
      * TRUE, then the item should be indexed. Otherwise, it will be skipped.
      *
      * @var string|null
@@ -91,7 +89,7 @@ class SolrSearch_Addon_Addon
 
 
     function __construct(
-        $name=null, $resultType=null, $table=null, $idColumn='id', 
+        $name=null, $resultType=null, $table=null, $idColumn='id',
         $parentAddon=null, $parentKey=null, $tagged=false, $flag=null
     ) {
         $this->name        = $name;
@@ -128,7 +126,7 @@ class SolrSearch_Addon_Addon
 
 
     /**
-     * This returns the field marked title, named title, or null for this 
+     * This returns the field marked title, named title, or null for this
      * addon.
      *
      * @return SolrSearch_Addon_Field|null

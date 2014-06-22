@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 cc=80; */
-
 /**
  * @package     omeka
  * @subpackage  solr-search
@@ -121,7 +119,7 @@ class SolrSearch_AdminController
                 __('Highlighting options successfully saved!'), 'success'
             );
 
-        }	
+        }
 
         $this->view->form = $form;
 
@@ -157,7 +155,7 @@ class SolrSearch_AdminController
                 );
 
             }
-        }	
+        }
 
         $this->view->form = $form;
 

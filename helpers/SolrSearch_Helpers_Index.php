@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 cc=80; */
-
 /**
  * @package     omeka
  * @subpackage  solr-search
@@ -43,7 +41,7 @@ class SolrSearch_Helpers_Index
 
 
     /**
-     * This takes an Omeka_Record instance and returns a populated 
+     * This takes an Omeka_Record instance and returns a populated
      * Apache_Solr_Document.
      *
      * @param Omeka_Record $item The record to index.

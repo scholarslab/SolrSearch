@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=2 shiftwidth=2 softtabstop=2 cc=80; */
-
 /**
  * @package     omeka
  * @subpackage  solr-search
@@ -47,10 +45,10 @@ class SolrSearch_Addon_Indexer
 
 
     /**
-     * This gets all the records in the database matching all the addons passed 
+     * This gets all the records in the database matching all the addons passed
      * in and returns a list of Solr documents for indexing.
      *
-     * @param associative array of SolrSearch_Addon_Addon $addons The addon 
+     * @param associative array of SolrSearch_Addon_Addon $addons The addon
      * configuration information about the records to index.
      *
      * @return array of Apache_Solr_Document $docs The documents to index.
@@ -118,11 +116,11 @@ class SolrSearch_Addon_Indexer
 
 
     /**
-     * This returns an Apache_Solr_Document to index, if the addons say it 
+     * This returns an Apache_Solr_Document to index, if the addons say it
      * should be.
      *
      * @param Omeka_Record $record The record to index.
-     * @param associative array of SolrSearch_Addon_Addon $addons The 
+     * @param associative array of SolrSearch_Addon_Addon $addons The
      * configuration controlling how records are indexed.
      *
      * @return Apache_Solr_Document|null
@@ -218,13 +216,13 @@ class SolrSearch_Addon_Indexer
 
 
     /**
-     * This builds a query for returning all the records to index from the 
+     * This builds a query for returning all the records to index from the
      * database.
      *
      * @param Omeka_Db_Table         $table The table to create the SQL for.
      * @param SolrSearch_Addon_Addon $addon The addon to generate SQL for.
      *
-     * @return Omeka_Db_Select $select The select statement to execute for the 
+     * @return Omeka_Db_Select $select The select statement to execute for the
      * query.
      * @author Eric Rochester <erochest@virginia.edu>
      **/
@@ -243,12 +241,12 @@ class SolrSearch_Addon_Indexer
 
 
     /**
-     * This adds the joins and where clauses to respect an addon's privacy 
+     * This adds the joins and where clauses to respect an addon's privacy
      * settings.
      *
      * @param Omeka_Db_Select        $select The select object to modify.
-     * @param SolrSearch_Addon_Addon $addon  The current addon. You should 
-     * already know that this addon does have a public flag somewhere in its 
+     * @param SolrSearch_Addon_Addon $addon  The current addon. You should
+     * already know that this addon does have a public flag somewhere in its
      * hierarchy before calling this.
      *
      * @return null
