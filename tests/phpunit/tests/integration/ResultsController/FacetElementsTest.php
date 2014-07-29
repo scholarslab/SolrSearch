@@ -21,7 +21,7 @@ class ResultsControllerTest_FacetElements extends SolrSearch_Case_Default
      * @param string $type The Dublin Core "Type".
      * @return Item
      */
-    protected function _item($title, $type)
+    protected function _collitem($title, $type)
     {
         return insert_item(
             array(
@@ -55,10 +55,10 @@ class ResultsControllerTest_FacetElements extends SolrSearch_Case_Default
         $type = $this->fieldTable->findByElementName('Dublin Core', 'Type');
         $this->key = $type->facetKey();
 
-        $this->item1 = $this->_item('Item 1', 'type one');
-        $this->item2 = $this->_item('Item 2', 'type one');
-        $this->item3 = $this->_item('Item 3', 'type two');
-        $this->item4 = $this->_item('Item 4', 'type two');
+        $this->item1 = $this->_collitem('Item 1', 'type one');
+        $this->item2 = $this->_collitem('Item 2', 'type one');
+        $this->item3 = $this->_collitem('Item 3', 'type two');
+        $this->item4 = $this->_collitem('Item 4', 'type two');
 
     }
 

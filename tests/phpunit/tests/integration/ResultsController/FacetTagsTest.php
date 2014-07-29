@@ -21,7 +21,7 @@ class ResultsControllerTest_FacetTags extends SolrSearch_Case_Default
      * @param string $tags A comma-delimited list of tags.
      * @return Item
      */
-    protected function _item($title, $tags)
+    protected function _collitem($title, $tags)
     {
         return insert_item(
             array(
@@ -44,10 +44,10 @@ class ResultsControllerTest_FacetTags extends SolrSearch_Case_Default
     public function setUp()
     {
         parent::setUp();
-        $this->item1 = $this->_item('Item 1', 'tag1');
-        $this->item2 = $this->_item('Item 2', 'tag2');
-        $this->item3 = $this->_item('Item 3', 'tag3');
-        $this->item4 = $this->_item('Item 4', 'tag2,tag3');
+        $this->item1 = $this->_collitem('Item 1', 'tag1');
+        $this->item2 = $this->_collitem('Item 2', 'tag2');
+        $this->item3 = $this->_collitem('Item 3', 'tag3');
+        $this->item4 = $this->_collitem('Item 4', 'tag2,tag3');
     }
 
 

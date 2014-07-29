@@ -21,7 +21,7 @@ class ResultsControllerTest_FacetItemTypes extends SolrSearch_Case_Default
      * @param ItemType $type The item type.
      * @return Item
      */
-    protected function _item($title, $type)
+    protected function _collitem($title, $type)
     {
         return insert_item(
             array(
@@ -49,10 +49,10 @@ class ResultsControllerTest_FacetItemTypes extends SolrSearch_Case_Default
         $website = $this->itemTypeTable->findByName('Website');
         $dataset = $this->itemTypeTable->findByName('Dataset');
 
-        $this->item1 = $this->_item('Item 1', $website);
-        $this->item2 = $this->_item('Item 2', $website);
-        $this->item3 = $this->_item('Item 3', $dataset);
-        $this->item4 = $this->_item('Item 4', $dataset);
+        $this->item1 = $this->_collitem('Item 1', $website);
+        $this->item2 = $this->_collitem('Item 2', $website);
+        $this->item3 = $this->_collitem('Item 3', $dataset);
+        $this->item4 = $this->_collitem('Item 4', $dataset);
 
     }
 
