@@ -22,7 +22,7 @@
   <form id="solr-search-form">
     <input type="submit" value="Search" />
     <span class="float-wrap">
-      <input type="text" name="q" value="<?php
+      <input type="text" title="search keywords"  name="q" value="<?php
         echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
       ?>" />
     </span>
