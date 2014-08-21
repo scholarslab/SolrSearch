@@ -115,10 +115,15 @@
         <!-- Record URL. -->
         <?php $url = SolrSearch_Helpers_View::getDocumentUrl($doc); ?>
 
-        <!-- Title. -->
-        <a href="<?php echo $url; ?>" class="result-title">
-          <?php echo is_array($doc->title) ? $doc->title[0] : $doc->title; ?>
-        </a>
+		<!-- Title. -->
+		<a href="<?php echo $url; ?>" class="result-title">
+		     <?php $title = is_array($doc->title) ? $doc->title[0] : $doc->title; ?>
+		     <?php if(empty($title)) : ?>
+		           <i><?php echo __('Untitled') ?></i>
+		     <?php else :
+		            <?php echo $title; ?> 
+		     <?php endif; ?>
+		</a>
 
         <!-- Result type. -->
         <span class="result-type">(<?php echo $doc->resulttype; ?>)</span>
