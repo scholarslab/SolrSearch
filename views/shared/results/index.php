@@ -22,7 +22,7 @@
   <form id="solr-search-form">
     <input type="submit" value="Search" />
     <span class="float-wrap">
-      <input type="text" name="q" value="<?php
+      <input type="text" title="<?php echo __('Search keywords') ?>" name="q" value="<?php
         echo array_key_exists('q', $_GET) ? $_GET['q'] : '';
       ?>" />
     </span>
@@ -117,7 +117,13 @@
 
         <!-- Title. -->
         <a href="<?php echo $url; ?>" class="result-title">
-          <?php echo is_array($doc->title) ? $doc->title[0] : $doc->title; ?>
+            <?php
+                $title = is_array($doc->title) ? $doc->title[0] : $doc->title;
+                if (empty($title)) {
+                    $title = '<i>' . __('Untitled') . '</i>';
+                }
+                echo $title;
+            ?>
         </a>
 
         <!-- Result type. -->

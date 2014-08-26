@@ -84,7 +84,7 @@ When you're ready, just click the "Clear and Reindex" button. This will spawn of
 
 ## Searching
 
-Once the content has been indexed, head to the public site and type a seaarch query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
+Once the content has been indexed, head to the public site and type a search query into the regular Omeka search input. When the query is submitted, SolrSearch will intercept the request and redirect to a custom interface that displays results from Solr with faceting and hit highlighting.
 
 [plugin]: http://omeka.org/add-ons/plugins/SolrSearch/
 [solr]: http://lucene.apache.org/solr
