@@ -352,5 +352,17 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
 
     }
 
+    public function testIndexFeatured()
+    {
+        $item = insert_item(
+            array('featured' => true, 'public' => true),
+            array('Dublin Core' => array(
+                'Title' => array(
+                    array('text' => 'test index featured', 'html' => false)
+            ))
+        ));
+        $doc = $this->_getRecordDocument($item);
+        $this->assertEquals(true, $doc->featured);
+    }
 
 }

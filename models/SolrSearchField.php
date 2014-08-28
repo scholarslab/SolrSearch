@@ -146,6 +146,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
             case 'collection':  return __('Collection');
             case 'itemtype':    return __('Item Type');
             case 'resulttype':  return __('Result Type');
+            case 'featured':    return __('Featured');
 
             default: return $this->getElement()->name;
 
