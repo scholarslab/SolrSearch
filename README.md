@@ -141,6 +141,16 @@ When you're ready, just click the "Clear and Reindex" button. This will spawn
 off a background process behind the scenes that rebuilds the index according to
 the new configuration options.
 
+### Featured Items
+
+As of version [2.1.0][210], Solr Search indexes and allows faceted searches on
+featured items. If you're upgrading, for this to work, you'll need to do two
+extra steps after going through the standard Omeka plugin upgrade process.
+
+1. Re-install the Solr configuration files as explained in the section on
+[Installing the Solr Core][solr-core].
+2. Re-index everything from the SolrSearch admin panel.
+
 ## Searching
 
 Once the content has been indexed, head to the public site and type a search
@@ -159,3 +169,5 @@ displays results from Solr with faceting and hit highlighting.
 [rvm]: http://beginrescueend.com/
 [multicore]: http://wiki.apache.org/solr/CoreAdmin
 [rvm]: https://rvm.io/
+[210]: https://github.com/scholarslab/SolrSearch/releases/tag/2.1.0
+[solr-core]: #solr-core
