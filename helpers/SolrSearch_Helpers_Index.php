@@ -98,6 +98,8 @@ class SolrSearch_Helpers_Index
             $doc->itemtype = $itemType->name;
         }
 
+        $doc->featured = (bool) $item->featured;
+
         return $doc;
 
     }

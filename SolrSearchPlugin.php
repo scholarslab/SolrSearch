@@ -78,6 +78,12 @@ SQL
         if (version_compare($args['old_version'], '1.0.1', '<=')) {
             $this->hookInstall();
         }
+
+        $fields = $this->_db->getTable('SolrSearchField');
+        $featured = $fields->findBy(array('slug' => 'featured'));
+        if (is_null($featured) || empty($featured)) {
+            $this->_installGenericFacet('featured', __('Featured'));
+        }
     }
 
 
@@ -104,7 +110,7 @@ SQL
 
 
     /**
-     * When a record is saved, try to extract and intex a Solr document.
+     * When a record is saved, try to extract and index a Solr document.
      *
      * @param array $args With `record`.
      */
@@ -321,6 +327,7 @@ SQL
         $this->_installGenericFacet('collection',   __('Collection'));
         $this->_installGenericFacet('itemtype',     __('Item Type'));
         $this->_installGenericFacet('resulttype',   __('Result Type'));
+        $this->_installGenericFacet('featured',     __('Featured'));
 
         // Element-backed facets:
         foreach ($elements->findAll() as $element) {

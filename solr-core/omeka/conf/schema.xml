@@ -94,6 +94,7 @@
     <field name="title" type="text_en" indexed="true" stored="true" multiValued="true" />
     <field name="tag" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="collection" type="string" indexed="true" stored="true" />
+    <field name="featured" type="boolean" indexed="true" stored="true" />
     <field name="itemtype" type="string" indexed="true" stored="true" />
     <field name="resulttype" type="string" indexed="true" stored="true" />
     <field name="model" type="string" indexed="false" stored="true" />
