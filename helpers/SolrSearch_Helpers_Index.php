@@ -39,6 +39,32 @@ class SolrSearch_Helpers_Index
 
     }
 
+    /**
+     * This indexes something that implements Mixin_ElementText into a Solr Document.
+     *
+     * @param array                $fields The fields to index.
+     * @param Mixin_ElementText    $item   The item containing the element texts.
+     * @param Apache_Solr_Document $doc    The document to index everything into.
+     * @return void
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public static function indexItem($fields, $item, $doc)
+    {
+        foreach ($item->getAllElementTexts() as $text) {
+            $field = $fields->findByText($text);
+
+            // Set text field.
+            if ($field->is_indexed) {
+                $doc->setMultiValue($field->indexKey(), $text->text);
+            }
+
+            // Set string field.
+            if ($field->is_facet) {
+                $doc->setMultiValue($field->facetKey(), $text->text);
+            }
+        }
+    }
+
 
     /**
      * This takes an Omeka_Record instance and returns a populated
@@ -65,21 +91,7 @@ class SolrSearch_Helpers_Index
         $doc->setField('title', $title);
 
         // Elements:
-        foreach ($item->getAllElementTexts() as $text) {
-
-            $field = $fields->findByText($text);
-
-            // Set text field.
-            if ($field->is_indexed) {
-                $doc->setMultiValue($field->indexKey(), $text->text);
-            }
-
-            // Set string field.
-            if ($field->is_facet) {
-                $doc->setMultiValue($field->facetKey(), $text->text);
-            }
-
-        }
+        self::indexItem($fields, $item, $doc);
 
         // Tags:
         foreach ($item->getTags() as $tag) {
@@ -99,6 +111,11 @@ class SolrSearch_Helpers_Index
         }
 
         $doc->featured = (bool) $item->featured;
+
+        // File metadata
+        foreach ($item->getFiles() as $file) {
+            self::indexItem($fields, $file, $doc);
+        }
 
         return $doc;
 
