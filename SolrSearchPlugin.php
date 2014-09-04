@@ -39,7 +39,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookInstall()
     {
-        self::_createSolrTable();
+        self::_createSolrTables();
         self::_installFacetMappings();
         self::_setOptions();
     }
@@ -75,8 +75,10 @@ SQL
      */
     public function hookUpgrade($args)
     {
+        self::_createSolrTables();
         if (version_compare($args['old_version'], '1.0.1', '<=')) {
-            $this->hookInstall();
+            self::_installFacetMappings();
+            self::_setOptions();
         }
 
         $fields = $this->_db->getTable('SolrSearchField');
@@ -291,23 +293,27 @@ SQL
     /**
      * Install the facets table.
      */
-    protected function _createSolrTable()
+    protected function _createSolrTables()
     {
         $this->_db->query(<<<SQL
-
         CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_fields (
-
             id          int(10) unsigned NOT NULL auto_increment,
             element_id  int(10) unsigned,
             slug        tinytext collate utf8_unicode_ci NOT NULL,
             label       tinytext collate utf8_unicode_ci NOT NULL,
             is_indexed  tinyint unsigned DEFAULT 0,
             is_facet    tinyint unsigned DEFAULT 0,
-
             PRIMARY KEY (id)
-
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+SQL
+);
 
+        $this->_db->query(<<<SQL
+        CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_excludes (
+            id            int(10) unsigned NOT NULL auto_increment,
+            collection_id int(10) unsigned NOT NULL,
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL
 );
     }
