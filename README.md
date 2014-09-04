@@ -141,6 +141,12 @@ When you're ready, just click the "Clear and Reindex" button. This will spawn
 off a background process behind the scenes that rebuilds the index according to
 the new configuration options.
 
+### Private Items
+
+Currently, because of the complexity of the Omeka authorization system, we only
+support search on items that have been marked *public*. The admin search
+interface can be used to discover items that are private.
+
 ### Featured Items
 
 As of version [2.1.0][210], Solr Search indexes and allows faceted searches on
