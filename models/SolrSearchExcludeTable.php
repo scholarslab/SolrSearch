@@ -8,7 +8,7 @@
  */
 
 
-class Table_SolrSearchExclude extends Omeka_Db_Table
+class SolrSearchExcludeTable extends Omeka_Db_Table
 {
     /**
      * This tests whether the collection with the given ID is excluded.

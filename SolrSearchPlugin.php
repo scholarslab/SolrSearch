@@ -123,6 +123,12 @@ SQL
 
         $record = $args['record'];
 
+        $excludes = get_db()->getTable('SolrSearchExclude');
+        $collection = get_collection_for_item($record);
+        if (!is_null($collection) && $excludes->isExcluded($collection)) {
+            return;
+        }
+
         // Try to extract a document for the record.
         $mgr = new SolrSearch_Addon_Manager($this->_db);
         $doc = $mgr->indexRecord($record);
@@ -170,6 +176,13 @@ SQL
         SolrSearch_Utils::ensureView();
 
         $item = $args['record'];
+
+        $excludes = get_db()->getTable('SolrSearchExclude');
+        $collection = get_collection_for_item($item);
+        if (!is_null($collection) && $excludes->isExcluded($collection)) {
+            return;
+        }
+
         $solr = SolrSearch_Helpers_Index::connect();
 
         // If the item is public, add/update the Solr document.
