@@ -7,27 +7,22 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
+function nav_li($tab, $key, $url, $label) {
+    echo "<li";
+    if ($tab == $key) {
+        echo " class='current'";
+    }
+    echo "><a href='$url'>$label</a></li>\n";
+}
+
 ?>
 
 <ul id="section-nav" class="navigation">
-  <li class="<?php if ($tab == 'server') echo 'current'; ?>">
-    <a href="<?php echo url('solr-search/server'); ?>">
-      <?php echo __('Server Configuration') ?>
-    </a>
-  </li>
-  <li class="<?php if ($tab == 'fields') echo 'current'; ?>">
-    <a href="<?php echo url('solr-search/fields'); ?>">
-      <?php echo __('Field Configuration') ?>
-    </a>
-  </li>
-  <li class="<?php if ($tab == 'results') echo 'current'; ?>">
-    <a href="<?php echo url('solr-search/results'); ?>">
-      <?php echo __('Results Configuration') ?>
-    </a>
-  </li>
-  <li class="<?php if ($tab == 'reindex') echo 'current'; ?>">
-    <a href="<?php echo url('solr-search/reindex'); ?>">
-      <?php echo __('Index Items') ?>
-    </a>
-  </li>
+<?php
+    nav_li($tab, 'server',      url('solr-search/server'),      __('Server'));
+    nav_li($tab, 'collections', url('solr-search/collections'), __('Collections'));
+    nav_li($tab, 'fields',      url('solr-search/fields'),      __('Fields'));
+    nav_li($tab, 'results',     url('solr-search/results'),     __('Results'));
+    nav_li($tab, 'reindex',     url('solr-search/reindex'),     __('Index'));
+?>
 </ul>

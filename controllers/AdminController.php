@@ -50,6 +50,77 @@ class SolrSearch_AdminController
 
     }
 
+    /**
+     * Display the "Collection Configuration" form.
+     *
+     * @return void
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    public function collectionsAction()
+    {
+        if ($this->_request->isPost()) {
+            $this->_updateCollections($this->_request->getPost());
+        }
+        $this->view->form = $this->_collectionsForm();
+    }
+
+    /**
+     * This updates the excluded collections.
+     *
+     * @param array $post The post data to update from.
+     * @return void
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function _updateCollections($post)
+    {
+        $etable = $this->_helper->db->getTable('SolrSearchExclude');
+        $etable->query("DELETE FROM {$etable->getTableName()};");
+
+        $c = 0;
+        if (isset($post['solrexclude'])) {
+            foreach ($post['solrexclude'] as $exc) {
+                $exclude = new SolrSearchExclude();
+                $exclude->collection_id = $exc;
+                $exclude->save();
+                $c += 1;
+            }
+        }
+
+        $this->_helper->_flashMessenger("$c collection(s) excluded.");
+    }
+
+    /**
+     * This returns the form for the collections.
+     *
+     * @return Zend_Form
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function _collectionsForm()
+    {
+        $ctable      = $this->_helper->db->getTable('Collection');
+        $collections = $ctable->findBy(array('public' => 1));
+
+        $form = new Zend_Form();
+        $form->setAction(url('solr-search/collections'))->setMethod('post');
+
+        $collbox = new Zend_Form_Element_MultiCheckbox('solrexclude');
+        $form->addElement($collbox);
+        foreach ($collections as $c) {
+            $title = metadata($c, array('Dublin Core', 'Title'));
+            $collbox->addMultiOption("{$c->id}", $title);
+        }
+
+        $etable   = $this->_helper->db->getTable('SolrSearchExclude');
+        $excludes = array();
+        foreach ($etable->findAll() as $exclude) {
+            $excludes[] = "{$exclude->collection_id}";
+        }
+        $collbox->setValue($excludes);
+
+        $form->addElement('submit', 'Exclude');
+
+        return $form;
+    }
 
     /**
      * Display the "Field Configuration" form.

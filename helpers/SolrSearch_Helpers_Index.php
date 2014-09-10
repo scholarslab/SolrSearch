@@ -225,6 +225,13 @@ class SolrSearch_Helpers_Index
         $table->filterByPublic($select, true);
         $table->applySorting($select, 'id', 'ASC');
 
+        $excTable = $db->getTable('SolrSearchExclude');
+        $excludes = array();
+        foreach ($excTable->findAll() as $e) {
+            $excludes[] = $e->collection_id;
+        }
+        $select->where('collection_id IS NULL OR collection_id NOT IN (?)', $excludes);
+
         // First get the items.
         $pager = new SolrSearch_DbPager($db, $table, $select);
         while ($items = $pager->next()) {
