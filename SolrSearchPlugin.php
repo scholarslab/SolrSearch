@@ -55,6 +55,10 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_fields
 SQL
 );
+        $this->_db->query(<<<SQL
+        DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_excludes
+SQL
+);
 
         try {
             $solr = SolrSearch_Helpers_Index::connect();
