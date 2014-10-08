@@ -69,6 +69,12 @@ After making changes to the connection parameters, click the "Save Settings"
 button. If the plugin is able to connect to Solr, a greet notification saying
 "Solr connection is valid" will be displayed.
 
+### Collections Configuration
+
+You can also decide not to index certain collections of items. By default, all
+collections are indexed. However, if you go to the "Collections" tab, then you
+can select collections to *exclude* from indexing.
+
 ### Field Configuration
 
 This form makes it possible to configure (a) which metadata elements and Omeka
