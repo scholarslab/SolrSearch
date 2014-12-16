@@ -230,7 +230,11 @@ class SolrSearch_Helpers_Index
         foreach ($excTable->findAll() as $e) {
             $excludes[] = $e->collection_id;
         }
-        $select->where('collection_id IS NULL OR collection_id NOT IN (?)', $excludes);
+        if (!empty($excludes)) {
+            $select->where(
+                'collection_id IS NULL OR collection_id NOT IN (?)',
+                $excludes);
+        }
 
         // First get the items.
         $pager = new SolrSearch_DbPager($db, $table, $select);
