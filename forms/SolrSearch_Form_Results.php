@@ -89,6 +89,14 @@ class SolrSearch_Form_Results extends Omeka_Form
             )
         ));
 
+        // Display Private Items:
+        $this->addElement('checkbox', 'solr_search_display_private_items', array(
+            'label'         => __('Display private items'),
+            'description'   => __('Display private items for all user roles with sufficient permission to view them.'),
+            'value'         => get_option('solr_search_display_private_items')
+        ));
+
+
         // Submit:
         $this->addElement('submit', 'submit', array(
             'label' => __('Save Settings')
@@ -99,7 +107,8 @@ class SolrSearch_Form_Results extends Omeka_Form
             'solr_search_hl_snippets',
             'solr_search_hl_fragsize',
             'solr_search_facet_sort',
-            'solr_search_facet_limit'
+            'solr_search_facet_limit',
+            'solr_search_display_private_items'
         ), 'fields');
 
         $this->addDisplayGroup(array(

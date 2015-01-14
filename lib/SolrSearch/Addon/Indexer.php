@@ -134,6 +134,10 @@ class SolrSearch_Addon_Indexer
         $doc->addField('model', $addon->table);
         $doc->addField('modelid', $record->id);
 
+        // extend $doc to include public / private records
+        // not sure if required
+        //$doc->addField('public', $record->public);
+
         $titleField = $addon->getTitleField();
         foreach ($addon->fields as $field) {
             $solrName = $this->makeSolrName($addon, $field->name);
