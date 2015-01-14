@@ -54,11 +54,11 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         $this->_db->query(<<<SQL
         DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_fields
 SQL
-);
+        );
         $this->_db->query(<<<SQL
         DROP TABLE IF EXISTS {$this->_db->prefix}solr_search_excludes
 SQL
-);
+        );
 
         try {
             $solr = SolrSearch_Helpers_Index::connect();
@@ -189,20 +189,11 @@ SQL
 
         $solr = SolrSearch_Helpers_Index::connect();
 
-        // If the item is public, add/update the Solr document.
-        if ($item['public'] == true) {
-            $doc = SolrSearch_Helpers_Index::itemToDocument($item);
-            $solr->addDocuments(array($doc));
-            $solr->commit();
-            $solr->optimize();
-        }
-
-        // If the item's is being set private, remove it from Solr.
-        else {
-            $solr->deleteById('Item_' . $item['id']);
-            $solr->commit();
-            $solr->optimize();
-        }
+        // Both public and private items will be indexed
+        $doc = SolrSearch_Helpers_Index::itemToDocument($item);
+        $solr->addDocuments(array($doc));
+        $solr->commit();
+        $solr->optimize();
 
     }
 
@@ -323,7 +314,7 @@ SQL
             PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL
-);
+        );
 
         $this->_db->query(<<<SQL
         CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_excludes (
@@ -332,7 +323,7 @@ SQL
             PRIMARY KEY (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL
-);
+        );
     }
 
 
@@ -395,6 +386,7 @@ SQL
         set_option('solr_search_hl',            '1');
         set_option('solr_search_hl_snippets',   '1');
         set_option('solr_search_hl_fragsize',   '250');
+        set_option('solr_search_display_private_items',   '1');
     }
 
 
@@ -411,6 +403,7 @@ SQL
         delete_option('solr_search_hl');
         delete_option('solr_search_hl_snippets');
         delete_option('solr_search_hl_fragsize');
+        delete_option('solr_search_display_private_items');
     }
 
 
