@@ -3,6 +3,7 @@ Gemfile.lock
 node_modules/
 vendor
 pkg
+.DS_Store
 
 tests/phpunit/solr.ini
 solr-core/collection1/data
