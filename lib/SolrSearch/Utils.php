@@ -30,5 +30,19 @@ class SolrSearch_Utils
         return Zend_Registry::get('view');
     }
 
+    /**
+     * <`4:#:undocumented function`>
+     *
+     * @return <`5:void`>
+     * @author <`6`>
+     **/
+    public static function nav_li($tab, $key, $url, $label)
+    {
+        echo "<li";
+        if ($tab == $key) {
+            echo " class='current'";
+        }
+        echo "><a href='$url'>$label</a></li>\n";
+    }
 
 }
