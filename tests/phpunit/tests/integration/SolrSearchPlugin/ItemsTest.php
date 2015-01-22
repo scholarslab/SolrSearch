@@ -48,14 +48,14 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
     /**
      * When a new private item is added, it should not be indexed in Solr.
      */
-    public function testDontIndexNewPrivateItem()
+    public function testIndexNewPrivateItem()
     {
 
         // Insert private item.
         $item = insert_item(array('public' => false));
 
         // Should not add a Solr document.
-        $this->_assertNotRecordInSolr($item);
+        $this->_assertRecordInSolr($item);
 
     }
 
@@ -64,7 +64,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
      * When an existing item is switched from public to private, it should be
      * removed from Solr.
      */
-    public function testRemoveItemWhenSetPrivate()
+    public function testDontRemoveItemWhenSetPrivate()
     {
 
         // Insert public item.
@@ -74,7 +74,7 @@ class SolrSearchPluginTest_Items extends SolrSearch_Case_Default
         update_item($item, array('public' => false));
 
         // Should remove the Solr document.
-        $this->_assertNotRecordInSolr($item);
+        $this->_assertRecordInSolr($item);
 
     }
 
