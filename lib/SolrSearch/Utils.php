@@ -19,7 +19,7 @@ class SolrSearch_Utils
      * This tests whether the view is available or not.
      *
      * @return Omeka_View
-     * @author Eric Rochester
+     * @author Eric Rochester <erochest@virginia.edu>
      **/
     public static function ensureView()
     {
@@ -31,10 +31,11 @@ class SolrSearch_Utils
     }
 
     /**
-     * <`4:#:undocumented function`>
+     * This creates an `li` element for the navigation list. Primarily, it adds
+     * the `current` class for the link to the current page.
      *
-     * @return <`5:void`>
-     * @author <`6`>
+     * @return void
+     * @author Eric Rochester <erochest@virginia.edu>
      **/
     public static function nav_li($tab, $key, $url, $label)
     {
