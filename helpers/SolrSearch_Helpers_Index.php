@@ -86,6 +86,9 @@ class SolrSearch_Helpers_Index
         $doc->setField('model', 'Item');
         $doc->setField('modelid', $item->id);
 
+        // extend $doc to to include and items public / private status
+        $doc->setField('public', $item->public);
+
         // Title:
         $title = metadata($item, array('Dublin Core', 'Title'));
         $doc->setField('title', $title);
@@ -222,7 +225,9 @@ class SolrSearch_Helpers_Index
         $table  = $db->getTable('Item');
         $select = $table->getSelect();
 
-        $table->filterByPublic($select, true);
+        // Removed in order to index both public and private items
+        // $table->filterByPublic($select, true);
+
         $table->applySorting($select, 'id', 'ASC');
 
         $excTable = $db->getTable('SolrSearchExclude');

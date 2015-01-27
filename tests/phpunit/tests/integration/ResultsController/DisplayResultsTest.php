@@ -46,4 +46,40 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
     }
 
 
+    /**
+     * When a new private item is added, it should not be indexed in Solr.
+     */
+    public function testNoDisplayPrivate()
+    {
+        $opt = get_option('solr_search_display_private_items');
+        set_option('solr_search_display_private_items', '0');
+
+        try {
+            $item = insert_item(
+                array('public' => false),
+                array(
+                    'Dublin Core' => array(
+                        'Title' => array(
+                            array('text' => 'testNoDisplayPrivate', 'html' => false)
+                        )
+                    )
+                )
+            );
+            $this->_assertRecordInSolr($item);
+
+            $_GET['q'] = 'testNoDisplayPrivate';
+            $this->dispatch('solr-search');
+            $this->assertNotQueryContentContains('.result-title', 'testNoDisplayPrivate');
+
+        } catch (Exception $e) {
+            throw $e;
+
+        } finally {
+            set_option('solr_search_display_private_items', $opt);
+        }
+
+
+    }
+
+
 }

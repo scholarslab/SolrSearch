@@ -57,7 +57,7 @@ class SolrSearch_Helpers_Facet
         }
 
         // Implode on ` AND `.
-        $fParam = implode(' AND ', $fParam);
+        $fParam = urlencode(implode(' AND ', $fParam));
 
         // Get the `q` parameter, reverting to ''.
         $qParam = array_key_exists('q', $_GET) ? $_GET['q'] : '';

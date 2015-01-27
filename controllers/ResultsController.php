@@ -44,8 +44,25 @@ class SolrSearch_ResultsController
         $page  = $this->_request->page ? $this->_request->page : 1;
         $start = ($page-1) * $limit;
 
+
+        // determine whether to display private items or not
+        // items will only be displayed if:
+        // solr_search_display_private_items has been enabled in the Solr Search admin panel
+        // user is logged in
+        // user_role has sufficient permissions
+
+        $user = current_user();
+        if(get_option('solr_search_display_private_items')
+            && $user
+            && is_allowed('Items','showNotPublic')) {
+            // limit to public items
+            $limitToPublicItems = false;
+        } else {
+            $limitToPublicItems = true;
+        }
+
         // Execute the query.
-        $results = $this->_search($start, $limit);
+        $results = $this->_search($start, $limit, $limitToPublicItems);
 
         // Set the pagination.
         Zend_Registry::set('pagination', array(
@@ -67,7 +84,7 @@ class SolrSearch_ResultsController
      * @param int $limit  Limit per page
      * @return SolrResultDoc Solr results
      */
-    protected function _search($offset, $limit)
+    protected function _search($offset, $limit, $limitToPublicItems = true)
     {
 
         // Connect to Solr.
@@ -77,7 +94,7 @@ class SolrSearch_ResultsController
         $params = $this->_getParameters();
 
         // Construct the query.
-        $query = $this->_getQuery();
+        $query = $this->_getQuery($limitToPublicItems);
 
         // Execute the query.
         return $solr->search($query, $offset, $limit, $params);
@@ -90,7 +107,7 @@ class SolrSearch_ResultsController
      *
      * @return string The Solr query.
      */
-    protected function _getQuery()
+    protected function _getQuery($limitToPublicItems = true)
     {
 
         // Get the `q` GET parameter.
@@ -105,6 +122,11 @@ class SolrSearch_ResultsController
 
         // Form the composite Solr query.
         if (!empty($facet)) $query .= " AND {$facet}";
+
+        // Limit the query to public items if required
+        if($limitToPublicItems) {
+           $query .= ' AND public:"true"';
+        }
 
         return $query;
 
