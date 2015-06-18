@@ -265,7 +265,10 @@ SQL
     {
         $table = $this->_db->getTable('SolrSearchField');
         $facet = $table->findByElement($args['record']);
-        $facet->delete();
+        
+        if(!empty($facet)) {
+            $facet->delete();
+        }
     }
 
 
