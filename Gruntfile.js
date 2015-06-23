@@ -97,7 +97,10 @@ module.exports = function(grunt) {
           '!pkg/**',
 
           // TESTS
-          '!tests/**'
+          '!tests/**',
+
+          // Editor settings
+          '!*.vim'
 
         ]
       }
