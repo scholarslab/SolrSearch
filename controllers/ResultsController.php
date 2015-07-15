@@ -113,9 +113,17 @@ class SolrSearch_ResultsController
         // Get the `q` GET parameter.
         $query = $this->_request->q;
 
-        // If defined, replace `:`; otherwise, revert to `*:*`
-        if (!empty($query)) $query = str_replace(':', ' ', $query);
-        else $query = '*:*';
+        // If defined, replace `:`; otherwise, revert to `*:*`.
+        // Also, clean it up some.
+        if (!empty($query)) {
+            $query = str_replace(':', ' ', $query);
+            $to_remove = array('[', ']');
+            foreach ($to_remove as $c) {
+                $query = str_replace($c, '', $query);
+            }
+        } else {
+            $query = '*:*';
+        }
 
         // Get the `facet` GET parameter
         $facet = $this->_request->facet;

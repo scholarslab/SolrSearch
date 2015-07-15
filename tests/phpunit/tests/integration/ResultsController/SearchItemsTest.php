@@ -85,5 +85,17 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
 
     }
 
+    /**
+     * Special character handling (#119)
+     */
+    public function testSpecialCharHandling()
+    {
+        $this->fieldTable->setElementIndexed('Dublin Core', 'Description');
+
+        $_GET['q'] = 'hop[e]';
+        $this->dispatch('solr-search');
+
+        $this->assertTrue(TRUE);
+    }
 
 }
