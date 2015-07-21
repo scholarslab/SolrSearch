@@ -207,8 +207,20 @@ class SolrSearchFieldTable extends Omeka_Db_Table
      * Updates the facets with elements that have been added since
      * `installFacets` was called.
      */
-    public function updateFacets()
+    public function updateFacetMappings()
     {
+        $facetSet = array();
+        foreach ($this->findAll() as $facet) {
+            $facetSet[$facet->element_id] = TRUE;
+        }
+
+        $elementTable = $this->_db->getTable('Element');
+        foreach ($elementTable->findAll() as $element) {
+            if (! array_key_exists($element->id, $facetSet)) {
+                $facet = new SolrSearchField($element);
+                $facet->save();
+            }
+        }
     }
 
 }
