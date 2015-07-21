@@ -60,7 +60,7 @@ class SolrSearchFieldTable extends Omeka_Db_Table
         );
 
         // Find the element's field.
-        return $this->findByElement($element);
+        return is_null($element) ? null : $this->findByElement($element);
 
     }
 
@@ -211,14 +211,23 @@ class SolrSearchFieldTable extends Omeka_Db_Table
     {
         $facetSet = array();
         foreach ($this->findAll() as $facet) {
-            $facetSet[$facet->element_id] = TRUE;
+            $facetSet[$facet->element_id] = $facet;
         }
 
         $elementTable = $this->_db->getTable('Element');
+        $elementSet = array();
         foreach ($elementTable->findAll() as $element) {
             if (! array_key_exists($element->id, $facetSet)) {
                 $facet = new SolrSearchField($element);
                 $facet->save();
+            } else {
+                $elementSet[$element->id] = TRUE;
+            }
+        }
+
+        foreach ($facetSet as $facetId => $facet) {
+            if (! array_key_exists($facetId, $elementSet)) {
+                $facet->delete();
             }
         }
     }

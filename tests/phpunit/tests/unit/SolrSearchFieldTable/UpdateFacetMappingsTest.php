@@ -68,4 +68,28 @@ class SolrSearchFieldTableTest_UpdateFacetMappings
             ));
     }
 
+    /**
+     * Updating the facet set also removes orphaned facets.
+     */
+    public function testRemoveRemovedFacets()
+    {
+        $this->fieldTable->updateFacetMappings();
+        $facet = $this->fieldTable->findByElementName(
+            "FacetMappingsMissing", "element one"
+        );
+        $this->assertNotNull($facet);
+
+        if (! is_null($this->el)) {
+            $sql = "DELETE FROM `{$this->db->Element}` WHERE id=?;";
+            $this->db->query($sql, array($this->el->id));
+            $this->el = null;
+        }
+
+        $this->fieldTable->updateFacetMappings();
+        $facet2 = $this->fieldTable->findBySql(
+            'label=?', array($facet->label), true
+        );
+        $this->assertNull($facet2);
+    }
+
 }
