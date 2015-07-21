@@ -59,6 +59,9 @@
 
         <?php endforeach; ?>
 
+      <a class="button" href="<?php echo url('solr-search/updatefacet'); ?>">
+        Load New Elements
+      </a>
       <?php echo $this->formSubmit('submit', __('Update Search Fields')); ?>
 
     </form>

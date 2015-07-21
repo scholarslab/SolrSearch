@@ -123,6 +123,18 @@ class SolrSearch_AdminController
     }
 
     /**
+     * Update the set of fields in the facet set.
+     *
+     * @author Eric Rochester <erochest@virginia.edu>
+     */
+    public function updatefacetAction()
+    {
+        $fieldTable = $this->_helper->db->getTable('SolrSearchField');
+        $fieldTable->updateFacetMappings();
+        $this->redirect('solr-search/fields');
+    }
+
+    /**
      * Display the "Field Configuration" form.
      */
     public function fieldsAction()
