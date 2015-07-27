@@ -140,6 +140,16 @@
         </ul>
       <?php endif; ?>
 
+      <?php
+        $item = get_db()->getTable($doc->model)->find($doc->modelid);
+        echo item_image_gallery(
+            array('wrapper' => array('class' => 'gallery')),
+            'square_thumbnail',
+            false,
+            $item
+        );
+      ?>
+
     </div>
 
   <?php endforeach; ?>
