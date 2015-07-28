@@ -129,6 +129,11 @@ honing in on specific categories.
   - **Enable Highlighting**: Set whether highlighting snippets should be
     displayed.
 
+  - **Extent of Document Highlightable**: Set the amount of the document to
+    scan when highlighting. By default, to save time, this is limited to 51200
+    characters. If you have documents in the results that don't have snippets,
+    you can make this larger.
+
   - **Number of Snippets**: The maximum number of snippets to display for a
     result.
 

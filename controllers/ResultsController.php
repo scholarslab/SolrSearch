@@ -154,15 +154,16 @@ class SolrSearch_ResultsController
 
         return array(
 
-            'facet'          => 'true',
-            'facet.field'    => $facets,
-            'facet.mincount' => 1,
-            'facet.limit'    => get_option('solr_search_facet_limit'),
-            'facet.sort'     => get_option('solr_search_facet_sort'),
-            'hl'             => get_option('solr_search_hl')?'true':'false',
-            'hl.snippets'    => get_option('solr_search_hl_snippets'),
-            'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
-            'hl.fl'          => '*_t'
+            'facet'               => 'true',
+            'facet.field'         => $facets,
+            'facet.mincount'      => 1,
+            'facet.limit'         => get_option('solr_search_facet_limit'),
+            'facet.sort'          => get_option('solr_search_facet_sort'),
+            'hl'                  => get_option('solr_search_hl')?'true':'false',
+            'hl.snippets'         => get_option('solr_search_hl_snippets'),
+            'hl.fragsize'         => get_option('solr_search_hl_fragsize'),
+            'hl.maxAnalyzedChars' => get_option('solr_search_hl_max_analyzed_chars'),
+            'hl.fl'               => '*_t'
 
         );
 

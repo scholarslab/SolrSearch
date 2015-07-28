@@ -63,6 +63,26 @@ class SolrSearch_Form_Results extends Omeka_Form
             )
         ));
 
+        // Max Analyzed Chars
+        $this->addElement('text', 'solr_search_hl_max_analyzed_chars', array(
+            'label' => __('Extent of Document Highlightable'),
+            'description' => __('How much of the document can be highlighted, in characters. Occurrences past this point will not be returned in the results highlighting.'),
+            'value' => get_option('solr_search_hl_max_analyzed_chars'),
+            'required' => true,
+            'size' => 10,
+            'validators' => array(
+                array(
+                    'validator' => 'Int',
+                    'breakChainOnFailure' => true,
+                    'options' => array(
+                        'messages' => array(
+                            Zend_Validate_Int::NOT_INT => __('Must be an integer.')
+                        )
+                    )
+                )
+            )
+        ));
+
         // Facet Ordering:
         $this->addElement('select', 'solr_search_facet_sort', array(
             'label'         => __('Facet Ordering'),
