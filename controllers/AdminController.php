@@ -98,7 +98,13 @@ class SolrSearch_AdminController
     protected function _collectionsForm()
     {
         $ctable      = $this->_helper->db->getTable('Collection');
-        $collections = $ctable->findBy(array('public' => 1));
+        $private     = (int)get_option('solr_search_display_private_items');
+
+        if ($private) {
+            $collections = $ctable->findAll();
+        } else {
+            $collections = $ctable->findBy(array('public' => 1));
+        }
 
         $form = new Zend_Form();
         $form->setAction(url('solr-search/collections'))->setMethod('post');
