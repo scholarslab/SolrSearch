@@ -217,11 +217,14 @@ class AdminControllerTest_Results extends SolrSearch_Case_Default
         set_option('solr_search_facet_limit',   '25');
 
         $this->request->setMethod('POST')->setPost(array(
-            'solr_search_hl'            => '0',
-            'solr_search_hl_snippets'   => '2',
-            'solr_search_hl_fragsize'   => '300',
-            'solr_search_facet_sort'    => 'index',
-            'solr_search_facet_limit'   => '30'
+            'solr_search_hl_max_analyzed_chars' => '102400',
+            'solr_search_hl'                    => '0',
+            'solr_search_hl_snippets'           => '2',
+            'solr_search_hl_fragsize'           => '300',
+            'solr_search_facet_sort'            => 'index',
+            'solr_search_facet_limit'           => '30',
+            'solr_search_display_private_items' => '0',
+            'submit'                            => 'Save+Settings'
         ));
 
         $this->dispatch('solr-search/results');
@@ -231,6 +234,12 @@ class AdminControllerTest_Results extends SolrSearch_Case_Default
         $fragsize   = get_option('solr_search_hl_fragsize');
         $sort       = get_option('solr_search_facet_sort');
         $limit      = get_option('solr_search_facet_limit');
+
+        $this->assertXpath("//li[@class='success']");
+        $this->assertXpathContentContains(
+            "//li[@class='success']",
+            "Highlighting options successfully saved!"
+        );
 
         // Should update options.
         $this->assertEquals('0',        $hl);

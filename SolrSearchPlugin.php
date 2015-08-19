@@ -90,6 +90,10 @@ SQL
         if (is_null($featured) || empty($featured)) {
             $this->_installGenericFacet('featured', __('Featured'));
         }
+
+        if (version_compare($args['old_version'], '2.2.1', '<=')) {
+            set_option('solr_search_hl_max_analyzed_chars', '51200');
+        }
     }
 
 
@@ -265,7 +269,10 @@ SQL
     {
         $table = $this->_db->getTable('SolrSearchField');
         $facet = $table->findByElement($args['record']);
-        $facet->delete();
+
+        if(!empty($facet)) {
+            $facet->delete();
+        }
     }
 
 
@@ -332,27 +339,9 @@ SQL
      */
     protected function _installFacetMappings()
     {
-
-        $facets    = $this->_db->getTable('SolrSearchField');
-        $elements  = $this->_db->getTable('Element');
-
-        // Generic facets:
-        $this->_installGenericFacet('tag',          __('Tag'));
-        $this->_installGenericFacet('collection',   __('Collection'));
-        $this->_installGenericFacet('itemtype',     __('Item Type'));
-        $this->_installGenericFacet('resulttype',   __('Result Type'));
-        $this->_installGenericFacet('featured',     __('Featured'));
-
-        // Element-backed facets:
-        foreach ($elements->findAll() as $element) {
-            $facet = new SolrSearchField($element);
-            $facet->save();
-        }
-
-        // By default, index DC Title/Description.
-        $facets->setElementIndexed('Dublin Core', 'Title');
-        $facets->setElementIndexed('Dublin Core', 'Description');
-
+        $this->_db
+            ->getTable('SolrSearchField')
+            ->installFacetMappings();
     }
 
 
@@ -364,12 +353,9 @@ SQL
      */
     protected function _installGenericFacet($slug, $label)
     {
-        $facet = new SolrSearchField();
-        $facet->slug        = $slug;
-        $facet->label       = $label;
-        $facet->is_indexed  = 1;
-        $facet->is_facet    = 1;
-        $facet->save();
+        $this->_db
+            ->getTable('SolrSearchField')
+            ->installGenericFacet($slub, $label);
     }
 
 
@@ -386,7 +372,8 @@ SQL
         set_option('solr_search_hl',            '1');
         set_option('solr_search_hl_snippets',   '1');
         set_option('solr_search_hl_fragsize',   '250');
-        set_option('solr_search_display_private_items',   '1');
+        set_option('solr_search_hl_max_analyzed_chars', '51200');
+        set_option('solr_search_display_private_items', '1');
     }
 
 
@@ -403,6 +390,7 @@ SQL
         delete_option('solr_search_hl');
         delete_option('solr_search_hl_snippets');
         delete_option('solr_search_hl_fragsize');
+        delete_option('solr_search_hl_max_analyzed_chars');
         delete_option('solr_search_display_private_items');
     }
 

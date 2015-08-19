@@ -60,7 +60,7 @@ class SolrSearchFieldTable extends Omeka_Db_Table
         );
 
         // Find the element's field.
-        return $this->findByElement($element);
+        return is_null($element) ? null : $this->findByElement($element);
 
     }
 
@@ -161,5 +161,75 @@ class SolrSearchFieldTable extends Omeka_Db_Table
 
     }
 
+
+    /**
+     * Installs the current set of elements as facets.
+     */
+    public function installFacetMappings()
+    {
+        $elements = $this->_db->getTable('Element');
+
+        // Generic facets:
+        $this->installGenericFacet('tag',          __('Tag'));
+        $this->installGenericFacet('collection',   __('Collection'));
+        $this->installGenericFacet('itemtype',     __('Item Type'));
+        $this->installGenericFacet('resulttype',   __('Result Type'));
+        $this->installGenericFacet('featured',     __('Featured'));
+
+        // Element-backed facets:
+        foreach ($elements->findAll() as $element) {
+            $facet = new SolrSearchField($element);
+            $facet->save();
+        }
+
+        // By default, index DC Title/Description.
+        $this->setElementIndexed('Dublin Core', 'Title');
+        $this->setElementIndexed('Dublin Core', 'Description');
+    }
+
+    /**
+     * Install a default facet mapping.
+     *
+     * @param string $slug The facet `slug`.
+     * @param string $label The facet `label`.
+     */
+    public function installGenericFacet($slug, $label)
+    {
+        $facet = new SolrSearchField();
+        $facet->slug        = $slug;
+        $facet->label       = $label;
+        $facet->is_indexed  = 1;
+        $facet->is_facet    = 1;
+        $facet->save();
+    }
+
+    /**
+     * Updates the facets with elements that have been added since
+     * `installFacets` was called.
+     */
+    public function updateFacetMappings()
+    {
+        $facetSet = array();
+        foreach ($this->findAll() as $facet) {
+            $facetSet[$facet->element_id] = $facet;
+        }
+
+        $elementTable = $this->_db->getTable('Element');
+        $elementSet = array();
+        foreach ($elementTable->findAll() as $element) {
+            if (! array_key_exists($element->id, $facetSet)) {
+                $facet = new SolrSearchField($element);
+                $facet->save();
+            } else {
+                $elementSet[$element->id] = TRUE;
+            }
+        }
+
+        foreach ($facetSet as $facetId => $facet) {
+            if (! array_key_exists($facetId, $elementSet)) {
+                $facet->delete();
+            }
+        }
+    }
 
 }

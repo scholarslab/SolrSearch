@@ -227,7 +227,6 @@ class SolrSearch_Helpers_Index
 
         // Removed in order to index both public and private items
         // $table->filterByPublic($select, true);
-
         $table->applySorting($select, 'id', 'ASC');
 
         $excTable = $db->getTable('SolrSearchExclude');

@@ -116,15 +116,13 @@
         <?php $url = SolrSearch_Helpers_View::getDocumentUrl($doc); ?>
 
         <!-- Title. -->
-        <a href="<?php echo $url; ?>" class="result-title">
-            <?php
+        <a href="<?php echo $url; ?>" class="result-title"><?php
                 $title = is_array($doc->title) ? $doc->title[0] : $doc->title;
                 if (empty($title)) {
                     $title = '<i>' . __('Untitled') . '</i>';
                 }
                 echo $title;
-            ?>
-        </a>
+            ?></a>
 
         <!-- Result type. -->
         <span class="result-type">(<?php echo $doc->resulttype; ?>)</span>
@@ -141,6 +139,16 @@
           <?php endforeach; ?>
         </ul>
       <?php endif; ?>
+
+      <?php
+        $item = get_db()->getTable($doc->model)->find($doc->modelid);
+        echo item_image_gallery(
+            array('wrapper' => array('class' => 'gallery')),
+            'square_thumbnail',
+            false,
+            $item
+        );
+      ?>
 
     </div>
 

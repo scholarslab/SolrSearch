@@ -17,3 +17,6 @@ require_once OMEKA_DIR.'/application/tests/bootstrap.php';
 
 // Base test case.
 require_once 'cases/SolrSearch_Case_Default.php';
+
+// Load other files.
+require_once SOLR_DIR . '/helpers/SolrSearch_Helpers_Index.php';

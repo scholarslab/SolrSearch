@@ -103,7 +103,7 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
     protected function _clearFieldMappings()
     {
         $this->db->query(<<<SQL
-        DELETE FROM {$this->db->prefix}solr_search_fields WHERE 1=1
+        DELETE FROM {$this->db->prefix}solr_search_fields;
 SQL
 );
     }
@@ -297,7 +297,7 @@ SQL
 
         $element = new Element();
         $element->element_set_id = $elementSet->id;
-        $element->name = 'New Element';
+        $element->name = $name;
 
         $element->save();
         return $element;

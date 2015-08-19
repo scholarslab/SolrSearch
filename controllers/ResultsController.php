@@ -113,9 +113,17 @@ class SolrSearch_ResultsController
         // Get the `q` GET parameter.
         $query = $this->_request->q;
 
-        // If defined, replace `:`; otherwise, revert to `*:*`
-        if (!empty($query)) $query = str_replace(':', ' ', $query);
-        else $query = '*:*';
+        // If defined, replace `:`; otherwise, revert to `*:*`.
+        // Also, clean it up some.
+        if (!empty($query)) {
+            $query = str_replace(':', ' ', $query);
+            $to_remove = array('[', ']');
+            foreach ($to_remove as $c) {
+                $query = str_replace($c, '', $query);
+            }
+        } else {
+            $query = '*:*';
+        }
 
         // Get the `facet` GET parameter
         $facet = $this->_request->facet;
@@ -146,15 +154,16 @@ class SolrSearch_ResultsController
 
         return array(
 
-            'facet'          => 'true',
-            'facet.field'    => $facets,
-            'facet.mincount' => 1,
-            'facet.limit'    => get_option('solr_search_facet_limit'),
-            'facet.sort'     => get_option('solr_search_facet_sort'),
-            'hl'             => get_option('solr_search_hl')?'true':'false',
-            'hl.snippets'    => get_option('solr_search_hl_snippets'),
-            'hl.fragsize'    => get_option('solr_search_hl_fragsize'),
-            'hl.fl'          => '*_t'
+            'facet'               => 'true',
+            'facet.field'         => $facets,
+            'facet.mincount'      => 1,
+            'facet.limit'         => get_option('solr_search_facet_limit'),
+            'facet.sort'          => get_option('solr_search_facet_sort'),
+            'hl'                  => get_option('solr_search_hl')?'true':'false',
+            'hl.snippets'         => get_option('solr_search_hl_snippets'),
+            'hl.fragsize'         => get_option('solr_search_hl_fragsize'),
+            'hl.maxAnalyzedChars' => get_option('solr_search_hl_max_analyzed_chars'),
+            'hl.fl'               => '*_t'
 
         );
 

@@ -80,8 +80,13 @@ can select collections to *exclude* from indexing.
 This form makes it possible to configure (a) which metadata elements and Omeka
 categories ("fields") are stored as searchable content in Solr and (b) which
 fields should be used as "facets", groupings of records that can be used to
-iteratively narrow down the set of results. For each element, there are three
-options:
+iteratively narrow down the set of results.
+
+> If you've installed any new metadata elements and they're missing from this
+> form, click the "Load New Elements" button at the bottom of the page. The
+> page will reload, and hopefully the new elements will be listed.
+
+For each element, there are three options:
 
   - **Facet Label**: The label used as the heading for the facet corresponding
     to the field. In most cases, it probably just makes sense to use the
@@ -123,6 +128,11 @@ honing in on specific categories.
 
   - **Enable Highlighting**: Set whether highlighting snippets should be
     displayed.
+
+  - **Extent of Document Highlightable**: Set the amount of the document to
+    scan when highlighting. By default, to save time, this is limited to 51200
+    characters. If you have documents in the results that don't have snippets,
+    you can make this larger.
 
   - **Number of Snippets**: The maximum number of snippets to display for a
     result.

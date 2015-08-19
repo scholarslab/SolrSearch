@@ -44,7 +44,9 @@ module.exports = function(grunt) {
       dist: {
         options: {
           sassDir: 'views/shared/css/sass',
-          cssDir: 'views/shared/css'
+          cssDir: 'views/shared/css',
+          outputStyle: 'compressed',
+          sourcemap: true
         }
       }
 
@@ -54,7 +56,7 @@ module.exports = function(grunt) {
 
       payload: {
         files: 'views/shared/css/sass/*.scss',
-        tasks: 'compile:min'
+        tasks: 'build'
       }
 
     },
