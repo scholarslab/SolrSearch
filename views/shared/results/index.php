@@ -103,6 +103,15 @@
   <h2 id="num-found">
     <?php echo $results->response->numFound; ?> results
   </h2>
+  
+  <!-- Display collection info, if collection facet has been applied. -->
+  <!-- Change location of display and HTML markup tags as desired  -->
+  <?php if($collection) : ?>
+	  <div id="collection-info">
+          <h2><?php echo metadata($collection, array('Dublin Core', 'Title')); ?></h2>
+          <p><?php echo metadata($collection, array('Dublin Core', 'Description')); ?></p>
+  	  </div>
+  <?php endif; ?>
 
   <?php foreach ($results->response->docs as $doc): ?>
 
