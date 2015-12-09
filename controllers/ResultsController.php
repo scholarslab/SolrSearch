@@ -43,6 +43,13 @@ class SolrSearch_ResultsController
         $limit = get_option('per_page_public');
         $page  = $this->_request->page ? $this->_request->page : 1;
         $start = ($page-1) * $limit;
+		
+        // Set the pagination.
+        Zend_Registry::set('pagination', array(
+            'page'          => $page,
+            'total_results' => $results->response->numFound,
+            'per_page'      => $limit
+        ));
 
 
         // determine whether to display private items or not
@@ -61,15 +68,40 @@ class SolrSearch_ResultsController
             $limitToPublicItems = true;
         }
 
-        // Execute the query.
-        $results = $this->_search($start, $limit, $limitToPublicItems);
+		// Get Collection information in case collection facet has been applied
+		// This maybe used to display information about a faceted collection along with the result
+		$collection = false;
+		$parseFacets = SolrSearch_Helpers_Facet::parseFacets();
 
-        // Set the pagination.
-        Zend_Registry::set('pagination', array(
-            'page'          => $page,
-            'total_results' => $results->response->numFound,
-            'per_page'      => $limit
-        ));
+		foreach($parseFacets as $f) {
+
+		    // Check if contains the facet type: "collection"
+		    if(in_array('collection', $f)) {
+
+		        // Get collection name
+		        $collectionName = $f[1];
+
+		        // Get all public collections
+		        $collections = get_records('Collection', array('public' => 1));
+
+		        // Loop through collections
+		        foreach($collections as $c) {
+
+		            // Check name with facet name
+		            if(metadata($c, array('Dublin Core', 'Title')) == $collectionName) {
+
+		                // assign collection
+		                $collection = $c;
+
+		            }
+
+		        }
+
+		    }
+		}
+
+		// Push collection info to view
+		$this->view->collection = $collection;
 
         // Push results to the view.
         $this->view->results = $results;
