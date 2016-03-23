@@ -80,8 +80,10 @@ SQL
     public function hookDefineAcl($args)
     {
         $acl = $args['acl'];
-        $acl->addResource('SolrSearch_Admin');
-        $acl->allow('super', 'SolrSearch_Admin');
+        if (!$acl->has('SolrSearch_Admin')) {
+            $acl->addResource('SolrSearch_Admin');
+            $acl->allow('super', 'SolrSearch_Admin');
+        }
     }
 
     /**
