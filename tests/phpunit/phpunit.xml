@@ -1,6 +1,4 @@
 <phpunit bootstrap="bootstrap.php"
-  convertErrorsToExceptions="true"
-  convertWarningsToExceptions="true"
   colors="true"
   verbose="true">
 

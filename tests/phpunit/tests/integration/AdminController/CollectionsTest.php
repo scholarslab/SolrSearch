@@ -45,8 +45,8 @@ class AdminControllerTest_Collections extends SolrSearch_Case_Default
     {
         set_option('solr_search_display_private_items', $this->opt);
 
-        $this->pubColl ->delete();
-        $this->privColl->delete();
+        if (! is_null($this->pubColl )) { $this->pubColl ->delete(); }
+        if (! is_null($this->privColl)) { $this->privColl->delete(); }
 
         parent:: tearDown();
     }
