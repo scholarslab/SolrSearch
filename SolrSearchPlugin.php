@@ -17,6 +17,7 @@ class SolrSearchPlugin extends Omeka_Plugin_AbstractPlugin
         'uninstall',
         'upgrade',
         'initialize',
+        'define_acl',
         'define_routes',
         'after_save_record',
         'after_save_item',
@@ -71,6 +72,19 @@ SQL
 
     }
 
+    /**
+     * Hook to define ACL.
+     *
+     * @param array $args Contains: `acl`.
+     */
+    public function hookDefineAcl($args)
+    {
+        $acl = $args['acl'];
+        if (!$acl->has('SolrSearch_Admin')) {
+            $acl->addResource('SolrSearch_Admin');
+            $acl->allow('super', 'SolrSearch_Admin');
+        }
+    }
 
     /**
      * If upgrading from 1.x, install the new schema.
@@ -285,7 +299,9 @@ SQL
     public function filterAdminNavigationMain($nav)
     {
         $nav[] = array(
-            'label' => __('Solr Search'), 'uri' => url('solr-search/server')
+            'label' => __('Solr Search'),
+            'uri' => url('solr-search/server'),
+            'resource' => 'SolrSearch_Admin'
         );
         return $nav;
     }
