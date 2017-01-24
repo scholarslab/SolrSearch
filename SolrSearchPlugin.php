@@ -151,7 +151,6 @@ SQL
             if (!is_null($doc)) {
                 $solr->addDocuments(array($doc));
                 $solr->commit();
-                $solr->optimize();
             }
 
             // If not, remove an existing document.
@@ -159,7 +158,6 @@ SQL
                 try {
                     $solr->deleteById($mgr->getId($record));
                     $solr->commit();
-                    $solr->optimize();
                 } catch (Exception $e) {}
             }
 
@@ -197,7 +195,6 @@ SQL
         $doc = SolrSearch_Helpers_Index::itemToDocument($item);
         $solr->addDocuments(array($doc));
         $solr->commit();
-        $solr->optimize();
 
     }
 
@@ -233,7 +230,6 @@ SQL
             try {
                 $solr->deleteById($id);
                 $solr->commit();
-                $solr->optimize();
             } catch (Exception $e) {}
         }
 
@@ -254,7 +250,6 @@ SQL
         try {
             $solr->deleteById('Item_' . $item['id']);
             $solr->commit();
-            $solr->optimize();
         } catch (Exception $e) {}
 
     }
