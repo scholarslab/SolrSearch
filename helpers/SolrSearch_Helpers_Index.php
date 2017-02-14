@@ -55,12 +55,12 @@ class SolrSearch_Helpers_Index
 
             // Set text field.
             if ($field->is_indexed) {
-                $doc->setMultiValue($field->indexKey(), $text->text);
+                $doc->addField($field->indexKey(), $text->text);
             }
 
             // Set string field.
             if ($field->is_facet) {
-                $doc->setMultiValue($field->facetKey(), $text->text);
+                $doc->addField($field->facetKey(), $text->text);
             }
         }
     }
@@ -98,7 +98,7 @@ class SolrSearch_Helpers_Index
 
         // Tags:
         foreach ($item->getTags() as $tag) {
-            $doc->setMultiValue('tag', $tag->name);
+            $doc->addField('tag', $tag->name);
         }
 
         // Collection:
@@ -247,7 +247,11 @@ class SolrSearch_Helpers_Index
                 $docs = array();
                 $doc = self::itemToDocument($item);
                 $docs[] = $doc;
-                $solr->addDocuments($docs);
+                try {
+                    $solr->addDocuments($docs);
+                } catch (Apache_Solr_HttpTransportException $e) {
+                    error_log($e);
+                }
             }
             $solr->commit();
         }
