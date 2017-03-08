@@ -195,12 +195,14 @@ class SolrSearch_Addon_Config
             $field->is_facet = array_key_exists('facet', $json)    ? $json['facet']    : false;
             $field->is_title = array_key_exists('is_title', $json) ? $json['is_title'] : false;
             $field->remote   = array_key_exists('remote', $json)   ? (object) $json['remote'] : null;
+            $field->metadata = array_key_exists('metadata', $json) ? (array) $json['metadata'] : null;
         } else {
             $field->name     = $json;
             $field->label    = $json;
             $field->is_facet = false;
             $field->is_title = false;
             $field->remote   = null;
+            $field->metadata = null;
         }
 
         return $field;

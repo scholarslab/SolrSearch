@@ -142,10 +142,12 @@ class SolrSearch_Addon_Indexer
         foreach ($addon->fields as $field) {
             $solrName = $this->makeSolrName($addon, $field->name);
 
-            if (is_null($field->remote)) {
-                $value = $this->getLocalValue($record, $field);
-            } else {
+            if (!is_null($field->remote)) {
                 $value = $this->getRemoteValue($record, $field);
+            } else if (!is_null($field->metadata)) {
+                $value = $this->getMetadataValue($record, $field);
+            } else {
+                $value = $this->getLocalValue($record, $field);
             }
 
             foreach ($value as $v) {
@@ -214,6 +216,24 @@ class SolrSearch_Addon_Indexer
         foreach ($rows as $item) {
             $value[] = $item[$field->name];
         }
+
+        return $value;
+    }
+
+
+    /**
+     * This returns a value that is metadata to the record.
+     *
+     * @param Omeka_Record           $record The record to get the value from.
+     * @param SolrSearch_Addon_Field $field  The field that defines where to get
+     * the value.
+     *
+     * @return mixed $value The value of the field in the record.
+     * @author Eric Rochester <erochest@virginia.edu>
+     **/
+    protected function getMetadataValue($record, $field)
+    {
+        $value = metadata($record, $field->metadata, 'all');
 
         return $value;
     }
