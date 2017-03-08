@@ -219,7 +219,7 @@ class SolrSearch_Addon_Manager
         }
 
         $addon = $this->findAddonForRecord($record);
-        if (!is_null($addon) && $idxr->isRecordIndexed($record, $addon)) {
+        if (!is_null($addon)) {
             $doc = $idxr->indexRecord($record, $addon);
         }
 
