@@ -225,10 +225,12 @@ class SolrSearch_AdminController
 
         if ($this->_request->isPost()) {
             try {
+                $clear = $this->getRequest()->getParam('clear') ? true : false;
 
                 // Clear and reindex.
                 Zend_Registry::get('job_dispatcher')->sendLongRunning(
-                    'SolrSearch_Job_Reindex'
+                    'SolrSearch_Job_Reindex',
+                    array('clear' => $clear)
                 );
 
                 // Flash success.
