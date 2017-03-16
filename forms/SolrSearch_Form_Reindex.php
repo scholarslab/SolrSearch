@@ -19,9 +19,16 @@ class SolrSearch_Form_Reindex extends Omeka_Form
 
         parent::init();
 
-        $this->addElement('submit', 'submit', array(
-            'label' => __('Clear and Reindex')
+        $this->addElement('checkbox', 'clear', array(
+            'label' => __('Clear index'),
         ));
+
+        $this->addElement('submit', 'submit', array(
+            'label' => __('Reindex')
+        ));
+
+        $this->addDisplayGroup(array('clear'), 'fields');
+        $this->addDisplayGroup(array('submit'), 'submit_button');
 
     }
 

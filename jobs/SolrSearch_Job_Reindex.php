@@ -17,7 +17,10 @@ class SolrSearch_Job_Reindex extends Omeka_Job_AbstractJob
      */
     public function perform()
     {
-        SolrSearch_Helpers_Index::deleteAll();
+        if (isset($this->_options['clear']) && $this->_options['clear']) {
+            SolrSearch_Helpers_Index::deleteAll();
+        }
+
         SolrSearch_Helpers_Index::indexAll();
     }
 
