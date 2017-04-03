@@ -1,0 +1,25 @@
+{
+    "collections": {
+        "table"       : "Collection",
+        "result_type" : "Collection",
+        "tagged"      : false,
+        "flag"        : "public",
+
+        "fields": [
+            {
+                "field"    : "title",
+                "label"    : "Title",
+                "facet"    : false,
+                "is_title" : true,
+                "metadata" : ["Dublin Core", "Title"]
+            },
+            {
+                "field"    : "description",
+                "label"    : "Description",
+                "facet"    : false,
+                "is_title" : false,
+                "metadata" : ["Dublin Core", "Description"]
+            }
+        ]
+    }
+}

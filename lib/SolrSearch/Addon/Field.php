@@ -51,15 +51,25 @@ class SolrSearch_Addon_Field
      **/
     var $remote;
 
+    /**
+     * This is an array containing the set and name to a metadata item for
+     * the data in this field.
+     *
+     * @var array|null
+     **/
+    var $metadata;
+
 
     function __construct(
-        $name=null, $label=null, $is_facet=null, $is_title=null, $remote=null
+        $name=null, $label=null, $is_facet=null, $is_title=null, $remote=null,
+        $metadata=null
     ) {
         $this->name     = $name;
         $this->label    = $label;
         $this->is_facet = $is_facet;
         $this->is_title = $is_title;
         $this->remote   = $remote;
+        $this->metadata = $metadata;
     }
 
 
