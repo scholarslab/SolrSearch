@@ -110,33 +110,36 @@ class SolrSearch_ResultsController
     protected function _getQuery($limitToPublicItems = true)
     {
 
-        // Get the `q` GET parameter.
-        $query = $this->_request->q;
+        // Get the `q` GET parameter in a group.
+        $q = '(' . trim($this->_request->q) . ')';
 
-        // If defined, replace `:`; otherwise, revert to `*:*`.
-        // Also, clean it up some.
-        if (!empty($query)) {
-            $query = str_replace(':', ' ', $query);
-            $to_remove = array('[', ']');
-            foreach ($to_remove as $c) {
-                $query = str_replace($c, '', $query);
+        // If no `q` GET parameter was specified, match everything.
+        if ($q === '()') {
+            $q = '*:*';
+        }
+
+        // Add the `q` GET parameter to the query as a group.
+        $query[] = $q;
+
+        // Get the `facet` GET parameter.
+        $facet = trim($this->_request->facet);
+
+        // If the `facet` GET parameter was specified, add each individual
+        // phrase to the query after marking that phrase as required.
+        if (!empty($facet)) {
+            foreach (explode(' AND ', $facet) as $field) {
+                $query[] = '+' . $field;
             }
-        } else {
-            $query = '*:*';
         }
 
-        // Get the `facet` GET parameter
-        $facet = $this->_request->facet;
-
-        // Form the composite Solr query.
-        if (!empty($facet)) $query .= " AND {$facet}";
-
-        // Limit the query to public items if required
-        if($limitToPublicItems) {
-           $query .= ' AND public:"true"';
+        // Add public item limit to the array of query phrases if necessary.
+        if ($limitToPublicItems) {
+            $query[] = '+public:"true"';
         }
 
-        return $query;
+        // Use the Extended DisMax query parser, and combine all query phrases
+        // with the AND operator.
+        return '{!edismax}' . implode(' AND ', $query);
 
     }
 
