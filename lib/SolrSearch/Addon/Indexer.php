@@ -135,8 +135,7 @@ class SolrSearch_Addon_Indexer
         $doc->addField('modelid', $record->id);
 
         // extend $doc to include public / private records
-        // not sure if required
-        //$doc->addField('public', $record->public);
+        $doc->addField('public', $this->isRecordPublic($record, $addon));
 
         $titleField = $addon->getTitleField();
         foreach ($addon->fields as $field) {
@@ -236,77 +235,38 @@ class SolrSearch_Addon_Indexer
             ->select()
             ->from($table->getTableName());
 
-        if ($addon->hasFlag()) {
-            $this->_addFlag($select, $addon);
-        }
-
         return $select;
     }
 
 
     /**
-     * This adds the joins and where clauses to respect an addon's privacy
-     * settings.
+     * This returns true if this addon (or one of its ancestors) are flagged.
      *
-     * @param Omeka_Db_Select        $select The select object to modify.
-     * @param SolrSearch_Addon_Addon $addon  The current addon. You should
-     * already know that this addon does have a public flag somewhere in its
-     * hierarchy before calling this.
-     *
-     * @return null
-     * @author Eric Rochester <erochest@virginia.edu>
-     **/
-    private function _addFlag($select, $addon)
-    {
-        if (!is_null($addon->flag)) {
-            $table = $this->db->getTable($addon->table);
-            $select->where(
-                "`{$table->getTableName()}`.`{$addon->flag}`=1"
-            );
-        } else if (!is_null($addon->parentAddon)) {
-            $parent = $addon->parentAddon;
-            $table  = $this->db->getTable($addon->table)->getTableName();
-            $ptable = $this->db->getTable($parent->table)->getTableName();
-
-            $select->join(
-                $ptable,
-                "`$table`.`{$addon->parentKey}`=`$ptable`.`{$parent->idColumn}`",
-                array()
-            );
-
-            $this->_addFlag($select, $parent);
-        }
-    }
-
-
-    /**
-     * This returns true if this addon (and none of its ancestors) are flagged.
-     *
-     * @param Omeka_Record $record The Omeka record to consider indexing.
+     * @param Omeka_Record $record The Omeka record to check if public.
      * @param SolrSearch_Addon_Addon $addon The addon for the record.
      *
-     * @return bool $indexed A flag indicating whether to index the record.
+     * @return bool $indexed A flag indicating whether the record is public.
      * @author Eric Rochester <erochest@virginia.edu>
      **/
-    public function isRecordIndexed($record, $addon)
+    public function isRecordPublic($record, $addon)
     {
-        $indexed = true;
+        $public = true;
 
         if (is_null($record)) {
 
         } else if (!is_null($addon->flag)) {
             $flag = $addon->flag;
-            $indexed = $record->$flag;
+            $public = $record->$flag;
 
         } else if (!is_null($addon->parentAddon)) {
             $key    = $addon->parentKey;
             $table  = $this->db->getTable($addon->parentAddon->table);
             $parent = $table->find($record->$key);
 
-            $indexed = $this->isRecordIndexed($parent, $addon->parentAddon);
+            $public = $this->isRecordPublic($parent, $addon->parentAddon);
         }
 
-        return $indexed;
+        return $public;
     }
 
 
