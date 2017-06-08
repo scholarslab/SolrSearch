@@ -371,7 +371,7 @@ SQL
     {
         $this->_db
             ->getTable('SolrSearchField')
-            ->installGenericFacet($slub, $label);
+            ->installGenericFacet($slug, $label);
     }
 
 
