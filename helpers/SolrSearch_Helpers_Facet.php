@@ -11,22 +11,95 @@
 class SolrSearch_Helpers_Facet
 {
 
+    private static $fieldMap;
+
+    private static function loadFacetLabels()
+    {
+        if (!isset(self::$fieldMap)) {
+            self::$fieldMap = array();
+            foreach (get_db()
+                         ->getTable('SolrSearchField')
+                         ->findBy(array('is_facet' => true)) as $field) {
+                self::$fieldMap[$field->element_id . '_s'] = $field->label;
+            }
+        }
+    }
 
     /**
-     * Convert $_GET into an array with exploded facets.
+     * Fetch the facet key given the label
+     *
+     * @param string $label the facet label
+     * @return string|null the facet key
+     */
+    public static function labelToKey($label)
+    {
+        if (!isset(self::$fieldMap)) {
+            self::loadFacetLabels();
+        }
+        $map = array_flip(self::$fieldMap);
+        return isset($map[$label]) ? $map[$label] : null;
+    }
+
+    /**
+     * Fetch the facet label given the key
+     *
+     * @param string $label the facet key
+     * @return string|null the facet label
+     */
+    public static function keyToLabel($key)
+    {
+        if (!isset(self::$fieldMap)) {
+            self::loadFacetLabels();
+        }
+        return isset(self::$fieldMap[$key]) ? self::$fieldMap[$key] : $key;
+    }
+
+    /**
+     * Parse an array of Label:Value facets.
+     *
+     * @param array $params an array of facet pairs
      *
      * @return array The parsed parameters.
      */
-    public static function parseFacets()
+    public static function parseExternalFacets($params)
+    {
+        $facets = array();
+        if (is_array($params)) {
+            foreach ($params as $param) {
+                preg_match('/(?P<field>[^:]+):(?P<value>.+)/',
+                    $param, $matches
+                );
+
+                // Collapse into an array of pairs.
+                if ($matches) {
+                    $key = self::labelToKey($matches['field']);
+                    if ($key) {
+                        $facets[] = array($key, $matches['value']);
+                    }
+                }
+            }
+        }
+
+        return $facets;
+    }
+
+    /**
+     * Convert the raw Solr facet param into an array.
+     *
+     * @param string $param the raw Solr facet string
+     *
+     * @return array The parsed parameters.
+     */
+    public static function parseRawFacets($param)
     {
 
         $facets = array();
 
-        if (array_key_exists('facet', $_GET)) {
+        if (is_string($param)) {
 
             // Extract the field/value facet pairs.
             preg_match_all('/(?P<field>[\w]+):"(?P<value>[^"]+)"/',
-                $_GET['facet'], $matches
+                $param, $matches
             );
 
             // Collapse into an array of pairs.
@@ -37,9 +110,33 @@ class SolrSearch_Helpers_Facet
         }
 
         return $facets;
-
     }
 
+    /**
+     * Convert the $_GET facet & f[] parameters in a parsed array.
+     *
+     * @return array The parsed parameters.
+     */
+    public static function parseFacets()
+    {
+        return array_merge(
+            self::parseRawFacets(@$_GET['facet']),
+            self::parseExternalFacets(@$_GET['f'])
+        );
+    }
+
+    /**
+     * Parse Solr filter (fq) values from incoming
+     * facet parameters.
+     *
+     * @return array an array of fq filter values
+     */
+    public static function parseFilters()
+    {
+        return array_map(function ($pair) {
+            return "{$pair[0]}:\"{$pair[1]}\"";
+        }, self::parseFacets());
+    }
 
     /**
      * Rebuild the URL with a new array of facets.
@@ -47,7 +144,7 @@ class SolrSearch_Helpers_Facet
      * @param array $facets The parsed facets.
      * @return string The new URL.
      */
-    public static function makeUrl($facets)
+    public static function makeRawUrl($facets)
     {
 
         // Collapse the facets to `:` delimited pairs.
@@ -64,9 +161,40 @@ class SolrSearch_Helpers_Facet
 
         // Get the base results URL.
         $results = url('solr-search');
-
         // String together the final route.
         return htmlspecialchars("$results?q=$qParam&facet=$fParam");
+
+    }
+
+    /**
+     * Rebuild the URL with a new array of facets.
+     *
+     * @param array $facets The parsed facets.
+     * @return string The new URL.
+     */
+    public static function makeUrl($facets)
+    {
+
+        // Collapse the facets to `:` delimited pairs.
+        $fParam = array();
+        foreach ($facets as $facet) {
+            $label = self::keyToLabel($facet[0]);
+            if ($label) {
+                $fParam[] = "f[]=" . urlencode($label) . ':' . urlencode($facet[1]);
+            }
+        }
+
+        // Implode on ` AND `.
+        $fParam = implode('&', $fParam);
+
+
+        // Get the `q` parameter, reverting to ''.
+        $qParam = array_key_exists('q', $_GET) ? $_GET['q'] : '';
+
+        // Get the base results URL.
+        $results = url('solr-search');
+        // String together the final route.
+        return htmlspecialchars("$results?q=$qParam&$fParam");
 
     }
 
@@ -118,19 +246,4 @@ class SolrSearch_Helpers_Facet
         return self::makeUrl($reduced);
 
     }
-
-
-    /**
-     * Get the human-readable label for a facet key.
-     *
-     * @param string $key The facet key.
-     * @return string The label.
-     */
-    public static function keyToLabel($key)
-    {
-        $fields = get_db()->getTable('SolrSearchField');
-        return $fields->findBySlug(rtrim($key, '_s'))->label;
-    }
-
-
 }

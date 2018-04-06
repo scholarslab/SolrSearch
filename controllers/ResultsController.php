@@ -27,7 +27,7 @@ class SolrSearch_ResultsController
      */
     public function interceptorAction()
     {
-        $this->_redirect('solr-search?'.http_build_query(array(
+        $this->redirect('solr-search?'.http_build_query(array(
             'q' => $this->_request->getParam('query')
         )));
     }
@@ -35,6 +35,8 @@ class SolrSearch_ResultsController
 
     /**
      * Display Solr results.
+     * 
+     * @throws Apache_Solr_Exception
      */
     public function indexAction()
     {
@@ -82,7 +84,8 @@ class SolrSearch_ResultsController
      *
      * @param int $offset Results offset
      * @param int $limit  Limit per page
-     * @return SolrResultDoc Solr results
+     * @return Apache_Solr_Response Solr results
+     * @throws Apache_Solr_Exception
      */
     protected function _search($offset, $limit, $limitToPublicItems = true)
     {
@@ -98,7 +101,6 @@ class SolrSearch_ResultsController
 
         // Execute the query.
         return $solr->search($query, $offset, $limit, $params);
-
     }
 
 
@@ -125,19 +127,12 @@ class SolrSearch_ResultsController
             $query = '*:*';
         }
 
-        // Get the `facet` GET parameter
-        $facet = $this->_request->facet;
-
-        // Form the composite Solr query.
-        if (!empty($facet)) $query .= " AND {$facet}";
-
         // Limit the query to public items if required
         if($limitToPublicItems) {
            $query .= ' AND public:"true"';
         }
 
         return $query;
-
     }
 
 
@@ -148,14 +143,10 @@ class SolrSearch_ResultsController
      */
     protected function _getParameters()
     {
-
-        // Get a list of active facets.
-        $facets = $this->_fields->getActiveFacetKeys();
-
         return array(
-
             'facet'               => 'true',
-            'facet.field'         => $facets,
+            'facet.field'         => $this->_fields->getActiveFacetKeys(),
+            'fq'                  => SolrSearch_Helpers_Facet::parseFilters(),
             'facet.mincount'      => 1,
             'facet.limit'         => get_option('solr_search_facet_limit'),
             'facet.sort'          => get_option('solr_search_facet_sort'),
@@ -164,10 +155,7 @@ class SolrSearch_ResultsController
             'hl.fragsize'         => get_option('solr_search_hl_fragsize'),
             'hl.maxAnalyzedChars' => get_option('solr_search_hl_max_analyzed_chars'),
             'hl.fl'               => '*_t'
-
         );
-
     }
-
-
 }
+
