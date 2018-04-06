@@ -160,7 +160,7 @@ class SolrSearch_Helpers_Facet
         $qParam = array_key_exists('q', $_GET) ? $_GET['q'] : '';
 
         // Get the base results URL.
-        $results = url('solr-search');
+        $results = url('search');
         // String together the final route.
         return htmlspecialchars("$results?q=$qParam&facet=$fParam");
 
@@ -192,7 +192,7 @@ class SolrSearch_Helpers_Facet
         $qParam = array_key_exists('q', $_GET) ? $_GET['q'] : '';
 
         // Get the base results URL.
-        $results = url('solr-search');
+        $results = url('search');
         // String together the final route.
         return htmlspecialchars("$results?q=$qParam&$fParam");
 

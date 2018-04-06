@@ -27,7 +27,7 @@ class SolrSearch_ResultsController
      */
     public function interceptorAction()
     {
-        $this->redirect('solr-search?'.http_build_query(array(
+        $this->redirect('search?'.http_build_query(array(
             'q' => $this->_request->getParam('query')
         )));
     }
