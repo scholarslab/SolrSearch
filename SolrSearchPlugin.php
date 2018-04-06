@@ -318,7 +318,10 @@ SQL
             label       tinytext collate utf8_unicode_ci NOT NULL,
             is_indexed  tinyint unsigned DEFAULT 0,
             is_facet    tinyint unsigned DEFAULT 0,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            FOREIGN KEY (element_id)
+              REFERENCES {$this->_db->prefix}elements(id)
+              ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL
         );
@@ -327,7 +330,10 @@ SQL
         CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_excludes (
             id            int(10) unsigned NOT NULL auto_increment,
             collection_id int(10) unsigned NOT NULL,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            FOREIGN KEY (collection_id)
+              REFERENCES {$this->_db->prefix}collections(id)
+              ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SQL
         );
