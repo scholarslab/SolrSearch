@@ -380,6 +380,7 @@ SQL
         set_option('solr_search_hl_fragsize',   '250');
         set_option('solr_search_hl_max_analyzed_chars', '51200');
         set_option('solr_search_display_private_items', '1');
+        set_option('solr_search_items_only', '0');
     }
 
 
@@ -398,6 +399,7 @@ SQL
         delete_option('solr_search_hl_fragsize');
         delete_option('solr_search_hl_max_analyzed_chars');
         delete_option('solr_search_display_private_items');
+        delete_option('solr_search_items_only');
     }
 
 

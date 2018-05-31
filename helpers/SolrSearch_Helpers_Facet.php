@@ -133,9 +133,13 @@ class SolrSearch_Helpers_Facet
      */
     public static function parseFilters()
     {
-        return array_map(function ($pair) {
+        $fq = array_map(function ($pair) {
             return "{$pair[0]}:\"{$pair[1]}\"";
         }, self::parseFacets());
+        if (get_option('solr_search_items_only')) {
+            $fq[] = "resulttype:Item";
+        }
+        return $fq;
     }
 
     /**

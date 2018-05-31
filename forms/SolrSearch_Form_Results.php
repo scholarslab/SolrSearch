@@ -116,6 +116,12 @@ class SolrSearch_Form_Results extends Omeka_Form
             'value'         => get_option('solr_search_display_private_items')
         ));
 
+        // Only return items:
+        $this->addElement('checkbox', 'solr_search_items_only', array(
+            'label'         => __('Items Only'),
+            'description'   => __('Don\'t find non-Item types such as Exhibits.'),
+            'value'         => get_option('solr_search_items_only')
+        ));
 
         // Submit:
         $this->addElement('submit', 'submit', array(
@@ -128,7 +134,8 @@ class SolrSearch_Form_Results extends Omeka_Form
             'solr_search_hl_fragsize',
             'solr_search_facet_sort',
             'solr_search_facet_limit',
-            'solr_search_display_private_items'
+            'solr_search_display_private_items',
+            'solr_search_items_only'
         ), 'fields');
 
         $this->addDisplayGroup(array(
