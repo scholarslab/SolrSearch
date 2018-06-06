@@ -20,7 +20,8 @@ class SolrSearch_Helpers_Facet
             foreach (get_db()
                          ->getTable('SolrSearchField')
                          ->findBy(array('is_facet' => true)) as $field) {
-                self::$fieldMap[$field->element_id . '_s'] = $field->label;
+                $solrField = $field->element_id ? $field->element_id . '_s' : $field->slug;
+                self::$fieldMap[$solrField] = $field->label;
             }
         }
     }
@@ -197,9 +198,15 @@ class SolrSearch_Helpers_Facet
 
         // Get the base results URL.
         $results = url('search');
-        // String together the final route.
-        return htmlspecialchars("$results?q=$qParam&$fParam");
 
+        // Join the params
+        $params = implode('&', array_filter(array($qParam, $fParam)));
+
+        // Join the full URL
+        $full = implode('?', array_filter(array($results, $params)));
+
+        // Return the final route.
+        return htmlspecialchars($full);
     }
 
 
