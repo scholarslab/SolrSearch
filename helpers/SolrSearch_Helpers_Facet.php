@@ -194,7 +194,7 @@ class SolrSearch_Helpers_Facet
 
 
         // Get the `q` parameter, reverting to ''.
-        $qParam = array_key_exists('q', $_GET) ? $_GET['q'] : '';
+        $qParam = array_key_exists('q', $_GET) ? "q=" . $_GET['q'] : '';
 
         // Get the base results URL.
         $results = url('search');
