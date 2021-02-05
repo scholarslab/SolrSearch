@@ -23,7 +23,7 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
         $_GET['q'] = 'query';
 
         // Search for "query."
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should populate the search box.
         $this->assertXpath('//input[@name="q"][@value="query"]');
@@ -38,7 +38,7 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
     {
 
         // Enter an empty query.
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should leave the search box empty.
         $this->assertXpath('//input[@name="q"][@value=""]');
@@ -68,8 +68,8 @@ class ResultsControllerTest_DisplayResults extends SolrSearch_Case_Default
             $this->_assertRecordInSolr($item);
 
             $_GET['q'] = 'testNoDisplayPrivate';
-            $this->dispatch('solr-search');
-            $this->assertNotQueryContentContains('.result-title', 'testNoDisplayPrivate');
+            $this->dispatch('search');
+            $this->assertNotQuery('.result-title', 'testNoDisplayPrivate');
 
         } catch (Exception $e) {
             throw $e;

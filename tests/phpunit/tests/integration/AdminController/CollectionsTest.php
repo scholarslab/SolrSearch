@@ -63,11 +63,11 @@ class AdminControllerTest_Collections extends SolrSearch_Case_Default
 
         // echo $this->getResponse()->getBody();
 
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             "//dd[@id='solrexclude-element']/label",
             "public collection"
         );
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             "//dd[@id='solrexclude-element']/label",
             "private collection"
         );
@@ -83,13 +83,12 @@ class AdminControllerTest_Collections extends SolrSearch_Case_Default
 
         $this->dispatch('solr-search/collections');
 
-        $this->assertXpathContentContains(
-            "//dd[@id='solrexclude-element']/label",
+        $this->assertQueryContentContains(
+            "//dd[@id='solrexclude-element'][1]/label",
             "public collection"
         );
-        $this->assertNotXpathContentContains(
-            "//dd[@id='solrexclude-element']/label",
-            "private collection"
+        $this->assertNotQuery(
+            "//dd[@id='solrexclude-element'][2]/label"
         );
     }
 

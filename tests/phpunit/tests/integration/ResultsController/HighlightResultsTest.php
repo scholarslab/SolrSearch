@@ -36,15 +36,15 @@ class ResultsControllerTest_HighlightResults extends SolrSearch_Case_Default
 
         // Search for "item".
         $_GET['q'] = 'item';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should highlight item 1.
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             '//li[@class="snippet"]', '<em>Item</em> 1'
         );
 
         // Should highlight item 2.
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             '//li[@class="snippet"]', '<em>Item</em> 1'
         );
 
@@ -62,10 +62,10 @@ class ResultsControllerTest_HighlightResults extends SolrSearch_Case_Default
 
         // Search for "item".
         $_GET['q'] = 'item';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should not show highlights.
-        $this->assertNotXpath('//li[@class="snippet"]');
+        $this->assertNotQuery('//li[@class="snippet"]');
 
     }
 

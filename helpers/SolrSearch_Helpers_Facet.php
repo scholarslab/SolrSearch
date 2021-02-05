@@ -166,6 +166,7 @@ class SolrSearch_Helpers_Facet
 
         // Get the base results URL.
         $results = url('search');
+
         // String together the final route.
         return htmlspecialchars("$results?q=$qParam&facet=$fParam");
 

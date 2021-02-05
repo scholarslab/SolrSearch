@@ -71,10 +71,10 @@ class AdminControllerTest_Fields extends SolrSearch_Case_Default
             ));
 
             $this->dispatch('solr-search/fields');
-            $facet = $this->_reload($facet);
+            $changed = $this->_reload($facet);
 
             // Should save the label.
-            $this->assertEquals($newLabel, $facet->label);
+            $this->assertEquals($newLabel, $changed->label);
 
         }
 

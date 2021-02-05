@@ -48,6 +48,7 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
      */
     public function tearDown()
     {
+        $this->_clearFieldMappings();
         try {
             SolrSearch_Helpers_Index::deleteAll();
         } catch (Exception $e) {};
@@ -487,7 +488,7 @@ SQL
      */
     protected function _assertFacetLink($url, $value)
     {
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             "//a[@href='$url'][@class='facet-value']", $value
         );
     }
@@ -500,7 +501,8 @@ SQL
      */
     protected function _assertNotFacetLink($url)
     {
-        $this->assertNotXpath("//a[@href='$url'][@class='facet-value']");
+        error_log("Checking URL $url not found" );
+        $this->assertNotQuery("//a[@href='$url'][@class='facet-value']");
     }
 
 
@@ -512,7 +514,7 @@ SQL
      */
     protected function _assertResultLink($url, $title)
     {
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             "//a[@href='$url'][@class='result-title']", $title
         );
     }
@@ -525,7 +527,7 @@ SQL
      */
     protected function _assertNotResultLink($url)
     {
-        $this->assertNotXpath("//a[@href='$url'][@class='result-title']");
+        $this->assertNotQuery("//a[@href='$url'][@class='result-title']");
     }
 
 

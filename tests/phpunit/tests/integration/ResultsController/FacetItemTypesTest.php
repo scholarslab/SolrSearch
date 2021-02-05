@@ -63,7 +63,7 @@ class ResultsControllerTest_FacetItemTypes extends SolrSearch_Case_Default
     public function testNoFacet()
     {
 
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         $websiteLink = $this->_getFacetLink('itemtype', 'Website');
         $datasetLink = $this->_getFacetLink('itemtype', 'Dataset');

@@ -236,7 +236,7 @@ class AdminControllerTest_Results extends SolrSearch_Case_Default
         $limit      = get_option('solr_search_facet_limit');
 
         $this->assertXpath("//li[@class='success']");
-        $this->assertXpathContentContains(
+        $this->assertQueryContentContains(
             "//li[@class='success']",
             "Highlighting options successfully saved!"
         );

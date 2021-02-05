@@ -37,7 +37,7 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
         ));
 
         $_GET['q'] = 'item1';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should match item 1, but not item 2.
         $this->_assertResultLink(record_url($item1), 'item1');
@@ -77,7 +77,7 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
         ));
 
         $_GET['q'] = 'desc1';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should match item 1, but not item 2.
         $this->_assertResultLink(record_url($item1), 'Item 1');
@@ -93,7 +93,7 @@ class ResultsControllerTest_SearchItems extends SolrSearch_Case_Default
         $this->fieldTable->setElementIndexed('Dublin Core', 'Description');
 
         $_GET['q'] = 'hop[e]';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         $this->assertTrue(TRUE);
     }

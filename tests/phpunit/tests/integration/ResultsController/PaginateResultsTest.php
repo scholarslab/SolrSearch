@@ -34,18 +34,18 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
         // --------------------------------------------------------------------
 
         // Page 1.
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should just list items 1-2.
         $this->assertXpath('//a[@href="'.record_url($item1).'"]');
         $this->assertXpath('//a[@href="'.record_url($item2).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item3).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item4).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item5).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item6).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item3).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item4).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item5).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item6).'"]');
 
         // Should link to page 2.
-        $next = public_url('solr-search?page=2');
+        $next = public_url('search?page=2');
         $this->assertXpath('//a[@href="'.$next.'"]');
 
         $this->resetResponse();
@@ -55,18 +55,18 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
 
         // Page 2.
         $_GET['page'] = '2';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should just list items 3-4.
-        $this->assertNotXpath('//a[@href="'.record_url($item1).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item2).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item1).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item2).'"]');
         $this->assertXpath('//a[@href="'.record_url($item3).'"]');
         $this->assertXpath('//a[@href="'.record_url($item4).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item5).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item6).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item5).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item6).'"]');
 
         // Should link to page 3.
-        $next = public_url('solr-search?page=3');
+        $next = public_url('search?page=3');
         $this->assertXpath('//a[@href="'.$next.'"]');
 
         $this->resetResponse();
@@ -76,18 +76,18 @@ class ResultsControllerTest_PaginationResults extends SolrSearch_Case_Default
 
         // Page 3.
         $_GET['page'] = '3';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should just list items 5-6.
-        $this->assertNotXpath('//a[@href="'.record_url($item1).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item2).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item3).'"]');
-        $this->assertNotXpath('//a[@href="'.record_url($item4).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item1).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item2).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item3).'"]');
+        $this->assertNotQuery('//a[@href="'.record_url($item4).'"]');
         $this->assertXpath('//a[@href="'.record_url($item5).'"]');
         $this->assertXpath('//a[@href="'.record_url($item6).'"]');
 
         // Should link back to page 2.
-        $prev = public_url('solr-search?page=2');
+        $prev = public_url('search?page=2');
         $this->assertXpath('//a[@href="'.$prev.'"]');
 
         // --------------------------------------------------------------------

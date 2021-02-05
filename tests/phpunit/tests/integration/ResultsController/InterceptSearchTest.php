@@ -45,7 +45,7 @@ class ResultsControllerTest_InterceptSearch extends SolrSearch_Case_Default
         $this->dispatch('solr-search/results/interceptor');
 
         // Should redirect with the `q` parameter.
-        $this->assertRedirectTo('/solr-search?q=query');
+        $this->assertRedirectTo('/search?q=query');
 
     }
 

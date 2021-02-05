@@ -145,9 +145,9 @@ class AdminControllerTest_Server extends SolrSearch_Case_Default
     public function testSuccess()
     {
 
-        set_option('solr_search_host',  'server');
-        set_option('solr_search_port',  'port');
-        set_option('solr_search_core',  '/core/');
+        set_option('solr_search_host',  'localhost');
+        set_option('solr_search_port',  '8987');
+        set_option('solr_search_core',  'omeka');
 
         $this->request->setMethod('POST')->setPost(array(
             'solr_search_host'  => $this->config->server,

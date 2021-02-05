@@ -2,7 +2,7 @@
 
 /**
  * @package     omeka
- * @subpackage  solr-search
+ * @subpackage  search
  * @copyright   2012 Rector and Board of Visitors, University of Virginia
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
@@ -36,7 +36,7 @@ class ResultsControllerTest_SearchExhibitPages extends SolrSearch_Case_Default
         $page2      = $this->_exhibitPage($exhibit2, 'page2', 'p2');
 
         $_GET['q'] = 'page1';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should match page 1, but not page 2.
         $this->_assertResultLink(record_url($page1), 'page1');
@@ -59,7 +59,7 @@ class ResultsControllerTest_SearchExhibitPages extends SolrSearch_Case_Default
         $entry2     = $this->_exhibitBlock($page1, 'text2');
 
         $_GET['q'] = 'text1';
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         // Should match page 1, but not page 2.
         $this->_assertResultLink(record_url($page1), 'Page 1');

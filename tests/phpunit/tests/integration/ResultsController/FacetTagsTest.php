@@ -57,7 +57,7 @@ class ResultsControllerTest_FacetTags extends SolrSearch_Case_Default
     public function testNoFacet()
     {
 
-        $this->dispatch('solr-search');
+        $this->dispatch('search');
 
         $tag1Link = $this->_getFacetLink('tag', 'tag1');
         $tag2Link = $this->_getFacetLink('tag', 'tag2');
