@@ -102,7 +102,12 @@ module.exports = function(grunt) {
           '!tests/**',
 
           // Editor settings
-          '!*.vim'
+          '!*.vim',
+          '!.idea',
+          '!*.iml',
+
+          // Docker
+          '!docker-compose.yml'
 
         ]
       }

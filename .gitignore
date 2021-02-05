@@ -4,6 +4,9 @@ node_modules/
 vendor
 pkg
 .DS_Store
+.idea
+*.iml
+.bundle
 
 tests/phpunit/solr.ini
-solr-core/collection1/data
+solr-core/omeka/data

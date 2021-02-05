@@ -371,7 +371,7 @@ SQL
     protected function _setOptions()
     {
         set_option('solr_search_host',          'localhost');
-        set_option('solr_search_port',          '8080');
+        set_option('solr_search_port',          '8983');
         set_option('solr_search_core',          '/solr/omeka/');
         set_option('solr_search_facet_limit',   '25');
         set_option('solr_search_facet_sort',    'count');
