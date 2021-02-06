@@ -11,9 +11,9 @@
 class SolrSearchAddonTest_Manager extends SolrSearch_Case_Default
 {
 
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->_installPluginOrSkip('ExhibitBuilder');
         $this->_installPluginOrSkip('SimplePages');
     }
@@ -93,8 +93,12 @@ class SolrSearchAddonTest_Manager extends SolrSearch_Case_Default
     {
         $mgr     = new SolrSearch_Addon_Manager($this->db);
         $extable = $this->db->getTable('Exhibit');
+        $this->_exhibitPage($this->_exhibit($slug = 'exhibit-1'), $slug = 'page-1');
+        $exts = $extable->findAll();
 
-        foreach ($extable->findAll() as $ex) {
+        $this->assertCount(1, $exts);
+
+        foreach ($exts as $ex) {
             $doc = $mgr->indexRecord($ex);
             $this->_testSolrDoc($ex, $doc, $ex->public);
 

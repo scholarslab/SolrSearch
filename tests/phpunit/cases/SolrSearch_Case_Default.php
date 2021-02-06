@@ -7,7 +7,6 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0.html
  */
 
-
 class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
 {
 
@@ -15,10 +14,10 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
     /**
      * Install SolrSearch and prepare the database.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
 
-        parent::setUp();
+        parent::setUpLegacy();
 
         // Create and authenticate user.
         $this->user = $this->db->getTable('User')->find(1);
@@ -46,13 +45,12 @@ class SolrSearch_Case_Default extends Omeka_Test_AppTestCase
     /**
      * Clear the Solr index.
      */
-    public function tearDown()
+    public function tearDownLegacy()
     {
-        $this->_clearFieldMappings();
         try {
             SolrSearch_Helpers_Index::deleteAll();
         } catch (Exception $e) {};
-        parent::tearDown();
+        parent::tearDownLegacy();
     }
 
 
@@ -207,17 +205,19 @@ SQL
      * @param boolean $public True if the exhibit is public.
      * @param string $title The exhibit title.
      * @param string $slug The exhibit slug.
+     * @param string $desc The exhibit description.
      * @return Exhibit
      */
     protected function _exhibit(
-        $public=true, $title='Test Title', $slug='test-slug'
+        $public=true, $title='Test Title', $slug='test-slug', $desc='Test description'
     ) {
 
         $exhibit = new Exhibit;
 
-        $exhibit->public    = $public;
-        $exhibit->slug      = $slug;
-        $exhibit->title     = $title;
+        $exhibit->public        = $public;
+        $exhibit->slug          = $slug;
+        $exhibit->title         = $title;
+        $exhibit->description   = $desc;
 
         $exhibit->save();
         return $exhibit;
@@ -501,7 +501,6 @@ SQL
      */
     protected function _assertNotFacetLink($url)
     {
-        error_log("Checking URL $url not found" );
         $this->assertNotQuery("//a[@href='$url'][@class='facet-value']");
     }
 

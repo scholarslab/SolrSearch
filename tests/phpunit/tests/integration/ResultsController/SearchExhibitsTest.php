@@ -17,9 +17,9 @@ class ResultsControllerTest_SearchExhibits extends SolrSearch_Case_Default
     /**
      * Install Exhibit Builder or skip the suite.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->_installPluginOrSkip('ExhibitBuilder');
     }
 

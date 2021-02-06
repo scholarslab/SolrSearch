@@ -11,18 +11,26 @@
 class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
 {
 
-    public function setUp()
+    public function setUpLegacy()
     {
 
-        parent::setUp();
+        parent::setUpLegacy();
         $this->_installPluginOrSkip('ExhibitBuilder');
         $this->_installPluginOrSkip('SimplePages');
 
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $addons = $this->mgr->parseAll();
         $this->exhibits = $addons['exhibits'];
+        $this->exhibitPages = $addons['exhibit_pages'];
 
         $this->idxr = new SolrSearch_Addon_Indexer($this->db);
+
+        $ex = $this->_exhibit();
+        $ex->addTags(["test", "exhibit", "tagged"]);
+        $ex->save();
+        $this->_exhibitPage($ex);
+
+        $this->_simplePage();
     }
 
     public function testMakeSolrName()
@@ -47,6 +55,7 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
         $idxr = $this->idxr;
         $docs = $idxr->indexAll($this->mgr->addons);
 
+        $this->assertGreaterThan(0, count($docs));
         // All addons have a title field, so check for that on every document.
         foreach ($docs as $doc) {
             $ok = false;
@@ -59,162 +68,69 @@ class SolrSearchAddonTest_Indexer extends SolrSearch_Case_Default
 
     public function testIndexExhibit()
     {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
+        $docs = $this->idxr->indexAllAddon($this->exhibits);
 
-        foreach ($docs as $doc) {
-            if (($title = $doc->getField('exhibits_title_t')) !== false) {
-                $descr = $doc->getField('exhibits_description_t');
+        $this->assertCount(1, $docs);
 
-                $this->assertEquals('Test Exhibit', $title['value'][0]);
-                $this->assertEquals('Like Alice in Wonderland', $descr['value'][0]);
-            }
-        }
-    }
+        $title = $docs[0]->getField('exhibits_title_t');
+        $this->assertEquals('Test Title', $title['value'][0]);
 
-    public function testIndexSection()
-    {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
-
-        foreach ($docs as $doc) {
-            if (($title = $doc->getField('sections_title_t')) !== false) {
-                $descr = $doc->getField('sections_descriptions_t');
-
-                $this->assertContains(
-                    $title['value'][0],
-                    array("White Rabbit's House", "Mad Hatter's Tea Party")
-                );
-                $this->assertFalse($descr, print_r($descr, true));
-            }
-        }
+        $descr = $docs[0]->getField('exhibits_description_t');
+        $this->assertEquals('Test description', $descr['value'][0]);
     }
 
     public function testIndexPage()
     {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
+        $docs = $this->idxr->indexAllAddon($this->exhibitPages);
 
-        foreach ($docs as $doc) {
-            if (($title = $doc->getField('section_pages_title_t')) !== false) {
-                $this->assertContains(
-                    $title['value'][0],
-                    array("White Rabbit", "Dormouse")
-                );
-            }
-        }
-    }
+        $this->assertCount(1, $docs);
+        $title = $docs[0]->getField('exhibit_pages_title_t');
 
-    public function testIndexPageEntry()
-    {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
-
-        foreach ($docs as $doc) {
-            if (
-                ($title = $doc->getField('section_pages_title_t')) !== false
-                && $title['value'][0] === 'Dormouse'
-            ) {
-                $text = $doc->getField('section_pages_text_t');
-                $this->assertTrue($text !== false, $title['value'][0]);
-                $this->assertCount(2, $text['value']);
-                $this->assertContains(
-                    $text['value'][0],
-                    array('Yawwwn', 'Traveling far and wide')
-                );
-                $this->assertContains(
-                    $text['value'][1],
-                    array('Yawwwn', 'Traveling far and wide')
-                );
-            }
-        }
+        $this->assertEquals('Test Title', $title['value'][0]);
     }
 
     public function testIndexPrivateExhibit()
     {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
+        $this->_exhibit($public = false, $slug = "test-private", $title = "Private");
+        $docs = $this->idxr->indexAllAddon($this->exhibits);
 
-        foreach ($docs as $doc) {
-            if (($title = $doc->getField('exhibits_title_t')) !== false) {
-                $this->assertNotEquals('Private Exhibit', $title['value'][0]);
-            }
-        }
-    }
-
-    public function testIndexPrivateSection()
-    {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
-
-        foreach ($docs as $doc) {
-            if (($title = $doc->getField('sections_title_t')) !== false) {
-                $this->assertNotEquals($title['value'][0], "Mud");
-            }
-        }
-    }
-
-    public function testIndexPrivatePage()
-    {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
-
-        foreach ($docs as $doc) {
-            if (($title = $doc->getField('section_pages_title_t')) !== false) {
-                $this->assertNotEquals($title['value'][0], "Earthworms");
-                $this->assertNotEquals($title['value'][0], "Centipedes");
-            }
-        }
+        $this->assertCount(1, $docs);
+        $title = $docs[0]->getField('exhibits_title_t');
+        $this->assertEquals('Test Title', $title['value'][0]);
     }
 
     public function testIndexTagged()
     {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
+        $docs = $this->idxr->indexAllAddon($this->exhibits);
 
-        foreach ($docs as $doc) {
-            if (($doc->getField('exhibits_title_t')) !== false) {
-                $tags = $doc->getField('tag');
+        $this->assertCount(1, $docs);
+        $tags = $docs[0]->getField('tag');
 
-                $this->assertContains('test',    $tags['value']);
-                $this->assertContains('exhibit', $tags['value']);
-                $this->assertContains('tagged',  $tags['value']);
-            }
-        }
+        $this->assertContains('test',    $tags['value']);
+        $this->assertContains('exhibit', $tags['value']);
+        $this->assertContains('tagged',  $tags['value']);
     }
 
     public function testIndexExhibitResultType()
     {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
+        $docs = $this->idxr->indexAllAddon($this->exhibits);
 
-        foreach ($docs as $doc) {
-            if (($doc->getField('exhibits_title_t')) !== false) {
-                $resultType = $doc->getField('resulttype');
+        $this->assertCount(1, $docs);
+        $resultType = $docs[0]->getField('resulttype');
 
-                $this->assertTrue($resultType !== false);
-                $this->assertContains('Exhibits', $resultType['value']);
-            }
-        }
-    }
-
-    public function testIndexSectionResultType()
-    {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
-
-        foreach ($docs as $doc) {
-            if (($doc->getField('sections_title_t')) !== false) {
-                $resultType = $doc->getField('resulttype');
-
-                $this->assertTrue($resultType !== false);
-                $this->assertContains('Sections', $resultType['value']);
-            }
-        }
+        $this->assertNotEmpty($resultType);
+        $this->assertContains('Exhibit', $resultType['value']);
     }
 
     public function testIndexPageResultType()
     {
-        $docs = $this->idxr->indexAll($this->mgr->addons);
+        $docs = $this->idxr->indexAllAddon($this->exhibitPages);
 
-        foreach ($docs as $doc) {
-            if (($doc->getField('section_pages_title_t')) !== false) {
-                $resultType = $doc->getField('resulttype');
+        $this->assertCount(1, $docs);
+        $resultType = $docs[0]->getField('resulttype');
 
-                $this->assertTrue($resultType !== false);
-                $this->assertContains('Exhibit Pages', $resultType['value']);
-            }
-        }
+        $this->assertTrue($resultType !== false);
+        $this->assertContains('Exhibit Page', $resultType['value']);
     }
 
 }

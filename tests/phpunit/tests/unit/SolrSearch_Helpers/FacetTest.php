@@ -29,7 +29,7 @@ class SolrSearch_Helpers_Facet_Test extends SolrSearch_Case_Default
         );
         $this->assertEquals(
             '/search?f[]=' .
-            '49_s:Buildings%2C+Cities+%26+towns%2C+Streets',
+            'Subject:Buildings%2C+Cities+%26+towns%2C+Streets',
             SolrSearch_Helpers_Facet::makeUrl($facets)
         );
     }

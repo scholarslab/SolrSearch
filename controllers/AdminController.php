@@ -163,7 +163,7 @@ class SolrSearch_AdminController
                 $faceted = array_key_exists('is_facet', $data) ? 1 : 0;
 
                 // Load the facet mapping.
-                $facet = $fieldTable->findBySlug($name);
+                $facet = $fieldTable->find($id = $data["id"]);
 
                 // Apply the updated values.
                 $facet->label       = $data['label'];

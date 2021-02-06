@@ -80,7 +80,8 @@ SQL
     public function hookUpgrade($args)
     {
         self::_createSolrTables();
-        if (version_compare($args['old_version'], '1.0.1', '<=')) {
+        $oldVersion = $args['old_version'];
+        if (version_compare($oldVersion, '1.0.1', '<=')) {
             self::_installFacetMappings();
             self::_setOptions();
         }
@@ -91,9 +92,14 @@ SQL
             $this->_installGenericFacet('featured', __('Featured'));
         }
 
-        if (version_compare($args['old_version'], '2.2.1', '<=')) {
+        if (version_compare($oldVersion, '2.2.1', '<=')) {
             set_option('solr_search_hl_max_analyzed_chars', '51200');
         }
+        if ($oldVersion < '2.4.0') {
+            $tableName = $fields->getTableName();
+            $this->_db->query("ALTER TABLE `$tableName` MODIFY `slug` VARCHAR(512) COLLATE utf8_unicode_ci NOT NULL UNIQUE");
+        }
+
     }
 
 
@@ -314,7 +320,7 @@ SQL
         CREATE TABLE IF NOT EXISTS {$this->_db->prefix}solr_search_fields (
             id          int(10) unsigned NOT NULL auto_increment,
             element_id  int(10) unsigned,
-            slug        tinytext collate utf8_unicode_ci NOT NULL,
+            slug        VARCHAR(512) collate utf8_unicode_ci NOT NULL UNIQUE,
             label       tinytext collate utf8_unicode_ci NOT NULL,
             is_indexed  tinyint unsigned DEFAULT 0,
             is_facet    tinyint unsigned DEFAULT 0,

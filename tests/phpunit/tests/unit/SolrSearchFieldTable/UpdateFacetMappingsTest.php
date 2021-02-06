@@ -12,9 +12,9 @@ class SolrSearchFieldTableTest_UpdateFacetMappings
     extends SolrSearch_Case_Default
 {
 
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
 
         $this->elSet = new ElementSet();
         $this->elSet->record_type = "item";
@@ -33,9 +33,9 @@ class SolrSearchFieldTableTest_UpdateFacetMappings
         );
     }
 
-    public function tearDown()
+    public function tearDownLegacy()
     {
-        parent::tearDown();
+        parent::tearDownLegacy();
 
         if (! is_null($this->el)) {
             $this->el->delete();

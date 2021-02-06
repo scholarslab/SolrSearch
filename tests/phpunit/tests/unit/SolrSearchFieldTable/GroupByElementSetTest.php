@@ -16,9 +16,9 @@ class SolrSearchFieldTableTest_GroupByElementSet
     /**
      * Delete any facet mappings registered when the plugin is installed.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->_clearFieldMappings();
     }
 

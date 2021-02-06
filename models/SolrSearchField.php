@@ -56,7 +56,7 @@ class SolrSearchField extends Omeka_Record_AbstractRecord
             // Element identifier.
             $this->slug = $element->id;
 
-            // Pubilc-facing label.
+            // Public-facing label.
             $this->label = $element->name;
 
         }

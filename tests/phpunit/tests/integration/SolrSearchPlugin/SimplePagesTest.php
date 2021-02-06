@@ -14,9 +14,9 @@ class SolrSearchPluginTest_SimplePages extends SolrSearch_Case_Default
     /**
      * Install Simple Pages or skip the suite.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->_installPluginOrSkip('SimplePages');
     }
 

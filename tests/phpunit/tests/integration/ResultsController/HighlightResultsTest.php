@@ -17,9 +17,9 @@ class ResultsControllerTest_HighlightResults extends SolrSearch_Case_Default
     /**
      * Create collections and items.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->item1 = $this->_item(true, 'Item 1');
         $this->item2 = $this->_item(true, 'Item 2');
     }

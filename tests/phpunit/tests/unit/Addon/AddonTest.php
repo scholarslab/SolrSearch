@@ -11,9 +11,9 @@
 class SolrSearchAddonTest_Addon extends SolrSearch_Case_Default
 {
 
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->mgr = new SolrSearch_Addon_Manager($this->db);
         $this->mgr->parseAll();
     }

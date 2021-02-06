@@ -15,10 +15,10 @@ class SolrSearchFieldTest_BeforeSave extends SolrSearch_Case_Default
     /**
      * Create a facet for the Dublin Core "Title" element.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
 
-        parent::setUp();
+        parent::setUpLegacy();
 
         $title = $this->elementTable->findByElementSetNameAndElementName(
             'Dublin Core', 'Title'

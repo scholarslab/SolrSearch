@@ -11,7 +11,8 @@
 class SolrSearch_Helpers_Facet
 {
 
-    private static $fieldMap;
+    static $fieldMap;
+    static $labelMap;
 
     private static function loadFacetLabels()
     {
@@ -19,9 +20,10 @@ class SolrSearch_Helpers_Facet
             self::$fieldMap = array();
             foreach (get_db()
                          ->getTable('SolrSearchField')
-                         ->findBy(array('is_facet' => true)) as $field) {
+                         ->findAll() as $field) {
                 $solrField = $field->element_id ? $field->element_id . '_s' : $field->slug;
                 self::$fieldMap[$solrField] = $field->label;
+                self::$labelMap[$field->label] = $solrField;
             }
         }
     }
@@ -32,13 +34,12 @@ class SolrSearch_Helpers_Facet
      * @param string $label the facet label
      * @return string|null the facet key
      */
-    public static function labelToKey($label)
+    public static function labelToKey($label, $fallback = null)
     {
-        if (!isset(self::$fieldMap)) {
+        if (!isset(self::$labelMap)) {
             self::loadFacetLabels();
         }
-        $map = array_flip(self::$fieldMap);
-        return isset($map[$label]) ? $map[$label] : null;
+        return isset(self::$labelMap[$label]) ? self::$labelMap[$label] : $fallback;
     }
 
     /**
@@ -184,15 +185,18 @@ class SolrSearch_Helpers_Facet
         // Collapse the facets to `:` delimited pairs.
         $fParam = array();
         foreach ($facets as $facet) {
+
             $label = self::keyToLabel($facet[0]);
             if ($label) {
                 $fParam[] = "f[]=" . urlencode($label) . ':' . urlencode($facet[1]);
+            } else {
+                // Assume it's a raw facet
+                $fParam[] = "facet={$facet[0]}:\"{$facet[1]}\"";
             }
         }
 
         // Implode on ` AND `.
         $fParam = implode('&', $fParam);
-
 
         // Get the `q` parameter, reverting to ''.
         $qParam = array_key_exists('q', $_GET) ? "q=" . $_GET['q'] : '';
@@ -220,7 +224,6 @@ class SolrSearch_Helpers_Facet
      */
     public static function addFacet($field, $value)
     {
-
         // Get the current facets.
         $facets = self::parseFacets();
 

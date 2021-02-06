@@ -64,10 +64,10 @@ class ResultsControllerTest_FacetCollections extends SolrSearch_Case_Default
     /**
      * Create collections and items.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
 
-        parent::setUp();
+        parent::setUpLegacy();
 
         $coll1 = $this->_collection('Collection 1');
         $coll2 = $this->_collection('Collection 2');

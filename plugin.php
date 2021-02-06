@@ -8,7 +8,7 @@
  */
 
 
-if (!defined('SOLR_DIR')) define('SOLR_DIR', dirname(__FILE__));
+if (!defined('SOLR_DIR')) define('SOLR_DIR', __DIR__);
 
 // Plugin manager class:
 require_once SOLR_DIR.'/SolrSearchPlugin.php';

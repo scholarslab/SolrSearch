@@ -41,9 +41,9 @@ class ResultsControllerTest_FacetTags extends SolrSearch_Case_Default
     /**
      * Create tagged items.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->item1 = $this->_collitem('Item 1', 'tag1');
         $this->item2 = $this->_collitem('Item 2', 'tag2');
         $this->item3 = $this->_collitem('Item 3', 'tag3');

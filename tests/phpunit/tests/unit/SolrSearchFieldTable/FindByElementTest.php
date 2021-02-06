@@ -15,9 +15,9 @@ class SolrSearchFieldTableTest_FindByElement extends SolrSearch_Case_Default
     /**
      * Delete any facet mappings registered when the plugin is installed.
      */
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
         $this->_clearFieldMappings();
     }
 

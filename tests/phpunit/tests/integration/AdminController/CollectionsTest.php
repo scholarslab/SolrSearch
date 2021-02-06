@@ -31,9 +31,9 @@ class AdminControllerTest_Collections extends SolrSearch_Case_Default
     }
 
 
-    public function setUp()
+    public function setUpLegacy()
     {
-        parent::setUp();
+        parent::setUpLegacy();
 
         $this->pubColl  = $this->_collection('public collection',  TRUE );
         $this->privColl = $this->_collection('private collection', FALSE);
@@ -41,14 +41,14 @@ class AdminControllerTest_Collections extends SolrSearch_Case_Default
         $this->opt = get_option('solr_search_display_private_items');
     }
 
-    public function tearDown()
+    public function tearDownLegacy()
     {
         set_option('solr_search_display_private_items', $this->opt);
 
         $this->pubColl ->delete();
         $this->privColl->delete();
 
-        parent:: tearDown();
+        parent::tearDownLegacy();
     }
 
     /**
