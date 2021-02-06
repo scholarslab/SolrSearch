@@ -1,0 +1,46 @@
+name: Run Tests
+
+on:
+  push:
+  pull_request:
+
+env:
+  OMEKA_DIR: Omeka
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build the docker-compose stack
+        run: docker-compose up -d
+
+      - uses: actions/checkout@v1
+
+      - name: Create solr.ini
+        run: |
+          cat <<EOF > tests/phpunit/solr.ini
+          port = 8987
+          server = localhost
+          core = /solr/omeka/
+          EOF
+
+      - name: Setup host Omeka instance
+        run: |
+          git clone --depth 1 --branch v2.7.1 https://github.com/omeka/Omeka.git
+          cp Omeka/application/tests/config.ini.changeme Omeka/application/tests/config.ini
+          sed -i'' 's/db.host = ""/db.host = "127.0.0.1"/' Omeka/application/tests/config.ini
+          sed -i'' 's/db.username = ""/db.username = "omeka_test"/' Omeka/application/tests/config.ini
+          sed -i'' 's/db.password = ""/db.password = "omeka_test"/' Omeka/application/tests/config.ini
+          sed -i'' 's/db.dbname = ""/db.dbname = "omeka_test"/' Omeka/application/tests/config.ini
+          cd Omeka/plugins
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run test suite
+        run: composer test

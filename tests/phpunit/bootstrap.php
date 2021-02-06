@@ -10,7 +10,7 @@
 
 define('SOLR_DIR', dirname(dirname(dirname(__FILE__))));
 define('SOLR_TEST_DIR', SOLR_DIR.'/tests/phpunit');
-define('OMEKA_DIR', dirname(dirname(SOLR_DIR)));
+define('OMEKA_DIR', getenv('OMEKA_DIR') ?: dirname(dirname(SOLR_DIR)));
 
 // Bootstrap Omeka.
 require_once OMEKA_DIR.'/application/tests/bootstrap.php';
