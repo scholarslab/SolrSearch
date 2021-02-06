@@ -1,6 +1,16 @@
 version: "3.1"
 
 services:
+  rmdbs:
+    image: mysql:8.0
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "omeka_test"
+      MYSQL_DATABASE: "omeka_test"
+      MYSQL_USER: "omeka_test"
+      MYSQL_PASSWORD: "omeka_test"
+
   solr:
     image: solr:6.6
     ports:
